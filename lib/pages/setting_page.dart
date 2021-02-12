@@ -98,7 +98,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 Expanded(
                   child: Text(
-                    '第二种对于视频的在线非常不友好，但大文件的下载不会出现内存占用过高的问题',
+                    '第二种对于视频的在线非常不友好，但大文件的下载内存正常',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
