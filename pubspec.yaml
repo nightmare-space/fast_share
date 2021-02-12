@@ -1,0 +1,25 @@
+name: speed_share
+description: A new Flutter project.
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  global_repository:
+    git: https://github.com/nightmare-space/global_repository
+  simple_animations: ^2.4.0
+  http_server: ^0.9.8+3
+
+  qr_flutter: ^3.1.0
+
+  permission_handler: 5.0.1+1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true
