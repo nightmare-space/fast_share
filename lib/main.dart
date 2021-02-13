@@ -6,12 +6,14 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:global_repository/global_repository.dart' hide NiToast;
+import 'package:speed_share/utils/proxy.dart';
 import 'pages/home_page.dart';
 import 'pages/setting_page.dart';
 import 'themes/theme.dart';
 import 'utils/toast.dart';
 
 void main() {
+  // startProxy();
   runApp(MyApp());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '快享',
+      title: '速享',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           color: Colors.transparent,

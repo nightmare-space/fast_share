@@ -14,8 +14,9 @@ dependencies:
     git: https://github.com/nightmare-space/global_repository
   simple_animations: ^2.4.0
   http_server: ^0.9.8+3
-
+  shelf_proxy: ^0.1.0+7
   qr_flutter: ^3.1.0
+  shelf_static: ^0.2.9+2
 
   permission_handler: 5.0.1+1
 dev_dependencies:

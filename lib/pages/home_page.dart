@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,8 +7,11 @@ import 'package:global_repository/global_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:speed_share/config/candy_colors.dart';
 import 'package:speed_share/config/dimens.dart';
+import 'package:speed_share/utils/file_manager_server.dart';
 import 'package:speed_share/utils/server.dart';
+import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/utils/toast.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:speed_share/main.dart';
@@ -33,18 +37,55 @@ class _HomePageState extends State<HomePage> {
     final Permission permission = Permission.storage;
     // bool isShown =
     //     await Permission.contacts.shouldShowRequestRationale;
-    final PermissionStatus status = await permission.request();
-    print(status);
+    if (Platform.isAndroid) {
+      final PermissionStatus status = await permission.request();
+      print(status);
+    }
     addreses = await PlatformUtil.localAddress();
 
     setState(() {});
+  }
+
+  Widget addressItem(String uri) {
+    return InkWell(
+      onTap: () async {
+        await Clipboard.setData(ClipboardData(
+          text: uri,
+        ));
+        content = uri;
+        setState(() {});
+        showToast('已复制到剪切板');
+      },
+      child: SizedBox(
+        height: Dimens.gap_dp48,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Dimens.gap_dp8,
+          ),
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.deepPurple,
+                ),
+                height: Dimens.gap_dp8,
+                width: Dimens.gap_dp8,
+              ),
+              SizedBox(width: Dimens.gap_dp16),
+              Text(uri),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('快享'),
+        title: Text('速享'),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -66,51 +107,80 @@ class _HomePageState extends State<HomePage> {
           Column(
             children: [
               Text(
-                '局域网的设备使用浏览器打开以下链接即可浏览本机文件',
+                '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               Builder(builder: (_) {
                 List<Widget> list = [];
                 for (String address in addreses) {
-                  String uri = 'http://$address:8888';
-                  list.add(
-                    InkWell(
-                      onTap: () async {
-                        await Clipboard.setData(ClipboardData(
-                          text: uri,
-                        ));
-                        showToast('已复制到剪切板');
-                      },
-                      child: SizedBox(
-                        height: Dimens.gap_dp48,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Dimens.gap_dp8,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.deepPurple,
-                                ),
-                                height: Dimens.gap_dp8,
-                                width: Dimens.gap_dp8,
-                              ),
-                              SizedBox(width: Dimens.gap_dp16),
-                              Text(uri),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
+                  if (address.startsWith('192')) {
+                    String uri = 'http://$address:8001';
+                    list.add(addressItem(uri));
+                    uri = 'http://$address:8002';
+                    list.add(addressItem(uri));
+                  }
                 }
                 return Column(
                   children: list,
                 );
               })
             ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimens.gap_dp8,
+            ),
+            child: Material(
+              color: Color(0xfff0f0f0),
+              borderRadius: BorderRadius.circular(Dimens.gap_dp12),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: Dimens.gap_dp4,
+                          height: Dimens.gap_dp24,
+                          color: CandyColors.candyPink,
+                        ),
+                        SizedBox(
+                          width: Dimens.gap_dp8,
+                        ),
+                        Expanded(
+                          child: Text(
+                            '8001端口可提供断点续传，可在线浏览视频，但对于内存较大(大于2GB)文件的下载与视频播放会存在内存占用过高的问题',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      height: 1.0,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: Dimens.gap_dp4,
+                          height: Dimens.gap_dp24,
+                          color: CandyColors.candyPink,
+                        ),
+                        SizedBox(
+                          width: Dimens.gap_dp8,
+                        ),
+                        Expanded(
+                          child: Text(
+                            '8002端口对于视频的在线非常不友好，但大文件的下载内存正常',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           Center(
             child: serverOpend
@@ -120,6 +190,8 @@ class _HomePageState extends State<HomePage> {
                     onTap: () async {
                       await Future<void>.delayed(Duration(milliseconds: 300));
                       ServerUtil.close();
+                      FileManagerServer.close();
+                      ShelfStatic.close();
                       serverOpend = false;
                       setState(() {});
                       return true;
@@ -131,6 +203,8 @@ class _HomePageState extends State<HomePage> {
                     onTap: () async {
                       await Future<void>.delayed(Duration(milliseconds: 300));
                       ServerUtil.start();
+                      FileManagerServer.start();
+                      ShelfStatic.start();
                       serverOpend = true;
                       setState(() {});
                       return true;
@@ -140,6 +214,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+}
+
+class AddressItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
 
@@ -246,7 +327,7 @@ class _LoginButtonState extends State<LoginButton> with AnimationMixin {
                     ),
                     child: SizedBox(
                       width: Dimens.setWidth(value.get('width')),
-                      height: Dimens.setWidth(36),
+                      height: Dimens.setWidth(40),
                       child: Stack(
                         alignment: Alignment.center,
                         children: [

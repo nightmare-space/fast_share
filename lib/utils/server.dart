@@ -11,7 +11,7 @@ class ServerUtil {
   static Future<void> start() async {
     requestServer = await HttpServer.bind(
       InternetAddress.anyIPv4,
-      8888,
+      8001,
       shared: true,
     );
 //HttpServer.bind(主机地址，端口号)
