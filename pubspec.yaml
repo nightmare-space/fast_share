@@ -18,7 +18,7 @@ dependencies:
   qr_flutter: ^3.1.0
   shelf_static: ^0.2.9+2
 
-  permission_handler: 5.0.1+1
+  permission_handler: ^5.1.0+2
 dev_dependencies:
   flutter_test:
     sdk: flutter

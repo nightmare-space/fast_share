@@ -84,6 +84,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     var status = await Permission.storage.status;
+      //     // Log.d(status);
+      //     if (status.isUndetermined) {
+      //       await Permission.storage.request();
+      //       // We didn't ask for permission yet.
+      //     } else if (status.isPermanentlyDenied) {
+      //       await Permission.storage.request();
+      //       // We didn't ask for permission yet.
+      //     }
+      //     status = await Permission.storage.status;
+      //   },
+      // ),
       appBar: AppBar(
         title: Text('速享'),
         actions: [
