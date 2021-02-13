@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Expanded(
                           child: Text(
-                            '8001端口可提供断点续传，可在线浏览视频，但对于内存较大(大于2GB)文件的下载与视频播放会存在内存占用过高的问题',
+                            '8001端口可提供断点续传，可在线浏览视频，但访问(下载，在线视频)的文件越大，本机运行内存消耗越多。',
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
