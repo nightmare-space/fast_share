@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:global_repository/global_repository.dart';
 
-class FileManagerServer {
+// 可以接收一个命令，返回命令结果
+class ProcessServer {
   static HttpServer requestServer;
   static Future<void> start() async {
     requestServer = await HttpServer.bind(

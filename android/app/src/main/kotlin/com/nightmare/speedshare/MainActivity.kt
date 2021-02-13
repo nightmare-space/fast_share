@@ -1,4 +1,4 @@
-package com.nightmare.speed_share
+package com.nightmare.speedshare
 
 import io.flutter.embedding.android.FlutterActivity
 

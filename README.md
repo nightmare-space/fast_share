@@ -1,16 +1,18 @@
-# speed_share
+# 速享
 
-A new Flutter project.
+使用 Flutter 开发，实现局域网中多个设备间文件的快速共享，查看文件的设备不需要安装任何的软件，只需要有浏览器即可。
+8001与8002端口的区别在 app 中有提示，可针对个人的情况使用对应的端口。
 
-## Getting Started
+## 功能列表
 
-This project is a starting point for a Flutter application.
+- 通过 web 浏览文件
+- 图片在线浏览，视频在线播放
+- 快速获得二维码
+- 
+## 后续计划
 
-A few resources to get you started if this is your first Flutter project:
+- 优化web页面
+- 增加上传功能
+- 使用 Flutter 开发 web 页面
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+目前软件图标使用的是默认图标，欢迎大家提供新的图标。

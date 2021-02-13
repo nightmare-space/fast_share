@@ -9,10 +9,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:speed_share/config/candy_colors.dart';
 import 'package:speed_share/config/dimens.dart';
-import 'package:speed_share/utils/file_manager_server.dart';
+import 'package:speed_share/utils/process_server.dart';
 import 'package:speed_share/utils/server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
-import 'package:speed_share/utils/toast.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:speed_share/main.dart';
 
@@ -171,14 +170,14 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Divider(
                       color: Colors.grey,
-                      height: 1.0,
+                      height: 12.0,
                     ),
                     Row(
                       children: [
                         Container(
                           width: Dimens.gap_dp4,
                           height: Dimens.gap_dp24,
-                          color: CandyColors.candyPink,
+                          color: CandyColors.candyCyan,
                         ),
                         SizedBox(
                           width: Dimens.gap_dp8,
@@ -204,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () async {
                       await Future<void>.delayed(Duration(milliseconds: 300));
                       ServerUtil.close();
-                      FileManagerServer.close();
+                      ProcessServer.close();
                       ShelfStatic.close();
                       serverOpend = false;
                       setState(() {});
@@ -217,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () async {
                       await Future<void>.delayed(Duration(milliseconds: 300));
                       ServerUtil.start();
-                      FileManagerServer.start();
+                      ProcessServer.start();
                       ShelfStatic.start();
                       serverOpend = true;
                       setState(() {});

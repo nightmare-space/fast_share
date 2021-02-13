@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http_server/http_server.dart' hide VirtualDirectory;
 
 import 'package:path/path.dart' as path;
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/virtual_directory.dart';
 
 class ServerUtil {
@@ -11,7 +12,7 @@ class ServerUtil {
   static Future<void> start() async {
     requestServer = await HttpServer.bind(
       InternetAddress.anyIPv4,
-      8001,
+      Config.httpServerPort,
       shared: true,
     );
 //HttpServer.bind(主机地址，端口号)

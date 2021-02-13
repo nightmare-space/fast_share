@@ -31,43 +31,44 @@ class _SettingPageState extends State<SettingPage> {
         ),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '启动类型',
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                      color: Theme.of(context).accentColor,
-                    ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'http_server',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                Radio<ServerType>(
-                  value: ServerType.http_server,
-                  groupValue: serverType,
-                  onChanged: onChanged,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'shelf_static',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                Radio<ServerType>(
-                  value: ServerType.shelf_static,
-                  groupValue: serverType,
-                  onChanged: onChanged,
-                ),
-              ],
-            ),
+            Text('预留,之后可能有更改路径等'),
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: Text(
+            //     '启动类型',
+            //     style: Theme.of(context).textTheme.headline6.copyWith(
+            //           color: Theme.of(context).accentColor,
+            //         ),
+            //   ),
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'http_server',
+            //       style: Theme.of(context).textTheme.subtitle2,
+            //     ),
+            //     Radio<ServerType>(
+            //       value: ServerType.http_server,
+            //       groupValue: serverType,
+            //       onChanged: onChanged,
+            //     ),
+            //   ],
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'shelf_static',
+            //       style: Theme.of(context).textTheme.subtitle2,
+            //     ),
+            //     Radio<ServerType>(
+            //       value: ServerType.shelf_static,
+            //       groupValue: serverType,
+            //       onChanged: onChanged,
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),

@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:global_repository/global_repository.dart' hide NiToast;
+import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/utils/proxy.dart';
 import 'pages/home_page.dart';
 import 'pages/setting_page.dart';
 import 'themes/theme.dart';
-import 'utils/toast.dart';
 
 void main() {
   // startProxy();
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: NiToast(
+      home: NiToastNew(
         child: SpeedShare(),
       ),
     );
