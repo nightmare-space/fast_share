@@ -6,9 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/utils/proxy.dart';
 import 'pages/home_page.dart';
-import 'pages/setting_page.dart';
 import 'themes/theme.dart';
 
 void main() {
