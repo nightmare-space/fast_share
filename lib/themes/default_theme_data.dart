@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/material.dart';
-import 'package:speed_share/config/dimens.dart';
+import 'package:global_repository/global_repository.dart';
+
+const Color accentColor = Color(0xffd0c0fa);
+const Color fontColor = Color(0xff201b1a);
+const Color inputColor = Color(0xffe2dfe1);
 
 class DefaultThemeData {
-  static const Color _primary = Color(0xFF01AAFF);
+  static const Color _primary = accentColor;
   static const Color _dark_primary = Color(0xFF01AAFF);
 
   static const Color _on_primary = Colors.white;
@@ -27,7 +31,7 @@ class DefaultThemeData {
   static const Color _on_surface = Color(0xFF8C8C8C);
   static const Color _on_dark_surface = Color(0xFF696969);
 
-  static const Color _background = Color(0xFFF8F8F8);
+  static const Color _background = Color(0xfffdf9fc);
   static const Color _dark_background = Color(0xFF1B1B1B);
 
   static const Color _on_background = Color(0xFF8C8C8C);
@@ -208,11 +212,35 @@ class DefaultThemeData {
       iconTheme: lightThemeData.iconTheme.copyWith(
         color: colorSchema.onSurface,
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: _background,
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 12,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          gapPadding: 0,
+          borderSide: BorderSide(
+            width: 0,
+            color: Colors.transparent,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          gapPadding: 0,
+          borderSide: BorderSide(
+            width: 0,
+            color: Colors.transparent,
+          ),
+        ),
+        filled: true,
+      ),
       appBarTheme: lightThemeData.appBarTheme.copyWith(
         centerTitle: true,
         brightness: Brightness.light,
-        // color: colorSchema.surface,
-        color: Colors.transparent,
+        color: Color(0xffede8f8),
         elevation: 0,
         iconTheme: lightThemeData.iconTheme.copyWith(
           color: const Color(0xFF595959),
@@ -301,9 +329,7 @@ class DefaultThemeData {
         bodyText2: lightThemeData.textTheme.bodyText2.copyWith(
           fontSize: Dimens.font_sp14,
           fontWeight: FontWeight.w400,
-          // 这个是普通的颜色
-          // color: const Color(0xff4b5c76),
-          color: Colors.black,
+          color: fontColor,
         ),
         button: lightThemeData.textTheme.button.copyWith(
           fontSize: Dimens.font_sp16,
