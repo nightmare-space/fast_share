@@ -1,7 +1,4 @@
 import 'dart:io';
-
-import 'package:http_server/http_server.dart' hide VirtualDirectory;
-
 import 'package:path/path.dart' as path;
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/virtual_directory.dart';
