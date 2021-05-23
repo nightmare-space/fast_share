@@ -10,15 +10,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  get: ^4.1.4
   global_repository:
     git: https://github.com/nightmare-space/global_repository
   simple_animations: ^2.4.0
-  http_server: ^0.9.8+3
   shelf_proxy: ^0.1.0+7
   qr_flutter: ^3.1.0
   shelf_static: ^0.2.9+2
+  get_server: ^1.1.0
+  getsocket: ^1.0.0
+  permission_handler: ^8.0.0+1
+  file_picker: ^3.0.1
+  file_manager:
+    path: ../file_manager
 
-  permission_handler: ^5.1.0+2
 dev_dependencies:
   flutter_test:
     sdk: flutter
