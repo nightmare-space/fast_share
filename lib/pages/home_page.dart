@@ -1,17 +1,20 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:speed_share/config/candy_colors.dart';
-import 'package:speed_share/config/dimens.dart';
 import 'package:speed_share/utils/process_server.dart';
 import 'package:speed_share/utils/server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
+import 'package:speed_share/utils/socket_util.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:speed_share/main.dart';
 
@@ -36,11 +39,13 @@ class _HomePageState extends State<HomePage> {
     final Permission permission = Permission.storage;
     // bool isShown =
     //     await Permission.contacts.shouldShowRequestRationale;
-    if (Platform.isAndroid) {
+    if (GetPlatform.isAndroid) {
       final PermissionStatus status = await permission.request();
       print(status);
     }
-    addreses = await PlatformUtil.localAddress();
+    if (!GetPlatform.isWeb) {
+      addreses = await PlatformUtil.localAddress();
+    }
 
     setState(() {});
   }
@@ -83,20 +88,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     var status = await Permission.storage.status;
-      //     // Log.d(status);
-      //     if (status.isUndetermined) {
-      //       await Permission.storage.request();
-      //       // We didn't ask for permission yet.
-      //     } else if (status.isPermanentlyDenied) {
-      //       await Permission.storage.request();
-      //       // We didn't ask for permission yet.
-      //     }
-      //     status = await Permission.storage.status;
-      //   },
-      // ),
       appBar: AppBar(
         title: Text('速享'),
         actions: [
@@ -108,123 +99,127 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          QrImage(
-            data: content,
-            version: QrVersions.auto,
-            size: 300.0,
-          ),
-          Column(
-            children: [
-              Text(
-                '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              Builder(builder: (_) {
-                List<Widget> list = [];
-                for (String address in addreses) {
-                  if (address.startsWith('192')) {
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            QrImage(
+              data: content,
+              version: QrVersions.auto,
+              size: 300.0,
+            ),
+            Column(
+              children: [
+                Text(
+                  '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                Builder(builder: (_) {
+                  List<Widget> list = [];
+                  for (String address in addreses) {
                     String uri = 'http://$address:8001';
                     list.add(addressItem(uri));
                     uri = 'http://$address:8002';
                     list.add(addressItem(uri));
                   }
-                }
-                return Column(
-                  children: list,
-                );
-              })
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Dimens.gap_dp8,
+                  return Column(
+                    children: list,
+                  );
+                })
+              ],
             ),
-            child: Material(
-              color: Color(0xfff0f0f0),
-              borderRadius: BorderRadius.circular(Dimens.gap_dp12),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: Dimens.gap_dp4,
-                          height: Dimens.gap_dp24,
-                          color: CandyColors.candyPink,
-                        ),
-                        SizedBox(
-                          width: Dimens.gap_dp8,
-                        ),
-                        Expanded(
-                          child: Text(
-                            '8001端口可提供断点续传，可在线浏览视频，但访问(下载，在线视频)的文件越大，本机运行内存消耗越多。',
-                            style: Theme.of(context).textTheme.bodyText1,
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimens.gap_dp8,
+              ),
+              child: Material(
+                color: Color(0xffede8f8),
+                borderRadius: BorderRadius.circular(Dimens.gap_dp12),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: Dimens.gap_dp4,
+                            height: Dimens.gap_dp24,
+                            color: CandyColors.candyPink,
                           ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                      height: 12.0,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: Dimens.gap_dp4,
-                          height: Dimens.gap_dp24,
-                          color: CandyColors.candyCyan,
-                        ),
-                        SizedBox(
-                          width: Dimens.gap_dp8,
-                        ),
-                        Expanded(
-                          child: Text(
-                            '8002端口对于视频的在线非常不友好，但大文件的下载内存正常',
-                            style: Theme.of(context).textTheme.bodyText1,
+                          SizedBox(
+                            width: Dimens.gap_dp8,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Expanded(
+                            child: Text(
+                              '8001端口可提供断点续传，可在线浏览视频，但访问(下载，在线视频)的文件越大，本机运行内存消耗越多。',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        color: Colors.grey,
+                        height: 12.0,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: Dimens.gap_dp4,
+                            height: Dimens.gap_dp24,
+                            color: CandyColors.candyCyan,
+                          ),
+                          SizedBox(
+                            width: Dimens.gap_dp8,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '8002端口对于视频的在线非常不友好，但大文件的下载内存正常',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Center(
-            child: serverOpend
-                ? LoginButton(
-                    title: '关闭服务',
-                    backgroundColor: Colors.grey,
-                    onTap: () async {
-                      await Future<void>.delayed(Duration(milliseconds: 300));
-                      ServerUtil.close();
-                      ProcessServer.close();
-                      ShelfStatic.close();
-                      serverOpend = false;
-                      setState(() {});
-                      return true;
-                    },
-                  )
-                : LoginButton(
-                    backgroundColor: Theme.of(context).accentColor,
-                    title: '开启服务',
-                    onTap: () async {
-                      await Future<void>.delayed(Duration(milliseconds: 300));
-                      ServerUtil.start();
-                      ProcessServer.start();
-                      ShelfStatic.start();
-                      serverOpend = true;
-                      setState(() {});
-                      return true;
-                    },
-                  ),
-          ),
-        ],
+            Center(
+              child: serverOpend
+                  ? LoginButton(
+                      title: '关闭服务',
+                      backgroundColor: Colors.grey,
+                      onTap: () async {
+                        await Future<void>.delayed(Duration(milliseconds: 300));
+                        if (!GetPlatform.isWeb) {
+                          ServerUtil.close();
+                          ProcessServer.close();
+                        }
+                        ShelfStatic.close();
+                        serverOpend = false;
+                        setState(() {});
+                        return true;
+                      },
+                    )
+                  : LoginButton(
+                      backgroundColor: Theme.of(context).accentColor,
+                      title: '开启服务',
+                      onTap: () async {
+                        await Future<void>.delayed(Duration(milliseconds: 300));
+                        if (!GetPlatform.isWeb) {
+                          ServerUtil.start();
+                          ProcessServer.start();
+                        }
+                        ShelfStatic.start();
+                        serverOpend = true;
+                        setState(() {});
+                        return true;
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
