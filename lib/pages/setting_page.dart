@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:speed_share/config/candy_colors.dart';
-import 'package:speed_share/config/dimens.dart';
+import 'package:global_repository/global_repository.dart';
 
 enum ServerType {
   shelf_static,
