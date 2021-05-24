@@ -19,7 +19,6 @@ class ProcessServer {
       //监听到请求后response回复它一个Hello World!然后关闭这个请求
       handleMessage(request);
     }
-    print('object');
   }
 
   static void close() {
