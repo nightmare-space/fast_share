@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 
-const Color accentColor = Color(0xffd0c0fa);
+const Color accentColor = Color(0xffcfbff7);
 const Color fontColor = Color(0xff201b1a);
 const Color inputColor = Color(0xffe2dfe1);
 
