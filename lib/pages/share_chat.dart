@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
+import 'package:speed_share/utils/chat_server.dart';
 
 enum SendFileType {
   img,
@@ -22,6 +23,15 @@ class Message {
 }
 
 class ShareChat extends StatefulWidget {
+  const ShareChat({
+    Key key,
+    this.needCreateChatServer = true,
+    this.chatServerAddress,
+  }) : super(key: key);
+
+  /// 为`true`的时候，会创建一个聊天服务器，如果为`false`，则代表加入已有的聊天
+  final bool needCreateChatServer;
+  final String chatServerAddress;
   @override
   _ShareChatState createState() => _ShareChatState();
 }
@@ -35,18 +45,19 @@ class _ShareChatState extends State<ShareChat> {
   @override
   void initState() {
     super.initState();
-    createChat();
+    initChat();
   }
 
-  Future<void> createChat() async {
-    String url = 'http://192.168.149.49:1234/user';
-    if (GetPlatform.isMacOS) {
-      url = 'http://127.0.0.1:1234/user';
+  Future<void> initChat() async {
+    String url;
+    if (widget.needCreateChatServer) {
+      await createChatServer();
+      url = 'http://127.0.0.1:7000/chat';
+    } else {
+      url = widget.chatServerAddress;
     }
     socket = GetSocket(url);
-    socket.onOpen(() {
-      print('open');
-    });
+    socket.onOpen(() {});
     await socket.connect();
     socket.onMessage((message) {
       print('服务端的消息 - $message');
@@ -75,7 +86,6 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   Future<void> scroll() async {
-    print('object');
     await Future.delayed(Duration(milliseconds: 100));
     scrollController.animateTo(
       scrollController.position.maxScrollExtent,
@@ -194,27 +204,9 @@ class _ShareChatState extends State<ShareChat> {
                           padding: EdgeInsets.zero,
                           icon: Icon(
                             Icons.file_copy,
-                            color: Color(0xffcfbff7),
+                            color: accentColor,
                           ),
                           onPressed: () async {
-                            // FilePickerResult result =
-                            //     await FilePicker.platform.pickFiles(
-                            //   type: FileType.custom,
-                            //   // allowedExtensions: ['jpg', 'pdf', 'doc'],
-                            // );
-
-                            // if (result != null) {
-                            //   PlatformFile file = result.files.first;
-
-                            //   print(file.name);
-                            //   print(file.bytes);
-                            //   print(file.size);
-                            //   print(file.extension);
-                            //   print(file.path);
-                            // } else {
-                            //   // User canceled the picker
-                            // }
-
                             String filePath = await FileManager.chooseFile(
                               context: context,
                               pickPath: '/storage/emulated/0',
