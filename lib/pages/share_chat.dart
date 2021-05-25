@@ -5,10 +5,14 @@ import 'package:file_manager/file_manager.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:speed_share/pages/model/message_info_factory.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
 
-enum SendFileType {
+import 'item/message_item_factory.dart';
+import 'model/model.dart';
+
+enum MsgFileType {
   img,
   text,
   video,
@@ -17,7 +21,7 @@ enum SendFileType {
 class Message {
   final bool sendByUser;
   final String data;
-  final SendFileType fileType;
+  final MsgFileType fileType;
   String img;
   Message(this.sendByUser, this.data, this.fileType, {this.img});
 }
@@ -40,7 +44,7 @@ class _ShareChatState extends State<ShareChat> {
   FocusNode focusNode = FocusNode();
   TextEditingController controller = TextEditingController();
   GetSocket socket;
-  List<Message> msgs = [];
+  List<Widget> children = [];
   ScrollController scrollController = ScrollController();
   @override
   void initState() {
@@ -70,16 +74,9 @@ class _ShareChatState extends State<ShareChat> {
       } catch (e) {
         return;
       }
-
-      if (!map.containsKey('data')) {
-        return;
-      }
-      String content = map['data'];
-      if (map.containsKey('img')) {
-        msgs.add(Message(false, '', SendFileType.img, img: map['img']));
-      } else {
-        msgs.add(Message(false, content, SendFileType.text));
-      }
+      MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
+      print(messageInfo.runtimeType);
+      children.add(messageItem(messageInfo, false));
       scroll();
       setState(() {});
     });
@@ -97,16 +94,19 @@ class _ShareChatState extends State<ShareChat> {
   @override
   void dispose() {
     socket.close();
+    controller.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
   void sendTextMsg() {
-    msgs.add(Message(true, controller.text, SendFileType.text));
     setState(() {});
-    socket.send(jsonEncode({
-      'type': '123',
-      'data': controller.text,
-    }));
+    MessageTextInfo info = MessageTextInfo(
+      content: controller.text,
+      msgType: 'text',
+    );
+    socket.send(info.toString());
+    children.add(messageItem(info, true));
     controller.clear();
     scroll();
     Future.delayed(Duration(milliseconds: 100), () {
@@ -121,162 +121,117 @@ class _ShareChatState extends State<ShareChat> {
         shadowColor: accentColor,
         title: Text('文件共享'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: ListView.builder(
-              controller: scrollController,
-              itemCount: msgs.length,
-              itemBuilder: (c, i) {
-                Message msg = msgs[i];
-                if (msg.fileType == SendFileType.img) {
-                  return Align(
-                    alignment: msg.sendByUser
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4,
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: accentColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Image.network(
-                          msg.img,
-                          width: 100,
-                        ),
-                      ),
-                    ),
-                  );
-                }
-                return Align(
-                  alignment: msg.sendByUser
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                      vertical: 4,
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: accentColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Theme(
-                        data: ThemeData(
-                          textSelectionTheme: TextSelectionThemeData(
-                            cursorColor: Colors.red,
-                            selectionColor: Color(0xffede8f8),
-                          ),
-                        ),
-                        child: SelectableText(
-                          msg.data,
-                          cursorColor: Color(0xffede8f8),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+      body: GestureDetector(
+        onTap: () {
+          focusNode.unfocus();
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: children.length,
+                itemBuilder: (c, i) {
+                  return children[i];
+                },
+              ),
             ),
-          ),
-          Material(
-            color: Theme.of(context).appBarTheme.color,
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 32,
-                      child: Transform(
-                        transform: Matrix4.identity()..translate(0.0, -4.0),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            Icons.file_copy,
-                            color: accentColor,
+            Material(
+              color: Theme.of(context).appBarTheme.color,
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 32,
+                        child: Transform(
+                          transform: Matrix4.identity()..translate(0.0, -4.0),
+                          child: IconButton(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.file_copy,
+                              color: accentColor,
+                            ),
+                            onPressed: () async {
+                              String filePath = await FileManager.chooseFile(
+                                context: context,
+                                pickPath: '/storage/emulated/0',
+                              );
+                              print(filePath);
+                              if (filePath == null) {
+                                return;
+                              }
+                              String url = filePath.replaceAll(
+                                '/storage/emulated/0',
+                                'http://192.168.210.177:8002/',
+                              );
+                              print(url);
+                              String msgType = '';
+                              if (filePath.isVideoFileName) {
+                                msgType = 'video';
+                              } else if (filePath.isImageFileName) {
+                                msgType = 'img';
+                              }
+                              print('msgType $msgType');
+                              // return;
+                              MessageBaseInfo info =
+                                  MessageInfoFactory.fromJson({
+                                'url': url,
+                                'msgType': msgType,
+                              });
+                              children.add(messageItem(info, true));
+                              scroll();
+                              setState(() {});
+                              socket.send(info.toString());
+                            },
                           ),
-                          onPressed: () async {
-                            String filePath = await FileManager.chooseFile(
-                              context: context,
-                              pickPath: '/storage/emulated/0',
-                            );
-                            print(filePath);
-                            if (filePath == null) {
-                              return;
-                            }
-                            filePath = filePath.replaceAll(
-                              '/storage/emulated/0',
-                              'http://192.168.149.32:8002/',
-                            );
-                            print(filePath);
-                            msgs.add(
-                              Message(
-                                true,
-                                '',
-                                SendFileType.img,
-                                img: filePath,
-                              ),
-                            );
-                            setState(() {});
-                            socket.send(jsonEncode({
-                              'type': '',
-                              'data': controller.text,
-                              'img': filePath,
-                            }));
-                          },
                         ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            focusNode: focusNode,
-                            controller: controller,
-                            style: TextStyle(
-                              textBaseline: TextBaseline.ideographic,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              focusNode: focusNode,
+                              controller: controller,
+                              autofocus: false,
+                              style: TextStyle(
+                                textBaseline: TextBaseline.ideographic,
+                              ),
+                              onSubmitted: (_) {
+                                sendTextMsg();
+                              },
                             ),
-                            onSubmitted: (_) {
-                              sendTextMsg();
-                            },
                           ),
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Material(
-                          color: Color(0xffcfbff7),
-                          borderRadius: BorderRadius.circular(32),
-                          borderOnForeground: true,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.send,
-                              color: Color(0xffede8f8),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Material(
+                            color: Color(0xffcfbff7),
+                            borderRadius: BorderRadius.circular(32),
+                            borderOnForeground: true,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.send,
+                                color: Color(0xffede8f8),
+                              ),
+                              onPressed: () {
+                                sendTextMsg();
+                              },
                             ),
-                            onPressed: () {
-                              sendTextMsg();
-                            },
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
