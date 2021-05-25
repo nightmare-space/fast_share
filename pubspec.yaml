@@ -25,6 +25,8 @@ dependencies:
     path: ../file_manager
   flick_video_player: ^0.3.1
   video_viewer: ^1.2.2
+  better_player: ^0.0.68
+  video_compress: ^2.1.0
 
 dev_dependencies:
   flutter_test:
