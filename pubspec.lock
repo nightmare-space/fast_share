@@ -64,13 +64,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.17.0"
   dio:
     dependency: transitive
     description:
       name: dio
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.10"
+    version: "4.0.0"
   draggable_scrollbar:
     dependency: transitive
     description:
@@ -120,6 +127,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  flick_video_player:
+    dependency: "direct main"
+    description:
+      name: flick_video_player
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -163,6 +177,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  gesture_x_detector:
+    dependency: transitive
+    description:
+      name: gesture_x_detector
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   get:
     dependency: "direct main"
     description:
@@ -193,20 +214,34 @@ packages:
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"
+  helpers:
+    dependency: transitive
+    description:
+      name: helpers
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.3"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.15.0"
   http:
     dependency: transitive
     description:
       name: http
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.12.2"
+    version: "0.13.3"
   http_parser:
     dependency: transitive
     description:
       name: http_parser
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.1.4"
+    version: "4.0.0"
   jaguar_jwt:
     dependency: transitive
     description:
@@ -248,7 +283,7 @@ packages:
       name: nested
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.5"
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -360,7 +395,7 @@ packages:
       name: provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.0.0-nullsafety.3"
+    version: "5.0.0"
   qr:
     dependency: transitive
     description:
@@ -388,21 +423,21 @@ packages:
       name: shelf
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.7.9"
+    version: "1.1.4"
   shelf_proxy:
     dependency: "direct main"
     description:
       name: shelf_proxy
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.0+7"
+    version: "1.0.0"
   shelf_static:
     dependency: "direct main"
     description:
       name: shelf_static
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.2.9+2"
+    version: "1.0.0"
   signale:
     dependency: transitive
     description:
@@ -487,6 +522,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.0"
+  universal_html:
+    dependency: transitive
+    description:
+      name: universal_html
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.8"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.4"
   vector_math:
     dependency: transitive
     description:
@@ -494,6 +543,69 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  video_player:
+    dependency: transitive
+    description:
+      name: video_player
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.1"
+  video_player_platform_interface:
+    dependency: transitive
+    description:
+      name: video_player_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.1.0"
+  video_player_web:
+    dependency: transitive
+    description:
+      name: video_player_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
+  video_viewer:
+    dependency: "direct main"
+    description:
+      name: video_viewer
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.2.2"
+  wakelock:
+    dependency: transitive
+    description:
+      name: wakelock
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.2"
+  wakelock_macos:
+    dependency: transitive
+    description:
+      name: wakelock_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.0+1"
+  wakelock_platform_interface:
+    dependency: transitive
+    description:
+      name: wakelock_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.1+1"
+  wakelock_web:
+    dependency: transitive
+    description:
+      name: wakelock_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0+1"
+  wakelock_windows:
+    dependency: transitive
+    description:
+      name: wakelock_windows
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.0"
   win32:
     dependency: transitive
     description:
@@ -517,4 +629,4 @@ packages:
     version: "5.1.1"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.24.0-7.0"
+  flutter: ">=2.0.0"

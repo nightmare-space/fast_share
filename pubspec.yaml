@@ -14,15 +14,17 @@ dependencies:
   global_repository:
     git: https://github.com/nightmare-space/global_repository
   simple_animations: ^2.4.0
-  shelf_proxy: ^0.1.0+7
+  shelf_proxy: ^1.0.0
   qr_flutter: ^3.1.0
-  shelf_static: ^0.2.9+2
+  shelf_static: ^1.0.0
   get_server: ^1.1.0
   getsocket: ^1.0.0
   permission_handler: ^8.0.0+1
   file_picker: ^3.0.1
   file_manager:
     path: ../file_manager
+  flick_video_player: ^0.3.1
+  video_viewer: ^1.2.2
 
 dev_dependencies:
   flutter_test:
