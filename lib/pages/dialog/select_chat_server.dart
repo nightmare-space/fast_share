@@ -11,7 +11,7 @@ class SelectChatServer extends StatelessWidget {
     return Center(
       child: Material(
         child: SizedBox(
-          height: 80,
+          height: 96,
           width: 240,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,7 +24,7 @@ class SelectChatServer extends StatelessWidget {
                   ));
                 },
                 child: SizedBox(
-                  height: 40,
+                  height: 48,
                   child: Align(
                     child: Text(
                       '创建新的共享窗口',
@@ -38,7 +38,7 @@ class SelectChatServer extends StatelessWidget {
                   Get.dialog(JoinChat());
                 },
                 child: SizedBox(
-                  height: 40,
+                  height: 48,
                   child: Align(
                     child: Text('加入已创建的共享窗口'),
                   ),
