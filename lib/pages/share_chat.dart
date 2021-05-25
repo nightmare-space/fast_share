@@ -5,9 +5,12 @@ import 'package:file_manager/file_manager.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/model/message_info_factory.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
+import 'package:speed_share/utils/shelf_static.dart';
+import 'package:video_compress/video_compress.dart';
 
 import 'item/message_item_factory.dart';
 import 'model/model.dart';
@@ -80,6 +83,28 @@ class _ShareChatState extends State<ShareChat> {
       scroll();
       setState(() {});
     });
+    ShelfStatic.start();
+    if (widget.needCreateChatServer) {
+      children.add(messageItem(
+        MessageTextInfo(content: '当前窗口可通过以下url加入'),
+        false,
+      ));
+      List<String> addreses = await PlatformUtil.localAddress();
+      for (String address in addreses) {
+        children.add(messageItem(
+          MessageTextInfo(content: 'http://$address:7000/'),
+          false,
+        ));
+      }
+    }
+    getHistoryMsg();
+    setState(() {});
+  }
+
+  void getHistoryMsg() {
+    socket.send(jsonEncode({
+      'type': "getHistory",
+    }));
   }
 
   Future<void> scroll() async {
@@ -100,13 +125,13 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   void sendTextMsg() {
-    setState(() {});
     MessageTextInfo info = MessageTextInfo(
       content: controller.text,
       msgType: 'text',
     );
     socket.send(info.toString());
     children.add(messageItem(info, true));
+    setState(() {});
     controller.clear();
     scroll();
     Future.delayed(Duration(milliseconds: 100), () {
@@ -130,6 +155,9 @@ class _ShareChatState extends State<ShareChat> {
           children: [
             Expanded(
               child: ListView.builder(
+                padding: EdgeInsets.symmetric(
+                  vertical: 8,
+                ),
                 controller: scrollController,
                 itemCount: children.length,
                 itemBuilder: (c, i) {
@@ -165,28 +193,46 @@ class _ShareChatState extends State<ShareChat> {
                               if (filePath == null) {
                                 return;
                               }
+                              String address = '';
                               String url = filePath.replaceAll(
                                 '/storage/emulated/0',
-                                'http://192.168.210.177:8002/',
+                                '',
                               );
                               print(url);
+                              // String localUrl = filePath.replaceAll(
+                              //   '/storage/emulated/0',
+                              //   'http://127.0.0.1:8002/',
+                              // );
+
+                              File thumbnailFile;
                               String msgType = '';
-                              if (filePath.isVideoFileName) {
+                              if (filePath.isVideoFileName ||
+                                  filePath.endsWith('.mkv')) {
                                 msgType = 'video';
+                                thumbnailFile =
+                                    await VideoCompress.getFileThumbnail(
+                                  filePath,
+                                  quality: 50,
+                                  position: -1,
+                                );
                               } else if (filePath.isImageFileName) {
                                 msgType = 'img';
                               }
                               print('msgType $msgType');
                               // return;
-                              MessageBaseInfo info =
-                                  MessageInfoFactory.fromJson({
+                              dynamic info = MessageInfoFactory.fromJson({
                                 'url': url,
                                 'msgType': msgType,
+                                'thumbnailUrl': thumbnailFile?.path?.replaceAll(
+                                  '/storage/emulated/0',
+                                  '',
+                                ),
+                                'address': await PlatformUtil.localAddress(),
                               });
+                              socket.send(info.toString());
                               children.add(messageItem(info, true));
                               scroll();
                               setState(() {});
-                              socket.send(info.toString());
                             },
                           ),
                         ),
