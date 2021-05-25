@@ -10,7 +10,7 @@ class JoinChat extends StatefulWidget {
 
 class _JoinChatState extends State<JoinChat> {
   TextEditingController controller = TextEditingController(
-    text: 'http://192.168.16.152:7000/chat',
+    text: 'http://192.168.210.152:7000/chat',
   );
   @override
   void dispose() {
