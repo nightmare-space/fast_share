@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/themes/theme.dart';
-
 import '../video_preview.dart';
 
 Widget messageItem(MessageBaseInfo info, bool sendByUser) {
   Widget child;
   if (info is MessageImgInfo) {
     UniqueKey key = UniqueKey();
+    String url = 'http://${info.address[2]}:8002/${info.url}';
     child = Column(
       children: [
         Hero(
@@ -23,18 +23,12 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser) {
                   Material(
                     child: Hero(
                       tag: key,
-                      child: Image.network(
-                        info.url,
-                        width: 120,
-                      ),
+                      child: Image.network(url),
                     ),
                   ),
                 );
               },
-              child: Image.network(
-                info.url,
-                width: 120,
-              ),
+              child: Image.network(url),
             ),
           ),
         ),
@@ -44,21 +38,9 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser) {
         Material(
           color: Colors.transparent,
           child: SizedBox(
-            width: 120,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(12),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Icon(
-                      Icons.preview,
-                      size: 18,
-                    ),
-                  ),
-                ),
                 InkWell(
                   onTap: () {},
                   borderRadius: BorderRadius.circular(12),
@@ -69,6 +51,9 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser) {
                       size: 18,
                     ),
                   ),
+                ),
+                SizedBox(
+                  width: 8,
                 ),
                 InkWell(
                   onTap: () async {
@@ -93,6 +78,8 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser) {
       ],
     );
   } else if (info is MessageVideoInfo) {
+    String url = 'http://${info.address[2]}:8002/${info.url}';
+    String thumbnailUrl = 'http://${info.address[2]}:8002/${info.thumbnailUrl}';
     UniqueKey key = UniqueKey();
     child = InkWell(
       onTap: () {
@@ -101,15 +88,18 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser) {
             child: Hero(
               tag: key,
               child: SamplePlayer(
-                url: info.url,
+                url: url,
               ),
             ),
           ),
         );
       },
-      child: Hero(
-        tag: key,
-        child: Text('视频'),
+      child: SizedBox(
+        width: 200,
+        child: Hero(
+          tag: key,
+          child: Image.network(thumbnailUrl),
+        ),
       ),
     );
   } else if (info is MessageTextInfo) {
@@ -140,7 +130,10 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser) {
           color: accentColor,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: child,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 200),
+          child: child,
+        ),
       ),
     ),
   );
