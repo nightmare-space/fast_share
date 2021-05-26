@@ -1,6 +1,5 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-import 'package:video_viewer/video_viewer.dart';
 
 class SerieExample extends StatefulWidget {
   final String url;

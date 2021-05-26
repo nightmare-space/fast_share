@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_manager/file_manager.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -14,20 +13,6 @@ import 'package:video_compress/video_compress.dart';
 
 import 'item/message_item_factory.dart';
 import 'model/model.dart';
-
-enum MsgFileType {
-  img,
-  text,
-  video,
-}
-
-class Message {
-  final bool sendByUser;
-  final String data;
-  final MsgFileType fileType;
-  String img;
-  Message(this.sendByUser, this.data, this.fileType, {this.img});
-}
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
@@ -49,9 +34,11 @@ class _ShareChatState extends State<ShareChat> {
   GetSocket socket;
   List<Widget> children = [];
   ScrollController scrollController = ScrollController();
+  bool isConnect = false;
   @override
   void initState() {
     super.initState();
+    Log.e(Get.parameters);
     initChat();
   }
 
@@ -64,7 +51,11 @@ class _ShareChatState extends State<ShareChat> {
       url = widget.chatServerAddress;
     }
     socket = GetSocket(url);
-    socket.onOpen(() {});
+    socket.onOpen(() {
+      Log.d('chat连接成功');
+      isConnect = true;
+      getHistoryMsg();
+    });
     await socket.connect();
     socket.onMessage((message) {
       print('服务端的消息 - $message');
@@ -83,21 +74,25 @@ class _ShareChatState extends State<ShareChat> {
       scroll();
       setState(() {});
     });
-    ShelfStatic.start();
+    if (!GetPlatform.isWeb) {
+      ShelfStatic.start();
+    }
     if (widget.needCreateChatServer) {
       children.add(messageItem(
-        MessageTextInfo(content: '当前窗口可通过以下url加入'),
+        MessageTextInfo(
+          content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
+              '跟具所访问设备自身的ip判断应该打开哪个，若不清楚，可都尝试一下',
+        ),
         false,
       ));
       List<String> addreses = await PlatformUtil.localAddress();
       for (String address in addreses) {
         children.add(messageItem(
-          MessageTextInfo(content: 'http://$address:7000/'),
+          MessageTextInfo(content: 'http://$address:7000'),
           false,
         ));
       }
     }
-    getHistoryMsg();
     setState(() {});
   }
 
@@ -109,16 +104,20 @@ class _ShareChatState extends State<ShareChat> {
 
   Future<void> scroll() async {
     await Future.delayed(Duration(milliseconds: 100));
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 100),
-      curve: Curves.ease,
-    );
+    if (mounted) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.ease,
+      );
+    }
   }
 
   @override
   void dispose() {
-    socket.close();
+    if (isConnect) {
+      socket.close();
+    }
     controller.dispose();
     scrollController.dispose();
     super.dispose();
