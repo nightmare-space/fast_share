@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:path/path.dart' as p;
 import 'package:file_manager/file_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,6 +51,23 @@ class _ShareChatState extends State<ShareChat> {
       url = widget.chatServerAddress;
     }
     socket = GetSocket(url);
+
+    if (widget.needCreateChatServer) {
+      children.add(messageItem(
+        MessageTextInfo(
+          content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
+              '跟具所访问设备自身的ip判断应该打开哪个，若不清楚，可都尝试一下',
+        ),
+        false,
+      ));
+      List<String> addreses = await PlatformUtil.localAddress();
+      for (String address in addreses) {
+        children.add(messageItem(
+          MessageTextInfo(content: 'http://$address:7000'),
+          false,
+        ));
+      }
+    }
     socket.onOpen(() {
       Log.d('chat连接成功');
       isConnect = true;
@@ -76,22 +93,6 @@ class _ShareChatState extends State<ShareChat> {
     });
     if (!GetPlatform.isWeb) {
       ShelfStatic.start();
-    }
-    if (widget.needCreateChatServer) {
-      children.add(messageItem(
-        MessageTextInfo(
-          content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
-              '跟具所访问设备自身的ip判断应该打开哪个，若不清楚，可都尝试一下',
-        ),
-        false,
-      ));
-      List<String> addreses = await PlatformUtil.localAddress();
-      for (String address in addreses) {
-        children.add(messageItem(
-          MessageTextInfo(content: 'http://$address:7000'),
-          false,
-        ));
-      }
     }
     setState(() {});
   }
@@ -194,7 +195,7 @@ class _ShareChatState extends State<ShareChat> {
                               }
                               String address = '';
                               String url = filePath.replaceAll(
-                                '/storage/emulated/0',
+                                '/storage/emulated/0/',
                                 '',
                               );
                               print(url);
@@ -216,6 +217,8 @@ class _ShareChatState extends State<ShareChat> {
                                 );
                               } else if (filePath.isImageFileName) {
                                 msgType = 'img';
+                              } else {
+                                msgType = 'other';
                               }
                               print('msgType $msgType');
                               // return;
@@ -223,10 +226,11 @@ class _ShareChatState extends State<ShareChat> {
                                 'url': url,
                                 'msgType': msgType,
                                 'thumbnailUrl': thumbnailFile?.path?.replaceAll(
-                                  '/storage/emulated/0',
+                                  '/storage/emulated/0/',
                                   '',
                                 ),
                                 'address': await PlatformUtil.localAddress(),
+                                'title': p.basename(filePath),
                               });
                               socket.send(info.toString());
                               children.add(messageItem(info, true));
