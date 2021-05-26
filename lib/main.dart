@@ -1,5 +1,3 @@
-// import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +7,8 @@ import 'package:global_repository/global_repository.dart';
 import 'app/routes/app_pages.dart';
 import 'pages/navigator_page.dart';
 import 'themes/theme.dart';
+
+import 'utils/document/document.dart';
 
 void main() {
   // startProxy();
@@ -21,18 +21,30 @@ void main() {
       systemNavigationBarDividerColor: Colors.transparent,
     ),
   );
+  if (GetPlatform.isAndroid) {
+    RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
+  }
+  if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
+    RuntimeEnvir.initEnvirForDesktop();
+  }
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    String initRoute = SpeedPages.INITIAL;
+    if (GetPlatform.isWeb) {
+      Uri uri = Uri.parse(url);
+      initRoute =
+          '/chat?needCreateChatServer=false&chatServerAddress=http://${uri.host}:${uri.port}/chat';
+    }
     return OrientationBuilder(
       builder: (_, Orientation orientation) {
         return GetMaterialApp(
           locale: const Locale('en', 'US'),
           title: '速享',
-          initialRoute: SpeedPages.INITIAL,
+          initialRoute: initRoute,
           getPages: SpeedPages.routes,
           defaultTransition: Transition.fade,
           debugShowCheckedModeBanner: false,
