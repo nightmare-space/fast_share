@@ -28,7 +28,9 @@ dependencies:
   better_player: ^0.0.68
   video_compress: ^2.1.0
   archive: ^3.1.2
-  
+  path: ^1.8.0
+  dio: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
