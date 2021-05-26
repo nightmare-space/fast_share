@@ -8,14 +8,16 @@ class MessageInfoFactory {
         return MessageImgInfo.fromJson(json);
         break;
       case 'video':
-        print('video video');
         return MessageVideoInfo.fromJson(json);
         break;
       case 'text':
         return MessageTextInfo.fromJson(json);
         break;
+      case 'tip':
+        return MessageTipInfo.fromJson(json);
+        break;
       default:
-        return MessageBaseInfo.fromJson(json);
+        return MessageOtherInfo.fromJson(json);
     }
   }
 }
