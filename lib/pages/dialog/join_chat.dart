@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/pages/share_chat.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 
@@ -55,10 +56,14 @@ class _JoinChatState extends State<JoinChat> {
                   child: TextButton(
                     onPressed: () {
                       Get.back();
-                      Get.to(ShareChat(
-                        needCreateChatServer: false,
-                        chatServerAddress: controller.text + '/chat',
-                      ));
+                      Get.toNamed(
+                        Routes.chat +
+                            '?needCreateChatServer=false&chatServerAddress=${controller.text + '/chat'}',
+                      );
+                      // Get.to(ShareChat(
+                      //   needCreateChatServer: false,
+                      //   chatServerAddress: controller.text + '/chat',
+                      // ));
                     },
                     child: Text(
                       '加入',
