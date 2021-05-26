@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +30,29 @@ void main() {
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
+  }
+  unpack();
+}
+
+Future<void> unpack() async {
+  ByteData byteData = await rootBundle.load('assets/web.zip');
+
+  final Uint8List list = byteData.buffer.asUint8List();
+  // Decode the Zip file
+  final archive = ZipDecoder().decodeBytes(list);
+
+  // Extract the contents of the Zip archive to disk.
+  for (final file in archive) {
+    final filename = file.name;
+    if (file.isFile) {
+      final data = file.content as List<int>;
+      File wfile = File(RuntimeEnvir.filesPath + '/' + filename);
+      await wfile.create(recursive: true);
+      await wfile.writeAsBytes(data);
+    } else {
+      await Directory(RuntimeEnvir.filesPath + '/' + filename)
+          .create(recursive: true);
+    }
   }
 }
 
