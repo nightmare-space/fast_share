@@ -10,8 +10,9 @@ void createChatServer() {
   if (GetPlatform.isDesktop) {
     home = '/Users/' + Platform.environment['USER'];
   } else {
-    home = '/sdcard/';
+    home = RuntimeEnvir.filesPath;
   }
+  //http://172.24.73.128:8001/speed_share/build/web/#/chat?needCreateChatServer=false&chatServerAddress=http://172.24.73.128:7000/chat
   runApp(
     GetServerApp(
       port: 7000,
@@ -43,14 +44,22 @@ class SocketPage extends GetView {
           }
         });
         socket.onMessage((data) {
-          Log.e(data);
-          if (json.decode(data)['type'] == 'getHistory') {
-            Log.e('获取历史消息');
-            msgs.forEach((element) {
-              socket.send(element);
-            });
+          if (data.toString().isEmpty) {
+            // 很诡异，chrome的ws连接过来，会一直发空字符串
             return;
           }
+          try {
+            if (json.decode(data)['type'] == 'getHistory') {
+              Log.e('获取历史消息');
+              msgs.forEach((element) {
+                socket.send(element);
+              });
+              return;
+            }
+          } catch (e) {
+            Log.e('e -> $e');
+          }
+
           print('data: $data');
           msgs.add(data);
           socket.broadcast(data);
