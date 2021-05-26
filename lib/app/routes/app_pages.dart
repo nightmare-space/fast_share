@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/main.dart';
 import 'package:speed_share/pages/share_chat.dart';
 
@@ -15,7 +16,14 @@ class SpeedPages {
     ),
     GetPage(
       name: Routes.chat,
-      page: () => ShareChat(),
+      page: () {
+        Log.w(Get.parameters);
+        return ShareChat(
+          needCreateChatServer:
+              Get.parameters['needCreateChatServer'] == 'true',
+          chatServerAddress: Get.parameters['chatServerAddress'],
+        );
+      },
     ),
   ];
 }
