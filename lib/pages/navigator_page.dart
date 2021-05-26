@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 
 import 'dialog/select_chat_server.dart';

@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,9 +11,7 @@ import 'package:speed_share/config/candy_colors.dart';
 import 'package:speed_share/utils/process_server.dart';
 import 'package:speed_share/utils/server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
-import 'package:speed_share/utils/socket_util.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:speed_share/main.dart';
 
 import 'setting_page.dart';
 
