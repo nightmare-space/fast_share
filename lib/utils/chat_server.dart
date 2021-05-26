@@ -15,6 +15,7 @@ void createChatServer() {
   //http://172.24.73.128:8001/speed_share/build/web/#/chat?needCreateChatServer=false&chatServerAddress=http://172.24.73.128:7000/chat
   runApp(
     GetServerApp(
+      useLog: false,
       port: 7000,
       home: FolderWidget(home),
       getPages: [
@@ -51,9 +52,16 @@ class SocketPage extends GetView {
           try {
             if (json.decode(data)['type'] == 'getHistory') {
               Log.e('获取历史消息');
+              if (msgs.isEmpty) {
+                return;
+              }
               msgs.forEach((element) {
                 socket.send(element);
               });
+              socket.send(json.encode({
+                'msgType': 'tip',
+                'content': '以上是历史消息',
+              }));
               return;
             }
           } catch (e) {
