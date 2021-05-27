@@ -8,17 +8,19 @@ import '../video_preview.dart';
 import 'other_item.dart';
 import 'video_item.dart';
 
-Widget messageItem(MessageBaseInfo info, bool sendByUser) {
+Widget messageItem(MessageBaseInfo info, bool sendByUser, String roomUrl) {
   Widget child;
   if (info is MessageImgInfo) {
     child = ImageItem(
       info: info,
       sendByUser: sendByUser,
+      roomUrl: roomUrl,
     );
   } else if (info is MessageVideoInfo) {
     child = VideoItem(
       info: info,
       sendByUser: sendByUser,
+      roomUrl: roomUrl,
     );
   } else if (info is MessageTextInfo) {
     child = TextMessageItem(
@@ -29,10 +31,11 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser) {
     return Center(
       child: Text(info.content),
     );
-  } else if (info is MessageOtherInfo) {
+  } else if (info is MessageFileInfo) {
     child = OtherItem(
       info: info,
       sendByUser: sendByUser,
+      roomUrl: roomUrl,
     );
   }
   child ?? Text('不支持的消息类型');
