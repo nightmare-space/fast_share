@@ -27,11 +27,11 @@ void main() {
   );
   if (GetPlatform.isAndroid) {
     RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
+  unpack();
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
   }
-  unpack();
 }
 
 Future<void> unpack() async {

@@ -17,7 +17,6 @@ class SpeedPages {
     GetPage(
       name: Routes.chat,
       page: () {
-        Log.w(Get.parameters);
         return ShareChat(
           needCreateChatServer:
               Get.parameters['needCreateChatServer'] == 'true',
