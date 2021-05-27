@@ -58,7 +58,7 @@ class _JoinChatState extends State<JoinChat> {
                       Get.back();
                       Get.toNamed(
                         Routes.chat +
-                            '?needCreateChatServer=false&chatServerAddress=${controller.text + '/chat'}',
+                            '?needCreateChatServer=false&chatServerAddress=${controller.text}',
                       );
                       // Get.to(ShareChat(
                       //   needCreateChatServer: false,
