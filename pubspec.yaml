@@ -22,7 +22,8 @@ dependencies:
   permission_handler: ^8.0.0+1
   file_picker: ^3.0.1
   file_manager:
-    path: ../file_manager
+    git: https://github.com/nightmare-space/file_manager
+  url_launcher: ^6.0.4
   flick_video_player: ^0.3.1
   video_viewer: ^1.2.2
   better_player: ^0.0.68
