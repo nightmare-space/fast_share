@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
     if (GetPlatform.isWeb) {
       Uri uri = Uri.parse(url);
       initRoute =
-          '/chat?needCreateChatServer=false&chatServerAddress=http://${uri.host}:${uri.port}/chat';
+          '/chat?needCreateChatServer=false&chatServerAddress=http://${uri.host}:${uri.port}';
     }
     return OrientationBuilder(
       builder: (_, Orientation orientation) {
