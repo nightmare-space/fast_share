@@ -118,6 +118,9 @@ class _ShareChatState extends State<ShareChat> {
                               ),
                               onSubmitted: (_) {
                                 sendTextMsg();
+                                Future.delayed(Duration(milliseconds: 100), () {
+                                  focusNode.requestFocus();
+                                });
                               },
                             ),
                           ),
@@ -303,8 +306,5 @@ class _ShareChatState extends State<ShareChat> {
     setState(() {});
     controller.clear();
     scroll();
-    Future.delayed(Duration(milliseconds: 100), () {
-      focusNode.requestFocus();
-    });
   }
 }
