@@ -48,7 +48,6 @@ class TextMessageItem extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () async {
-                String data;
                 showToast('内容已复制');
                 await Clipboard.setData(ClipboardData(
                   text: data,
