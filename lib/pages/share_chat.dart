@@ -181,6 +181,10 @@ class _ShareChatState extends State<ShareChat> {
     }
     print('msgType $msgType');
     int size = await File(filePath).length();
+    // TODO
+    // 如果创建房间的人需要发文件
+    // 自身可能有多个ip，
+    // 其他的设备也可能通过各个ip连接进来的
     dynamic info = MessageInfoFactory.fromJson({
       'filePath': path,
       'msgType': msgType,
@@ -197,7 +201,7 @@ class _ShareChatState extends State<ShareChat> {
     children.add(messageItem(
       info,
       true,
-      chatRoomUrl,
+      'http://127.0.0.1:7000',
     ));
     scroll();
     setState(() {});
@@ -234,6 +238,7 @@ class _ShareChatState extends State<ShareChat> {
         ));
       }
     }
+    Log.e('chat open');
     socket.onOpen(() {
       Log.d('chat连接成功');
       isConnect = true;
@@ -252,7 +257,6 @@ class _ShareChatState extends State<ShareChat> {
         return;
       }
       MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
-      print(messageInfo.runtimeType);
       children.add(messageItem(
         messageInfo,
         false,
