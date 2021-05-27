@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/pages/model/message_img_info.dart';
+import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/themes/theme.dart';
 
 class ImageItem extends StatefulWidget {
   final MessageImgInfo info;
   final bool sendByUser;
+  final String roomUrl;
 
-  const ImageItem({Key key, this.info, this.sendByUser}) : super(key: key);
+  const ImageItem({
+    Key key,
+    this.info,
+    this.sendByUser,
+    this.roomUrl,
+  }) : super(key: key);
   @override
   _ImageItemState createState() => _ImageItemState();
 }
@@ -17,6 +23,7 @@ class ImageItem extends StatefulWidget {
 class _ImageItemState extends State<ImageItem> {
   MessageImgInfo info;
 
+  UniqueKey key = UniqueKey();
   @override
   void initState() {
     super.initState();
@@ -25,8 +32,8 @@ class _ImageItemState extends State<ImageItem> {
 
   @override
   Widget build(BuildContext context) {
-    UniqueKey key = UniqueKey();
-    String url = 'http://${info.address[2]}:8002/${info.url}';
+    String url =
+        widget.roomUrl.replaceAll('7000', '8002') + '/' + widget.info.filePath;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -51,7 +58,7 @@ class _ImageItemState extends State<ImageItem> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            NiNavigator.of(Get.context).pushVoid(
+                            Get.to(
                               Material(
                                 child: Hero(
                                   tag: key,

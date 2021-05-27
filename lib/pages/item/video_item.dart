@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/pages/model/message_img_info.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/video_preview.dart';
 import 'package:speed_share/themes/theme.dart';
@@ -10,8 +9,10 @@ import 'package:speed_share/themes/theme.dart';
 class VideoItem extends StatefulWidget {
   final MessageVideoInfo info;
   final bool sendByUser;
+  final String roomUrl;
 
-  const VideoItem({Key key, this.info, this.sendByUser}) : super(key: key);
+  const VideoItem({Key key, this.info, this.sendByUser, this.roomUrl})
+      : super(key: key);
   @override
   _VideoItemState createState() => _VideoItemState();
 }
@@ -27,8 +28,11 @@ class _VideoItemState extends State<VideoItem> {
 
   @override
   Widget build(BuildContext context) {
-    String url = 'http://${info.address[2]}:8002/${info.url}';
-    String thumbnailUrl = 'http://${info.address[2]}:8002/${info.thumbnailUrl}';
+    String url =
+        widget.roomUrl.replaceAll('7000', '8002') + '/' + widget.info.filePath;
+    String thumbnailUrl = widget.roomUrl.replaceAll('7000', '8002') +
+        '/' +
+        widget.info.thumbnailPath;
     UniqueKey key = UniqueKey();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,

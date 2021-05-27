@@ -1,27 +1,30 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/pages/model/message_img_info.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:path/path.dart';
 
 class OtherItem extends StatefulWidget {
-  final MessageOtherInfo info;
+  final MessageFileInfo info;
   final bool sendByUser;
+  final String roomUrl;
 
-  const OtherItem({Key key, this.info, this.sendByUser}) : super(key: key);
+  const OtherItem({
+    Key key,
+    this.info,
+    this.sendByUser,
+    this.roomUrl,
+  }) : super(key: key);
   @override
   _OtherItemState createState() => _OtherItemState();
 }
 
 class _OtherItemState extends State<OtherItem> {
-  MessageOtherInfo info;
+  MessageFileInfo info;
 
   final Dio dio = Dio();
-
+  int count = 0;
   double fileDownratio = 0.0;
   Future<void> downloadFile(String urlPath) async {
     print(urlPath);
@@ -37,6 +40,7 @@ class _OtherItemState extends State<OtherItem> {
       urlPath,
       savePath,
       onReceiveProgress: (count, total) {
+        this.count = count;
         final double process = count / total;
         Log.e(process);
         fileDownratio = process;
@@ -53,7 +57,8 @@ class _OtherItemState extends State<OtherItem> {
 
   @override
   Widget build(BuildContext context) {
-    String url = 'http://${info.address[2]}:8002/${info.url}';
+    String url =
+        widget.roomUrl.replaceAll('7000', '8002') + widget.info.filePath;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -70,20 +75,38 @@ class _OtherItemState extends State<OtherItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.info.title),
+                Text(widget.info.fileName),
+                SizedBox(
+                  height: 4,
+                ),
                 SizedBox(
                   height: 4,
                 ),
                 if (!widget.sendByUser)
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-                    child: LinearProgressIndicator(
-                      backgroundColor: Colors.black12,
-                      valueColor: AlwaysStoppedAnimation(
-                        fileDownratio == 1.0 ? Colors.green : Colors.red,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(25.0)),
+                        child: LinearProgressIndicator(
+                          backgroundColor: Colors.black12,
+                          valueColor: AlwaysStoppedAnimation(
+                            fileDownratio == 1.0 ? Colors.green : Colors.red,
+                          ),
+                          value: fileDownratio,
+                        ),
                       ),
-                      value: fileDownratio,
-                    ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        '${FileSizeUtils.getFileSize(count)}/${widget.info.fileSize}',
+                        style: TextStyle(
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
                   ),
               ],
             ),
