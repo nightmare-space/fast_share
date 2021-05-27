@@ -5,7 +5,6 @@ import 'package:file_manager/file_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/pages/model/message_info_factory.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
@@ -13,6 +12,7 @@ import 'package:video_compress/video_compress.dart';
 
 import 'item/message_item_factory.dart';
 import 'model/model.dart';
+import 'model/model_factory.dart';
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
@@ -35,83 +35,11 @@ class _ShareChatState extends State<ShareChat> {
   List<Widget> children = [];
   ScrollController scrollController = ScrollController();
   bool isConnect = false;
+  String chatRoomUrl = '';
   @override
   void initState() {
     super.initState();
-    Log.e(Get.parameters);
     initChat();
-  }
-
-  Future<void> initChat() async {
-    String url;
-    if (widget.needCreateChatServer) {
-      await createChatServer();
-      url = 'http://127.0.0.1:7000/chat';
-    } else {
-      url = widget.chatServerAddress;
-    }
-    socket = GetSocket(url);
-
-    if (widget.needCreateChatServer) {
-      children.add(messageItem(
-        MessageTextInfo(
-          content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
-              '跟具所访问设备自身的ip判断应该打开哪个，若不清楚，可都尝试一下',
-        ),
-        false,
-      ));
-      List<String> addreses = await PlatformUtil.localAddress();
-      for (String address in addreses) {
-        children.add(messageItem(
-          MessageTextInfo(content: 'http://$address:7000'),
-          false,
-        ));
-      }
-    }
-    socket.onOpen(() {
-      Log.d('chat连接成功');
-      isConnect = true;
-      getHistoryMsg();
-    });
-    await socket.connect();
-    socket.onMessage((message) {
-      print('服务端的消息 - $message');
-      if (message == '') {
-        return;
-      }
-      Map<String, dynamic> map;
-      try {
-        map = jsonDecode(message);
-      } catch (e) {
-        return;
-      }
-      MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
-      print(messageInfo.runtimeType);
-      children.add(messageItem(messageInfo, false));
-      scroll();
-      setState(() {});
-    });
-    if (!GetPlatform.isWeb) {
-      ShelfStatic.start();
-    }
-    setState(() {});
-  }
-
-  void getHistoryMsg() {
-    socket.send(jsonEncode({
-      'type': "getHistory",
-    }));
-  }
-
-  Future<void> scroll() async {
-    await Future.delayed(Duration(milliseconds: 100));
-    if (mounted) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 100),
-        curve: Curves.ease,
-      );
-    }
   }
 
   @override
@@ -119,24 +47,10 @@ class _ShareChatState extends State<ShareChat> {
     if (isConnect) {
       socket.close();
     }
+    focusNode.dispose();
     controller.dispose();
     scrollController.dispose();
     super.dispose();
-  }
-
-  void sendTextMsg() {
-    MessageTextInfo info = MessageTextInfo(
-      content: controller.text,
-      msgType: 'text',
-    );
-    socket.send(info.toString());
-    children.add(messageItem(info, true));
-    setState(() {});
-    controller.clear();
-    scroll();
-    Future.delayed(Duration(milliseconds: 100), () {
-      focusNode.requestFocus();
-    });
   }
 
   @override
@@ -185,57 +99,9 @@ class _ShareChatState extends State<ShareChat> {
                               color: accentColor,
                             ),
                             onPressed: () async {
-                              String filePath = await FileManager.chooseFile(
-                                context: context,
-                                pickPath: '/storage/emulated/0',
-                              );
-                              print(filePath);
-                              if (filePath == null) {
-                                return;
+                              if (GetPlatform.isAndroid) {
+                                sendForAndroid();
                               }
-                              String address = '';
-                              String url = filePath.replaceAll(
-                                '/storage/emulated/0/',
-                                '',
-                              );
-                              print(url);
-                              // String localUrl = filePath.replaceAll(
-                              //   '/storage/emulated/0',
-                              //   'http://127.0.0.1:8002/',
-                              // );
-
-                              File thumbnailFile;
-                              String msgType = '';
-                              if (filePath.isVideoFileName ||
-                                  filePath.endsWith('.mkv')) {
-                                msgType = 'video';
-                                thumbnailFile =
-                                    await VideoCompress.getFileThumbnail(
-                                  filePath,
-                                  quality: 50,
-                                  position: -1,
-                                );
-                              } else if (filePath.isImageFileName) {
-                                msgType = 'img';
-                              } else {
-                                msgType = 'other';
-                              }
-                              print('msgType $msgType');
-                              // return;
-                              dynamic info = MessageInfoFactory.fromJson({
-                                'url': url,
-                                'msgType': msgType,
-                                'thumbnailUrl': thumbnailFile?.path?.replaceAll(
-                                  '/storage/emulated/0/',
-                                  '',
-                                ),
-                                'address': await PlatformUtil.localAddress(),
-                                'title': p.basename(filePath),
-                              });
-                              socket.send(info.toString());
-                              children.add(messageItem(info, true));
-                              scroll();
-                              setState(() {});
                             },
                           ),
                         ),
@@ -283,5 +149,158 @@ class _ShareChatState extends State<ShareChat> {
         ),
       ),
     );
+  }
+
+  Future<void> sendForAndroid() async {
+    String filePath = await FileManager.chooseFile(
+      context: context,
+      pickPath: '/storage/emulated/0',
+    );
+    print(filePath);
+    if (filePath == null) {
+      return;
+    }
+    String path = filePath.replaceAll(
+      '/storage/emulated/0/',
+      '',
+    );
+    print(path);
+    File thumbnailFile;
+    String msgType = '';
+    if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
+      msgType = 'video';
+      thumbnailFile = await VideoCompress.getFileThumbnail(
+        filePath,
+        quality: 50,
+        position: -1,
+      );
+    } else if (filePath.isImageFileName) {
+      msgType = 'img';
+    } else {
+      msgType = 'other';
+    }
+    print('msgType $msgType');
+    int size = await File(filePath).length();
+    dynamic info = MessageInfoFactory.fromJson({
+      'filePath': path,
+      'msgType': msgType,
+      'thumbnailPath': thumbnailFile?.path?.replaceAll(
+        '/storage/emulated/0/',
+        '',
+      ),
+      'fileName': p.basename(filePath),
+      'fileSize': FileSizeUtils.getFileSize(size),
+    });
+    // 发送消息
+    socket.send(info.toString());
+    // 将消息添加到本地列表
+    children.add(messageItem(
+      info,
+      true,
+      chatRoomUrl,
+    ));
+    scroll();
+    setState(() {});
+  }
+
+  Future<void> initChat() async {
+    if (widget.needCreateChatServer) {
+      createChatServer();
+      chatRoomUrl = 'http://127.0.0.1:7000';
+    } else {
+      chatRoomUrl = widget.chatServerAddress;
+    }
+    Log.w(chatRoomUrl);
+    socket = GetSocket(chatRoomUrl + '/chat');
+
+    if (widget.needCreateChatServer) {
+      children.add(messageItem(
+        MessageTextInfo(
+          content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
+              '只有同局域网下的设备能打开喔~',
+        ),
+        false,
+        chatRoomUrl,
+      ));
+      List<String> addreses = await PlatformUtil.localAddress();
+      for (String address in addreses) {
+        if (address.startsWith('10')) {
+          continue;
+        }
+        children.add(messageItem(
+          MessageTextInfo(content: 'http://$address:7000'),
+          false,
+          chatRoomUrl,
+        ));
+      }
+    }
+    socket.onOpen(() {
+      Log.d('chat连接成功');
+      isConnect = true;
+      getHistoryMsg();
+    });
+    await socket.connect();
+    socket.onMessage((message) {
+      print('服务端的消息 - $message');
+      if (message == '') {
+        return;
+      }
+      Map<String, dynamic> map;
+      try {
+        map = jsonDecode(message);
+      } catch (e) {
+        return;
+      }
+      MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
+      print(messageInfo.runtimeType);
+      children.add(messageItem(
+        messageInfo,
+        false,
+        chatRoomUrl,
+      ));
+      scroll();
+      setState(() {});
+    });
+    if (!GetPlatform.isWeb) {
+      ShelfStatic.start();
+    }
+    setState(() {});
+  }
+
+  void getHistoryMsg() {
+    socket.send(jsonEncode({
+      'type': "getHistory",
+    }));
+  }
+
+  Future<void> scroll() async {
+    // 让listview滚动
+    await Future.delayed(Duration(milliseconds: 100));
+    if (mounted) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void sendTextMsg() {
+    MessageTextInfo info = MessageTextInfo(
+      content: controller.text,
+      msgType: 'text',
+    );
+    socket.send(info.toString());
+    children.add(messageItem(
+      info,
+      true,
+      chatRoomUrl,
+    ));
+    setState(() {});
+    controller.clear();
+    scroll();
+    Future.delayed(Duration(milliseconds: 100), () {
+      focusNode.requestFocus();
+    });
   }
 }
