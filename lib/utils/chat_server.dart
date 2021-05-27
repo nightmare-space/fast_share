@@ -8,14 +8,13 @@ void createChatServer() {
   Log.d('chat server starting...');
   String home = '';
   if (GetPlatform.isDesktop) {
-    home = '/Users/' + Platform.environment['USER'];
+    home = RuntimeEnvir.filesPath;
   } else {
     home = RuntimeEnvir.filesPath;
   }
-  //http://172.24.73.128:8001/speed_share/build/web/#/chat?needCreateChatServer=false&chatServerAddress=http://172.24.73.128:7000/chat
   runApp(
     GetServerApp(
-      useLog: false,
+      useLog: true,
       port: 7000,
       home: FolderWidget(home),
       getPages: [
