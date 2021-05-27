@@ -29,7 +29,13 @@ Widget messageItem(MessageBaseInfo info, bool sendByUser, String roomUrl) {
     );
   } else if (info is MessageTipInfo) {
     return Center(
-      child: Text(info.content),
+      child: Text(
+        info.content,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+      ),
     );
   } else if (info is MessageFileInfo) {
     child = OtherItem(

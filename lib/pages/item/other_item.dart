@@ -4,6 +4,8 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:path/path.dart';
+import 'package:get/get.dart' hide Response;
+import 'package:url_launcher/url_launcher.dart';
 
 class OtherItem extends StatefulWidget {
   final MessageFileInfo info;
@@ -58,7 +60,7 @@ class _OtherItemState extends State<OtherItem> {
   @override
   Widget build(BuildContext context) {
     String url =
-        widget.roomUrl.replaceAll('7000', '8002') + widget.info.filePath;
+        widget.roomUrl.replaceAll('7000', '8002') + '/' + widget.info.filePath;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -76,23 +78,22 @@ class _OtherItemState extends State<OtherItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(widget.info.fileName),
-                SizedBox(
-                  height: 4,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                if (!widget.sendByUser)
+                if (!widget.sendByUser && count != 0)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      SizedBox(
+                        height: 8,
+                      ),
                       ClipRRect(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(25.0)),
                         child: LinearProgressIndicator(
                           backgroundColor: Colors.black12,
                           valueColor: AlwaysStoppedAnimation(
-                            fileDownratio == 1.0 ? Colors.green : Colors.red,
+                            fileDownratio == 1.0
+                                ? Colors.lightGreen
+                                : Colors.red,
                           ),
                           value: fileDownratio,
                         ),
@@ -119,6 +120,12 @@ class _OtherItemState extends State<OtherItem> {
               children: [
                 InkWell(
                   onTap: () async {
+                    if (GetPlatform.isWeb) {
+                      await canLaunch(url)
+                          ? await launch(url)
+                          : throw 'Could not launch $url';
+                      return;
+                    }
                     print(url);
                     downloadFile(url);
                   },
