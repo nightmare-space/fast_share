@@ -10,7 +10,7 @@ import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:video_compress/video_compress.dart';
 
-import 'item/message_item_factory.dart';
+import 'item/message_item.dart';
 import 'model/model.dart';
 import 'model/model_factory.dart';
 
@@ -188,6 +188,11 @@ class _ShareChatState extends State<ShareChat> {
     // 如果创建房间的人需要发文件
     // 自身可能有多个ip，
     // 其他的设备也可能通过各个ip连接进来的
+    String fileUrl = chatRoomUrl;
+    if (widget.needCreateChatServer) {
+      // 这个情况说明，当打开这个页面的时候，创建这个窗口的设备
+      fileUrl = 'http://' + (await PlatformUtil.localAddress())[0] + ':8002';
+    }
     dynamic info = MessageInfoFactory.fromJson({
       'filePath': path,
       'msgType': msgType,
@@ -197,14 +202,16 @@ class _ShareChatState extends State<ShareChat> {
       ),
       'fileName': p.basename(filePath),
       'fileSize': FileSizeUtils.getFileSize(size),
+      'url': fileUrl,
     });
+    Log.w(await PlatformUtil.localAddress());
+    Log.e(info);
     // 发送消息
     socket.send(info.toString());
     // 将消息添加到本地列表
     children.add(messageItem(
       info,
       true,
-      'http://127.0.0.1:7000',
     ));
     scroll();
     setState(() {});
@@ -220,6 +227,25 @@ class _ShareChatState extends State<ShareChat> {
     Log.w(chatRoomUrl);
     socket = GetSocket(chatRoomUrl + '/chat');
 
+    Log.e('chat open');
+    socket.onOpen(() {
+      Log.d('chat连接成功');
+      isConnect = true;
+      getHistoryMsg();
+    });
+    try {
+      await socket.connect();
+      await Future.delayed(Duration.zero);
+    } catch (e) {
+      isConnect = false;
+    }
+    if (!isConnect) {
+      children.add(messageItem(
+        MessageTextInfo(content: '加入失败!'),
+        false,
+      ));
+      return;
+    }
     if (widget.needCreateChatServer) {
       children.add(messageItem(
         MessageTextInfo(
@@ -227,7 +253,6 @@ class _ShareChatState extends State<ShareChat> {
               '只有同局域网下的设备能打开喔~',
         ),
         false,
-        chatRoomUrl,
       ));
       List<String> addreses = await PlatformUtil.localAddress();
       for (String address in addreses) {
@@ -237,20 +262,18 @@ class _ShareChatState extends State<ShareChat> {
         children.add(messageItem(
           MessageTextInfo(content: 'http://$address:7000'),
           false,
-          chatRoomUrl,
         ));
       }
+    } else {
+      children.add(messageItem(
+        MessageTextInfo(content: '已加入$chatRoomUrl'),
+        false,
+      ));
     }
-    Log.e('chat open');
-    socket.onOpen(() {
-      Log.d('chat连接成功');
-      isConnect = true;
-      getHistoryMsg();
-    });
-    await socket.connect();
     socket.onMessage((message) {
       print('服务端的消息 - $message');
       if (message == '') {
+        // 发来的空字符串就没必要解析了
         return;
       }
       Map<String, dynamic> map;
@@ -263,7 +286,6 @@ class _ShareChatState extends State<ShareChat> {
       children.add(messageItem(
         messageInfo,
         false,
-        chatRoomUrl,
       ));
       scroll();
       setState(() {});
@@ -301,7 +323,6 @@ class _ShareChatState extends State<ShareChat> {
     children.add(messageItem(
       info,
       true,
-      chatRoomUrl,
     ));
     setState(() {});
     controller.clear();

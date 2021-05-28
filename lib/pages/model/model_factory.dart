@@ -4,6 +4,7 @@ import 'message_text_info.dart';
 import 'message_tip_info.dart';
 
 class MessageInfoFactory {
+  /// 根据不同的json返回不同的对象
   static MessageBaseInfo fromJson(Map<String, dynamic> json) {
     String msgType = json['msgType'];
     switch (msgType) {
