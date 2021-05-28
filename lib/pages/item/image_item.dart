@@ -12,13 +12,11 @@ import 'package:url_launcher/url_launcher.dart';
 class ImageItem extends StatefulWidget {
   final MessageImgInfo info;
   final bool sendByUser;
-  final String roomUrl;
 
   const ImageItem({
     Key key,
     this.info,
     this.sendByUser,
-    this.roomUrl,
   }) : super(key: key);
   @override
   _ImageItemState createState() => _ImageItemState();
@@ -63,8 +61,12 @@ class _ImageItemState extends State<ImageItem> {
 
   @override
   Widget build(BuildContext context) {
-    String url =
-        widget.roomUrl.replaceAll('7000', '8002') + '/' + widget.info.filePath;
+    String url;
+    if (widget.sendByUser) {
+      url = 'http://127.0.0.1:8002/' + widget.info.filePath;
+    } else {
+      url = widget.info.url + '/' + widget.info.filePath;
+    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:

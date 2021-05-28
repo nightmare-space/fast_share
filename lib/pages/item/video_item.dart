@@ -30,6 +30,7 @@ class _VideoItemState extends State<VideoItem> {
   }
 
   final Dio dio = Dio();
+  CancelToken cancelToken = CancelToken();
   int count = 0;
   double fileDownratio = 0.0;
   Future<void> downloadFile(String urlPath) async {
@@ -45,6 +46,7 @@ class _VideoItemState extends State<VideoItem> {
     await dio.download(
       urlPath,
       savePath,
+      cancelToken: cancelToken,
       onReceiveProgress: (count, total) {
         this.count = count;
         final double process = count / total;
@@ -56,12 +58,25 @@ class _VideoItemState extends State<VideoItem> {
   }
 
   @override
+  void dispose() {
+    cancelToken.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String url =
-        widget.roomUrl.replaceAll('7000', '8002') + '/' + widget.info.filePath;
-    String thumbnailUrl = widget.roomUrl.replaceAll('7000', '8002') +
-        '/' +
-        widget.info.thumbnailPath;
+    String url;
+    if (widget.sendByUser) {
+      url = 'http://127.0.0.1:8002/' + widget.info.filePath;
+    } else {
+      url = widget.info.url + '/' + widget.info.filePath;
+    }
+    String thumbnailUrl;
+    if (widget.sendByUser) {
+      thumbnailUrl = 'http://127.0.0.1:8002/' + widget.info.thumbnailPath;
+    } else {
+      thumbnailUrl = widget.info.url + '/' + widget.info.thumbnailPath;
+    }
     UniqueKey key = UniqueKey();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -93,7 +108,17 @@ class _VideoItemState extends State<VideoItem> {
                   },
                   child: Hero(
                     tag: key,
-                    child: Image.network(thumbnailUrl),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.network(thumbnailUrl),
+                        Icon(
+                          Icons.play_circle,
+                          color: accentColor,
+                          size: 48,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 if (!widget.sendByUser && count != 0)

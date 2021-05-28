@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/themes/theme.dart';
@@ -24,31 +27,49 @@ class OtherItem extends StatefulWidget {
 
 class _OtherItemState extends State<OtherItem> {
   MessageFileInfo info;
-
   final Dio dio = Dio();
+  CancelToken cancelToken = CancelToken();
   int count = 0;
   double fileDownratio = 0.0;
+  // 网速
+  String speed = '0';
+  Timer timer;
   Future<void> downloadFile(String urlPath) async {
     print(urlPath);
     Response<String> response = await dio.head<String>(urlPath);
     final int fullByte = int.tryParse(
       response.headers.value('content-length'),
     ); //得到服务器文件返回的字节大小
-    // final String _human = getFileSize(_fullByte); //拿到可读的文件大小返回给用户
     print('fullByte -> $fullByte');
     final String savePath = RuntimeEnvir.filesPath + '/' + basename(urlPath);
     // print(savePath);
+    computeNetSpeed();
     await dio.download(
       urlPath,
       savePath,
+      cancelToken: cancelToken,
       onReceiveProgress: (count, total) {
         this.count = count;
         final double process = count / total;
-        Log.e(process);
+        // Log.e(process);
         fileDownratio = process;
         setState(() {});
       },
     );
+    timer?.cancel();
+  }
+
+  Future<void> computeNetSpeed() async {
+    int tmpCount = 0;
+    timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+      int diff = count - tmpCount;
+      tmpCount = count;
+      Log.e('diff -> $diff');
+      // 乘以2是因为半秒测的一次
+      speed = FileSizeUtils.getFileSize(diff * 2);
+      // *2 的原因是半秒测的一次
+      Log.e('网速 -> $speed');
+    });
   }
 
   @override
@@ -58,9 +79,20 @@ class _OtherItemState extends State<OtherItem> {
   }
 
   @override
+  void dispose() {
+    cancelToken.cancel();
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String url =
-        widget.roomUrl.replaceAll('7000', '8002') + '/' + widget.info.filePath;
+    String url;
+    if (widget.sendByUser) {
+      url = 'http://127.0.0.1:8002/' + widget.info.filePath;
+    } else {
+      url = widget.info.url + '/' + widget.info.filePath;
+    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -78,7 +110,7 @@ class _OtherItemState extends State<OtherItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(widget.info.fileName),
-                if (!widget.sendByUser && count != 0)
+                if (!widget.sendByUser)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -101,11 +133,42 @@ class _OtherItemState extends State<OtherItem> {
                       SizedBox(
                         height: 4,
                       ),
-                      Text(
-                        '${FileSizeUtils.getFileSize(count)}/${widget.info.fileSize}',
-                        style: TextStyle(
-                          color: Colors.black54,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '$speed/s',
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                child: Text(
+                                  '${FileSizeUtils.getFileSize(count)}',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '/',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              SizedBox(
+                                child: Text(
+                                  '${widget.info.fileSize}',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -134,6 +197,20 @@ class _OtherItemState extends State<OtherItem> {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.file_download,
+                      size: 18,
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    showToast('文件下载链接已复制');
+                    await Clipboard.setData(ClipboardData(text: url));
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.content_copy,
                       size: 18,
                     ),
                   ),
