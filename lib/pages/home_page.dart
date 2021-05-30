@@ -72,7 +72,12 @@ class _HomePageState extends State<HomePage> {
                 width: Dimens.gap_dp8,
               ),
               SizedBox(width: Dimens.gap_dp16),
-              Text(uri),
+              Text(
+                uri,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),
@@ -106,9 +111,14 @@ class _HomePageState extends State<HomePage> {
             ),
             Column(
               children: [
-                Text(
-                  '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
-                  style: Theme.of(context).textTheme.subtitle1,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          fontSize: 12,
+                        ),
+                  ),
                 ),
                 Builder(builder: (_) {
                   List<Widget> list = [];
@@ -148,14 +158,18 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: Text(
                               '8001端口可提供断点续传，可在线浏览视频，但访问(下载，在线视频)的文件越大，本机运行内存消耗越多。',
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ],
                       ),
                       Divider(
-                        color: Colors.grey,
+                        color: Colors.grey.shade400,
                         height: 12.0,
+                        indent: 12,
+                        endIndent: 12,
                       ),
                       Row(
                         children: [
@@ -170,7 +184,9 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: Text(
                               '8002端口对于视频的在线非常不友好，但大文件的下载内存正常',
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ],
