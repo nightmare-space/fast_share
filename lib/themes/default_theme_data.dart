@@ -220,7 +220,7 @@ class DefaultThemeData {
           vertical: 12,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           gapPadding: 0,
           borderSide: BorderSide(
             width: 0,
@@ -228,7 +228,7 @@ class DefaultThemeData {
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           gapPadding: 0,
           borderSide: BorderSide(
             width: 0,
