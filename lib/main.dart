@@ -27,7 +27,7 @@ void main() {
   );
   if (GetPlatform.isAndroid) {
     RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
-  unpack();
+    unpack();
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
@@ -62,9 +62,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     String initRoute = SpeedPages.INITIAL;
     if (GetPlatform.isWeb) {
-      Uri uri = Uri.parse(url);
-      initRoute =
-          '/chat?needCreateChatServer=false&chatServerAddress=http://${uri.host}:${uri.port}';
+      initRoute = '/chat';
     }
     return OrientationBuilder(
       builder: (_, Orientation orientation) {
