@@ -1,31 +1,33 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/model/model.dart';
+import 'package:speed_share/pages/video_preview.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:url_launcher/url_launcher.dart';
 
-class OtherItem extends StatefulWidget {
+class FileItem extends StatefulWidget {
   final MessageFileInfo info;
   final bool sendByUser;
   final String roomUrl;
 
-  const OtherItem({
+  const FileItem({
     Key key,
     this.info,
     this.sendByUser,
     this.roomUrl,
   }) : super(key: key);
   @override
-  _OtherItemState createState() => _OtherItemState();
+  _FileItemState createState() => _FileItemState();
 }
 
-class _OtherItemState extends State<OtherItem> {
+class _FileItemState extends State<FileItem> {
   MessageFileInfo info;
   final Dio dio = Dio();
   CancelToken cancelToken = CancelToken();
@@ -34,14 +36,14 @@ class _OtherItemState extends State<OtherItem> {
   // 网速
   String speed = '0';
   Timer timer;
-  Future<void> downloadFile(String urlPath) async {
+  Future<void> downloadFile(String urlPath, String savePath) async {
     print(urlPath);
     Response<String> response = await dio.head<String>(urlPath);
     final int fullByte = int.tryParse(
       response.headers.value('content-length'),
     ); //得到服务器文件返回的字节大小
     print('fullByte -> $fullByte');
-    final String savePath = RuntimeEnvir.filesPath + '/' + basename(urlPath);
+    savePath = savePath + '/' + basename(urlPath);
     // print(savePath);
     computeNetSpeed();
     await dio.download(
@@ -109,7 +111,7 @@ class _OtherItemState extends State<OtherItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.info.fileName),
+                buildPreviewWidget(),
                 if (!widget.sendByUser)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -189,8 +191,19 @@ class _OtherItemState extends State<OtherItem> {
                           : throw 'Could not launch $url';
                       return;
                     }
-                    print(url);
-                    downloadFile(url);
+                    if (GetPlatform.isDesktop) {
+                      const confirmButtonText = 'Choose';
+                      final directoryPath =
+                          await FileSelectorPlatform.instance.getDirectoryPath(
+                        confirmButtonText: confirmButtonText,
+                      );
+                      if (directoryPath == null) {
+                        return;
+                      }
+                      downloadFile(url, directoryPath);
+                    } else {
+                      downloadFile(url, RuntimeEnvir.filesPath);
+                    }
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
@@ -203,7 +216,7 @@ class _OtherItemState extends State<OtherItem> {
                 ),
                 InkWell(
                   onTap: () async {
-                    showToast('文件下载链接已复制');
+                    showToast('链接已复制');
                     await Clipboard.setData(ClipboardData(text: url));
                   },
                   borderRadius: BorderRadius.circular(12),
@@ -220,5 +233,82 @@ class _OtherItemState extends State<OtherItem> {
           ),
       ],
     );
+  }
+
+  UniqueKey key = UniqueKey();
+  Widget buildPreviewWidget() {
+    if (widget.info is MessageImgInfo) {
+      String url;
+      if (widget.sendByUser) {
+        url = 'http://127.0.0.1:8002/' + widget.info.filePath;
+      } else {
+        url = widget.info.url + '/' + widget.info.filePath;
+      }
+      return Hero(
+        tag: key,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              Get.to(
+                Material(
+                  child: Hero(
+                    tag: key,
+                    child: Image.network(url),
+                  ),
+                ),
+              );
+            },
+            child: Image.network(
+              url,
+              width: 200,
+            ),
+          ),
+        ),
+      );
+    } else if (widget.info is MessageVideoInfo) {
+      MessageVideoInfo info = widget.info;
+      String url;
+      if (widget.sendByUser) {
+        url = 'http://127.0.0.1:8002/' + info.filePath;
+      } else {
+        url = info.url + '/' + info.filePath;
+      }
+      String thumbnailUrl;
+      if (widget.sendByUser) {
+        thumbnailUrl = 'http://127.0.0.1:8002/' + info.thumbnailPath;
+      } else {
+        thumbnailUrl = info.url + '/' + info.thumbnailPath;
+      }
+      return InkWell(
+        onTap: () {
+          NiNavigator.of(Get.context).pushVoid(
+            Material(
+              child: Hero(
+                tag: key,
+                child: SamplePlayer(
+                  url: url,
+                ),
+              ),
+            ),
+          );
+        },
+        child: Hero(
+          tag: key,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.network(thumbnailUrl),
+              Icon(
+                Icons.play_circle,
+                color: accentColor,
+                size: 48,
+              )
+            ],
+          ),
+        ),
+      );
+    }
+    return Text(widget.info.fileName);
   }
 }
