@@ -10,6 +10,8 @@ class SelectChatServer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Material(
+        clipBehavior: Clip.hardEdge,
+        borderRadius: BorderRadius.circular(12),
         child: SizedBox(
           height: 96,
           width: 240,
