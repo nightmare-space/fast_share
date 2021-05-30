@@ -10,6 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  file_selector_platform_interface: ^2.0.0
+  file_selector_linux:
+    path: plugin/file_selector_linux
+  file_selector_macos:
+    path: plugin/file_selector_macos
+  file_selector_windows:
+    path: plugin/file_selector_windows
   get: ^4.1.4
   global_repository:
     git: https://github.com/nightmare-space/global_repository

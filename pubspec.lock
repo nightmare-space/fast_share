@@ -71,6 +71,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.0"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.1+1"
   crypto:
     dependency: transitive
     description:
@@ -126,7 +133,7 @@ packages:
       name: ffi
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   file:
     dependency: transitive
     description:
@@ -150,6 +157,34 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.2+2"
+  file_selector_linux:
+    dependency: "direct main"
+    description:
+      path: "plugin/file_selector_linux"
+      relative: true
+    source: path
+    version: "0.0.2"
+  file_selector_macos:
+    dependency: "direct main"
+    description:
+      path: "plugin/file_selector_macos"
+      relative: true
+    source: path
+    version: "0.0.4"
+  file_selector_platform_interface:
+    dependency: "direct main"
+    description:
+      name: file_selector_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.2"
+  file_selector_windows:
+    dependency: "direct main"
+    description:
+      path: "plugin/file_selector_windows"
+      relative: true
+    source: path
+    version: "0.0.2"
   flick_video_player:
     dependency: "direct main"
     description:
@@ -240,7 +275,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d291cab1ff2e6b9ac8597fb140fe5ef0b69ef149
+      resolved-ref: "14e5ed0f89738af0024a988ebdef49a6d8c65349"
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"
@@ -698,7 +733,7 @@ packages:
       name: win32
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.5"
+    version: "2.1.1"
   xdg_directories:
     dependency: transitive
     description:
@@ -714,5 +749,5 @@ packages:
     source: hosted
     version: "5.1.1"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
+  dart: ">=2.13.0 <3.0.0"
   flutter: ">=2.0.0"
