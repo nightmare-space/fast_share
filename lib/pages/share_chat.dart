@@ -189,10 +189,11 @@ class _ShareChatState extends State<ShareChat> {
     // 自身可能有多个ip，
     // 其他的设备也可能通过各个ip连接进来的
     String fileUrl = chatRoomUrl;
-    if (widget.needCreateChatServer) {
-      // 这个情况说明，当打开这个页面的时候，创建这个窗口的设备
-      fileUrl = 'http://' + (await PlatformUtil.localAddress())[0] + ':8002';
-    }
+    // if (!widget.needCreateChatServer) {
+    // 这个情况说明发送文件的设备，是加入的其他窗口
+    // 逻辑是对的，别改了
+    fileUrl = 'http://' + (await PlatformUtil.localAddress())[0] + ':8002';
+    // }
     dynamic info = MessageInfoFactory.fromJson({
       'filePath': path,
       'msgType': msgType,
@@ -239,12 +240,12 @@ class _ShareChatState extends State<ShareChat> {
     } catch (e) {
       isConnect = false;
     }
+    listenMessage();
     if (!isConnect) {
       children.add(messageItem(
         MessageTextInfo(content: '加入失败!'),
         false,
       ));
-      return;
     }
     if (widget.needCreateChatServer) {
       children.add(messageItem(
@@ -255,21 +256,34 @@ class _ShareChatState extends State<ShareChat> {
         false,
       ));
       List<String> addreses = await PlatformUtil.localAddress();
-      for (String address in addreses) {
-        if (address.startsWith('10')) {
-          continue;
-        }
+      if (addreses.isEmpty) {
         children.add(messageItem(
-          MessageTextInfo(content: 'http://$address:7000'),
+          MessageTextInfo(content: '未发现局域网IP'),
           false,
         ));
-      }
+      } else
+        for (String address in addreses) {
+          if (address.startsWith('10.')) {
+            continue;
+          }
+          children.add(messageItem(
+            MessageTextInfo(content: 'http://$address:7000'),
+            false,
+          ));
+        }
     } else {
       children.add(messageItem(
         MessageTextInfo(content: '已加入$chatRoomUrl'),
         false,
       ));
     }
+    if (!GetPlatform.isWeb) {
+      ShelfStatic.start();
+    }
+    setState(() {});
+  }
+
+  void listenMessage() {
     socket.onMessage((message) {
       print('服务端的消息 - $message');
       if (message == '') {
@@ -290,10 +304,6 @@ class _ShareChatState extends State<ShareChat> {
       scroll();
       setState(() {});
     });
-    if (!GetPlatform.isWeb) {
-      ShelfStatic.start();
-    }
-    setState(() {});
   }
 
   void getHistoryMsg() {
