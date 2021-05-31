@@ -123,10 +123,12 @@ class _HomePageState extends State<HomePage> {
                 Builder(builder: (_) {
                   List<Widget> list = [];
                   for (String address in addreses) {
-                    String uri = 'http://$address:8001';
-                    list.add(addressItem(uri));
-                    uri = 'http://$address:8002';
-                    list.add(addressItem(uri));
+                    if (address.startsWith('10.')) {
+                      // 10.开头的ip一般是移动数据获得的ip
+                      continue;
+                    }
+                    list.add(addressItem('http://$address:8001'));
+                    list.add(addressItem('http://$address:8002'));
                   }
                   return Column(
                     children: list,

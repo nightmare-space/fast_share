@@ -241,7 +241,7 @@ class _ShareChatState extends State<ShareChat> {
       isConnect = false;
     }
     listenMessage();
-    if (!isConnect) {
+    if (!isConnect && !GetPlatform.isWeb) {
       children.add(messageItem(
         MessageTextInfo(content: '加入失败!'),
         false,
