@@ -65,9 +65,16 @@ class _JoinChatState extends State<JoinChat> {
                         showToast('URL不能为空');
                         return;
                       }
+                      String url = controller.text;
+                      if (!url.startsWith('http://')) {
+                        url = 'http://' + url;
+                      }
+                      if (!url.endsWith(':7000')) {
+                        url = url + ':7000';
+                      }
                       Get.back();
                       Get.toNamed(
-                        '${Routes.chat}?needCreateChatServer=false&chatServerAddress=${controller.text}',
+                        '${Routes.chat}?needCreateChatServer=false&chatServerAddress=$url',
                       );
                       // Get.to(ShareChat(
                       //   needCreateChatServer: false,
