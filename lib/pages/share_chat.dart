@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_manager/file_manager.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,9 @@ class _ShareChatState extends State<ShareChat> {
                               if (GetPlatform.isAndroid) {
                                 sendForAndroid();
                               }
+                              if (GetPlatform.isDesktop) {
+                                sendForDesktop();
+                              }
                             },
                           ),
                         ),
@@ -152,6 +156,66 @@ class _ShareChatState extends State<ShareChat> {
         ),
       ),
     );
+  }
+
+  Future<void> sendForDesktop() async {
+    final typeGroup = XTypeGroup(
+      label: 'images',
+    );
+    final files = await FileSelectorPlatform.instance
+        .openFiles(acceptedTypeGroups: [typeGroup]);
+    final file = files[0];
+    final fileName = file.name;
+    final filePath = file.path;
+
+    File thumbnailFile;
+    String msgType = '';
+    if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
+      msgType = 'video';
+      thumbnailFile = await VideoCompress.getFileThumbnail(
+        filePath,
+        quality: 50,
+        position: -1,
+      );
+    } else if (filePath.isImageFileName) {
+      msgType = 'img';
+    } else {
+      msgType = 'other';
+    }
+    print('msgType $msgType');
+    int size = await File(filePath).length();
+    // TODO
+    // 如果创建房间的人需要发文件
+    // 自身可能有多个ip，
+    // 其他的设备也可能通过各个ip连接进来的
+    String fileUrl = chatRoomUrl;
+    // if (!widget.needCreateChatServer) {
+    // 这个情况说明发送文件的设备，是加入的其他窗口
+    // 逻辑是对的，别改了
+    fileUrl = 'http://' + (await PlatformUtil.localAddress())[0] + ':8002';
+    // }
+    dynamic info = MessageInfoFactory.fromJson({
+      'filePath': filePath,
+      'msgType': msgType,
+      'thumbnailPath': thumbnailFile?.path?.replaceAll(
+        '/storage/emulated/0/',
+        '',
+      ),
+      'fileName': p.basename(filePath),
+      'fileSize': FileSizeUtils.getFileSize(size),
+      'url': fileUrl,
+    });
+    Log.w(await PlatformUtil.localAddress());
+    Log.e(info);
+    // 发送消息
+    socket.send(info.toString());
+    // 将消息添加到本地列表
+    children.add(messageItem(
+      info,
+      true,
+    ));
+    scroll();
+    setState(() {});
   }
 
   Future<void> sendForAndroid() async {
