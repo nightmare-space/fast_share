@@ -14,7 +14,7 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.7.0"
+    version: "2.6.1"
   auth_header:
     dependency: transitive
     description:
@@ -334,7 +334,7 @@ packages:
       name: meta
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.4.0"
+    version: "1.3.0"
   mime:
     dependency: transitive
     description:
@@ -579,7 +579,7 @@ packages:
       name: test_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.0"
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:
