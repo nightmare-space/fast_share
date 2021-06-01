@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Linux",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "linux"
+        },
+        {
             "name": "Chrome",
             "request": "launch",
             "type": "dart",
