@@ -31,7 +31,7 @@ void main() {
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
   }
-  if (!GetPlatform.isWeb) {
+  if (!GetPlatform.isWeb && kReleaseMode) {
     unpack();
   }
 }

@@ -45,6 +45,9 @@ class _JoinChatState extends State<JoinChat> {
                 ),
                 TextField(
                   controller: controller,
+                  onSubmitted: (_) {
+                    joinChat();
+                  },
                   decoration: InputDecoration(
                     fillColor: Color(0xfff0f0f0),
                     helperText: '这个地址在创建窗口的时候会提示',
@@ -61,25 +64,7 @@ class _JoinChatState extends State<JoinChat> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      if (controller.text.isEmpty) {
-                        showToast('URL不能为空');
-                        return;
-                      }
-                      String url = controller.text;
-                      if (!url.startsWith('http://')) {
-                        url = 'http://' + url;
-                      }
-                      if (!url.endsWith(':7000')) {
-                        url = url + ':7000';
-                      }
-                      Get.back();
-                      Get.toNamed(
-                        '${Routes.chat}?needCreateChatServer=false&chatServerAddress=$url',
-                      );
-                      // Get.to(ShareChat(
-                      //   needCreateChatServer: false,
-                      //   chatServerAddress: controller.text + '/chat',
-                      // ));
+                      joinChat();
                     },
                     child: Text(
                       '加入',
@@ -91,6 +76,24 @@ class _JoinChatState extends State<JoinChat> {
           ),
         ),
       ),
+    );
+  }
+
+  void joinChat() {
+    if (controller.text.isEmpty) {
+      showToast('URL不能为空');
+      return;
+    }
+    String url = controller.text;
+    if (!url.startsWith('http://')) {
+      url = 'http://' + url;
+    }
+    if (!url.endsWith(':7000')) {
+      url = url + ':7000';
+    }
+    Get.back();
+    Get.toNamed(
+      '${Routes.chat}?needCreateChatServer=false&chatServerAddress=$url',
     );
   }
 }
