@@ -252,9 +252,26 @@ class _FileItemState extends State<FileItem> {
             onTap: () {
               Get.to(
                 Material(
-                  child: Hero(
-                    tag: key,
-                    child: Image.network(url),
+                  color: Color(0xfff5f5f7),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Hero(
+                        tag: key,
+                        child: Image.network(url),
+                      ),
+                      SafeArea(
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               );
