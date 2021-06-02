@@ -307,6 +307,7 @@ class _ShareChatState extends State<ShareChat> {
         MessageTextInfo(content: '加入失败!'),
         false,
       ));
+      return;
     }
     if (widget.needCreateChatServer) {
       children.add(messageItem(
