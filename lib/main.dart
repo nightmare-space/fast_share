@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
           title: '速享',
           initialRoute: initRoute,
           getPages: SpeedPages.routes,
-          defaultTransition: Transition.fade,
+          defaultTransition: Transition.fadeIn,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: <LocalizationsDelegate<dynamic>>[
             DefaultWidgetsLocalizations.delegate,
