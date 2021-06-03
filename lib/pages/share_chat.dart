@@ -185,9 +185,11 @@ class _ShareChatState extends State<ShareChat> {
     }
     for (XFile xFile in files) {
       final file = xFile;
-      final filePath = file.path;
+      String filePath = file.path;
       File thumbnailFile;
       String msgType = '';
+      Log.e(filePath);
+      // return;
       if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
         msgType = 'video';
         thumbnailFile = await VideoCompress.getFileThumbnail(
@@ -202,10 +204,14 @@ class _ShareChatState extends State<ShareChat> {
       }
       print('msgType $msgType');
       int size = await File(filePath).length();
-      String fileUrl = chatRoomUrl;
-      // 逻辑是对的，别改了
-      fileUrl = 'http://' + (await PlatformUtil.localAddress())[0] + ':8002';
 
+      filePath = filePath.replaceAll(RegExp('^[A-Z]:\\\\'), '');
+      String fileUrl = '';
+      List<String> address = await PlatformUtil.localAddress();
+      for (String addr in address) {
+        fileUrl += 'http://' + addr + ':8002 ';
+      }
+      fileUrl = fileUrl.trim();
       MessageBaseInfo info = MessageInfoFactory.fromJson({
         'filePath': filePath,
         'msgType': msgType,

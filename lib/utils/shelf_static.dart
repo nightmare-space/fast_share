@@ -14,7 +14,7 @@ class ShelfStatic {
     }
     String home = '';
     if (GetPlatform.isDesktop) {
-      home = '/';
+      home = 'F:\\';
     } else {
       home = '/sdcard/';
     }
