@@ -1,19 +1,35 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_manager/file_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
+import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:video_compress/video_compress.dart';
 
 import 'item/message_item.dart';
 import 'model/model.dart';
 import 'model/model_factory.dart';
+
+extension IpString on String {
+  bool isSameSegment(String other) {
+    final List<String> serverAddressList = split('.');
+    final List<String> localAddressList = other.split('.');
+    if (serverAddressList[0] == localAddressList[0] &&
+        serverAddressList[1] == localAddressList[1] &&
+        serverAddressList[2] == localAddressList[2]) {
+      // 默认为前三个ip段相同代表在同一个局域网，可能更复杂，涉及到网关之类的，由这学期学的计算机网路来看
+      return true;
+    }
+    return false;
+  }
+}
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
@@ -346,7 +362,7 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   void listenMessage() {
-    socket.onMessage((message) {
+    socket.onMessage((message) async {
       print('服务端的消息 - $message');
       if (message == '') {
         // 发来的空字符串就没必要解析了
@@ -359,6 +375,32 @@ class _ShareChatState extends State<ShareChat> {
         return;
       }
       MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
+      if (messageInfo is MessageFileInfo) {
+        for (String url in messageInfo.url.split(' ')) {
+          Uri uri = Uri.parse(url);
+          Log.d('${uri.scheme}://${uri.host}:7001');
+          Response response;
+          try {
+            response = await httpInstance.get(
+              '${uri.scheme}://${uri.host}:7001',
+            );
+            Log.w(response.data);
+          } catch (e) {}
+          if (response != null) {
+            messageInfo.url = url;
+          }
+        }
+        // for (String url in messageInfo.url.split(' ')) {
+        //   Uri uri = Uri.parse(url);
+
+        //   Log.w('file->${uri.host}');
+        //   for (String localAddr in await PlatformUtil.localAddress()) {
+        //     if (uri.host.isSameSegment(localAddr)) {
+        //       messageInfo.url = url;
+        //     }
+        //   }
+        // }
+      }
       children.add(messageItem(
         messageInfo,
         false,
