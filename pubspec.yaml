@@ -29,6 +29,7 @@ dependencies:
   getsocket: ^1.0.0
   permission_handler: ^8.0.0+1
   file_picker: ^3.0.1
+  flutter_svg: ^0.22.0
   file_manager:
     git: https://github.com/nightmare-space/file_manager
   url_launcher: ^6.0.4
@@ -39,6 +40,7 @@ dependencies:
   archive: ^3.1.2
   path: ^1.8.0
   dio: ^4.0.0
+  qrscan: ^0.2.21
 
 dev_dependencies:
   flutter_test:
@@ -47,3 +49,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/icon/
