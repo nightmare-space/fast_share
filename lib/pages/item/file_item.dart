@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
@@ -37,7 +38,6 @@ class _FileItemState extends State<FileItem> {
   String speed = '0';
   Timer timer;
   Future<void> downloadFile(String urlPath, String savePath) async {
-    print(urlPath);
     Response<String> response = await dio.head<String>(urlPath);
     final int fullByte = int.tryParse(
       response.headers.value('content-length'),
@@ -52,9 +52,7 @@ class _FileItemState extends State<FileItem> {
       cancelToken: cancelToken,
       onReceiveProgress: (count, total) {
         this.count = count;
-        final double process = count / total;
-        // Log.e(process);
-        fileDownratio = process;
+        fileDownratio = count / total;
         setState(() {});
       },
     );
@@ -66,11 +64,11 @@ class _FileItemState extends State<FileItem> {
     timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
       int diff = count - tmpCount;
       tmpCount = count;
-      Log.e('diff -> $diff');
+      // Log.e('diff -> $diff');
       // 乘以2是因为半秒测的一次
       speed = FileSizeUtils.getFileSize(diff * 2);
       // *2 的原因是半秒测的一次
-      Log.e('网速 -> $speed');
+      // Log.e('网速 -> $speed');
     });
   }
 
@@ -112,7 +110,7 @@ class _FileItemState extends State<FileItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildPreviewWidget(),
-                if (!widget.sendByUser)
+                if (!widget.sendByUser && !GetPlatform.isWeb)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -125,9 +123,7 @@ class _FileItemState extends State<FileItem> {
                         child: LinearProgressIndicator(
                           backgroundColor: Colors.black12,
                           valueColor: AlwaysStoppedAnimation(
-                            fileDownratio == 1.0
-                                ? Colors.lightGreen
-                                : Colors.red,
+                            fileDownratio == 1.0 ? Colors.blue : Colors.red,
                           ),
                           value: fileDownratio,
                         ),
@@ -142,6 +138,7 @@ class _FileItemState extends State<FileItem> {
                             '$speed/s',
                             style: TextStyle(
                               color: Colors.black54,
+                              fontSize: 12,
                             ),
                           ),
                           Row(
@@ -151,6 +148,7 @@ class _FileItemState extends State<FileItem> {
                                   '${FileSizeUtils.getFileSize(count)}',
                                   style: TextStyle(
                                     color: Colors.black54,
+                                    fontSize: 12,
                                   ),
                                 ),
                               ),
@@ -158,6 +156,7 @@ class _FileItemState extends State<FileItem> {
                                 '/',
                                 style: TextStyle(
                                   color: Colors.black54,
+                                  fontSize: 12,
                                 ),
                               ),
                               SizedBox(
@@ -165,6 +164,7 @@ class _FileItemState extends State<FileItem> {
                                   '${widget.info.fileSize}',
                                   style: TextStyle(
                                     color: Colors.black54,
+                                    fontSize: 12,
                                   ),
                                 ),
                               ),
@@ -202,7 +202,11 @@ class _FileItemState extends State<FileItem> {
                       }
                       downloadFile(url, directoryPath);
                     } else {
-                      downloadFile(url, RuntimeEnvir.filesPath);
+                      Directory dataDir = Directory('/sdcard/SpeedShare');
+                      if (!dataDir.existsSync()) {
+                        dataDir.createSync();
+                      }
+                      downloadFile(url, '/sdcard/SpeedShare');
                     }
                   },
                   borderRadius: BorderRadius.circular(12),
