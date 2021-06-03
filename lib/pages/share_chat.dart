@@ -338,19 +338,19 @@ class _ShareChatState extends State<ShareChat> {
         MessageTextInfo(content: '已加入$chatRoomUrl'),
         false,
       ));
+      setState(() {});
     }
     if (!GetPlatform.isWeb) {
       // 开启文件部署
       ShelfStatic.start();
     }
-    setState(() {});
   }
 
   Future<void> sendAddressAndQrCode() async {
     // 这个if的内容是创建房间的设备，会得到本机ip的消息
     children.add(messageItem(
       MessageTextInfo(
-        content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
+        content: '当前窗口可通过以下url加入，也可以使用浏览器直接打开以下url，'
             '只有同局域网下的设备能打开喔~',
       ),
       false,
@@ -361,7 +361,7 @@ class _ShareChatState extends State<ShareChat> {
         MessageTextInfo(content: '未发现局域网IP'),
         false,
       ));
-    } else
+    } else {
       for (String address in addreses) {
         if (address.startsWith('10.')) {
           continue;
@@ -375,6 +375,8 @@ class _ShareChatState extends State<ShareChat> {
           false,
         ));
       }
+    }
+    setState(() {});
   }
 
   void listenMessage() {
