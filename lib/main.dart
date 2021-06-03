@@ -31,8 +31,7 @@ void main() {
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
-
-    HttpServerUtil.bindServer();
+    // HttpServerUtil.bindServer();
   }
   if (!GetPlatform.isWeb && kReleaseMode) {
     unpack();
@@ -72,6 +71,7 @@ class MyApp extends StatelessWidget {
     return OrientationBuilder(
       builder: (_, Orientation orientation) {
         return GetMaterialApp(
+          enableLog: false,
           locale: const Locale('en', 'US'),
           title: '速享',
           initialRoute: initRoute,
