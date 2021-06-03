@@ -7,6 +7,7 @@ import 'package:file_manager/file_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/http/http.dart';
@@ -91,84 +92,89 @@ class _ShareChatState extends State<ShareChat> {
                 ),
                 controller: scrollController,
                 itemCount: children.length,
+                cacheExtent: 99999,
                 itemBuilder: (c, i) {
                   return children[i];
                 },
               ),
             ),
-            Material(
-              color: Theme.of(context).appBarTheme.color,
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 32,
-                        child: Transform(
-                          transform: Matrix4.identity()..translate(0.0, -4.0),
-                          child: IconButton(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.zero,
-                            icon: Icon(
-                              Icons.file_copy,
-                              color: accentColor,
-                            ),
-                            onPressed: () async {
-                              if (GetPlatform.isAndroid) {
-                                sendForAndroid();
-                              }
-                              if (GetPlatform.isDesktop) {
-                                sendForDesktop();
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              focusNode: focusNode,
-                              controller: controller,
-                              autofocus: false,
-                              style: TextStyle(
-                                textBaseline: TextBaseline.ideographic,
-                              ),
-                              onSubmitted: (_) {
-                                sendTextMsg();
-                                Future.delayed(Duration(milliseconds: 100), () {
-                                  focusNode.requestFocus();
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Material(
-                            color: Color(0xffcfbff7),
-                            borderRadius: BorderRadius.circular(32),
-                            borderOnForeground: true,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.send,
-                                color: Color(0xffede8f8),
-                              ),
-                              onPressed: () {
-                                sendTextMsg();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+            sendMsgContainer(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Material sendMsgContainer(BuildContext context) {
+    return Material(
+      color: Theme.of(context).appBarTheme.color,
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 32,
+                child: Transform(
+                  transform: Matrix4.identity()..translate(0.0, -4.0),
+                  child: IconButton(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      Icons.file_copy,
+                      color: accentColor,
+                    ),
+                    onPressed: () async {
+                      if (GetPlatform.isAndroid) {
+                        sendForAndroid();
+                      }
+                      if (GetPlatform.isDesktop) {
+                        sendForDesktop();
+                      }
+                    },
                   ),
                 ),
               ),
-            ),
-          ],
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      focusNode: focusNode,
+                      controller: controller,
+                      autofocus: false,
+                      style: TextStyle(
+                        textBaseline: TextBaseline.ideographic,
+                      ),
+                      onSubmitted: (_) {
+                        sendTextMsg();
+                        Future.delayed(Duration(milliseconds: 100), () {
+                          focusNode.requestFocus();
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Material(
+                    color: Color(0xffcfbff7),
+                    borderRadius: BorderRadius.circular(32),
+                    borderOnForeground: true,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.send,
+                        color: Color(0xffede8f8),
+                      ),
+                      onPressed: () {
+                        sendTextMsg();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -224,7 +230,6 @@ class _ShareChatState extends State<ShareChat> {
         'url': fileUrl,
       });
       Log.w(await PlatformUtil.localAddress());
-      Log.e(info);
       // 发送消息
       socket.send(info.toString());
       // 将消息添加到本地列表
@@ -238,6 +243,7 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   Future<void> sendForAndroid() async {
+    // 选择文件路径
     String filePath = await FileManager.chooseFile(
       context: context,
       pickPath: '/storage/emulated/0',
@@ -267,16 +273,11 @@ class _ShareChatState extends State<ShareChat> {
     }
     print('msgType $msgType');
     int size = await File(filePath).length();
-    // TODO
-    // 如果创建房间的人需要发文件
-    // 自身可能有多个ip，
-    // 其他的设备也可能通过各个ip连接进来的
     String fileUrl = chatRoomUrl;
-    // if (!widget.needCreateChatServer) {
-    // 这个情况说明发送文件的设备，是加入的其他窗口
-    // 逻辑是对的，别改了
-    fileUrl = 'http://' + (await PlatformUtil.localAddress())[0] + ':8002';
-    // }
+
+    fileUrl = 'http://' +
+        (await PlatformUtil.localAddress())[0] +
+        ':${Config.shelfPort}';
     dynamic info = MessageInfoFactory.fromJson({
       'filePath': path,
       'msgType': msgType,
@@ -288,8 +289,6 @@ class _ShareChatState extends State<ShareChat> {
       'fileSize': FileSizeUtils.getFileSize(size),
       'url': fileUrl,
     });
-    Log.w(await PlatformUtil.localAddress());
-    Log.e(info);
     // 发送消息
     socket.send(info.toString());
     // 将消息添加到本地列表
@@ -303,15 +302,14 @@ class _ShareChatState extends State<ShareChat> {
 
   Future<void> initChat() async {
     if (widget.needCreateChatServer) {
+      // 是创建房间的一端
       createChatServer();
-      chatRoomUrl = 'http://127.0.0.1:7000';
+      chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';
     } else {
       chatRoomUrl = widget.chatServerAddress;
     }
-    Log.w(chatRoomUrl);
     socket = GetSocket(chatRoomUrl + '/chat');
-
-    Log.e('chat open');
+    Log.v('chat open');
     socket.onOpen(() {
       Log.d('chat连接成功');
       isConnect = true;
@@ -323,8 +321,10 @@ class _ShareChatState extends State<ShareChat> {
     } catch (e) {
       isConnect = false;
     }
+    // 监听消息
     listenMessage();
     if (!isConnect && !GetPlatform.isWeb) {
+      // 如果连接失败并且不是 web 平台
       children.add(messageItem(
         MessageTextInfo(content: '加入失败!'),
         false,
@@ -332,29 +332,7 @@ class _ShareChatState extends State<ShareChat> {
       return;
     }
     if (widget.needCreateChatServer) {
-      children.add(messageItem(
-        MessageTextInfo(
-          content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
-              '只有同局域网下的设备能打开喔~',
-        ),
-        false,
-      ));
-      List<String> addreses = await PlatformUtil.localAddress();
-      if (addreses.isEmpty) {
-        children.add(messageItem(
-          MessageTextInfo(content: '未发现局域网IP'),
-          false,
-        ));
-      } else
-        for (String address in addreses) {
-          if (address.startsWith('10.')) {
-            continue;
-          }
-          children.add(messageItem(
-            MessageTextInfo(content: 'http://$address:7000'),
-            false,
-          ));
-        }
+      sendAddressAndQrCode();
     } else {
       children.add(messageItem(
         MessageTextInfo(content: '已加入$chatRoomUrl'),
@@ -362,14 +340,46 @@ class _ShareChatState extends State<ShareChat> {
       ));
     }
     if (!GetPlatform.isWeb) {
+      // 开启文件部署
       ShelfStatic.start();
     }
     setState(() {});
   }
 
+  Future<void> sendAddressAndQrCode() async {
+    // 这个if的内容是创建房间的设备，会得到本机ip的消息
+    children.add(messageItem(
+      MessageTextInfo(
+        content: '当前窗口可通过以下url加入，也可以使用浏览器(推荐chrome)直接打开以下url，'
+            '只有同局域网下的设备能打开喔~',
+      ),
+      false,
+    ));
+    List<String> addreses = await PlatformUtil.localAddress();
+    if (addreses.isEmpty) {
+      children.add(messageItem(
+        MessageTextInfo(content: '未发现局域网IP'),
+        false,
+      ));
+    } else
+      for (String address in addreses) {
+        if (address.startsWith('10.')) {
+          continue;
+        }
+        children.add(messageItem(
+          MessageTextInfo(content: 'http://$address:${Config.chatPort}'),
+          false,
+        ));
+        children.add(messageItem(
+          MessageQrInfo(content: 'http://$address:${Config.chatPort}'),
+          false,
+        ));
+      }
+  }
+
   void listenMessage() {
     socket.onMessage((message) async {
-      print('服务端的消息 - $message');
+      // print('服务端的消息 - $message');
       if (message == '') {
         // 发来的空字符串就没必要解析了
         return;
@@ -382,30 +392,30 @@ class _ShareChatState extends State<ShareChat> {
       }
       MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
       if (messageInfo is MessageFileInfo) {
-        for (String url in messageInfo.url.split(' ')) {
-          Uri uri = Uri.parse(url);
-          Log.d('${uri.scheme}://${uri.host}:7001');
-          Response response;
-          try {
-            response = await httpInstance.get(
-              '${uri.scheme}://${uri.host}:7001',
-            );
-            Log.w(response.data);
-          } catch (e) {}
-          if (response != null) {
-            messageInfo.url = url;
-          }
-        }
         // for (String url in messageInfo.url.split(' ')) {
         //   Uri uri = Uri.parse(url);
-
-        //   Log.w('file->${uri.host}');
-        //   for (String localAddr in await PlatformUtil.localAddress()) {
-        //     if (uri.host.isSameSegment(localAddr)) {
-        //       messageInfo.url = url;
-        //     }
+        //   Log.d('${uri.scheme}://${uri.host}:7001');
+        //   Response response;
+        //   try {
+        //     response = await httpInstance.get(
+        //       '${uri.scheme}://${uri.host}:7001',
+        //     );
+        //     Log.w(response.data);
+        //   } catch (e) {}
+        //   if (response != null) {
+        //     messageInfo.url = url;
         //   }
         // }
+        for (String url in messageInfo.url.split(' ')) {
+          Uri uri = Uri.parse(url);
+          Log.v('消息带有的address -> ${uri.host}');
+          for (String localAddr in await PlatformUtil.localAddress()) {
+            if (uri.host.isSameSegment(localAddr)) {
+              Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+              messageInfo.url = url;
+            }
+          }
+        }
       }
       children.add(messageItem(
         messageInfo,
@@ -417,6 +427,7 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   void getHistoryMsg() {
+    // 这个消息来告诉聊天服务器，自己需要历史消息
     socket.send(jsonEncode({
       'type': "getHistory",
     }));
@@ -435,6 +446,7 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   void sendTextMsg() {
+    // 发送文本消息
     MessageTextInfo info = MessageTextInfo(
       content: controller.text,
       msgType: 'text',
