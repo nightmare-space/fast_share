@@ -12,6 +12,7 @@ import 'app/routes/app_pages.dart';
 import 'pages/navigator_page.dart';
 import 'themes/theme.dart';
 
+import 'utils/auth.dart';
 import 'utils/document/document.dart';
 
 void main() {
@@ -30,6 +31,8 @@ void main() {
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
+
+    HttpServerUtil.bindServer();
   }
   if (!GetPlatform.isWeb && kReleaseMode) {
     unpack();
