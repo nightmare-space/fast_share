@@ -13,6 +13,10 @@ class HttpServerUtil {
         print('${request.connectionInfo.remoteAddress}');
         request.response
           ..headers.contentType = ContentType('text', 'plain', charset: 'utf-8')
+          ..headers.add('Access-Control-Allow-Origin', '*')
+          ..headers.add('Access-Control-Allow-Headers', '*')
+          ..headers.add('Access-Control-Allow-Methods', '*')
+          ..headers.add('Access-Control-Allow-Credentials', 'true')
           ..write('success')
           //结束与客户端连接
           ..close();
