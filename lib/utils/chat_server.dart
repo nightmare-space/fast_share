@@ -14,7 +14,7 @@ void createChatServer() {
   }
   runApp(
     GetServerApp(
-      useLog: true,
+      useLog: false,
       port: 7000,
       home: FolderWidget(home),
       getPages: [
@@ -25,6 +25,7 @@ void createChatServer() {
   Log.d('chat server down.');
 }
 
+// ignore: must_be_immutable
 class SocketPage extends GetView {
   List<String> msgs = [];
   @override
@@ -33,7 +34,7 @@ class SocketPage extends GetView {
       builder: (socket) {
         socket.rawSocket;
         socket.onOpen((ws) {
-          Log.d('${ws.id} 已连接');
+          Log.v('${ws.id} 已连接');
           // ws.send('socket ${ws.id} connected');
         });
         socket.on('join', (val) {
@@ -50,7 +51,7 @@ class SocketPage extends GetView {
           }
           try {
             if (json.decode(data)['type'] == 'getHistory') {
-              Log.e('获取历史消息');
+              Log.v('客户端请求获取历史消息');
               if (msgs.isEmpty) {
                 return;
               }
@@ -67,7 +68,7 @@ class SocketPage extends GetView {
             Log.e('e -> $e');
           }
 
-          print('data: $data');
+          Log.v('服务端收到消息: $data');
           msgs.add(data);
           socket.broadcast(data);
         });
