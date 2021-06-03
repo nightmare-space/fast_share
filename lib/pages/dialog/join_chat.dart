@@ -68,6 +68,9 @@ class _JoinChatState extends State<JoinChat> {
                     },
                     child: Text(
                       '加入',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

@@ -20,12 +20,12 @@ class _NavigatorPageState extends State<NavigatorPage> {
         backgroundColor: Color(0xffede8f8),
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: const TextStyle(
-          // fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
           color: fontColor,
           fontSize: 12,
         ),
         unselectedLabelStyle: const TextStyle(
-          // fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
           color: fontColor,
           fontSize: 12,
         ),
