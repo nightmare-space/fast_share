@@ -1,5 +1,6 @@
 import 'message_base_info.dart';
 import 'message_file_info.dart';
+import 'message_qr_info.dart';
 import 'message_text_info.dart';
 import 'message_tip_info.dart';
 
@@ -19,6 +20,9 @@ class MessageInfoFactory {
         break;
       case 'tip':
         return MessageTipInfo.fromJson(json);
+        break;
+      case 'qr':
+        return MessageQrInfo.fromJson(json);
         break;
       default:
         return MessageFileInfo.fromJson(json);
