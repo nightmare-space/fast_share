@@ -2,15 +2,19 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:speed_share/config/candy_colors.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/process_server.dart';
+import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/utils/server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
+import 'package:speed_share/widgets/custom_icon_button.dart';
 import 'package:supercharged/supercharged.dart';
 
 import 'setting_page.dart';
@@ -91,12 +95,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('速享'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              NiNavigator.of(context).push<void>(SettingPage());
+          NiIconButton(
+            child: SvgPicture.asset(
+              '${Config.flutterPackage}assets/icon/QR_code.svg',
+              color: Colors.black,
+            ),
+            onTap: () async {
+              ScanUtil.parseScan();
             },
           ),
+          SizedBox(width: Dimens.gap_dp12),
         ],
       ),
       body: SingleChildScrollView(
