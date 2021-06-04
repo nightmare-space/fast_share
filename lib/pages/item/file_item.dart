@@ -137,7 +137,7 @@ class _FileItemState extends State<FileItem> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '$speed/s',
+                            fileDownratio == 1.0 ? '✅ ' : '$speed/s',
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 12,
