@@ -5,6 +5,8 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/config/config.dart';
 
+import 'shelf/virtual_directory.dart';
+
 bool _started = false;
 
 class ShelfStatic {
@@ -12,14 +14,16 @@ class ShelfStatic {
     if (_started) {
       return;
     }
+
     String home = '';
     if (GetPlatform.isWindows) {
       home = 'F:\\';
     } else if (GetPlatform.isDesktop) {
-      home = '/';
+      home = '/Users';
     } else {
-      home = '/sdcard/';
+      home = '/sdcard';
     }
+    // final virDirHandler = ShelfVirtualDirectory('/', showLogs: true).handler;
     var handler = createStaticHandler(home, listDirectories: true);
     io.serve(
       handler,
