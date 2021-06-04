@@ -316,12 +316,7 @@ class _ShareChatState extends State<ShareChat> {
       isConnect = true;
       getHistoryMsg();
     });
-    socket.onClose((p0) {
-      socket.send(json.encode({
-        'msgType': 'tip',
-        'content': '聊天已关闭',
-      }));
-    });
+
     try {
       await socket.connect();
       await Future.delayed(Duration.zero);
@@ -415,15 +410,19 @@ class _ShareChatState extends State<ShareChat> {
         //     messageInfo.url = url;
         //   }
         // }
-        for (String url in messageInfo.url.split(' ')) {
-          Uri uri = Uri.parse(url);
-          Log.v('消息带有的address -> ${uri.host}');
-          for (String localAddr in await PlatformUtil.localAddress()) {
-            if (uri.host.isSameSegment(localAddr)) {
-              Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-              messageInfo.url = url;
+        if (!GetPlatform.isWeb) {
+          for (String url in messageInfo.url.split(' ')) {
+            Uri uri = Uri.parse(url);
+            Log.v('消息带有的address -> ${uri.host}');
+            for (String localAddr in await PlatformUtil.localAddress()) {
+              if (uri.host.isSameSegment(localAddr)) {
+                Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+                messageInfo.url = url;
+              }
             }
           }
+        } else {
+          messageInfo.url = messageInfo.url.split(' ').first;
         }
       }
       children.add(messageItem(
