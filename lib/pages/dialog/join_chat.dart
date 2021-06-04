@@ -50,7 +50,7 @@ class _JoinChatState extends State<JoinChat> {
                     joinChat();
                   },
                   decoration: InputDecoration(
-                    fillColor: AppColors.inputColor,
+                    fillColor: Color(0xfff0f0f0),
                     helperText: '这个地址在创建窗口的时候会提示',
                     hintText: '请输入共享窗口的URL',
                     hintStyle: TextStyle(

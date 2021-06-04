@@ -94,7 +94,7 @@ class _FileItemState extends State<FileItem> {
     if (widget.sendByUser) {
       url = 'http://127.0.0.1:8002/' + widget.info.filePath;
     } else {
-      url = widget.info.url + '/' + widget.info.filePath;
+      url = widget.info.url + widget.info.filePath;
     }
     Color background = AppColors.surface;
     if (widget.sendByUser) {
