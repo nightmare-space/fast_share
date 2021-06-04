@@ -19,7 +19,7 @@ class ShelfStatic {
     if (GetPlatform.isWindows) {
       home = 'F:\\';
     } else if (GetPlatform.isDesktop) {
-      home = '/Users';
+      home = '/';
     } else {
       home = '/sdcard';
     }
