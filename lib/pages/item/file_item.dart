@@ -5,7 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/video_preview.dart';
 import 'package:speed_share/themes/theme.dart';
@@ -330,6 +332,25 @@ class _FileItemState extends State<FileItem> {
         ),
       );
     }
-    return Text(widget.info.fileName);
+    return RichText(
+      text: TextSpan(children: [
+        TextSpan(
+          text: widget.info.fileName,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        WidgetSpan(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: SvgPicture.asset(
+              '${Config.flutterPackage}assets/icon/file.svg',
+              width: 16,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ]),
+    );
   }
 }
