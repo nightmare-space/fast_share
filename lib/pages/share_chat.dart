@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/global/global.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/http/http.dart';
@@ -17,20 +18,7 @@ import 'package:video_compress/video_compress.dart';
 import 'item/message_item.dart';
 import 'model/model.dart';
 import 'model/model_factory.dart';
-
-extension IpString on String {
-  bool isSameSegment(String other) {
-    final List<String> serverAddressList = split('.');
-    final List<String> localAddressList = other.split('.');
-    if (serverAddressList[0] == localAddressList[0] &&
-        serverAddressList[1] == localAddressList[1] &&
-        serverAddressList[2] == localAddressList[2]) {
-      // 默认为前三个ip段相同代表在同一个局域网，可能更复杂，涉及到网关之类的，由这学期学的计算机网路来看
-      return true;
-    }
-    return false;
-  }
-}
+import 'package:speed_share/utils/string_extension.dart';
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
@@ -65,6 +53,7 @@ class _ShareChatState extends State<ShareChat> {
     if (isConnect) {
       socket.close();
     }
+    Global().stopSendBoradcast();
     focusNode.dispose();
     controller.dispose();
     scrollController.dispose();
@@ -305,6 +294,8 @@ class _ShareChatState extends State<ShareChat> {
     if (widget.needCreateChatServer) {
       // 是创建房间的一端
       createChatServer();
+      List<String> addreses = await PlatformUtil.localAddress();
+      Global().startSendBoardCast(addreses.join(' '));
       chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';
     } else {
       chatRoomUrl = widget.chatServerAddress;

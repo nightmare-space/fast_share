@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'app/routes/app_pages.dart';
+import 'global/global.dart';
 import 'pages/navigator_page.dart';
 import 'themes/theme.dart';
 
@@ -32,6 +33,9 @@ void main() {
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
     // HttpServerUtil.bindServer();
+  }
+  if (!GetPlatform.isWeb) {
+    Global().initGlobal();
   }
   if (!GetPlatform.isWeb && kReleaseMode) {
     unpack();
