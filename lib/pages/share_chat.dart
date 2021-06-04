@@ -273,11 +273,12 @@ class _ShareChatState extends State<ShareChat> {
     }
     print('msgType $msgType');
     int size = await File(filePath).length();
-    String fileUrl = chatRoomUrl;
-
-    fileUrl = 'http://' +
-        (await PlatformUtil.localAddress())[0] +
-        ':${Config.shelfPort}';
+    String fileUrl = '';
+    List<String> address = await PlatformUtil.localAddress();
+    for (String addr in address) {
+      fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
+    }
+    fileUrl = fileUrl.trim();
     dynamic info = MessageInfoFactory.fromJson({
       'filePath': path,
       'msgType': msgType,
@@ -314,6 +315,12 @@ class _ShareChatState extends State<ShareChat> {
       Log.d('chat连接成功');
       isConnect = true;
       getHistoryMsg();
+    });
+    socket.onClose((p0) {
+      socket.send(json.encode({
+        'msgType': 'tip',
+        'content': '聊天已关闭',
+      }));
     });
     try {
       await socket.connect();
@@ -424,7 +431,9 @@ class _ShareChatState extends State<ShareChat> {
         false,
       ));
       scroll();
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
   }
 
