@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
         height: Dimens.gap_dp48,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Dimens.gap_dp10,
+            horizontal: Dimens.gap_dp12,
           ),
           child: Row(
             children: [
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                             color: CandyColors.candyPink,
                           ),
                           SizedBox(
-                            width: Dimens.gap_dp8,
+                            width: Dimens.gap_dp12,
                           ),
                           Expanded(
                             child: Text(
@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                             color: CandyColors.candyCyan,
                           ),
                           SizedBox(
-                            width: Dimens.gap_dp8,
+                            width: Dimens.gap_dp12,
                           ),
                           Expanded(
                             child: Text(
