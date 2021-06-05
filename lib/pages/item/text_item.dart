@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 
 class TextMessageItem extends StatelessWidget {
@@ -11,6 +12,10 @@ class TextMessageItem extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Color background = AppColors.surface;
+    if (sendByUser) {
+      background = AppColors.sendByUser;
+    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -19,7 +24,7 @@ class TextMessageItem extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: accentColor,
+            color: background,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Stack(
@@ -31,12 +36,12 @@ class TextMessageItem extends StatelessWidget {
                   data: ThemeData(
                     textSelectionTheme: TextSelectionThemeData(
                       cursorColor: Colors.red,
-                      selectionColor: Color(0xffede8f8),
+                      selectionColor: AppColors.surface,
                     ),
                   ),
                   child: SelectableText(
                     data,
-                    cursorColor: Color(0xffede8f8),
+                    cursorColor: AppColors.surface,
                   ),
                 ),
               ),

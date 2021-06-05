@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 class JoinChat extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class _JoinChatState extends State<JoinChat> {
                     joinChat();
                   },
                   decoration: InputDecoration(
-                    fillColor: Color(0xfff0f0f0),
+                    fillColor: AppColors.inputColor,
                     helperText: '这个地址在创建窗口的时候会提示',
                     hintText: '请输入共享窗口的URL',
                     hintStyle: TextStyle(

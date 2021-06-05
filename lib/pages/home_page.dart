@@ -10,14 +10,13 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:speed_share/config/candy_colors.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/process_server.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/utils/server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/widgets/custom_icon_button.dart';
 import 'package:supercharged/supercharged.dart';
-
-import 'setting_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> {
         height: Dimens.gap_dp48,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Dimens.gap_dp8,
+            horizontal: Dimens.gap_dp10,
           ),
           child: Row(
             children: [
@@ -72,10 +71,10 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.deepPurple,
                 ),
-                height: Dimens.gap_dp8,
-                width: Dimens.gap_dp8,
+                height: Dimens.gap_dp6,
+                width: Dimens.gap_dp6,
               ),
-              SizedBox(width: Dimens.gap_dp16),
+              SizedBox(width: Dimens.gap_dp8),
               Text(
                 uri,
                 style: TextStyle(
@@ -146,10 +145,10 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: Dimens.gap_dp8,
+                horizontal: Dimens.gap_dp10,
               ),
               child: Material(
-                color: Color(0xffede8f8),
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(Dimens.gap_dp12),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

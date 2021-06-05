@@ -10,6 +10,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/video_preview.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
@@ -95,6 +96,10 @@ class _FileItemState extends State<FileItem> {
     } else {
       url = widget.info.url + '/' + widget.info.filePath;
     }
+    Color background = AppColors.surface;
+    if (widget.sendByUser) {
+      background = AppColors.sendByUser;
+    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -103,7 +108,7 @@ class _FileItemState extends State<FileItem> {
         Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: accentColor,
+            color: background,
             borderRadius: BorderRadius.circular(10),
           ),
           child: ConstrainedBox(
@@ -258,7 +263,7 @@ class _FileItemState extends State<FileItem> {
             onTap: () {
               Get.to(
                 Material(
-                  color: Color(0xfff5f5f7),
+                  color: AppColors.background,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -324,7 +329,7 @@ class _FileItemState extends State<FileItem> {
               Image.network(thumbnailUrl),
               Icon(
                 Icons.play_circle,
-                color: accentColor,
+                color: AppColors.accentColor,
                 size: 48,
               )
             ],

@@ -12,8 +12,6 @@ import 'package:speed_share/utils/string_extension.dart';
 class Global {
   factory Global() => _getInstance();
   Global._internal() {}
-  String libPath = '';
-  bool lockAdb = false;
   RawDatagramSocket socket;
   bool isInit = false;
   bool isStartSend = false;
@@ -27,6 +25,7 @@ class Global {
     return _instance;
   }
 
+  /// 接收广播消息
   Future<void> _receiveBoardCast() async {
     RawDatagramSocket.bind(
       InternetAddress.anyIPv4,

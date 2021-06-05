@@ -30,6 +30,9 @@ class SelectChatServer extends StatelessWidget {
                   child: Align(
                     child: Text(
                       '创建新的共享窗口',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -42,7 +45,12 @@ class SelectChatServer extends StatelessWidget {
                 child: SizedBox(
                   height: 48,
                   child: Align(
-                    child: Text('加入已创建的共享窗口'),
+                    child: Text(
+                      '加入已创建的共享窗口',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),

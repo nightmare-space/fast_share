@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:global_repository/global_repository.dart';
-
 class HttpServerUtil {
   static void bindServer() {
     HttpServer.bind(InternetAddress.anyIPv4, 7001).then((server) {

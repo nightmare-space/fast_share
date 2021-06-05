@@ -9,13 +9,14 @@ import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:video_compress/video_compress.dart';
 
-import 'item/message_item.dart';
+import 'item/message_item_factory.dart';
 import 'model/model.dart';
 import 'model/model_factory.dart';
 import 'package:speed_share/utils/string_extension.dart';
@@ -64,7 +65,7 @@ class _ShareChatState extends State<ShareChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shadowColor: accentColor,
+        shadowColor: AppColors.accentColor,
         title: Text('文件共享'),
       ),
       body: GestureDetector(
@@ -96,7 +97,7 @@ class _ShareChatState extends State<ShareChat> {
 
   Material sendMsgContainer(BuildContext context) {
     return Material(
-      color: Theme.of(context).appBarTheme.color,
+      color: AppColors.surface,
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -112,7 +113,7 @@ class _ShareChatState extends State<ShareChat> {
                     padding: EdgeInsets.zero,
                     icon: Icon(
                       Icons.file_copy,
-                      color: accentColor,
+                      color: AppColors.accentColor,
                     ),
                     onPressed: () async {
                       if (GetPlatform.isAndroid) {
@@ -147,13 +148,13 @@ class _ShareChatState extends State<ShareChat> {
                     width: 16,
                   ),
                   Material(
-                    color: Color(0xffcfbff7),
+                    color: AppColors.accentColor,
                     borderRadius: BorderRadius.circular(32),
                     borderOnForeground: true,
                     child: IconButton(
                       icon: Icon(
                         Icons.send,
-                        color: Color(0xffede8f8),
+                        color: AppColors.surface,
                       ),
                       onPressed: () {
                         sendTextMsg();
@@ -222,7 +223,7 @@ class _ShareChatState extends State<ShareChat> {
       // 发送消息
       socket.send(info.toString());
       // 将消息添加到本地列表
-      children.add(messageItem(
+      children.add(MessageItemFactory.getMessageItem(
         info,
         true,
       ));
@@ -282,7 +283,7 @@ class _ShareChatState extends State<ShareChat> {
     // 发送消息
     socket.send(info.toString());
     // 将消息添加到本地列表
-    children.add(messageItem(
+    children.add(MessageItemFactory.getMessageItem(
       info,
       true,
     ));
@@ -318,7 +319,7 @@ class _ShareChatState extends State<ShareChat> {
     listenMessage();
     if (!isConnect && !GetPlatform.isWeb) {
       // 如果连接失败并且不是 web 平台
-      children.add(messageItem(
+      children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '加入失败!'),
         false,
       ));
@@ -327,7 +328,7 @@ class _ShareChatState extends State<ShareChat> {
     if (widget.needCreateChatServer) {
       sendAddressAndQrCode();
     } else {
-      children.add(messageItem(
+      children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '已加入$chatRoomUrl'),
         false,
       ));
@@ -341,7 +342,7 @@ class _ShareChatState extends State<ShareChat> {
 
   Future<void> sendAddressAndQrCode() async {
     // 这个if的内容是创建房间的设备，会得到本机ip的消息
-    children.add(messageItem(
+    children.add(MessageItemFactory.getMessageItem(
       MessageTextInfo(
         content: '当前窗口可通过以下url加入，也可以使用浏览器直接打开以下url，'
             '只有同局域网下的设备能打开喔~',
@@ -350,7 +351,7 @@ class _ShareChatState extends State<ShareChat> {
     ));
     List<String> addreses = await PlatformUtil.localAddress();
     if (addreses.isEmpty) {
-      children.add(messageItem(
+      children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '未发现局域网IP'),
         false,
       ));
@@ -359,11 +360,11 @@ class _ShareChatState extends State<ShareChat> {
         if (address.startsWith('10.')) {
           continue;
         }
-        children.add(messageItem(
+        children.add(MessageItemFactory.getMessageItem(
           MessageTextInfo(content: 'http://$address:${Config.chatPort}'),
           false,
         ));
-        children.add(messageItem(
+        children.add(MessageItemFactory.getMessageItem(
           MessageQrInfo(content: 'http://$address:${Config.chatPort}'),
           false,
         ));
@@ -416,7 +417,7 @@ class _ShareChatState extends State<ShareChat> {
           messageInfo.url = messageInfo.url.split(' ').first;
         }
       }
-      children.add(messageItem(
+      children.add(MessageItemFactory.getMessageItem(
         messageInfo,
         false,
       ));
@@ -453,7 +454,7 @@ class _ShareChatState extends State<ShareChat> {
       msgType: 'text',
     );
     socket.send(info.toString());
-    children.add(messageItem(
+    children.add(MessageItemFactory.getMessageItem(
       info,
       true,
     ));

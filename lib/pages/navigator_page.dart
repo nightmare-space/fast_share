@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/default_theme_data.dart';
 
 import 'dialog/select_chat_server.dart';
@@ -17,24 +18,24 @@ class _NavigatorPageState extends State<NavigatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xffede8f8),
+        backgroundColor: AppColors.surface,
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
-          color: fontColor,
+          color: AppColors.fontColor,
           fontSize: 12,
         ),
         unselectedLabelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
-          color: fontColor,
+          color: AppColors.fontColor,
           fontSize: 12,
         ),
         unselectedIconTheme: IconThemeData(
-          color: fontColor,
+          color: AppColors.fontColor,
         ),
         enableFeedback: false,
-        unselectedItemColor: fontColor,
-        selectedItemColor: fontColor,
+        unselectedItemColor: AppColors.fontColor,
+        selectedItemColor: AppColors.fontColor,
         elevation: 0.0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -49,7 +50,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               width: 64,
               height: 32,
               decoration: BoxDecoration(
-                color: Color(0xffcfbff7),
+                color: AppColors.accentColor,
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(
@@ -63,7 +64,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               width: 64,
               height: 32,
               decoration: BoxDecoration(
-                color: Color(0xffcfbff7),
+                color: AppColors.accentColor,
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(Icons.share),

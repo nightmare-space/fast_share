@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 
 class QrMessageItem extends StatelessWidget {
@@ -12,7 +13,7 @@ class QrMessageItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: accentColor,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(10),
       ),
       child: QrImage(
