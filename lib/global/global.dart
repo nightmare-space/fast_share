@@ -9,6 +9,7 @@ import 'package:speed_share/utils/udp_util.dart';
 
 import 'package:speed_share/utils/string_extension.dart';
 
+/// 主要用来发现局域网的设备
 class Global {
   factory Global() => _getInstance();
   Global._internal() {}
