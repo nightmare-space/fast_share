@@ -133,6 +133,8 @@ class _ShareChatState extends State<ShareChat> {
                       focusNode: focusNode,
                       controller: controller,
                       autofocus: false,
+                      maxLines: 8,
+                      minLines: 1,
                       style: TextStyle(
                         textBaseline: TextBaseline.ideographic,
                       ),
