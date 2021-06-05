@@ -244,7 +244,7 @@ class _ShareChatState extends State<ShareChat> {
     }
     String path = filePath.replaceAll(
       '/storage/emulated/0/',
-      '',
+      '/',
     );
     print(path);
     File thumbnailFile;
