@@ -36,12 +36,12 @@ class TextMessageItem extends StatelessWidget {
                   data: ThemeData(
                     textSelectionTheme: TextSelectionThemeData(
                       cursorColor: Colors.red,
-                      selectionColor: AppColors.surface,
+                      selectionColor: AppColors.accentColor,
                     ),
                   ),
                   child: SelectableText(
                     data,
-                    cursorColor: AppColors.surface,
+                    cursorColor: AppColors.accentColor,
                   ),
                 ),
               ),
