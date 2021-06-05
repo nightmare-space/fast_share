@@ -141,13 +141,22 @@ class _FileItemState extends State<FileItem> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            fileDownratio == 1.0 ? '✅ ' : '$speed/s',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 12,
-                            ),
-                          ),
+                          Builder(builder: (_) {
+                            if (fileDownratio == 1.0) {
+                              return Icon(
+                                Icons.check,
+                                size: 16,
+                                color: Colors.green,
+                              );
+                            }
+                            return Text(
+                              '$speed/s',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 12,
+                              ),
+                            );
+                          }),
                           Row(
                             children: [
                               SizedBox(

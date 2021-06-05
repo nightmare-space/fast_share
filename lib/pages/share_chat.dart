@@ -371,6 +371,7 @@ class _ShareChatState extends State<ShareChat> {
       }
     }
     setState(() {});
+    scroll();
   }
 
   void listenMessage() {
