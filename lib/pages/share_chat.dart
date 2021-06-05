@@ -181,7 +181,7 @@ class _ShareChatState extends State<ShareChat> {
     }
     for (XFile xFile in files) {
       final file = xFile;
-      String filePath = file.path;
+      String filePath = file.path.replaceAll('\\', '/');
       File thumbnailFile;
       String msgType = '';
       Log.e(filePath);
@@ -201,7 +201,7 @@ class _ShareChatState extends State<ShareChat> {
       print('msgType $msgType');
       int size = await File(filePath).length();
 
-      filePath = filePath.replaceAll(RegExp('^[A-Z]:\\\\'), '');
+      filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
       String fileUrl = '';
       List<String> address = await PlatformUtil.localAddress();
       for (String addr in address) {

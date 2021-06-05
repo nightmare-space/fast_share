@@ -15,9 +15,34 @@ class ShelfStatic {
       return;
     }
 
+    _started = true;
     String home = '';
     if (GetPlatform.isWindows) {
-      home = 'F:\\';
+      // io.serve(
+      //   createStaticHandler('C:\\', listDirectories: true),
+      //   '0.0.0.0',
+      //   Config.shelfPort,
+      //   shared: true,
+      // );
+      // io.serve(
+      //   createStaticHandler('D:\\', listDirectories: true),
+      //   '0.0.0.0',
+      //   Config.shelfPort,
+      //   shared: true,
+      // );
+      io.serve(
+        createStaticHandler('E:\\', listDirectories: true),
+        '0.0.0.0',
+        Config.shelfPort,
+        shared: true,
+      );
+      io.serve(
+        createStaticHandler('F:\\', listDirectories: true),
+        '0.0.0.0',
+        Config.shelfPort,
+        shared: true,
+      );
+      return;
     } else if (GetPlatform.isDesktop) {
       home = '/';
     } else {
@@ -31,7 +56,6 @@ class ShelfStatic {
       Config.shelfPort,
       shared: true,
     );
-    _started = true;
   }
 
   static void close() {}
