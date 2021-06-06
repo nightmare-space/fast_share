@@ -54,6 +54,8 @@ class _ShareChatState extends State<ShareChat> {
     if (isConnect) {
       socket.close();
     }
+
+    Global().enableShowDialog();
     Global().stopSendBoradcast();
     focusNode.dispose();
     controller.dispose();
@@ -294,11 +296,15 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   Future<void> initChat() async {
+    Global().disableShowDialog();
     if (widget.needCreateChatServer) {
       // 是创建房间的一端
       createChatServer();
       List<String> addreses = await PlatformUtil.localAddress();
-      Global().startSendBoardCast(addreses.join(' '));
+      UniqueKey uniqueKey = UniqueKey();
+      Global().startSendBoardCast(
+        uniqueKey.toString() + ' ' + addreses.join(' '),
+      );
       chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';
     } else {
       chatRoomUrl = widget.chatServerAddress;
