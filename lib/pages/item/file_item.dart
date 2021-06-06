@@ -41,6 +41,10 @@ class _FileItemState extends State<FileItem> {
   String speed = '0';
   Timer timer;
   Future<void> downloadFile(String urlPath, String savePath) async {
+    if (fileDownratio != 0.0) {
+      showToast('已经在下载中了哦');
+      return;
+    }
     Response<String> response = await dio.head<String>(urlPath);
     final int fullByte = int.tryParse(
       response.headers.value('content-length'),

@@ -90,8 +90,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    AppBar appBar;
+    if (GetPlatform.isAndroid) {
+      appBar = AppBar(
         title: Text('速享'),
         actions: [
           NiIconButton(
@@ -105,7 +106,10 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(width: Dimens.gap_dp12),
         ],
-      ),
+      );
+    }
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
