@@ -14,9 +14,12 @@
 - 扫码连接
 - 物理设备下载网速显示
 
-## 后续计划
-
-- 优化web页面
-- 增加上传功能
-
 ## 截图
+
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src01.jpg" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src02.jpg" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src03.jpg" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src04.jpg" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.jpg" width="30%" height="30%" />
