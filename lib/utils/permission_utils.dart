@@ -1,7 +1,7 @@
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionUtil {
-  static Future<bool> request() async {
+  static Future<bool> requestCamera() async {
     var status = await Permission.camera.status;
     print(status);
     if (status.isDenied) {
