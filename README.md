@@ -24,5 +24,5 @@
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src04.jpg" width="30%" height="30%" />
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" />
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.jpg" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.jpg" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
