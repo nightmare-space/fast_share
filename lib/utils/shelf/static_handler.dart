@@ -7,10 +7,12 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:convert/convert.dart';
+import 'package:global_repository/global_repository.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart' as p;
 import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
 
 import 'directory_listing.dart';
 import 'util.dart';
@@ -154,6 +156,8 @@ File _tryDefaultFile(String dirPath, String defaultFile) {
 /// This uses the given [contentType] for the Content-Type header. It defaults
 /// to looking up a content type based on [path]'s file extension, and failing
 /// that doesn't sent a [contentType] header at all.
+
+var app = Router();
 Handler createFileHandler(String path, {String url, String contentType}) {
   final file = File(path);
   if (!file.existsSync()) {
@@ -164,11 +168,12 @@ Handler createFileHandler(String path, {String url, String contentType}) {
 
   final mimeType = contentType ?? _defaultMimeTypeResolver.lookup(path);
   url ??= p.toUri(p.basename(path)).toString();
-  print(url);
-  return (request) {
-    if (request.url.path != url) return Response.notFound('Not Found');
+  Log.d('createFileHandler -> $url');
+
+  app.get('/$url', (Request request) {
     return _handleFile(request, file, () => mimeType);
-  };
+  });
+  return app;
 }
 
 /// Serves the contents of [file] in response to [request].

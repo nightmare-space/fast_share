@@ -174,13 +174,14 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   void serverFile(String path) {
+    Log.e('部署 path -> $path');
     String filePath = path.replaceAll('\\', '/');
     filePath = filePath.replaceAll(RegExp('^[A-Z]:/'), '');
     // 部署文件
-    Log.i('部署文件 ${filePath}');
-    String url = filePath;
-    Log.e(url);
+    String url = p.toUri(filePath).toString();
+    Log.e('部署 url -> $url');
     var handler = createFileHandler(path, url: url);
+    Log.w(handler.hashCode);
     io.serve(
       handler,
       InternetAddress.anyIPv4,
@@ -202,8 +203,6 @@ class _ShareChatState extends State<ShareChat> {
       final file = xFile;
       serverFile(file.path);
       String filePath = file.path.replaceAll('\\', '/');
-
-      filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
       File thumbnailFile;
       String msgType = '';
       // return;
@@ -219,9 +218,9 @@ class _ShareChatState extends State<ShareChat> {
       } else {
         msgType = 'other';
       }
-      print('msgType $msgType');
       int size = await File(filePath).length();
 
+      filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
       String fileUrl = '';
       List<String> address = await PlatformUtil.localAddress();
       for (String addr in address) {
@@ -245,7 +244,7 @@ class _ShareChatState extends State<ShareChat> {
         'fileSize': FileSizeUtils.getFileSize(size),
         'url': fileUrl,
       });
-      Log.w(await PlatformUtil.localAddress());
+      // Log.w(await PlatformUtil.localAddress());
       // 发送消息
       socket.send(info.toString());
       // 将消息添加到本地列表

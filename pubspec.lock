@@ -520,7 +520,7 @@ packages:
     source: hosted
     version: "1.0.0"
   shelf_router:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shelf_router
       url: "https://pub.flutter-io.cn"

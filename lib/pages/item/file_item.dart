@@ -100,7 +100,7 @@ class _FileItemState extends State<FileItem> {
     } else {
       url = widget.info.url + widget.info.filePath;
     }
-    Log.e('url -$url');
+    Log.e('fileitem url -> $url');
     Color background = AppColors.surface;
     if (widget.sendByUser) {
       background = AppColors.sendByUser;

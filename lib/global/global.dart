@@ -26,7 +26,7 @@ class Global {
   List<String> hasShowDialogId = [];
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, _) async {
-    Log.w(message);
+    // Log.w(message);
     String id = message.split(' ').first;
     message = message.replaceAll(id, '').trim();
     if (_showDialog && !hasShowDialogId.contains(id)) {
