@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
+import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_manager/file_manager.dart';
@@ -10,11 +10,10 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/themes/default_theme_data.dart';
 import 'package:speed_share/utils/chat_server.dart';
-import 'package:speed_share/utils/http/http.dart';
-import 'package:speed_share/utils/shelf_static.dart';
+import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:video_compress/video_compress.dart';
+import 'package:path/path.dart' as p;
 
 import 'item/message_item_factory.dart';
 import 'model/model.dart';
@@ -174,6 +173,22 @@ class _ShareChatState extends State<ShareChat> {
     );
   }
 
+  void serverFile(String path) {
+    String filePath = path.replaceAll('\\', '/');
+    filePath = filePath.replaceAll(RegExp('^[A-Z]:/'), '');
+    // 部署文件
+    Log.i('部署文件 ${filePath}');
+    String url = filePath;
+    Log.e(url);
+    var handler = createFileHandler(path, url: url);
+    io.serve(
+      handler,
+      InternetAddress.anyIPv4,
+      Config.shelfPort,
+      shared: true,
+    );
+  }
+
   Future<void> sendForDesktop() async {
     final typeGroup = XTypeGroup(
       label: 'images',
@@ -185,10 +200,12 @@ class _ShareChatState extends State<ShareChat> {
     }
     for (XFile xFile in files) {
       final file = xFile;
+      serverFile(file.path);
       String filePath = file.path.replaceAll('\\', '/');
+
+      filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
       File thumbnailFile;
       String msgType = '';
-      Log.e(filePath);
       // return;
       if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
         msgType = 'video';
@@ -205,13 +222,18 @@ class _ShareChatState extends State<ShareChat> {
       print('msgType $msgType');
       int size = await File(filePath).length();
 
-      filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
       String fileUrl = '';
       List<String> address = await PlatformUtil.localAddress();
       for (String addr in address) {
         fileUrl += 'http://' + addr + ':8002 ';
       }
       fileUrl = fileUrl.trim();
+      p.Context context;
+      if (GetPlatform.isWindows) {
+        context = p.windows;
+      } else {
+        context = p.posix;
+      }
       MessageBaseInfo info = MessageInfoFactory.fromJson({
         'filePath': filePath,
         'msgType': msgType,
@@ -219,7 +241,7 @@ class _ShareChatState extends State<ShareChat> {
           '/storage/emulated/0/',
           '',
         ),
-        'fileName': p.basename(filePath),
+        'fileName': context.basename(filePath),
         'fileSize': FileSizeUtils.getFileSize(size),
         'url': fileUrl,
       });
@@ -341,10 +363,6 @@ class _ShareChatState extends State<ShareChat> {
         false,
       ));
       setState(() {});
-    }
-    if (!GetPlatform.isWeb) {
-      // 开启文件部署
-      ShelfStatic.start();
     }
   }
 
