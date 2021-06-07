@@ -302,7 +302,7 @@ class _ShareChatState extends State<ShareChat> {
       createChatServer();
       List<String> addreses = await PlatformUtil.localAddress();
       UniqueKey uniqueKey = UniqueKey();
-      Global().startSendBoardCast(
+      Global().startSendBoardcast(
         uniqueKey.toString() + ' ' + addreses.join(' '),
       );
       chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';

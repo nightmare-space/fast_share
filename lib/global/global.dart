@@ -60,8 +60,8 @@ class Global {
     _showDialog = false;
   }
 
-  Future<void> startSendBoardCast(String data) async {
-    multicast.startSendBoardCast(data);
+  Future<void> startSendBoardcast(String data) async {
+    multicast.startSendBoardcast(data);
   }
 
   Future<void> stopSendBoradcast() async {

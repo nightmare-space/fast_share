@@ -65,7 +65,7 @@ class Multicast {
     }
   }
 
-  Future<void> startSendBoardCast(String data, {Duration duration}) async {
+  Future<void> startSendBoardcast(String data, {Duration duration}) async {
     if (_isStartSend) {
       return;
     }
