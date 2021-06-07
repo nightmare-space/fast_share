@@ -176,7 +176,8 @@ class _ShareChatState extends State<ShareChat> {
   void serverFile(String path) {
     Log.e('部署 path -> $path');
     String filePath = path.replaceAll('\\', '/');
-    filePath = filePath.replaceAll(RegExp('^[A-Z]:/'), '');
+    filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
+    filePath = filePath.replaceAll(RegExp('^/'), '');
     // 部署文件
     String url = p.toUri(filePath).toString();
     Log.e('部署 url -> $url');
@@ -263,15 +264,11 @@ class _ShareChatState extends State<ShareChat> {
       context: context,
       pickPath: '/storage/emulated/0',
     );
+    serverFile(filePath);
     print(filePath);
     if (filePath == null) {
       return;
     }
-    String path = filePath.replaceAll(
-      '/storage/emulated/0/',
-      '/',
-    );
-    print(path);
     File thumbnailFile;
     String msgType = '';
     if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
@@ -295,7 +292,7 @@ class _ShareChatState extends State<ShareChat> {
     }
     fileUrl = fileUrl.trim();
     dynamic info = MessageInfoFactory.fromJson({
-      'filePath': path,
+      'filePath': filePath,
       'msgType': msgType,
       'thumbnailPath': thumbnailFile?.path?.replaceAll(
         '/storage/emulated/0/',
