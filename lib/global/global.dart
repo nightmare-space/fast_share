@@ -25,7 +25,7 @@ class Global {
   // 显示过弹窗的id会进这个列表
   List<String> hasShowDialogId = [];
   // /// 接收广播消息
-  Future<void> _receiveUdpMessage(String message) async {
+  Future<void> _receiveUdpMessage(String message, _) async {
     Log.w(message);
     String id = message.split(' ').first;
     message = message.replaceAll(id, '').trim();
@@ -65,7 +65,7 @@ class Global {
   }
 
   Future<void> stopSendBoradcast() async {
-    multicast.stopSendBoardCast();
+    multicast.stopSendBoardcast();
   }
 
   Future<void> initGlobal() async {
@@ -76,6 +76,5 @@ class Global {
     isInit = true;
 
     multicast.addListener(_receiveUdpMessage);
-    multicast.addListener((data) {});
   }
 }
