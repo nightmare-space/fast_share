@@ -349,6 +349,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  multicast:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: c5871189021622eadb5a518ebe211860f37ca840
+      url: "https://github.com/nightmare-space/multicast"
+    source: git
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:

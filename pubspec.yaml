@@ -42,6 +42,8 @@ dependencies:
   path: ^1.8.0
   dio: ^4.0.0
   qrscan: ^0.2.21
+  multicast:
+    git: https://github.com/nightmare-space/multicast
 
 dev_dependencies:
   flutter_test:
