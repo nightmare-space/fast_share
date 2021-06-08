@@ -445,10 +445,18 @@ class _ShareChatState extends State<ShareChat> {
         false,
       ));
       scroll();
+      vibrate();
       if (mounted) {
         setState(() {});
       }
     });
+  }
+
+  Future<void> vibrate() async {
+    for (int i = 0; i < 3; i++) {
+      Feedback.forLongPress(context);
+      await Future.delayed(Duration(milliseconds: 100));
+    }
   }
 
   void getHistoryMsg() {
