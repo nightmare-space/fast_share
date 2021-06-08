@@ -3,6 +3,6 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   static const prefix = '/speedshare';
-  static const HOME = '/';
+  static const HOME = '$prefix/';
   static const chat = '/chat';
 }

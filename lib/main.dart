@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'app/routes/app_pages.dart';
+import 'config/config.dart';
 import 'global/global.dart';
 import 'pages/navigator_page.dart';
 import 'themes/theme.dart';
@@ -130,6 +131,13 @@ class MyApp extends StatelessWidget {
 }
 
 class SpeedShare extends StatefulWidget {
+  SpeedShare() {
+    if (RuntimeEnvir.packageName != Config.packageName &&
+        !GetPlatform.isDesktop) {
+      // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
+      Config.flutterPackage = 'packages/speed_share/';
+    }
+  }
   @override
   _SpeedShareState createState() => _SpeedShareState();
 }
