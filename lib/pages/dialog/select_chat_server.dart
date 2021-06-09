@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/pages/share_chat.dart';
 
 import 'join_chat.dart';
@@ -21,9 +22,9 @@ class SelectChatServer extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Get.back();
-                  Get.to(ShareChat(
-                    needCreateChatServer: true,
-                  ));
+                  Get.toNamed(
+                    '${Routes.chat}?needCreateChatServer=true',
+                  );
                 },
                 child: SizedBox(
                   height: 48,
