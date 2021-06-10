@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:path/path.dart' as p;
@@ -13,7 +14,6 @@ import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:video_compress/video_compress.dart';
-import 'package:path/path.dart' as p;
 
 import 'item/message_item_factory.dart';
 import 'model/model.dart';
@@ -105,27 +105,51 @@ class _ShareChatState extends State<ShareChat> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 32,
-                child: Transform(
-                  transform: Matrix4.identity()..translate(0.0, -4.0),
-                  child: IconButton(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.zero,
-                    icon: Icon(
-                      Icons.file_copy,
-                      color: AppColors.accentColor,
+              Row(
+                children: [
+                  if (GetPlatform.isAndroid)
+                    SizedBox(
+                      height: 32,
+                      child: Transform(
+                        transform: Matrix4.identity()..translate(0.0, -4.0),
+                        child: IconButton(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.zero,
+                          icon: Icon(
+                            Icons.image,
+                            color: AppColors.accentColor,
+                          ),
+                          onPressed: () async {
+                            sendForAndroid(
+                              useSystemPicker: true,
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                    onPressed: () async {
-                      if (GetPlatform.isAndroid) {
-                        sendForAndroid();
-                      }
-                      if (GetPlatform.isDesktop) {
-                        sendForDesktop();
-                      }
-                    },
+                  SizedBox(
+                    height: 32,
+                    child: Transform(
+                      transform: Matrix4.identity()..translate(0.0, -4.0),
+                      child: IconButton(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.zero,
+                        icon: Icon(
+                          Icons.file_copy,
+                          color: AppColors.accentColor,
+                        ),
+                        onPressed: () async {
+                          if (GetPlatform.isAndroid) {
+                            sendForAndroid();
+                          }
+                          if (GetPlatform.isDesktop) {
+                            sendForDesktop();
+                          }
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               Row(
                 children: [
@@ -182,7 +206,6 @@ class _ShareChatState extends State<ShareChat> {
     String url = p.toUri(filePath).toString();
     Log.e('部署 url -> $url');
     var handler = createFileHandler(path, url: url);
-    Log.w(handler.hashCode);
     io.serve(
       handler,
       InternetAddress.anyIPv4,
@@ -258,17 +281,34 @@ class _ShareChatState extends State<ShareChat> {
     }
   }
 
-  Future<void> sendForAndroid() async {
+  Future<void> sendForAndroid({bool useSystemPicker = false}) async {
     // 选择文件路径
-    String filePath = await FileManager.chooseFile(
-      context: context,
-      pickPath: '/storage/emulated/0',
-    );
-    serverFile(filePath);
+    String filePath;
+    if (!useSystemPicker) {
+      filePath = await FileManager.chooseFile(
+        context: context,
+        pickPath: '/storage/emulated/0',
+      );
+    } else {
+      FilePickerResult result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        PlatformFile file = result.files.first;
+
+        print(file.name);
+        print(file.bytes);
+        print(file.size);
+        print(file.extension);
+        print(file.path);
+        filePath = file.path;
+      } else {
+        // User canceled the picker
+      }
+    }
     print(filePath);
     if (filePath == null) {
       return;
     }
+    serverFile(filePath);
     File thumbnailFile;
     String msgType = '';
     if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
