@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool serverOpend = false;
+  bool serverOpend = true;
   String content = '';
   List<String> addreses = [];
   @override
@@ -137,76 +137,14 @@ class _HomePageState extends State<HomePage> {
                       // 10.开头的ip一般是移动数据获得的ip
                       continue;
                     }
-                    list.add(addressItem('http://$address:8001'));
-                    list.add(addressItem('http://$address:8002'));
+                    list.add(
+                        addressItem('http://$address:${Config.shelfAllPort}'));
                   }
                   return Column(
                     children: list,
                   );
                 }),
               ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: Dimens.gap_dp10,
-              ),
-              child: Material(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(Dimens.gap_dp12),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: Dimens.gap_dp4,
-                            height: Dimens.gap_dp24,
-                            color: CandyColors.candyPink,
-                          ),
-                          SizedBox(
-                            width: Dimens.gap_dp12,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '8001端口可提供断点续传，可在线浏览视频，但访问(下载，在线视频)的文件越大，本机运行内存消耗越多。',
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        color: Colors.grey.shade400,
-                        height: 12.0,
-                        indent: 12,
-                        endIndent: 12,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: Dimens.gap_dp4,
-                            height: Dimens.gap_dp24,
-                            color: CandyColors.candyCyan,
-                          ),
-                          SizedBox(
-                            width: Dimens.gap_dp12,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '8002端口对于视频的在线非常不友好，但大文件的下载内存正常',
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ),
             Center(
               child: serverOpend
@@ -216,7 +154,6 @@ class _HomePageState extends State<HomePage> {
                       onTap: () async {
                         await Future<void>.delayed(Duration(milliseconds: 300));
                         if (!GetPlatform.isWeb) {
-                          ServerUtil.close();
                           ProcessServer.close();
                         }
                         ShelfStatic.close();
@@ -231,7 +168,6 @@ class _HomePageState extends State<HomePage> {
                       onTap: () async {
                         await Future<void>.delayed(Duration(milliseconds: 300));
                         if (!GetPlatform.isWeb) {
-                          ServerUtil.start();
                           ProcessServer.start();
                         }
                         ShelfStatic.start();
