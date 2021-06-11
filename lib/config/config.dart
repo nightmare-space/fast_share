@@ -2,8 +2,9 @@ import 'dart:io';
 
 class Config {
   Config._();
-  static int httpServerPort = 8001;
-  static int shelfPort = 8002;
+  static int shelfAllPort = 8000;
+  static int httpServerPort = 8002;
+  static int shelfPort = 8001;
   static int chatPort = 7000;
   static String packageName = 'com.nightmare.speedshare';
   // static InternetAddress multicastAddress = InternetAddress('224.0.0.1');
