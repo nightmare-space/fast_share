@@ -51,7 +51,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               height: 32,
               decoration: BoxDecoration(
                 color: AppColors.accentColor,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 Icons.open_in_browser,
@@ -65,7 +65,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               height: 32,
               decoration: BoxDecoration(
                 color: AppColors.accentColor,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(Icons.share),
             ),

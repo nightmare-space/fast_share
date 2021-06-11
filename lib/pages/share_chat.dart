@@ -249,7 +249,7 @@ class _ShareChatState extends State<ShareChat> {
       String fileUrl = '';
       List<String> address = await PlatformUtil.localAddress();
       for (String addr in address) {
-        fileUrl += 'http://' + addr + ':8002 ';
+        fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
       }
       fileUrl = fileUrl.trim();
       p.Context context;
