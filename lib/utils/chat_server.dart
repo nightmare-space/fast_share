@@ -20,9 +20,17 @@ void createChatServer() {
       getPages: [
         GetPage(name: '/chat', page: () => SocketPage()),
       ],
+      onNotFound: NotFound(),
     ),
   );
   Log.d('chat server down.');
+}
+
+class NotFound extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text('把端口换成7000试试');
+  }
 }
 
 // ignore: must_be_immutable
