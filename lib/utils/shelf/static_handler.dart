@@ -65,7 +65,7 @@ Handler createStaticHandler(String fileSystemPath,
 
   return (Request request) {
     final segs = [fileSystemPath, ...request.url.pathSegments];
-
+    Log.e('segs -> $segs');
     final fsPath = p.joinAll(segs);
 
     final entityType = FileSystemEntity.typeSync(fsPath);
