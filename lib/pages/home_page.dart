@@ -8,7 +8,6 @@ import 'package:global_repository/global_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:speed_share/config/candy_colors.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/process_server.dart';
