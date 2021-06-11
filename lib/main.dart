@@ -16,6 +16,8 @@ import 'themes/theme.dart';
 
 import 'utils/auth.dart';
 import 'utils/document/document.dart';
+import 'utils/server.dart';
+import 'utils/shelf_static.dart';
 
 void main() {
   // startProxy();
@@ -30,6 +32,8 @@ void main() {
   );
   if (GetPlatform.isAndroid && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
+    ShelfStatic.start();
+    // ServerUtil.start();
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirForDesktop();
