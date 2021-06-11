@@ -152,6 +152,7 @@ class _ShareChatState extends State<ShareChat> {
                 ],
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: TextField(
