@@ -322,6 +322,7 @@ class _FileItemState extends State<FileItem> {
       } else {
         thumbnailUrl = info.url + info.thumbnailPath;
       }
+      Log.e('thumbnailUrl url -> $thumbnailUrl');
       return InkWell(
         onTap: () {
           NiNavigator.of(Get.context).pushVoid(
