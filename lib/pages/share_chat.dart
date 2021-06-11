@@ -261,10 +261,7 @@ class _ShareChatState extends State<ShareChat> {
       MessageBaseInfo info = MessageInfoFactory.fromJson({
         'filePath': filePath,
         'msgType': msgType,
-        'thumbnailPath': thumbnailFile?.path?.replaceAll(
-          '/storage/emulated/0/',
-          '',
-        ),
+        'thumbnailPath': thumbnailFile?.path,
         'fileName': context.basename(filePath),
         'fileSize': FileSizeUtils.getFileSize(size),
         'url': fileUrl,
@@ -291,7 +288,10 @@ class _ShareChatState extends State<ShareChat> {
         pickPath: '/storage/emulated/0',
       );
     } else {
-      FilePickerResult result = await FilePicker.platform.pickFiles();
+      FilePickerResult result = await FilePicker.platform.pickFiles(
+        allowCompression: false,
+        allowMultiple: true,
+      );
       if (result != null) {
         PlatformFile file = result.files.first;
 
@@ -319,6 +319,7 @@ class _ShareChatState extends State<ShareChat> {
         quality: 50,
         position: -1,
       );
+      serverFile(thumbnailFile.path);
     } else if (filePath.isImageFileName) {
       msgType = 'img';
     } else {
@@ -335,10 +336,7 @@ class _ShareChatState extends State<ShareChat> {
     dynamic info = MessageInfoFactory.fromJson({
       'filePath': filePath,
       'msgType': msgType,
-      'thumbnailPath': thumbnailFile?.path?.replaceAll(
-        '/storage/emulated/0/',
-        '',
-      ),
+      'thumbnailPath': thumbnailFile?.path,
       'fileName': p.basename(filePath),
       'fileSize': FileSizeUtils.getFileSize(size),
       'url': fileUrl,
