@@ -22,7 +22,7 @@ class ProcessServer {
   }
 
   static void close() {
-    requestServer.close();
+    requestServer?.close();
   }
 }
 
