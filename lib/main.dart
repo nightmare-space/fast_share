@@ -12,11 +12,7 @@ import 'app/routes/app_pages.dart';
 import 'config/config.dart';
 import 'global/global.dart';
 import 'pages/navigator_page.dart';
-import 'themes/theme.dart';
 
-import 'utils/auth.dart';
-import 'utils/document/document.dart';
-import 'utils/server.dart';
 import 'utils/shelf_static.dart';
 
 void main() {

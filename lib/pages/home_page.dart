@@ -33,13 +33,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> request() async {
-    final Permission permission = Permission.storage;
-    // bool isShown =
-    //     await Permission.contacts.shouldShowRequestRationale;
-    if (GetPlatform.isAndroid) {
-      final PermissionStatus status = await permission.request();
-      print(status);
-    }
+    PermissionUtil.requestStorage();
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
     }

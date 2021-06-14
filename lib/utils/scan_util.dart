@@ -3,8 +3,6 @@ import 'package:global_repository/global_repository.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:speed_share/app/routes/app_pages.dart';
 
-import 'permission_utils.dart';
-
 class ScanUtil {
   static Future<void> parseScan() async {
     await PermissionUtil.requestCamera();

@@ -30,7 +30,6 @@ dependencies:
   shelf_router: ^1.0.0
   get_server: ^1.1.0
   getsocket: ^1.0.0
-  permission_handler: ^8.0.0+1
   file_picker: ^3.0.1
   flutter_svg: ^0.22.0
   file_manager:
