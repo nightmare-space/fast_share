@@ -39,6 +39,7 @@ class _ShareChatState extends State<ShareChat> {
   TextEditingController controller = TextEditingController();
   GetSocket socket;
   List<Widget> children = [];
+  List<String> addreses = [];
   ScrollController scrollController = ScrollController();
   bool isConnect = false;
   String chatRoomUrl = '';
@@ -231,14 +232,15 @@ class _ShareChatState extends State<ShareChat> {
       File thumbnailFile;
       String msgType = '';
       // return;
-      if ((filePath.isVideoFileName || filePath.endsWith('.mkv')) &&
-          !GetPlatform.isDesktop) {
+      if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
         msgType = 'video';
-        thumbnailFile = await VideoCompress.getFileThumbnail(
-          filePath,
-          quality: 50,
-          position: -1,
-        );
+        if (!GetPlatform.isDesktop) {
+          thumbnailFile = await VideoCompress.getFileThumbnail(
+            filePath,
+            quality: 50,
+            position: -1,
+          );
+        }
       } else if (filePath.isImageFileName) {
         msgType = 'img';
       } else {
@@ -358,7 +360,7 @@ class _ShareChatState extends State<ShareChat> {
     if (widget.needCreateChatServer) {
       // 是创建房间的一端
       createChatServer();
-      List<String> addreses = await PlatformUtil.localAddress();
+      addreses = await PlatformUtil.localAddress();
       UniqueKey uniqueKey = UniqueKey();
       Global().startSendBoardcast(
         uniqueKey.toString() + ' ' + addreses.join(' '),
@@ -437,7 +439,7 @@ class _ShareChatState extends State<ShareChat> {
   }
 
   void listenMessage() {
-    socket.onMessage((message) async {
+    socket.onMessage((message) {
       // print('服务端的消息 - $message');
       if (message == '') {
         // 发来的空字符串就没必要解析了
@@ -469,7 +471,7 @@ class _ShareChatState extends State<ShareChat> {
           for (String url in messageInfo.url.split(' ')) {
             Uri uri = Uri.parse(url);
             Log.v('消息带有的address -> ${uri.host}');
-            for (String localAddr in await PlatformUtil.localAddress()) {
+            for (String localAddr in addreses) {
               if (uri.host.isSameSegment(localAddr)) {
                 Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
                 messageInfo.url = url;
