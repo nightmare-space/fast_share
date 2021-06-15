@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
+import 'package:speed_share/config/config.dart';
 
 class JoinChat extends StatefulWidget {
   @override
@@ -91,8 +92,8 @@ class _JoinChatState extends State<JoinChat> {
     if (!url.startsWith('http://')) {
       url = 'http://' + url;
     }
-    if (!url.endsWith(':7000')) {
-      url = url + ':7000';
+    if (!url.endsWith(':${Config.chatPort}')) {
+      url = url + ':${Config.chatPort}';
     }
     Get.back();
     Get.toNamed(
