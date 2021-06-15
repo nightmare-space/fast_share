@@ -5,14 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/process_server.dart';
 import 'package:speed_share/utils/scan_util.dart';
-import 'package:speed_share/utils/server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/widgets/custom_icon_button.dart';
 import 'package:supercharged/supercharged.dart';
@@ -33,7 +31,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> request() async {
-    PermissionUtil.requestStorage();
+    if (GetPlatform.isAndroid) {
+      PermissionUtil.requestStorage();
+    }
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
     }
@@ -84,10 +84,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     AppBar appBar;
-    if (GetPlatform.isAndroid) {
-      appBar = AppBar(
-        title: Text('速享'),
-        actions: [
+    // if (GetPlatform.isAndroid) {
+    appBar = AppBar(
+      title: Text('速享'),
+      actions: [
+        if (GetPlatform.isAndroid)
           NiIconButton(
             child: SvgPicture.asset(
               '${Config.flutterPackage}assets/icon/QR_code.svg',
@@ -97,10 +98,10 @@ class _HomePageState extends State<HomePage> {
               ScanUtil.parseScan();
             },
           ),
-          SizedBox(width: Dimens.gap_dp12),
-        ],
-      );
-    }
+        SizedBox(width: Dimens.gap_dp12),
+      ],
+    );
+    // }
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -108,10 +109,12 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            QrImage(
-              data: content,
-              version: QrVersions.auto,
-              size: 300.0,
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: QrImage(
+                data: content,
+                version: QrVersions.auto,
+              ),
             ),
             Column(
               children: [
@@ -145,7 +148,8 @@ class _HomePageState extends State<HomePage> {
               child: serverOpend
                   ? LoginButton(
                       title: '关闭服务',
-                      backgroundColor: Colors.grey,
+                      backgroundColor: AppColors.surface,
+                      fontColor: AppColors.fontColor,
                       onTap: () async {
                         await Future<void>.delayed(Duration(milliseconds: 300));
                         if (!GetPlatform.isWeb) {
@@ -158,8 +162,9 @@ class _HomePageState extends State<HomePage> {
                       },
                     )
                   : LoginButton(
-                      backgroundColor: Theme.of(context).accentColor,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       title: '开启服务',
+                      fontColor: Colors.white,
                       onTap: () async {
                         await Future<void>.delayed(Duration(milliseconds: 300));
                         if (!GetPlatform.isWeb) {
@@ -192,10 +197,12 @@ class LoginButton extends StatefulWidget {
     this.onTap,
     this.title,
     this.backgroundColor,
+    this.fontColor,
   }) : super(key: key);
   final Future<bool> Function() onTap;
   final String title;
   final Color backgroundColor;
+  final Color fontColor;
 
   @override
   _LoginButtonState createState() => _LoginButtonState();
@@ -297,7 +304,8 @@ class _LoginButtonState extends State<LoginButton> with AnimationMixin {
                             child: Text(
                               widget.title,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: widget.fontColor,
+                                fontWeight: FontWeight.bold,
                                 fontSize: value.get('fontsize'),
                               ),
                             ),
