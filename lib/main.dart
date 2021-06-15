@@ -32,6 +32,7 @@ void main() {
     // ServerUtil.start();
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
+    ShelfStatic.start();
     RuntimeEnvir.initEnvirForDesktop();
     // HttpServerUtil.bindServer();
   }
@@ -112,7 +113,9 @@ class SpeedShare extends StatelessWidget {
                 );
               }
             }
-            return child;
+            return NiToastNew(
+              child: child,
+            );
           },
         );
       },
