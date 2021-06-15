@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:get_server/get_server.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/config/config.dart';
 
 void createChatServer() {
   Log.d('chat server starting...');
@@ -15,14 +15,22 @@ void createChatServer() {
   runApp(
     GetServerApp(
       useLog: false,
-      port: 7000,
+      port: Config.chatPort,
       home: FolderWidget(home),
       getPages: [
         GetPage(name: '/chat', page: () => SocketPage()),
       ],
+      onNotFound: NotFound(),
     ),
   );
   Log.d('chat server down.');
+}
+
+class NotFound extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text('把端口换成7000试试');
+  }
 }
 
 // ignore: must_be_immutable

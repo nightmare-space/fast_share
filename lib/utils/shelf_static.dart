@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:shelf/shelf_io.dart' as io;
-import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/config/config.dart';
 
-import 'shelf/virtual_directory.dart';
+import 'shelf/static_handler.dart';
 
 bool _started = false;
 
@@ -32,14 +31,14 @@ class ShelfStatic {
       // );
       io.serve(
         createStaticHandler('E:\\', listDirectories: true),
-        '0.0.0.0',
-        Config.shelfPort,
+        InternetAddress.anyIPv4,
+        Config.shelfAllPort,
         shared: true,
       );
       io.serve(
         createStaticHandler('F:\\', listDirectories: true),
-        '0.0.0.0',
-        Config.shelfPort,
+        InternetAddress.anyIPv4,
+        Config.shelfAllPort,
         shared: true,
       );
       return;
@@ -52,8 +51,8 @@ class ShelfStatic {
     var handler = createStaticHandler(home, listDirectories: true);
     io.serve(
       handler,
-      '0.0.0.0',
-      Config.shelfPort,
+      InternetAddress.anyIPv4,
+      Config.shelfAllPort,
       shared: true,
     );
   }

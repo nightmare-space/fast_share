@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件.
 publish_to: "none"
 
-version: 1.1.5+7
+version: 1.1.6+8
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
   shelf_virtual_directory: ^2.0.0
   file_selector_platform_interface: ^2.0.0
   file_selector_linux:
@@ -26,11 +26,10 @@ dependencies:
   shelf_proxy: ^1.0.0
   qr_flutter: ^3.1.0
   shelf_static: ^1.0.0
-  
+
   shelf_router: ^1.0.0
   get_server: ^1.1.0
   getsocket: ^1.0.0
-  permission_handler: ^8.0.0+1
   file_picker: ^3.0.1
   flutter_svg: ^0.22.0
   file_manager:

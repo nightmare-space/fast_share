@@ -5,15 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:speed_share/config/candy_colors.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/process_server.dart';
 import 'package:speed_share/utils/scan_util.dart';
-import 'package:speed_share/utils/server.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/widgets/custom_icon_button.dart';
 import 'package:supercharged/supercharged.dart';
@@ -24,7 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool serverOpend = false;
+  bool serverOpend = true;
   String content = '';
   List<String> addreses = [];
   @override
@@ -34,12 +31,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> request() async {
-    final Permission permission = Permission.storage;
-    // bool isShown =
-    //     await Permission.contacts.shouldShowRequestRationale;
     if (GetPlatform.isAndroid) {
-      final PermissionStatus status = await permission.request();
-      print(status);
+      PermissionUtil.requestStorage();
     }
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
@@ -91,10 +84,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     AppBar appBar;
-    if (GetPlatform.isAndroid) {
-      appBar = AppBar(
-        title: Text('速享'),
-        actions: [
+    // if (GetPlatform.isAndroid) {
+    appBar = AppBar(
+      title: Text('速享'),
+      actions: [
+        if (GetPlatform.isAndroid)
           NiIconButton(
             child: SvgPicture.asset(
               '${Config.flutterPackage}assets/icon/QR_code.svg',
@@ -104,10 +98,10 @@ class _HomePageState extends State<HomePage> {
               ScanUtil.parseScan();
             },
           ),
-          SizedBox(width: Dimens.gap_dp12),
-        ],
-      );
-    }
+        SizedBox(width: Dimens.gap_dp12),
+      ],
+    );
+    // }
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -115,10 +109,12 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            QrImage(
-              data: content,
-              version: QrVersions.auto,
-              size: 300.0,
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: QrImage(
+                data: content,
+                version: QrVersions.auto,
+              ),
             ),
             Column(
               children: [
@@ -134,12 +130,13 @@ class _HomePageState extends State<HomePage> {
                 Builder(builder: (_) {
                   List<Widget> list = [];
                   for (String address in addreses) {
-                    if (address.startsWith('10.')) {
-                      // 10.开头的ip一般是移动数据获得的ip
-                      continue;
-                    }
-                    list.add(addressItem('http://$address:8001'));
-                    list.add(addressItem('http://$address:8002'));
+                    // if (address.startsWith('10.')) {
+                    //   // 10.开头的ip一般是移动数据获得的ip
+                    //   continue;
+                    // }
+                    list.add(
+                      addressItem('http://$address:${Config.shelfAllPort}'),
+                    );
                   }
                   return Column(
                     children: list,
@@ -147,77 +144,15 @@ class _HomePageState extends State<HomePage> {
                 }),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: Dimens.gap_dp10,
-              ),
-              child: Material(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(Dimens.gap_dp12),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: Dimens.gap_dp4,
-                            height: Dimens.gap_dp24,
-                            color: CandyColors.candyPink,
-                          ),
-                          SizedBox(
-                            width: Dimens.gap_dp12,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '8001端口可提供断点续传，可在线浏览视频，但访问(下载，在线视频)的文件越大，本机运行内存消耗越多。',
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        color: Colors.grey.shade400,
-                        height: 12.0,
-                        indent: 12,
-                        endIndent: 12,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: Dimens.gap_dp4,
-                            height: Dimens.gap_dp24,
-                            color: CandyColors.candyCyan,
-                          ),
-                          SizedBox(
-                            width: Dimens.gap_dp12,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '8002端口对于视频的在线非常不友好，但大文件的下载内存正常',
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             Center(
               child: serverOpend
                   ? LoginButton(
                       title: '关闭服务',
-                      backgroundColor: Colors.grey,
+                      backgroundColor: AppColors.surface,
+                      fontColor: AppColors.fontColor,
                       onTap: () async {
                         await Future<void>.delayed(Duration(milliseconds: 300));
                         if (!GetPlatform.isWeb) {
-                          ServerUtil.close();
                           ProcessServer.close();
                         }
                         ShelfStatic.close();
@@ -227,12 +162,12 @@ class _HomePageState extends State<HomePage> {
                       },
                     )
                   : LoginButton(
-                      backgroundColor: Theme.of(context).accentColor,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       title: '开启服务',
+                      fontColor: Colors.white,
                       onTap: () async {
                         await Future<void>.delayed(Duration(milliseconds: 300));
                         if (!GetPlatform.isWeb) {
-                          ServerUtil.start();
                           ProcessServer.start();
                         }
                         ShelfStatic.start();
@@ -262,10 +197,12 @@ class LoginButton extends StatefulWidget {
     this.onTap,
     this.title,
     this.backgroundColor,
+    this.fontColor,
   }) : super(key: key);
   final Future<bool> Function() onTap;
   final String title;
   final Color backgroundColor;
+  final Color fontColor;
 
   @override
   _LoginButtonState createState() => _LoginButtonState();
@@ -367,7 +304,8 @@ class _LoginButtonState extends State<LoginButton> with AnimationMixin {
                             child: Text(
                               widget.title,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: widget.fontColor,
+                                fontWeight: FontWeight.bold,
                                 fontSize: value.get('fontsize'),
                               ),
                             ),

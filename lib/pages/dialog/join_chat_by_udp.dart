@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
+import 'package:speed_share/config/config.dart';
 
 class JoinChatByUdp extends StatefulWidget {
   final String addr;
@@ -65,7 +65,7 @@ class _JoinChatByUdpState extends State<JoinChatByUdp> {
                         onPressed: () {
                           Get.back();
                           Get.toNamed(
-                            '${Routes.chat}?needCreateChatServer=false&chatServerAddress=http://${widget.addr}:7000',
+                            '${Routes.chat}?needCreateChatServer=false&chatServerAddress=http://${widget.addr}:${Config.chatPort}',
                           );
                         },
                         child: Text(

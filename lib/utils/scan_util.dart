@@ -3,8 +3,6 @@ import 'package:global_repository/global_repository.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:speed_share/app/routes/app_pages.dart';
 
-import 'permission_utils.dart';
-
 class ScanUtil {
   static Future<void> parseScan() async {
     await PermissionUtil.requestCamera();
@@ -13,7 +11,6 @@ class ScanUtil {
       return;
     }
     print('cameraScanResult -> $cameraScanResult');
-    final List<String> connectAddress = cameraScanResult.split('\n');
     final List<String> localAddress = await PlatformUtil.localAddress();
     print(localAddress);
     Get.toNamed(

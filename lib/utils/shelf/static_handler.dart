@@ -65,7 +65,7 @@ Handler createStaticHandler(String fileSystemPath,
 
   return (Request request) {
     final segs = [fileSystemPath, ...request.url.pathSegments];
-
+    Log.e('segs -> $segs');
     final fsPath = p.joinAll(segs);
 
     final entityType = FileSystemEntity.typeSync(fsPath);
@@ -199,7 +199,57 @@ Future<Response> _handleFile(Request request, File file,
   };
 
   final contentType = await getContentType();
+  int length = await file.length();
+  var range = request.headers[HttpHeaders.rangeHeader];
   if (contentType != null) headers[HttpHeaders.contentTypeHeader] = contentType;
+  if (range != null) {
+    // We only support one range, where the standard support several.
+    var matches = RegExp(r"^bytes=(\d*)\-(\d*)$").firstMatch(range);
+    // If the range header have the right format, handle it.
+    if (matches != null && (matches[1].isNotEmpty || matches[2].isNotEmpty)) {
+      // Serve sub-range.
+      int start; // First byte position - inclusive.
+      int end; // Last byte position - inclusive.
+      if (matches[1].isEmpty) {
+        start = length - int.parse(matches[2]);
+        if (start < 0) start = 0;
+        end = length - 1;
+      } else {
+        start = int.parse(matches[1]);
+        end = matches[2].isEmpty ? length - 1 : int.parse(matches[2]);
+      }
+      // If the range is syntactically invalid the Range header
+      // MUST be ignored (RFC 2616 section 14.35.1).
+      if (start <= end) {
+        if (end >= length) {
+          end = length - 1;
+        }
+        if (start >= length) {
+          return Response(HttpStatus.requestedRangeNotSatisfiable);
+        }
 
+        // Override Content-Length with the actual bytes sent.
+        headers[HttpHeaders.contentLengthHeader] = (end - start + 1).toString();
+
+        // Set 'Partial Content' status code.
+        headers[HttpHeaders.contentRangeHeader] = 'bytes $start-$end/$length';
+
+        // Pipe the 'range' of the file.
+        if (request.method == 'HEAD') {
+          return Response(
+            HttpStatus.partialContent,
+            body: '',
+            headers: headers,
+          );
+        } else {
+          return Response(
+            HttpStatus.partialContent,
+            body: file.openRead(start, end + 1),
+            headers: headers,
+          );
+        }
+      }
+    }
+  }
   return Response.ok(file.openRead(), headers: headers);
 }

@@ -9,16 +9,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'app/routes/app_pages.dart';
+import 'config/config.dart';
 import 'global/global.dart';
 import 'pages/navigator_page.dart';
-import 'themes/theme.dart';
 
-import 'utils/auth.dart';
-import 'utils/document/document.dart';
+import 'utils/shelf_static.dart';
 
 void main() {
   // startProxy();
-  runApp(MyApp());
+  runApp(SpeedShare());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -27,10 +26,13 @@ void main() {
       systemNavigationBarDividerColor: Colors.transparent,
     ),
   );
-  if (GetPlatform.isAndroid) {
+  if (GetPlatform.isAndroid && !GetPlatform.isWeb) {
     RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
+    ShelfStatic.start();
+    // ServerUtil.start();
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
+    ShelfStatic.start();
     RuntimeEnvir.initEnvirForDesktop();
     // HttpServerUtil.bindServer();
   }
@@ -64,7 +66,7 @@ Future<void> unpack() async {
   }
 }
 
-class MyApp extends StatelessWidget {
+class SpeedShare extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -111,16 +113,8 @@ class MyApp extends StatelessWidget {
                 );
               }
             }
-            // // config中的Dimens获取不到ScreenUtil，因为ScreenUtil中用到的MediaQuery只有在
-            // // WidgetApp或者MaterialApp中才能获取到，所以在build方法中处理主题
-            final bool isDark = Theme.of(context).brightness == Brightness.dark;
-            final ThemeData theme =
-                isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
-            return Theme(
-              data: theme,
-              child: NiToastNew(
-                child: child,
-              ),
+            return NiToastNew(
+              child: child,
             );
           },
         );
@@ -129,12 +123,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SpeedShare extends StatefulWidget {
+class SpeedShareHome extends StatefulWidget {
+  SpeedShareHome() {
+    if (RuntimeEnvir.packageName != Config.packageName &&
+        !GetPlatform.isDesktop) {
+      // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
+      Config.flutterPackage = 'packages/speed_share/';
+    }
+  }
   @override
-  _SpeedShareState createState() => _SpeedShareState();
+  _SpeedShareHomeState createState() => _SpeedShareHomeState();
 }
 
-class _SpeedShareState extends State<SpeedShare> {
+class _SpeedShareHomeState extends State<SpeedShareHome> {
   @override
   Widget build(BuildContext context) {
     return NavigatorPage();

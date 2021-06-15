@@ -14,7 +14,7 @@ class DefaultThemeData {
   static const Color _primary_variant = Color(0xFF0C89DB);
   static const Color _dark_primary_variant = Color(0xFF0C89DB);
   // 浮动按钮类颜色
-  static const Color _secondary = Color(0xff282b3e);
+  static const Color _secondary = _primary;
   static const Color _dark_secondary = Color(0xFF61CE92);
 
   static const Color _on_secondary = Colors.white;

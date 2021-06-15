@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/themes/default_theme_data.dart';
 
 import 'dialog/select_chat_server.dart';
 import 'home_page.dart';
@@ -51,7 +50,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               height: 32,
               decoration: BoxDecoration(
                 color: AppColors.accentColor,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 Icons.open_in_browser,
@@ -65,7 +64,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               height: 32,
               decoration: BoxDecoration(
                 color: AppColors.accentColor,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(Icons.share),
             ),

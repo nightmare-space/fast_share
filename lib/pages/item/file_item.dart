@@ -11,7 +11,6 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/video_preview.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/themes/theme.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:url_launcher/url_launcher.dart';
@@ -96,7 +95,7 @@ class _FileItemState extends State<FileItem> {
   Widget build(BuildContext context) {
     String url;
     if (widget.sendByUser) {
-      url = 'http://127.0.0.1:8002' + widget.info.filePath;
+      url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
     } else {
       url = widget.info.url + widget.info.filePath;
     }
@@ -265,7 +264,7 @@ class _FileItemState extends State<FileItem> {
     if (widget.info is MessageImgInfo) {
       String url;
       if (widget.sendByUser) {
-        url = 'http://127.0.0.1:8002' + widget.info.filePath;
+        url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
       } else {
         url = widget.info.url + widget.info.filePath;
       }
@@ -312,16 +311,18 @@ class _FileItemState extends State<FileItem> {
       MessageVideoInfo info = widget.info;
       String url;
       if (widget.sendByUser) {
-        url = 'http://127.0.0.1:8002' + info.filePath;
+        url = 'http://127.0.0.1:${Config.shelfPort}' + info.filePath;
       } else {
         url = info.url + info.filePath;
       }
       String thumbnailUrl;
       if (widget.sendByUser) {
-        thumbnailUrl = 'http://127.0.0.1:8002' + info.thumbnailPath;
+        thumbnailUrl =
+            'http://127.0.0.1:${Config.shelfPort}' + info.thumbnailPath;
       } else {
         thumbnailUrl = info.url + info.thumbnailPath;
       }
+      Log.e('thumbnailUrl url -> $thumbnailUrl');
       return InkWell(
         onTap: () {
           NiNavigator.of(Get.context).pushVoid(
