@@ -231,7 +231,8 @@ class _ShareChatState extends State<ShareChat> {
       File thumbnailFile;
       String msgType = '';
       // return;
-      if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
+      if ((filePath.isVideoFileName || filePath.endsWith('.mkv')) &&
+          !GetPlatform.isDesktop) {
         msgType = 'video';
         thumbnailFile = await VideoCompress.getFileThumbnail(
           filePath,
