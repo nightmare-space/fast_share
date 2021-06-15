@@ -11,7 +11,6 @@ class ScanUtil {
       return;
     }
     print('cameraScanResult -> $cameraScanResult');
-    final List<String> connectAddress = cameraScanResult.split('\n');
     final List<String> localAddress = await PlatformUtil.localAddress();
     print(localAddress);
     Get.toNamed(

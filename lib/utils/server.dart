@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:path/path.dart' as path;
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/virtual_directory.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/themes/default_theme_data.dart';
 
 import 'dialog/select_chat_server.dart';
 import 'home_page.dart';

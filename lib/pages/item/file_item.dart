@@ -11,7 +11,6 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/video_preview.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/themes/theme.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:url_launcher/url_launcher.dart';
