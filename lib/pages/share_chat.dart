@@ -234,13 +234,6 @@ class _ShareChatState extends State<ShareChat> {
       // return;
       if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
         msgType = 'video';
-        if (!GetPlatform.isDesktop) {
-          thumbnailFile = await VideoCompress.getFileThumbnail(
-            filePath,
-            quality: 50,
-            position: -1,
-          );
-        }
       } else if (filePath.isImageFileName) {
         msgType = 'img';
       } else {
@@ -264,7 +257,7 @@ class _ShareChatState extends State<ShareChat> {
       MessageBaseInfo info = MessageInfoFactory.fromJson({
         'filePath': filePath,
         'msgType': msgType,
-        'thumbnailPath': thumbnailFile?.path,
+        'thumbnailPath': '',
         'fileName': context.basename(filePath),
         'fileSize': FileSizeUtils.getFileSize(size),
         'url': fileUrl,

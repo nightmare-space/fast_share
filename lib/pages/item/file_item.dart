@@ -320,9 +320,7 @@ class _FileItemState extends State<FileItem> {
         thumbnailUrl =
             'http://127.0.0.1:${Config.shelfPort}' + info.thumbnailPath;
       } else {
-        if (info.thumbnailPath != null) {
-          thumbnailUrl = info.url + info.thumbnailPath;
-        }
+        thumbnailUrl = info.url + info.thumbnailPath;
       }
       Log.e('thumbnailUrl url -> $thumbnailUrl');
       return InkWell(
@@ -349,7 +347,7 @@ class _FileItemState extends State<FileItem> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              if (info.thumbnailPath != null) Image.network(thumbnailUrl),
+              if (info.thumbnailPath.isNotEmpty) Image.network(thumbnailUrl),
               Icon(
                 Icons.play_circle,
                 color: AppColors.accentColor,
