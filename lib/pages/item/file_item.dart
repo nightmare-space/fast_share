@@ -326,7 +326,13 @@ class _FileItemState extends State<FileItem> {
       }
       Log.e('thumbnailUrl url -> $thumbnailUrl');
       return InkWell(
-        onTap: () {
+        onTap: () async {
+          if (GetPlatform.isWeb) {
+            await canLaunch(url)
+                ? await launch(url)
+                : throw 'Could not launch $url';
+            return;
+          }
           NiNavigator.of(Get.context).pushVoid(
             Material(
               child: Hero(
