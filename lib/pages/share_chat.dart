@@ -350,7 +350,9 @@ class _ShareChatState extends State<ShareChat> {
 
   Future<void> initChat() async {
     Global().disableShowDialog();
-    addreses = await PlatformUtil.localAddress();
+    if (!GetPlatform.isWeb) {
+      addreses = await PlatformUtil.localAddress();
+    }
     if (widget.needCreateChatServer) {
       // 是创建房间的一端
       createChatServer();
