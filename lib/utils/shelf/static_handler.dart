@@ -195,7 +195,8 @@ Future<Response> _handleFile(Request request, File file,
 
   final headers = {
     HttpHeaders.contentLengthHeader: stat.size.toString(),
-    HttpHeaders.lastModifiedHeader: formatHttpDate(stat.modified)
+    HttpHeaders.lastModifiedHeader: formatHttpDate(stat.modified),
+    HttpHeaders.acceptRangesHeader: 'bytes',
   };
 
   final contentType = await getContentType();
