@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件.
 publish_to: "none"
 
-version: 1.1.6+9
+version: 1.1.7+10
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -25,8 +25,8 @@ dependencies:
   simple_animations: ^2.4.0
   shelf_proxy: ^1.0.0
   qr_flutter: ^3.1.0
+  qr_code_scanner: ^0.5.1
   shelf_static: ^1.0.0
-
   shelf_router: ^1.0.0
   get_server: ^1.1.0
   getsocket: ^1.0.0
@@ -42,7 +42,6 @@ dependencies:
   archive: ^3.1.2
   path: ^1.8.0
   dio: ^4.0.0
-  qrscan: ^0.2.21
   multicast:
     git: https://github.com/nightmare-space/multicast
 
