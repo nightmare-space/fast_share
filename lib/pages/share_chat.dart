@@ -79,6 +79,7 @@ class _ShareChatState extends State<ShareChat> {
           children: [
             Expanded(
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(
                   vertical: 8,
                 ),
@@ -369,7 +370,6 @@ class _ShareChatState extends State<ShareChat> {
     socket.onOpen(() {
       Log.d('chat连接成功');
       isConnect = true;
-      getHistoryMsg();
     });
 
     try {
@@ -378,8 +378,6 @@ class _ShareChatState extends State<ShareChat> {
     } catch (e) {
       isConnect = false;
     }
-    // 监听消息
-    listenMessage();
     if (!isConnect && !GetPlatform.isWeb) {
       // 如果连接失败并且不是 web 平台
       children.add(MessageItemFactory.getMessageItem(
@@ -389,7 +387,7 @@ class _ShareChatState extends State<ShareChat> {
       return;
     }
     if (widget.needCreateChatServer) {
-      sendAddressAndQrCode();
+      await sendAddressAndQrCode();
     } else {
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '已加入$chatRoomUrl'),
@@ -397,6 +395,9 @@ class _ShareChatState extends State<ShareChat> {
       ));
       setState(() {});
     }
+    getHistoryMsg();
+    // 监听消息
+    listenMessage();
   }
 
   Future<void> sendAddressAndQrCode() async {
