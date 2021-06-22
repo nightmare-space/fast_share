@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/model.dart';
+import 'package:speed_share/pages/video.dart';
 import 'package:speed_share/pages/video_preview.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:path/path.dart';
@@ -335,7 +336,7 @@ class _FileItemState extends State<FileItem> {
             Material(
               child: Hero(
                 tag: key,
-                child: SamplePlayer(
+                child: SerieExample(
                   url: url,
                 ),
               ),
