@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:speed_share/config/config.dart';
 
+import 'package:mime/mime.dart';
 import 'shelf/static_handler.dart';
 
 bool _started = false;
@@ -48,7 +49,11 @@ class ShelfStatic {
       home = '/sdcard';
     }
     // final virDirHandler = ShelfVirtualDirectory('/', showLogs: true).handler;
-    var handler = createStaticHandler(home, listDirectories: true);
+    var handler = createStaticHandler(
+      home,
+      listDirectories: true,
+      launchDownload: true,
+    );
     io.serve(
       handler,
       InternetAddress.anyIPv4,
