@@ -10,7 +10,6 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/video.dart';
-import 'package:speed_share/pages/video_preview.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
@@ -45,16 +44,22 @@ class _FileItemState extends State<FileItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    Response<String> response = await dio.head<String>(urlPath);
+    Response<String> response = await dio.head<String>(
+      urlPath + '?download=true',
+      options: Options(
+        method: 'HEAD',
+      ),
+    );
     final int fullByte = int.tryParse(
-      response.headers.value('content-length'),
+      response.headers.value(HttpHeaders.contentLengthHeader),
     ); //得到服务器文件返回的字节大小
     print('fullByte -> $fullByte');
+    Log.e('${response.headers}');
     savePath = savePath + '/' + basename(urlPath);
     // print(savePath);
     computeNetSpeed();
     await dio.download(
-      urlPath,
+      urlPath + '?download=true',
       savePath,
       cancelToken: cancelToken,
       onReceiveProgress: (count, total) {
@@ -207,8 +212,9 @@ class _FileItemState extends State<FileItem> {
                 InkWell(
                   onTap: () async {
                     if (GetPlatform.isWeb) {
+                      Log.e('web download');
                       await canLaunch(url)
-                          ? await launch(url)
+                          ? await launch(url + '?download=true')
                           : throw 'Could not launch $url';
                       return;
                     }

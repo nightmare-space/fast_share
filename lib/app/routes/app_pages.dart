@@ -53,15 +53,12 @@ class ThemeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Log.d('ThemeWidget');
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final ThemeData theme =
         isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
     return Theme(
       data: theme,
-      child: NiToastNew(
-        child: child,
-      ),
+      child: child,
     );
   }
 }

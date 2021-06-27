@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:oktoast/oktoast.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
 import 'global/global.dart';
@@ -67,58 +68,53 @@ Future<void> unpack() async {
 }
 
 class SpeedShare extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     String initRoute = SpeedPages.INITIAL;
     if (GetPlatform.isWeb) {
       initRoute = '/chat';
     }
-    return OrientationBuilder(
-      builder: (_, Orientation orientation) {
-        return GetMaterialApp(
-          enableLog: false,
-          locale: const Locale('en', 'US'),
-          title: '速享',
-          initialRoute: initRoute,
-          getPages: SpeedPages.routes,
-          defaultTransition: Transition.fadeIn,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: <LocalizationsDelegate<dynamic>>[
-            DefaultWidgetsLocalizations.delegate,
-            DefaultMaterialLocalizations.delegate,
-          ],
-          builder: (context, child) {
-            if (kIsWeb || GetPlatform.isDesktop) {
-              ScreenUtil.init(
-                context,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                allowFontScaling: false,
-              );
-            } else {
-              if (orientation == Orientation.landscape) {
+    return NiToastNew(
+      child: OrientationBuilder(
+        builder: (_, Orientation orientation) {
+          return GetMaterialApp(
+            enableLog: false,
+            locale: const Locale('en', 'US'),
+            title: '速享',
+            initialRoute: initRoute,
+            getPages: SpeedPages.routes,
+            defaultTransition: Transition.fadeIn,
+            debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              if (kIsWeb || GetPlatform.isDesktop) {
                 ScreenUtil.init(
                   context,
-                  width: 896,
-                  height: 414,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   allowFontScaling: false,
                 );
               } else {
-                ScreenUtil.init(
-                  context,
-                  width: 414,
-                  height: 896,
-                  allowFontScaling: false,
-                );
+                if (orientation == Orientation.landscape) {
+                  ScreenUtil.init(
+                    context,
+                    width: 896,
+                    height: 414,
+                    allowFontScaling: false,
+                  );
+                } else {
+                  ScreenUtil.init(
+                    context,
+                    width: 414,
+                    height: 896,
+                    allowFontScaling: false,
+                  );
+                }
               }
-            }
-            return NiToastNew(
-              child: child,
-            );
-          },
-        );
-      },
+              return child;
+            },
+          );
+        },
+      ),
     );
   }
 }
