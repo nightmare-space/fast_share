@@ -395,9 +395,10 @@ class _ShareChatState extends State<ShareChat> {
       ));
       setState(() {});
     }
-    getHistoryMsg();
     // 监听消息
     listenMessage();
+    await Future.delayed(Duration(milliseconds: 100));
+    getHistoryMsg();
   }
 
   Future<void> sendAddressAndQrCode() async {
@@ -410,6 +411,8 @@ class _ShareChatState extends State<ShareChat> {
       false,
     ));
     List<String> addreses = await PlatformUtil.localAddress();
+    // 10开头一般是数据网络的IP，后续考虑通过设置放开
+    addreses.removeWhere((element) => element.startsWith('10.'));
     if (addreses.isEmpty) {
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '未发现局域网IP'),
@@ -417,9 +420,6 @@ class _ShareChatState extends State<ShareChat> {
       ));
     } else {
       for (String address in addreses) {
-        if (address.startsWith('10.')) {
-          continue;
-        }
         children.add(MessageItemFactory.getMessageItem(
           MessageTextInfo(content: 'http://$address:${Config.chatPort}'),
           false,
@@ -499,6 +499,7 @@ class _ShareChatState extends State<ShareChat> {
 
   void getHistoryMsg() {
     // 这个消息来告诉聊天服务器，自己需要历史消息
+    print('获取历史消息');
     socket.send(jsonEncode({
       'type': "getHistory",
     }));
