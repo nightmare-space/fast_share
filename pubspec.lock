@@ -273,11 +273,9 @@ packages:
   global_repository:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "14905a2cb6220dfc29c9a7aeaad00fdc30414d28"
-      url: "https://github.com/nightmare-space/global_repository"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/global_repository"
+      relative: false
+    source: path
     version: "0.0.1"
   helpers:
     dependency: transitive
@@ -349,6 +347,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  mime_type:
+    dependency: "direct main"
+    description:
+      name: mime_type
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   multicast:
     dependency: "direct main"
     description:
@@ -365,6 +370,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  oktoast:
+    dependency: "direct main"
+    description:
+      name: oktoast
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.0"
   path:
     dependency: "direct main"
     description:

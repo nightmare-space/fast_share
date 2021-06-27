@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件.
 publish_to: "none"
 
-version: 1.1.7+10
+version: 1.1.8+11
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -41,15 +41,22 @@ dependencies:
   video_compress: ^2.1.0
   archive: ^3.1.2
   path: ^1.8.0
+  mime_type: ^1.0.0
   dio: ^4.0.0
+  oktoast: ^3.0.0
   multicast:
     git: https://github.com/nightmare-space/multicast
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 flutter:
   uses-material-design: true
   assets:
     - assets/
     - assets/icon/
+
+dependency_overrides:
+  global_repository:
+    path: /Users/nightmare/Desktop/nightmare-space/global_repository
