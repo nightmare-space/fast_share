@@ -28,6 +28,7 @@ class _SerieExampleState extends State<SerieExample> {
             betterPlayerConfiguration: BetterPlayerConfiguration(
               // aspectRatio: 9 / 16,
               fullScreenByDefault: false,
+              autoPlay: true,
               fit: BoxFit.contain,
             ),
           ),
