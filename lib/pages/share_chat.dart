@@ -474,6 +474,9 @@ class _ShareChatState extends State<ShareChat> {
               }
             }
           }
+          if (messageInfo.url.contains(' ')) {
+            messageInfo.url = messageInfo.url.split(' ').first;
+          }
         } else {
           messageInfo.url = messageInfo.url.split(' ').first;
         }
