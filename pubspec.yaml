@@ -32,8 +32,8 @@ dependencies:
   getsocket: ^1.0.0
   file_picker: ^3.0.1
   flutter_svg: ^0.22.0
-  file_manager:
-    git: https://github.com/nightmare-space/file_manager
+  file_manager_view:
+    path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
   url_launcher: ^6.0.4
   flick_video_player: ^0.3.1
   video_viewer: ^1.2.2

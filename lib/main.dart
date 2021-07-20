@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:speed_share/pages/home_page.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
 import 'global/global.dart';
-import 'pages/navigator_page.dart';
-
+import 'themes/default_theme_data.dart';
 import 'utils/shelf_static.dart';
 
 void main() {
@@ -110,7 +108,14 @@ class SpeedShare extends StatelessWidget {
                   );
                 }
               }
-              return child;
+              final bool isDark =
+                  Theme.of(context).brightness == Brightness.dark;
+              final ThemeData theme =
+                  isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+              return Theme(
+                data: theme,
+                child: child,
+              );
             },
           );
         },
@@ -134,6 +139,6 @@ class SpeedShareHome extends StatefulWidget {
 class _SpeedShareHomeState extends State<SpeedShareHome> {
   @override
   Widget build(BuildContext context) {
-    return NavigatorPage();
+    return HomePage();
   }
 }

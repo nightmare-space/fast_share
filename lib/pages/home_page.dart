@@ -1,19 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:speed_share/config/config.dart';
+import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/utils/process_server.dart';
 import 'package:speed_share/utils/scan_util.dart';
-import 'package:speed_share/utils/shelf_static.dart';
+import 'package:speed_share/widgets/circle_animation.dart';
 import 'package:speed_share/widgets/custom_icon_button.dart';
 import 'package:supercharged/supercharged.dart';
+
+import 'dialog/join_chat.dart';
+import 'setting_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,8 +22,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool serverOpend = true;
-  String content = '';
-  List<String> addreses = [];
   @override
   void initState() {
     super.initState();
@@ -34,51 +32,6 @@ class _HomePageState extends State<HomePage> {
     if (GetPlatform.isAndroid) {
       PermissionUtil.requestStorage();
     }
-    if (!GetPlatform.isWeb) {
-      addreses = await PlatformUtil.localAddress();
-    }
-
-    setState(() {});
-  }
-
-  Widget addressItem(String uri) {
-    return InkWell(
-      onTap: () async {
-        await Clipboard.setData(ClipboardData(
-          text: uri,
-        ));
-        content = uri;
-        setState(() {});
-        showToast('已复制到剪切板');
-      },
-      child: SizedBox(
-        height: Dimens.gap_dp48,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Dimens.gap_dp12,
-          ),
-          child: Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.deepPurple,
-                ),
-                height: Dimens.gap_dp6,
-                width: Dimens.gap_dp6,
-              ),
-              SizedBox(width: Dimens.gap_dp8),
-              Text(
-                uri,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -86,108 +39,131 @@ class _HomePageState extends State<HomePage> {
     AppBar appBar;
     // if (GetPlatform.isAndroid) {
     appBar = AppBar(
-      title: Text('速享'),
       actions: [
         if (GetPlatform.isAndroid)
           NiIconButton(
             child: SvgPicture.asset(
-              '${Config.flutterPackage}assets/icon/QR_code.svg',
+              GlobalAssets.qrCode,
               color: Colors.black,
             ),
             onTap: () async {
               ScanUtil.parseScan();
             },
           ),
+        NiIconButton(
+          child: Icon(
+            Icons.settings,
+            color: Colors.black,
+            size: 24,
+          ),
+          onTap: () async {
+            Get.to(SettingPage());
+          },
+        ),
         SizedBox(width: Dimens.gap_dp12),
       ],
     );
-    // }
     return Scaffold(
       appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: QrImage(
-                data: content,
-                version: QrVersions.auto,
-              ),
-            ),
-            Column(
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 200.0),
+            child: WaterRipple(),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(bottom: 60.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          fontSize: 12,
+                NiCardButton(
+                  borderRadius: 24,
+                  onTap: () {
+                    Get.toNamed(
+                      '${Routes.chat}?needCreateChatServer=true',
+                    );
+                  },
+                  color: AppColors.accentColor,
+                  child: SizedBox(
+                    width: 150,
+                    height: 200,
+                    child: Center(
+                      child: Text(
+                        '发起共享',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ),
                   ),
                 ),
-                Builder(builder: (_) {
-                  List<Widget> list = [];
-                  for (String address in addreses) {
-                    // if (address.startsWith('10.')) {
-                    //   // 10.开头的ip一般是移动数据获得的ip
-                    //   continue;
-                    // }
-                    list.add(
-                      addressItem('http://$address:${Config.shelfAllPort}'),
-                    );
-                  }
-                  return Column(
-                    children: list,
-                  );
-                }),
+                NiCardButton(
+                  borderRadius: 24,
+                  onTap: () {
+                    Get.dialog(JoinChat());
+                  },
+                  color: AppColors.sendByUser,
+                  child: SizedBox(
+                    width: 150,
+                    height: 200,
+                    child: Center(
+                      child: Text(
+                        '加入共享',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
-            Center(
-              child: serverOpend
-                  ? LoginButton(
-                      title: '关闭服务',
-                      backgroundColor: AppColors.surface,
-                      fontColor: AppColors.fontColor,
-                      onTap: () async {
-                        await Future<void>.delayed(Duration(milliseconds: 300));
-                        if (!GetPlatform.isWeb) {
-                          ProcessServer.close();
-                        }
-                        ShelfStatic.close();
-                        serverOpend = false;
-                        setState(() {});
-                        return true;
-                      },
-                    )
-                  : LoginButton(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      title: '开启服务',
-                      fontColor: Colors.white,
-                      onTap: () async {
-                        await Future<void>.delayed(Duration(milliseconds: 300));
-                        if (!GetPlatform.isWeb) {
-                          ProcessServer.start();
-                        }
-                        ShelfStatic.start();
-                        serverOpend = true;
-                        setState(() {});
-                        return true;
-                      },
-                    ),
-            ),
-          ],
-        ),
+          ),
+          // Center(
+          //   child: serverOpend
+          //       ? LoginButton(
+          //           title: '关闭服务',
+          //           backgroundColor: AppColors.surface,
+          //           fontColor: AppColors.fontColor,
+          //           onTap: () async {
+          //             await Future<void>.delayed(Duration(milliseconds: 300));
+          //             if (!GetPlatform.isWeb) {
+          //               ProcessServer.close();
+          //             }
+          //             ShelfStatic.close();
+          //             serverOpend = false;
+          //             setState(() {});
+          //             return true;
+          //           },
+          //         )
+          //       : LoginButton(
+          //           backgroundColor: Theme.of(context).colorScheme.secondary,
+          //           title: '开启服务',
+          //           fontColor: Colors.white,
+          //           onTap: () async {
+          //             await Future<void>.delayed(Duration(milliseconds: 300));
+          //             if (!GetPlatform.isWeb) {
+          //               ProcessServer.start();
+          //             }
+          //             ShelfStatic.start();
+          //             serverOpend = true;
+          //             setState(() {});
+          //             return true;
+          //           },
+          //         ),
+          // ),
+        ],
       ),
     );
-  }
-}
-
-class AddressItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
 

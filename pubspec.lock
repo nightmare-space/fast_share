@@ -28,7 +28,7 @@ packages:
       name: better_player
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.69"
+    version: "0.0.72"
   boolean_selector:
     dependency: transitive
     description:
@@ -36,6 +36,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  cached_video_player:
+    dependency: transitive
+    description:
+      name: cached_video_player
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0-dev.1"
   characters:
     dependency: transitive
     description:
@@ -70,14 +77,14 @@ packages:
       name: convert
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   cross_file:
     dependency: transitive
     description:
       name: cross_file
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.1+1"
+    version: "0.3.1+4"
   crypto:
     dependency: transitive
     description:
@@ -106,13 +113,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.0"
-  draggable_scrollbar:
-    dependency: transitive
-    description:
-      name: draggable_scrollbar
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.4"
   event_bus:
     dependency: transitive
     description:
@@ -140,23 +140,21 @@ packages:
       name: file
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.1.1"
-  file_manager:
+    version: "6.1.2"
+  file_manager_view:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: dcc150d18e089b457522d59b14a0a9731cd224ee
-      url: "https://github.com/nightmare-space/file_manager"
-    source: git
-    version: "0.0.1"
+      path: "/Users/nightmare/Desktop/nightmare-space/file_manager_view"
+      relative: false
+    source: path
+    version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
     description:
       name: file_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.2+2"
+    version: "3.0.3"
   file_selector_linux:
     dependency: "direct main"
     description:
@@ -211,13 +209,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.3.1"
-  flutter_spinkit:
-    dependency: transitive
-    description:
-      name: flutter_spinkit
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.1.2+1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -241,7 +232,7 @@ packages:
       name: flutter_widget_from_html_core
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.6.1+1"
+    version: "0.6.1+3"
   gesture_x_detector:
     dependency: transitive
     description:
@@ -439,7 +430,7 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   permission_handler:
     dependency: transitive
     description:
@@ -453,7 +444,7 @@ packages:
       name: permission_handler_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.6.0"
+    version: "3.6.1"
   petitparser:
     dependency: transitive
     description:
@@ -474,7 +465,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   process:
     dependency: transitive
     description:
@@ -502,7 +493,7 @@ packages:
       name: qr_code_scanner
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.5.1"
+    version: "0.5.2"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -523,7 +514,7 @@ packages:
       name: shelf
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.4"
+    version: "1.2.0"
   shelf_proxy:
     dependency: "direct main"
     description:
@@ -537,14 +528,14 @@ packages:
       name: shelf_router
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.1"
   shelf_static:
     dependency: "direct main"
     description:
       name: shelf_static
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   shelf_virtual_directory:
     dependency: "direct main"
     description:
@@ -636,27 +627,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.0"
-  universal_html:
-    dependency: transitive
-    description:
-      name: universal_html
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.8"
-  universal_io:
-    dependency: transitive
-    description:
-      name: universal_io
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.4"
   url_launcher:
     dependency: "direct main"
     description:
       name: url_launcher
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.6"
+    version: "6.0.9"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -677,7 +654,7 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   url_launcher_web:
     dependency: transitive
     description:
@@ -712,7 +689,7 @@ packages:
       name: video_player
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.6"
+    version: "2.1.10"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -733,7 +710,7 @@ packages:
       name: video_viewer
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.2"
+    version: "1.2.3+1"
   visibility_detector:
     dependency: transitive
     description:
@@ -741,6 +718,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
+  volume_watcher:
+    dependency: transitive
+    description:
+      name: volume_watcher
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.1"
   wakelock:
     dependency: transitive
     description:
@@ -782,7 +766,7 @@ packages:
       name: win32
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.5"
+    version: "2.2.5"
   xdg_directories:
     dependency: transitive
     description:

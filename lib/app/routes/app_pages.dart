@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/bindings/home_binding.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/main.dart';
 import 'package:speed_share/pages/share_chat.dart';
@@ -19,6 +19,7 @@ class SpeedPages {
       page: () => ThemeWidget(
         child: SpeedShareHome(),
       ),
+      binding: HomeBinding(),
     ),
     GetPage(
       name: Routes.chat,

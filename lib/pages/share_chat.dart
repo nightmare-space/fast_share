@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:path/path.dart' as p;
-import 'package:file_manager/file_manager.dart';
+import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
@@ -14,7 +14,6 @@ import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:video_compress/video_compress.dart';
-
 import 'item/message_item_factory.dart';
 import 'model/model.dart';
 import 'model/model_factory.dart';
@@ -278,12 +277,14 @@ class _ShareChatState extends State<ShareChat> {
 
   Future<void> sendForAndroid({bool useSystemPicker = false}) async {
     // 选择文件路径
-    String filePath;
+    List<String> filePaths = [];
     if (!useSystemPicker) {
-      filePath = await FileManager.chooseFile(
-        context: context,
-        pickPath: '/storage/emulated/0',
+      List<fm.FileEntity> pickResult = await fm.FileManager.pickFiles(
+        context,
       );
+      pickResult.forEach((element) {
+        filePaths.add(element.path);
+      });
     } else {
       FilePickerResult result = await FilePicker.platform.pickFiles(
         allowCompression: false,
@@ -297,56 +298,58 @@ class _ShareChatState extends State<ShareChat> {
         print(file.size);
         print(file.extension);
         print(file.path);
-        filePath = file.path;
+        // filePath = file.path;
       } else {
         // User canceled the picker
       }
     }
-    print(filePath);
-    if (filePath == null) {
-      return;
+    for (String filePath in filePaths) {
+      print(filePath);
+      if (filePath == null) {
+        return;
+      }
+      serverFile(filePath);
+      File thumbnailFile;
+      String msgType = '';
+      if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
+        msgType = 'video';
+        thumbnailFile = await VideoCompress.getFileThumbnail(
+          filePath,
+          quality: 50,
+          position: -1,
+        );
+        serverFile(thumbnailFile.path);
+      } else if (filePath.isImageFileName) {
+        msgType = 'img';
+      } else {
+        msgType = 'other';
+      }
+      print('msgType $msgType');
+      int size = await File(filePath).length();
+      String fileUrl = '';
+      List<String> address = await PlatformUtil.localAddress();
+      for (String addr in address) {
+        fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
+      }
+      fileUrl = fileUrl.trim();
+      dynamic info = MessageInfoFactory.fromJson({
+        'filePath': filePath,
+        'msgType': msgType,
+        'thumbnailPath': thumbnailFile?.path,
+        'fileName': p.basename(filePath),
+        'fileSize': FileSizeUtils.getFileSize(size),
+        'url': fileUrl,
+      });
+      // 发送消息
+      socket.send(info.toString());
+      // 将消息添加到本地列表
+      children.add(MessageItemFactory.getMessageItem(
+        info,
+        true,
+      ));
+      scroll();
+      setState(() {});
     }
-    serverFile(filePath);
-    File thumbnailFile;
-    String msgType = '';
-    if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
-      msgType = 'video';
-      thumbnailFile = await VideoCompress.getFileThumbnail(
-        filePath,
-        quality: 50,
-        position: -1,
-      );
-      serverFile(thumbnailFile.path);
-    } else if (filePath.isImageFileName) {
-      msgType = 'img';
-    } else {
-      msgType = 'other';
-    }
-    print('msgType $msgType');
-    int size = await File(filePath).length();
-    String fileUrl = '';
-    List<String> address = await PlatformUtil.localAddress();
-    for (String addr in address) {
-      fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
-    }
-    fileUrl = fileUrl.trim();
-    dynamic info = MessageInfoFactory.fromJson({
-      'filePath': filePath,
-      'msgType': msgType,
-      'thumbnailPath': thumbnailFile?.path,
-      'fileName': p.basename(filePath),
-      'fileSize': FileSizeUtils.getFileSize(size),
-      'url': fileUrl,
-    });
-    // 发送消息
-    socket.send(info.toString());
-    // 将消息添加到本地列表
-    children.add(MessageItemFactory.getMessageItem(
-      info,
-      true,
-    ));
-    scroll();
-    setState(() {});
   }
 
   Future<void> initChat() async {
@@ -475,6 +478,7 @@ class _ShareChatState extends State<ShareChat> {
             }
           }
           if (messageInfo.url.contains(' ')) {
+            // 这儿是没有找到同一个局域网，有可能划分了子网
             messageInfo.url = messageInfo.url.split(' ').first;
           }
         } else {
