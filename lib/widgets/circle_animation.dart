@@ -90,13 +90,13 @@ class WaterRipplePainter extends CustomPainter {
       }
       double _radius = radius;
       if (i == 0) {
-        _radius = radius + 140 * (i + 1) * progress;
+        _radius = radius + 40 * (i + 1) * progress;
       }
       if (i > 0) {
         if (progress > 0.4) {
-          _radius = radius + 140 * (i + 1) * progress;
+          _radius = radius + 40 * (i + 1) * progress;
         } else {
-          _radius = radius + 140 * (i + 1) * progress;
+          _radius = radius + 40 * (i + 1) * progress;
           opacity = opacity * progress / 0.4;
         }
       }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:speed_share/app/bindings/chat_binding.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/main.dart';
-import 'package:speed_share/pages/share_chat.dart';
+import 'package:speed_share/pages/share_chat_window.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
 
@@ -41,6 +42,7 @@ class SpeedPages {
           ),
         );
       },
+      binding: ChatBinding(),
     ),
   ];
 }

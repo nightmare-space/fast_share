@@ -4,9 +4,8 @@ import 'package:speed_share/themes/app_colors.dart';
 
 class QrMessageItem extends StatelessWidget {
   final String data;
-  final bool sendByUser;
 
-  const QrMessageItem({Key key, this.data, this.sendByUser}) : super(key: key);
+  const QrMessageItem({Key key, this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,8 +1,4 @@
-import 'message_base_info.dart';
-import 'message_file_info.dart';
-import 'message_qr_info.dart';
-import 'message_text_info.dart';
-import 'message_tip_info.dart';
+import 'model.dart';
 
 class MessageInfoFactory {
   /// 根据不同的json返回不同的对象
@@ -17,6 +13,12 @@ class MessageInfoFactory {
         break;
       case 'text':
         return MessageTextInfo.fromJson(json);
+        break;
+      case 'dir':
+        return MessageDirInfo.fromJson(json);
+        break;
+      case 'dirPart':
+        return MessageDirPartInfo.fromJson(json);
         break;
       case 'tip':
         return MessageTipInfo.fromJson(json);

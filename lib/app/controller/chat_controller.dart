@@ -1,39 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:shelf/shelf_io.dart' as io;
-import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:path/path.dart' as p;
-import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
-import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/utils/chat_server.dart';
+import 'package:speed_share/pages/item/dir_item.dart';
+import 'package:speed_share/pages/item/message_item_factory.dart';
+import 'package:speed_share/pages/model/model.dart';
+import 'package:speed_share/pages/model/model_factory.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
-import 'package:video_compress/video_compress.dart';
-import 'item/message_item_factory.dart';
-import 'model/model.dart';
-import 'model/model_factory.dart';
+import 'package:shelf/shelf_io.dart' as io;
+import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:speed_share/utils/string_extension.dart';
 
-class ShareChat extends StatefulWidget {
-  const ShareChat({
-    Key key,
-    this.needCreateChatServer = true,
-    this.chatServerAddress,
-  }) : super(key: key);
-
-  /// 为`true`的时候，会创建一个聊天服务器，如果为`false`，则代表加入已有的聊天
-  final bool needCreateChatServer;
-  final String chatServerAddress;
-  @override
-  _ShareChatState createState() => _ShareChatState();
-}
-
-class _ShareChatState extends State<ShareChat> {
+class ChatController extends GetxController {
   FocusNode focusNode = FocusNode();
   TextEditingController controller = TextEditingController();
   GetSocket socket;
@@ -43,160 +28,16 @@ class _ShareChatState extends State<ShareChat> {
   bool isConnect = false;
   String chatRoomUrl = '';
   @override
-  void initState() {
-    super.initState();
-    initChat();
-  }
-
-  @override
-  void dispose() {
+  void onClose() {
     if (isConnect) {
       socket.close();
     }
-
     Global().enableShowDialog();
     Global().stopSendBoradcast();
     focusNode.dispose();
     controller.dispose();
     scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        shadowColor: AppColors.accentColor,
-        title: Text('文件共享'),
-      ),
-      body: GestureDetector(
-        onTap: () {
-          focusNode.unfocus();
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                  vertical: 8,
-                ),
-                controller: scrollController,
-                itemCount: children.length,
-                cacheExtent: 99999,
-                itemBuilder: (c, i) {
-                  return children[i];
-                },
-              ),
-            ),
-            sendMsgContainer(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Material sendMsgContainer(BuildContext context) {
-    return Material(
-      color: AppColors.surface,
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  if (GetPlatform.isAndroid)
-                    SizedBox(
-                      height: 32,
-                      child: Transform(
-                        transform: Matrix4.identity()..translate(0.0, -4.0),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            Icons.image,
-                            color: AppColors.accentColor,
-                          ),
-                          onPressed: () async {
-                            sendForAndroid(
-                              useSystemPicker: true,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  SizedBox(
-                    height: 32,
-                    child: Transform(
-                      transform: Matrix4.identity()..translate(0.0, -4.0),
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
-                          Icons.file_copy,
-                          color: AppColors.accentColor,
-                        ),
-                        onPressed: () async {
-                          if (GetPlatform.isAndroid) {
-                            sendForAndroid();
-                          }
-                          if (GetPlatform.isDesktop) {
-                            sendForDesktop();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      focusNode: focusNode,
-                      controller: controller,
-                      autofocus: false,
-                      maxLines: 8,
-                      minLines: 1,
-                      style: TextStyle(
-                        textBaseline: TextBaseline.ideographic,
-                      ),
-                      onSubmitted: (_) {
-                        sendTextMsg();
-                        Future.delayed(Duration(milliseconds: 100), () {
-                          focusNode.requestFocus();
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Material(
-                    color: AppColors.accentColor,
-                    borderRadius: BorderRadius.circular(32),
-                    borderOnForeground: true,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.send,
-                        color: AppColors.surface,
-                      ),
-                      onPressed: () {
-                        sendTextMsg();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    super.onClose();
   }
 
   void serverFile(String path) {
@@ -216,7 +57,76 @@ class _ShareChatState extends State<ShareChat> {
     );
   }
 
-  Future<void> sendForDesktop() async {
+  Future<void> sendDir() async {
+    String dirPath;
+    if (GetPlatform.isDesktop) {
+      dirPath = await FileSelectorPlatform.instance.getDirectoryPath(
+        confirmButtonText: '选择',
+      );
+    } else {
+      dirPath = await fm.FileManager.pickDirectory(Get.context);
+    }
+    Log.d('dirPath -> $dirPath');
+    if (dirPath == null) {
+      return;
+    }
+    Directory dir = Directory(dirPath);
+    List<FileSystemEntity> list = await dir.list(recursive: true).toList();
+
+    String fileUrl = '';
+    List<String> address = await PlatformUtil.localAddress();
+    for (String addr in address) {
+      fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
+    }
+    fileUrl = fileUrl.trim();
+    // 可能会存在两个不同路径下有相同文件夹名的问题
+    String dirName = p.basename(dirPath);
+    MessageBaseInfo info = MessageInfoFactory.fromJson({
+      'dirName': dirName,
+      'msgType': 'dir',
+      'urlPrifix': fileUrl,
+      'fullSize': 0,
+    });
+
+    // 发送消息
+    socket.send(info.toString());
+    // 将消息添加到本地列表
+    children.add(MessageItemFactory.getMessageItem(
+      info,
+      true,
+    ));
+    scroll();
+    update();
+    list.forEach((element) async {
+      FileSystemEntity entity = element;
+      String suffix = '';
+      int size = 0;
+      if (entity is Directory) {
+        suffix = '/';
+      } else if (entity is File) {
+        size = await entity.length();
+
+        serverFile(entity.path);
+      }
+      dynamic info = MessageInfoFactory.fromJson({
+        'path': element.path + suffix,
+        'size': size,
+        'msgType': 'dirPart',
+        'partOf': dirName,
+      });
+      socket.send(info.toString());
+    });
+    info = MessageInfoFactory.fromJson({
+      'stat': 'complete',
+      // 'size':element.s
+      'msgType': 'dirPart',
+      'partOf': dirName,
+    });
+    await Future.delayed(Duration(seconds: 1));
+    socket.send(info.toString());
+  }
+
+  Future<void> sendFileForDesktop() async {
     final typeGroup = XTypeGroup(
       label: 'images',
     );
@@ -229,7 +139,6 @@ class _ShareChatState extends State<ShareChat> {
       final file = xFile;
       serverFile(file.path);
       String filePath = file.path.replaceAll('\\', '/');
-      File thumbnailFile;
       String msgType = '';
       // return;
       if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
@@ -242,12 +151,12 @@ class _ShareChatState extends State<ShareChat> {
       int size = await File(filePath).length();
 
       filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
-      String fileUrl = '';
+      String url = '';
       List<String> address = await PlatformUtil.localAddress();
       for (String addr in address) {
-        fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
+        url += 'http://' + addr + ':${Config.shelfPort} ';
       }
-      fileUrl = fileUrl.trim();
+      url = url.trim();
       p.Context context;
       if (GetPlatform.isWindows) {
         context = p.windows;
@@ -257,10 +166,9 @@ class _ShareChatState extends State<ShareChat> {
       MessageBaseInfo info = MessageInfoFactory.fromJson({
         'filePath': filePath,
         'msgType': msgType,
-        'thumbnailPath': '',
         'fileName': context.basename(filePath),
         'fileSize': FileSizeUtils.getFileSize(size),
-        'url': fileUrl,
+        'url': url,
       });
       // Log.w(await PlatformUtil.localAddress());
       // 发送消息
@@ -271,16 +179,16 @@ class _ShareChatState extends State<ShareChat> {
         true,
       ));
       scroll();
-      setState(() {});
+      update();
     }
   }
 
-  Future<void> sendForAndroid({bool useSystemPicker = false}) async {
+  Future<void> sendFileForAndroid({bool useSystemPicker = false}) async {
     // 选择文件路径
     List<String> filePaths = [];
     if (!useSystemPicker) {
       List<fm.FileEntity> pickResult = await fm.FileManager.pickFiles(
-        context,
+        Get.context,
       );
       pickResult.forEach((element) {
         filePaths.add(element.path);
@@ -291,13 +199,16 @@ class _ShareChatState extends State<ShareChat> {
         allowMultiple: true,
       );
       if (result != null) {
-        PlatformFile file = result.files.first;
+        for (PlatformFile file in result.files) {
+          filePaths.add(file.path);
+        }
+        // PlatformFile file = result.files.first;
 
-        print(file.name);
-        print(file.bytes);
-        print(file.size);
-        print(file.extension);
-        print(file.path);
+        // print(file.name);
+        // print(file.bytes);
+        // print(file.size);
+        // print(file.extension);
+        // print(file.path);
         // filePath = file.path;
       } else {
         // User canceled the picker
@@ -309,16 +220,9 @@ class _ShareChatState extends State<ShareChat> {
         return;
       }
       serverFile(filePath);
-      File thumbnailFile;
       String msgType = '';
       if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
         msgType = 'video';
-        thumbnailFile = await VideoCompress.getFileThumbnail(
-          filePath,
-          quality: 50,
-          position: -1,
-        );
-        serverFile(thumbnailFile.path);
       } else if (filePath.isImageFileName) {
         msgType = 'img';
       } else {
@@ -335,7 +239,7 @@ class _ShareChatState extends State<ShareChat> {
       dynamic info = MessageInfoFactory.fromJson({
         'filePath': filePath,
         'msgType': msgType,
-        'thumbnailPath': thumbnailFile?.path,
+        'thumbnailPath': '',
         'fileName': p.basename(filePath),
         'fileSize': FileSizeUtils.getFileSize(size),
         'url': fileUrl,
@@ -348,60 +252,8 @@ class _ShareChatState extends State<ShareChat> {
         true,
       ));
       scroll();
-      setState(() {});
+      update();
     }
-  }
-
-  Future<void> initChat() async {
-    Global().disableShowDialog();
-    if (!GetPlatform.isWeb) {
-      addreses = await PlatformUtil.localAddress();
-    }
-    if (widget.needCreateChatServer) {
-      // 是创建房间的一端
-      createChatServer();
-      UniqueKey uniqueKey = UniqueKey();
-      Global().startSendBoardcast(
-        uniqueKey.toString() + ' ' + addreses.join(' '),
-      );
-      chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';
-    } else {
-      chatRoomUrl = widget.chatServerAddress;
-    }
-    socket = GetSocket(chatRoomUrl + '/chat');
-    Log.v('chat open');
-    socket.onOpen(() {
-      Log.d('chat连接成功');
-      isConnect = true;
-    });
-
-    try {
-      await socket.connect();
-      await Future.delayed(Duration.zero);
-    } catch (e) {
-      isConnect = false;
-    }
-    if (!isConnect && !GetPlatform.isWeb) {
-      // 如果连接失败并且不是 web 平台
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '加入失败!'),
-        false,
-      ));
-      return;
-    }
-    if (widget.needCreateChatServer) {
-      await sendAddressAndQrCode();
-    } else {
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '已加入$chatRoomUrl'),
-        false,
-      ));
-      setState(() {});
-    }
-    // 监听消息
-    listenMessage();
-    await Future.delayed(Duration(milliseconds: 100));
-    getHistoryMsg();
   }
 
   Future<void> sendAddressAndQrCode() async {
@@ -423,23 +275,27 @@ class _ShareChatState extends State<ShareChat> {
       ));
     } else {
       for (String address in addreses) {
+        // 添加一行文本消息
         children.add(MessageItemFactory.getMessageItem(
           MessageTextInfo(content: 'http://$address:${Config.chatPort}'),
           false,
         ));
+        // 添加一行二维码消息
         children.add(MessageItemFactory.getMessageItem(
           MessageQrInfo(content: 'http://$address:${Config.chatPort}'),
           false,
         ));
       }
     }
-    setState(() {});
+    update();
     scroll();
   }
 
+  Map<String, int> dirItemMap = {};
+  Map<String, MessageDirInfo> dirMsgMap = {};
   void listenMessage() {
+    Log.e('监听');
     socket.onMessage((message) {
-      // print('服务端的消息 - $message');
       if (message == '') {
         // 发来的空字符串就没必要解析了
         return;
@@ -451,7 +307,47 @@ class _ShareChatState extends State<ShareChat> {
         return;
       }
       MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
-      if (messageInfo is MessageFileInfo) {
+      if (messageInfo is MessageDirInfo) {
+        // 保存文件夹消息所在的index
+        dirItemMap[messageInfo.dirName] = children.length;
+        dirMsgMap[messageInfo.dirName] = messageInfo;
+        if (!GetPlatform.isWeb) {
+          for (String url in messageInfo.urlPrifix.split(' ')) {
+            Uri uri = Uri.parse(url);
+            Log.v('消息带有的address -> ${uri.host}');
+            for (String localAddr in addreses) {
+              if (uri.host.isSameSegment(localAddr)) {
+                Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+                messageInfo.urlPrifix = url;
+              }
+            }
+          }
+          if (messageInfo.urlPrifix.contains(' ')) {
+            // 这儿是没有找到同一个局域网，有可能划分了子网
+            messageInfo.urlPrifix = messageInfo.urlPrifix.split(' ').first;
+          }
+        } else {
+          messageInfo.urlPrifix = messageInfo.urlPrifix.split(' ').first;
+        }
+        Log.w('dirItemMap -> $dirItemMap');
+      } else if (messageInfo is MessageDirPartInfo) {
+        Log.w('文件夹子文件 -> ${messageInfo}');
+        if (messageInfo.stat == 'complete') {
+          Log.e('完成发送');
+          dirMsgMap[messageInfo.partOf].canDownload = true;
+          children[dirItemMap[messageInfo.partOf]] =
+              MessageItemFactory.getMessageItem(
+            dirMsgMap[messageInfo.partOf],
+            false,
+          );
+
+          update();
+        } else {
+          dirMsgMap[messageInfo.partOf].fullSize += messageInfo.size ?? 0;
+          dirMsgMap[messageInfo.partOf].paths.add(messageInfo.path);
+        }
+        return;
+      } else if (messageInfo is MessageFileInfo) {
         // for (String url in messageInfo.url.split(' ')) {
         //   Uri uri = Uri.parse(url);
         //   Log.d('${uri.scheme}://${uri.host}:7001');
@@ -491,15 +387,14 @@ class _ShareChatState extends State<ShareChat> {
       ));
       scroll();
       vibrate();
-      if (mounted) {
-        setState(() {});
-      }
+      update();
     });
   }
 
   Future<void> vibrate() async {
+    // 这个用来触发移动端的振动
     for (int i = 0; i < 3; i++) {
-      Feedback.forLongPress(context);
+      Feedback.forLongPress(Get.context);
       await Future.delayed(Duration(milliseconds: 100));
     }
   }
@@ -515,13 +410,11 @@ class _ShareChatState extends State<ShareChat> {
   Future<void> scroll() async {
     // 让listview滚动
     await Future.delayed(Duration(milliseconds: 100));
-    if (mounted) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 100),
-        curve: Curves.ease,
-      );
-    }
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 100),
+      curve: Curves.ease,
+    );
   }
 
   void sendTextMsg() {
@@ -535,7 +428,7 @@ class _ShareChatState extends State<ShareChat> {
       info,
       true,
     ));
-    setState(() {});
+    update();
     controller.clear();
     scroll();
   }

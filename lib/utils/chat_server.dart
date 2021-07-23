@@ -4,6 +4,7 @@ import 'package:get_server/get_server.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 
+// 聊天服务器
 void createChatServer() {
   Log.d('chat server starting...');
   String home = '';
