@@ -3,7 +3,7 @@
 1. 普通消息
 ```json
 {
-    "msgType":"text",
+    "msgType":"text",
     "content":"消息内容"
 }
 ```
@@ -13,7 +13,7 @@
 
 ```json
 {
-    "msgType":"img",
+    "msgType":"img",
     "content":"图片名"
 }
 ```
