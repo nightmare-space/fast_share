@@ -12,9 +12,7 @@ class MessageFileInfo extends MessageBaseInfo {
     this.url,
     String msgType,
     String type,
-    String data,
   }) : super(
-          data: data,
           type: type,
           msgType: msgType,
         );
@@ -39,11 +37,7 @@ class MessageFileInfo extends MessageBaseInfo {
 class MessageImgInfo extends MessageFileInfo {
   MessageImgInfo({
     String msgType,
-    String type,
-    String data,
   }) : super(
-          data: data,
-          type: type,
           msgType: msgType,
         );
 

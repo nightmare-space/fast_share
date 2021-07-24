@@ -41,8 +41,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    await Directory(savePath + Platform.pathSeparator + widget.info.dirName)
-        .create();
+    await Directory('${savePath}/${widget.info.dirName}').create();
     for (String path in widget.info.paths) {
       Log.d(path);
       // .*?是非贪婪匹配，
@@ -50,13 +49,6 @@ class _DirMessageItemState extends State<DirMessageItem> {
           path.replaceAll(RegExp('.*?${widget.info.dirName}/'), '/');
       Log.e(relativePath);
       if (path.endsWith('/')) {
-        // await Directory(
-        //   savePath +
-        //       Platform.pathSeparator +
-        //       widget.info.dirName +
-        //       Platform.pathSeparator +
-        //       relativePath,
-        // ).create();
       } else {
         String tmpSavePath =
             savePath + '/' + widget.info.dirName + '/' + relativePath;

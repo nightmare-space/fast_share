@@ -66,7 +66,7 @@ Future<void> handleGET(HttpRequest request) async {
   // ProcessResult result = Process.runSync('sh', ['-c', cmdline]);
   // print('resultstdout -> ${result.stdout}');
   // print('resultstderr -> ${result.stderr}');
-  String result = await NiProcess.exec(cmdline);
+  String result = await YanProcess().exec(cmdline);
   request.response
     ..headers.add('Access-Control-Allow-Origin', '*')
     ..headers.add('Access-Control-Allow-Headers', '*')

@@ -32,6 +32,7 @@ class ChatController extends GetxController {
     if (isConnect) {
       socket.close();
     }
+    Log.e('dispose');
     Global().enableShowDialog();
     Global().stopSendBoradcast();
     focusNode.dispose();
@@ -138,6 +139,7 @@ class ChatController extends GetxController {
     for (XFile xFile in files) {
       final file = xFile;
       serverFile(file.path);
+      // 替换windows的路径分隔符
       String filePath = file.path.replaceAll('\\', '/');
       String msgType = '';
       // return;
@@ -267,7 +269,7 @@ class ChatController extends GetxController {
     ));
     List<String> addreses = await PlatformUtil.localAddress();
     // 10开头一般是数据网络的IP，后续考虑通过设置放开
-    addreses.removeWhere((element) => element.startsWith('10.'));
+    // addreses.removeWhere((element) => element.startsWith('10.'));
     if (addreses.isEmpty) {
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '未发现局域网IP'),
