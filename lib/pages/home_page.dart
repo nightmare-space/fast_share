@@ -64,68 +64,72 @@ class _HomePageState extends State<HomePage> {
       ],
     );
     return Scaffold(
-      appBar: appBar,
+      // appBar: ,
       resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 200.0),
+          appBar,
+          Center(
+            // padding: const EdgeInsets.only(top: 200.0),
             child: WaterRipple(),
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 60.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                NiCardButton(
-                  borderRadius: 24,
-                  onTap: () {
-                    Get.toNamed(
-                      '${Routes.chat}?needCreateChatServer=true',
-                    );
-                  },
-                  color: AppColors.accentColor,
-                  child: SizedBox(
-                    width: 150,
-                    height: 200,
-                    child: Center(
-                      child: Text(
-                        '发起共享',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 60.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  NiCardButton(
+                    borderRadius: 24,
+                    onTap: () {
+                      Get.toNamed(
+                        '${Routes.chat}?needCreateChatServer=true',
+                      );
+                    },
+                    color: AppColors.accentColor,
+                    child: SizedBox(
+                      width: 150,
+                      height: 200,
+                      child: Center(
+                        child: Text(
+                          '发起共享',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                NiCardButton(
-                  borderRadius: 24,
-                  onTap: () {
-                    Get.dialog(JoinChat());
-                  },
-                  color: AppColors.sendByUser,
-                  child: SizedBox(
-                    width: 150,
-                    height: 200,
-                    child: Center(
-                      child: Text(
-                        '加入共享',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  NiCardButton(
+                    borderRadius: 24,
+                    onTap: () {
+                      Get.dialog(JoinChat());
+                    },
+                    color: AppColors.sendByUser,
+                    child: SizedBox(
+                      width: 150,
+                      height: 200,
+                      child: Center(
+                        child: Text(
+                          '加入共享',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           // Center(

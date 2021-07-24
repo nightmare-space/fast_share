@@ -81,70 +81,72 @@ class _SettingPageState extends State<SettingPage> {
         title: Text('设置'),
       ),
       body: GetBuilder<SettingController>(builder: (ctl) {
-        return Column(
-          children: [
-            SettingItem(
-              title: '开启文件静态部署',
-              subTitle: '开启后可通过本机IP地址+${Config.shelfAllPort}浏览文件',
-              suffix: Switch(
-                value: ctl.enableServer,
-                onChanged: ctl.serverEnableChange,
-              ),
-            ),
-            SettingItem(
-              title: '静态网页部署端口',
-              subTitle: '默认为${Config.shelfAllPort}',
-            ),
-            SettingItem(
-              title: '聊天服务器端口',
-              subTitle: '默认为${Config.chatPort}',
-            ),
-            SettingItem(
-              title: 'IP过滤开关',
-              subTitle: '默认将以10.开头的IP识别为移动数据的IP并进行过滤',
-              suffix: Switch(
-                value: ctl.enableFilter,
-                onChanged: ctl.filterEnabledChange,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: QrImage(
-                data: content,
-                version: QrVersions.auto,
-              ),
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          fontSize: 12,
-                        ),
-                  ),
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              SettingItem(
+                title: '开启文件静态部署',
+                subTitle: '开启后可通过本机IP地址+${Config.shelfAllPort}浏览文件',
+                suffix: Switch(
+                  value: ctl.enableServer,
+                  onChanged: ctl.serverEnableChange,
                 ),
-                Builder(builder: (_) {
-                  List<Widget> list = [];
-                  for (String address in addreses) {
-                    // if (address.startsWith('10.')) {
-                    //   // 10.开头的ip一般是移动数据获得的ip
-                    //   continue;
-                    // }
-                    list.add(
-                      addressItem('http://$address:${Config.shelfAllPort}'),
+              ),
+              SettingItem(
+                title: '静态网页部署端口',
+                subTitle: '默认为${Config.shelfAllPort}',
+              ),
+              SettingItem(
+                title: '聊天服务器端口',
+                subTitle: '默认为${Config.chatPort}',
+              ),
+              SettingItem(
+                title: 'IP过滤开关',
+                subTitle: '默认将以10.开头的IP识别为移动数据的IP并进行过滤',
+                suffix: Switch(
+                  value: ctl.enableFilter,
+                  onChanged: ctl.filterEnabledChange,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: QrImage(
+                  data: content,
+                  version: QrVersions.auto,
+                ),
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      '局域网的设备使用浏览器打开以下链接即可浏览本机文件，点击可复制链接和更新二维码',
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                            fontSize: 12,
+                          ),
+                    ),
+                  ),
+                  Builder(builder: (_) {
+                    List<Widget> list = [];
+                    for (String address in addreses) {
+                      // if (address.startsWith('10.')) {
+                      //   // 10.开头的ip一般是移动数据获得的ip
+                      //   continue;
+                      // }
+                      list.add(
+                        addressItem('http://$address:${Config.shelfAllPort}'),
+                      );
+                    }
+                    return Column(
+                      children: list,
                     );
-                  }
-                  return Column(
-                    children: list,
-                  );
-                }),
-                // 关于软件
-                // 其他版本下载
-              ],
-            ),
-          ],
+                  }),
+                  // 关于软件
+                  // 其他版本下载
+                ],
+              ),
+            ],
+          ),
         );
       }),
     );
