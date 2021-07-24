@@ -232,7 +232,7 @@ packages:
       name: flutter_widget_from_html_core
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.6.1+3"
+    version: "0.6.1+4"
   gesture_x_detector:
     dependency: transitive
     description:
@@ -246,7 +246,7 @@ packages:
       name: get
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.1.4"
+    version: "4.2.4"
   get_server:
     dependency: "direct main"
     description:
@@ -689,7 +689,7 @@ packages:
       name: video_player
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.10"
+    version: "2.1.12"
   video_player_platform_interface:
     dependency: transitive
     description:
