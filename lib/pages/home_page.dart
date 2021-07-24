@@ -34,6 +34,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  double size = 100;
+
   @override
   Widget build(BuildContext context) {
     AppBar appBar;
@@ -73,7 +75,78 @@ class _HomePageState extends State<HomePage> {
           appBar,
           Center(
             // padding: const EdgeInsets.only(top: 200.0),
-            child: WaterRipple(),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                WaterRipple(),
+                SizedBox(
+                  width: size,
+                  height: size,
+                  child: Padding(
+                    padding: EdgeInsets.all(64.0 * size / 1024),
+                    child: Builder(
+                      builder: (_) {
+                        double _size = size - 32.0 * size / 1024;
+                        double padding = 16.0 * _size / 160;
+                        return Material(
+                          borderRadius: BorderRadius.circular(32 * _size / 160),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          color: Colors.transparent,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              // color: Colors.red,
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Colors.indigoAccent,
+                                  Color(0xffedbac8),
+                                ],
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: padding,
+                                horizontal: padding,
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  LayoutBuilder(builder: (_, c) {
+                                    return Stack(
+                                      children: [
+                                        // SvgPicture.asset(
+                                        //   'assets/icon/copy.svg',
+                                        //   // color: Colors.black12,
+                                        //   height: c.maxHeight,
+                                        // ),
+                                        Icon(
+                                          Icons.share,
+                                          size: c.maxHeight,
+                                          color: Color(0xfff5f5f7),
+                                        ),
+                                        // SvgPicture.asset(
+                                        //   'assets/icon/rom.svg',
+                                        //   height: c.maxHeight,
+                                        // ),
+                                        // YSpaceLogoWidget()
+                                      ],
+                                    );
+                                  }),
+                                  // SvgPicture.asset(
+                                  //   'assets/icon/terminal.svg',
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
 
           Align(

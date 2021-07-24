@@ -70,8 +70,8 @@ class _WaterRippleState extends State<WaterRipple>
           builder: (context, child) {
             return Center(
               child: SizedBox(
-                width: 40,
-                height: 40,
+                width: 60,
+                height: 60,
                 child: CustomPaint(
                   painter: WaterRipplePainter(
                     progress.value,
@@ -88,8 +88,8 @@ class _WaterRippleState extends State<WaterRipple>
           builder: (context, child) {
             return Center(
               child: SizedBox(
-                width: 40,
-                height: 40,
+                width: 60,
+                height: 60,
                 child: CustomPaint(
                   painter: OutWaterRipplePainter(
                     outProgress.value,
