@@ -56,16 +56,12 @@ class MessageImgInfo extends MessageFileInfo {
 }
 
 class MessageVideoInfo extends MessageFileInfo {
-  String thumbnailPath;
-  MessageVideoInfo({this.thumbnailPath});
+  MessageVideoInfo();
 
-  MessageVideoInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    thumbnailPath = json['thumbnailPath'];
-  }
+  MessageVideoInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {}
 
   Map<String, dynamic> toJson() {
     final data = super.toJson();
-    data['thumbnailPath'] = thumbnailPath;
     return data;
   }
 }

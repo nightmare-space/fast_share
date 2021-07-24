@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件.
 publish_to: "none"
 
-version: 1.1.6+8
+version: 1.1.9+12
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -25,15 +25,15 @@ dependencies:
   simple_animations: ^2.4.0
   shelf_proxy: ^1.0.0
   qr_flutter: ^3.1.0
+  qr_code_scanner: ^0.5.1
   shelf_static: ^1.0.0
-
   shelf_router: ^1.0.0
   get_server: ^1.1.0
   getsocket: ^1.0.0
   file_picker: ^3.0.1
   flutter_svg: ^0.22.0
-  file_manager:
-    git: https://github.com/nightmare-space/file_manager
+  file_manager_view:
+    path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
   url_launcher: ^6.0.4
   flick_video_player: ^0.3.1
   video_viewer: ^1.2.2
@@ -41,16 +41,22 @@ dependencies:
   video_compress: ^2.1.0
   archive: ^3.1.2
   path: ^1.8.0
+  mime_type: ^1.0.0
   dio: ^4.0.0
-  qrscan: ^0.2.21
+  oktoast: ^3.0.0
   multicast:
     git: https://github.com/nightmare-space/multicast
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 flutter:
   uses-material-design: true
   assets:
     - assets/
     - assets/icon/
+
+dependency_overrides:
+  global_repository:
+    path: /Users/nightmare/Desktop/nightmare-space/global_repository

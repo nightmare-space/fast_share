@@ -41,12 +41,15 @@ final _defaultMimeTypeResolver = MimeTypeResolver();
 ///
 /// Specify a custom [contentTypeResolver] to customize automatic content type
 /// detection.
-Handler createStaticHandler(String fileSystemPath,
-    {bool serveFilesOutsidePath = false,
-    String defaultDocument,
-    bool listDirectories = false,
-    bool useHeaderBytesForContentType = false,
-    MimeTypeResolver contentTypeResolver}) {
+Handler createStaticHandler(
+  String fileSystemPath, {
+  bool serveFilesOutsidePath = false,
+  String defaultDocument,
+  bool listDirectories = false,
+  bool useHeaderBytesForContentType = false,
+  MimeTypeResolver contentTypeResolver,
+  bool launchDownload = false,
+}) {
   final rootDir = Directory(fileSystemPath);
   if (!rootDir.existsSync()) {
     throw ArgumentError('A directory corresponding to fileSystemPath '
@@ -65,7 +68,6 @@ Handler createStaticHandler(String fileSystemPath,
 
   return (Request request) {
     final segs = [fileSystemPath, ...request.url.pathSegments];
-    Log.e('segs -> $segs');
     final fsPath = p.joinAll(segs);
 
     final entityType = FileSystemEntity.typeSync(fsPath);
@@ -105,20 +107,25 @@ Handler createStaticHandler(String fileSystemPath,
       return _redirectToAddTrailingSlash(uri);
     }
 
-    return _handleFile(request, file, () async {
-      if (useHeaderBytesForContentType) {
-        final length =
-            math.min(mimeResolver.magicNumbersMaxLength, file.lengthSync());
+    return _handleFile(
+      request,
+      file,
+      () async {
+        if (useHeaderBytesForContentType) {
+          final length =
+              math.min(mimeResolver.magicNumbersMaxLength, file.lengthSync());
 
-        final byteSink = ByteAccumulatorSink();
+          final byteSink = ByteAccumulatorSink();
 
-        await file.openRead(0, length).listen(byteSink.add).asFuture();
+          await file.openRead(0, length).listen(byteSink.add).asFuture();
 
-        return mimeResolver.lookup(file.path, headerBytes: byteSink.bytes);
-      } else {
-        return mimeResolver.lookup(file.path);
-      }
-    });
+          return mimeResolver.lookup(file.path, headerBytes: byteSink.bytes);
+        } else {
+          return mimeResolver.lookup(file.path);
+        }
+      },
+      launchDownload: launchDownload,
+    );
   };
 }
 
@@ -158,7 +165,11 @@ File _tryDefaultFile(String dirPath, String defaultFile) {
 /// that doesn't sent a [contentType] header at all.
 
 var app = Router();
-Handler createFileHandler(String path, {String url, String contentType}) {
+Handler createFileHandler(
+  String path, {
+  String url,
+  String contentType,
+}) {
   final file = File(path);
   if (!file.existsSync()) {
     throw ArgumentError.value(path, 'path', 'does not exist.');
@@ -181,11 +192,19 @@ Handler createFileHandler(String path, {String url, String contentType}) {
 /// This handles caching, and sends a 304 Not Modified response if the request
 /// indicates that it has the latest version of a file. Otherwise, it calls
 /// [getContentType] and uses it to populate the Content-Type header.
-Future<Response> _handleFile(Request request, File file,
-    FutureOr<String> Function() getContentType) async {
+Future<Response> _handleFile(
+  Request request,
+  File file,
+  FutureOr<String> Function() getContentType, {
+  bool launchDownload = false,
+}) async {
   final stat = file.statSync();
   final ifModifiedSince = request.ifModifiedSince;
-
+  // application/zip
+  var contentType = await getContentType();
+  Log.w('request header -> ${request.handlerPath}');
+  Log.w('request  -> ${request.url}');
+  Log.w('request  -> ${request.requestedUri}');
   if (ifModifiedSince != null) {
     final fileChangeAtSecResolution = toSecondResolution(stat.modified);
     if (!fileChangeAtSecResolution.isAfter(ifModifiedSince)) {
@@ -195,14 +214,19 @@ Future<Response> _handleFile(Request request, File file,
 
   final headers = {
     HttpHeaders.contentLengthHeader: stat.size.toString(),
-    HttpHeaders.lastModifiedHeader: formatHttpDate(stat.modified)
+    HttpHeaders.lastModifiedHeader: formatHttpDate(stat.modified),
+    HttpHeaders.acceptRangesHeader: 'bytes',
   };
-
-  final contentType = await getContentType();
+  if (launchDownload || request.url.queryParameters['download'] == 'true') {
+    Log.e('下载不预览');
+    headers['Content-Disposition'] =
+        'attachment;filename=${p.toUri(p.basename(file.path))}';
+  }
   int length = await file.length();
   var range = request.headers[HttpHeaders.rangeHeader];
   if (contentType != null) headers[HttpHeaders.contentTypeHeader] = contentType;
   if (range != null) {
+    Log.w('range not null');
     // We only support one range, where the standard support several.
     var matches = RegExp(r"^bytes=(\d*)\-(\d*)$").firstMatch(range);
     // If the range header have the right format, handle it.
@@ -238,7 +262,7 @@ Future<Response> _handleFile(Request request, File file,
         if (request.method == 'HEAD') {
           return Response(
             HttpStatus.partialContent,
-            body: '',
+            body: null,
             headers: headers,
           );
         } else {
@@ -251,5 +275,10 @@ Future<Response> _handleFile(Request request, File file,
       }
     }
   }
-  return Response.ok(file.openRead(), headers: headers);
+  Log.w(' headers -> $headers');
+  Log.w(' request.method -> ${request.method}');
+  return Response.ok(
+    request.method == 'HEAD' ? null : file.openRead(),
+    headers: headers,
+  );
 }

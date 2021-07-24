@@ -48,7 +48,11 @@ class ShelfStatic {
       home = '/sdcard';
     }
     // final virDirHandler = ShelfVirtualDirectory('/', showLogs: true).handler;
-    var handler = createStaticHandler(home, listDirectories: true);
+    var handler = createStaticHandler(
+      home,
+      listDirectories: true,
+      launchDownload: true,
+    );
     io.serve(
       handler,
       InternetAddress.anyIPv4,

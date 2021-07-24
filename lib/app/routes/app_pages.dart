@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/bindings/chat_binding.dart';
+import 'package:speed_share/app/bindings/home_binding.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/main.dart';
-import 'package:speed_share/pages/share_chat.dart';
+import 'package:speed_share/pages/share_chat_window.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
 
@@ -18,15 +20,18 @@ class SpeedPages {
       page: () => ThemeWidget(
         child: SpeedShareHome(),
       ),
+      binding: HomeBinding(),
     ),
     GetPage(
       name: Routes.chat,
       page: () {
         if (GetPlatform.isWeb) {
           Uri uri = Uri.parse(url);
-          return ShareChat(
-            needCreateChatServer: false,
-            chatServerAddress: 'http://${uri.host}:7000',
+          return ThemeWidget(
+            child: ShareChat(
+              needCreateChatServer: false,
+              chatServerAddress: 'http://${uri.host}:${Config.chatPort}',
+            ),
           );
         }
         return ThemeWidget(
@@ -37,6 +42,7 @@ class SpeedPages {
           ),
         );
       },
+      binding: ChatBinding(),
     ),
   ];
 }
@@ -50,15 +56,12 @@ class ThemeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Log.d('ThemeWidget');
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final ThemeData theme =
         isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
     return Theme(
       data: theme,
-      child: NiToastNew(
-        child: child,
-      ),
+      child: child,
     );
   }
 }

@@ -4,38 +4,35 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/config/config.dart';
-import 'package:speed_share/pages/model/model.dart';
-import 'package:speed_share/pages/video.dart';
-import 'package:speed_share/themes/app_colors.dart';
-import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:url_launcher/url_launcher.dart';
+import 'package:global_repository/global_repository.dart';
+import 'package:path/path.dart';
+import 'package:speed_share/config/assets.dart';
+import 'package:speed_share/config/config.dart';
+import 'package:speed_share/pages/model/message_dir_info.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
-class FileItem extends StatefulWidget {
-  final MessageFileInfo info;
-  final bool sendByUser;
-  final String roomUrl;
-
-  const FileItem({
+class DirMessageItem extends StatefulWidget {
+  const DirMessageItem({
     Key key,
     this.info,
     this.sendByUser,
-    this.roomUrl,
   }) : super(key: key);
+  final bool sendByUser;
+  final MessageDirInfo info;
+
   @override
-  _FileItemState createState() => _FileItemState();
+  _DirMessageItemState createState() => _DirMessageItemState();
 }
 
-class _FileItemState extends State<FileItem> {
-  MessageFileInfo info;
+class _DirMessageItemState extends State<DirMessageItem> {
+  MessageDirInfo info;
   final Dio dio = Dio();
   CancelToken cancelToken = CancelToken();
   int count = 0;
   double fileDownratio = 0.0;
+  int downloadSize = 0;
   // 网速
   String speed = '0';
   Timer timer;
@@ -44,31 +41,44 @@ class _FileItemState extends State<FileItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    Response<String> response = await dio.head<String>(
-      urlPath + '',
-      options: Options(
-        method: 'HEAD',
-      ),
-    );
-    final int fullByte = int.tryParse(response.headers.value(
-      HttpHeaders.contentLengthHeader,
-    )); //得到服务器文件返回的字节大小
-    print('fullByte -> $fullByte');
-    Log.e('${response.headers}');
-    savePath = savePath + '/' + basename(urlPath);
-    // print(savePath);
-    computeNetSpeed();
-    await dio.download(
-      urlPath + '?download=true',
-      savePath,
-      cancelToken: cancelToken,
-      onReceiveProgress: (count, total) {
-        this.count = count;
-        fileDownratio = count / total;
-        setState(() {});
-      },
-    );
-    timer?.cancel();
+    await Directory(savePath + Platform.pathSeparator + widget.info.dirName)
+        .create();
+    for (String path in widget.info.paths) {
+      Log.d(path);
+      // .*?是非贪婪匹配，
+      String relativePath =
+          path.replaceAll(RegExp('.*?${widget.info.dirName}/'), '/');
+      Log.e(relativePath);
+      if (path.endsWith('/')) {
+        // await Directory(
+        //   savePath +
+        //       Platform.pathSeparator +
+        //       widget.info.dirName +
+        //       Platform.pathSeparator +
+        //       relativePath,
+        // ).create();
+      } else {
+        String tmpSavePath =
+            savePath + '/' + widget.info.dirName + '/' + relativePath;
+        // print(savePath);
+        computeNetSpeed();
+        Log.e(urlPath + '$path' + '?download=true');
+        await dio.download(
+          urlPath + '$path' + '?download=true',
+          tmpSavePath,
+          cancelToken: cancelToken,
+          onReceiveProgress: (count, total) {
+            this.count = downloadSize + count;
+            fileDownratio = this.count / widget.info.fullSize;
+            setState(() {});
+            if (count == total) {
+              downloadSize += total;
+            }
+          },
+        );
+        timer?.cancel();
+      }
+    }
   }
 
   Future<void> computeNetSpeed() async {
@@ -99,13 +109,13 @@ class _FileItemState extends State<FileItem> {
 
   @override
   Widget build(BuildContext context) {
-    String url;
+    String urlPrifix;
     if (widget.sendByUser) {
-      url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
+      urlPrifix = 'http://127.0.0.1:${Config.shelfPort}';
     } else {
-      url = widget.info.url + widget.info.filePath;
+      urlPrifix = info.urlPrifix;
     }
-    // Log.e('fileitem url -> $url');
+    print('urlPrifix -> $urlPrifix');
     Color background = AppColors.surface;
     if (widget.sendByUser) {
       background = AppColors.sendByUser;
@@ -126,7 +136,28 @@ class _FileItemState extends State<FileItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildPreviewWidget(),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: SvgPicture.asset(
+                        Assets.dir,
+                        width: 32,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${widget.info.dirName}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 if (!widget.sendByUser && !GetPlatform.isWeb)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -185,15 +216,22 @@ class _FileItemState extends State<FileItem> {
                                   fontSize: 12,
                                 ),
                               ),
-                              SizedBox(
-                                child: Text(
-                                  '${widget.info.fileSize}',
+                              Builder(builder: (context) {
+                                if (!widget.info.canDownload) {
+                                  return SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                return Text(
+                                  '${FileSizeUtils.getFileSize(widget.info.fullSize)}',
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12,
                                   ),
-                                ),
-                              ),
+                                );
+                              }),
                             ],
                           ),
                         ],
@@ -211,13 +249,13 @@ class _FileItemState extends State<FileItem> {
               children: [
                 InkWell(
                   onTap: () async {
-                    if (GetPlatform.isWeb) {
-                      Log.e('web download');
-                      await canLaunch(url)
-                          ? await launch(url + '?download=true')
-                          : throw 'Could not launch $url';
-                      return;
-                    }
+                    // if (GetPlatform.isWeb) {
+                    //   Log.e('web download');
+                    //   await canLaunch(url)
+                    //       ? await launch(url + '?download=true')
+                    //       : throw 'Could not launch $url';
+                    //   return;
+                    // }
                     if (GetPlatform.isDesktop) {
                       const confirmButtonText = 'Choose';
                       final dir =
@@ -227,13 +265,13 @@ class _FileItemState extends State<FileItem> {
                       if (dir == null) {
                         return;
                       }
-                      downloadFile(url, dir);
+                      downloadFile(urlPrifix, dir);
                     } else {
                       Directory dataDir = Directory('/sdcard/SpeedShare');
                       if (!dataDir.existsSync()) {
                         dataDir.createSync();
                       }
-                      downloadFile(url, '/sdcard/SpeedShare');
+                      downloadFile(urlPrifix, '/sdcard/SpeedShare');
                     }
                   },
                   borderRadius: BorderRadius.circular(12),
@@ -246,10 +284,7 @@ class _FileItemState extends State<FileItem> {
                   ),
                 ),
                 InkWell(
-                  onTap: () async {
-                    showToast('链接已复制');
-                    await Clipboard.setData(ClipboardData(text: url));
-                  },
+                  onTap: () async {},
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
                     padding: const EdgeInsets.all(8),
@@ -262,131 +297,6 @@ class _FileItemState extends State<FileItem> {
               ],
             ),
           ),
-      ],
-    );
-  }
-
-  UniqueKey key = UniqueKey();
-  Widget buildPreviewWidget() {
-    if (widget.info is MessageImgInfo) {
-      String url;
-      if (widget.sendByUser) {
-        url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
-      } else {
-        url = widget.info.url + widget.info.filePath;
-      }
-      return Hero(
-        tag: key,
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              Get.to(
-                Material(
-                  color: AppColors.background,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Hero(
-                        tag: key,
-                        child: Image.network(url),
-                      ),
-                      SafeArea(
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: Icon(Icons.clear),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-            child: Image.network(
-              url,
-              width: 200,
-            ),
-          ),
-        ),
-      );
-    } else if (widget.info is MessageVideoInfo) {
-      MessageVideoInfo info = widget.info;
-      String url;
-      if (widget.sendByUser) {
-        url = 'http://127.0.0.1:${Config.shelfPort}' + info.filePath;
-      } else {
-        url = info.url + info.filePath;
-      }
-      return InkWell(
-        onTap: () async {
-          if (GetPlatform.isWeb) {
-            await canLaunch(url)
-                ? await launch(url)
-                : throw 'Could not launch $url';
-            return;
-          }
-          NiNavigator.of(Get.context).pushVoid(
-            Material(
-              child: Hero(
-                tag: key,
-                child: SerieExample(
-                  url: url,
-                ),
-              ),
-            ),
-          );
-        },
-        child: Hero(
-          tag: key,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.video_library,
-                color: Colors.black,
-                size: 26,
-              ),
-              SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  widget.info.fileName,
-                  style: TextStyle(
-                    color: Colors.black,
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: SvgPicture.asset(
-            '${Config.flutterPackage}assets/icon/file.svg',
-            width: 32,
-            color: Colors.black,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            widget.info.fileName,
-            style: TextStyle(
-              color: Colors.black,
-              // fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-        ),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speed_share/pages/item/text_item.dart';
 import 'package:speed_share/pages/model/model.dart';
+import 'dir_item.dart';
 import 'file_item.dart';
 import 'qr_item.dart';
 
@@ -27,10 +28,14 @@ class MessageItemFactory {
         info: info,
         sendByUser: sendByUser,
       );
+    } else if (info is MessageDirInfo) {
+      child = DirMessageItem(
+        info: info,
+        sendByUser: sendByUser,
+      );
     } else if (info is MessageQrInfo) {
       child = QrMessageItem(
         data: info.content,
-        sendByUser: sendByUser,
       );
     }
     child ?? Text('不支持的消息类型');

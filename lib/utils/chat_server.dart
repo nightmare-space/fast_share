@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:get_server/get_server.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/config/config.dart';
 
+// 聊天服务器
 void createChatServer() {
   Log.d('chat server starting...');
   String home = '';
@@ -15,7 +16,7 @@ void createChatServer() {
   runApp(
     GetServerApp(
       useLog: false,
-      port: 7000,
+      port: Config.chatPort,
       home: FolderWidget(home),
       getPages: [
         GetPage(name: '/chat', page: () => SocketPage()),
