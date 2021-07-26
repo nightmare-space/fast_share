@@ -14,7 +14,9 @@
 ```json
 {
     "msgType":"img",
-    "content":"图片名"
+    "content":"图片名",
+    "url":"url前缀",
+    "path":"文件所在路径"
 }
 ```
 
