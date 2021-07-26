@@ -33,7 +33,7 @@ dependencies:
   file_picker: ^3.0.1
   flutter_svg: ^0.22.0
   file_manager_view:
-    path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
+    git: https://github.com/nightmare-space/file_manager_view
   url_launcher: ^6.0.4
   flick_video_player: ^0.3.1
   video_viewer: ^1.2.2
@@ -57,6 +57,8 @@ flutter:
     - assets/
     - assets/icon/
 
-dependency_overrides:
-  global_repository:
-    path: /Users/nightmare/Desktop/nightmare-space/global_repository
+# dependency_overrides:
+#   global_repository:
+#     path: /Users/nightmare/Desktop/nightmare-space/global_repository
+#   file_manager_view:
+#     path: /Users/nightmare/Desktop/nightmare-space/file_manager_view

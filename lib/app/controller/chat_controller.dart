@@ -318,7 +318,7 @@ class ChatController extends GetxController {
             Uri uri = Uri.parse(url);
             Log.v('消息带有的address -> ${uri.host}');
             for (String localAddr in addreses) {
-              if (uri.host.isSameSegment(localAddr)) {
+              if (uri.host.hasThreePartEqual(localAddr)) {
                 Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
                 messageInfo.urlPrifix = url;
               }
@@ -369,7 +369,7 @@ class ChatController extends GetxController {
             Uri uri = Uri.parse(url);
             Log.v('消息带有的address -> ${uri.host}');
             for (String localAddr in addreses) {
-              if (uri.host.isSameSegment(localAddr)) {
+              if (uri.host.hasThreePartEqual(localAddr)) {
                 Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
                 messageInfo.url = url;
               }
@@ -377,6 +377,21 @@ class ChatController extends GetxController {
           }
           if (messageInfo.url.contains(' ')) {
             // 这儿是没有找到同一个局域网，有可能划分了子网
+            // 相当于提供一个兜底
+            for (String url in messageInfo.url.split(' ')) {
+              Uri uri = Uri.parse(url);
+              Log.v('消息带有的address -> ${uri.host}');
+              for (String localAddr in addreses) {
+                if (uri.host.hasTwoPartEqual(localAddr)) {
+                  Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+                  messageInfo.url = url;
+                }
+              }
+            }
+          }
+          if (messageInfo.url.contains(' ')) {
+            // 这儿是没有找到同一个局域网，有可能划分了子网
+            // 相当于提供一个兜底
             messageInfo.url = messageInfo.url.split(' ').first;
           }
         } else {

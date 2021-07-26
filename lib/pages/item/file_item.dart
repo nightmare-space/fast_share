@@ -44,17 +44,6 @@ class _FileItemState extends State<FileItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    Response<String> response = await dio.head<String>(
-      urlPath + '',
-      options: Options(
-        method: 'HEAD',
-      ),
-    );
-    final int fullByte = int.tryParse(response.headers.value(
-      HttpHeaders.contentLengthHeader,
-    )); //得到服务器文件返回的字节大小
-    print('fullByte -> $fullByte');
-    Log.e('${response.headers}');
     savePath = savePath + '/' + basename(urlPath);
     // print(savePath);
     computeNetSpeed();
@@ -227,6 +216,7 @@ class _FileItemState extends State<FileItem> {
                       if (dir == null) {
                         return;
                       }
+                      Log.e(' -> $url');
                       downloadFile(url, dir);
                     } else {
                       Directory dataDir = Directory('/sdcard/SpeedShare');
