@@ -73,137 +73,145 @@ class _HomePageState extends State<HomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           appBar,
-          Center(
-            // padding: const EdgeInsets.only(top: 200.0),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                WaterRipple(),
-                SizedBox(
-                  width: size,
-                  height: size,
-                  child: Padding(
-                    padding: EdgeInsets.all(64.0 * size / 1024),
-                    child: Builder(
-                      builder: (_) {
-                        double _size = size - 32.0 * size / 1024;
-                        double padding = 16.0 * _size / 160;
-                        return Material(
-                          borderRadius: BorderRadius.circular(32 * _size / 160),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          color: Colors.transparent,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              // color: Colors.red,
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Colors.indigoAccent,
-                                  Color(0xffedbac8),
-                                ],
-                              ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: padding,
-                                horizontal: padding,
-                              ),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  LayoutBuilder(builder: (_, c) {
-                                    return Stack(
-                                      children: [
-                                        // SvgPicture.asset(
-                                        //   'assets/icon/copy.svg',
-                                        //   // color: Colors.black12,
-                                        //   height: c.maxHeight,
-                                        // ),
-                                        Icon(
-                                          Icons.share,
-                                          size: c.maxHeight,
-                                          color: Color(0xfff5f5f7),
-                                        ),
-                                        // SvgPicture.asset(
-                                        //   'assets/icon/rom.svg',
-                                        //   height: c.maxHeight,
-                                        // ),
-                                        // YSpaceLogoWidget()
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Center(
+                  // padding: const EdgeInsets.only(top: 200.0),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      WaterRipple(),
+                      SizedBox(
+                        width: size,
+                        height: size,
+                        child: Padding(
+                          padding: EdgeInsets.all(64.0 * size / 1024),
+                          child: Builder(
+                            builder: (_) {
+                              double _size = size - 32.0 * size / 1024;
+                              double padding = 16.0 * _size / 160;
+                              return Material(
+                                borderRadius:
+                                    BorderRadius.circular(32 * _size / 160),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                color: Colors.transparent,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    // color: Colors.red,
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        Colors.indigoAccent,
+                                        Color(0xffedbac8),
                                       ],
-                                    );
-                                  }),
-                                  // SvgPicture.asset(
-                                  //   'assets/icon/terminal.svg',
-                                  // ),
-                                ],
-                              ),
-                            ),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: padding,
+                                      horizontal: padding,
+                                    ),
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        LayoutBuilder(builder: (_, c) {
+                                          return Stack(
+                                            children: [
+                                              // SvgPicture.asset(
+                                              //   'assets/icon/copy.svg',
+                                              //   // color: Colors.black12,
+                                              //   height: c.maxHeight,
+                                              // ),
+                                              Icon(
+                                                Icons.share,
+                                                size: c.maxHeight,
+                                                color: Color(0xfff5f5f7),
+                                              ),
+                                              // SvgPicture.asset(
+                                              //   'assets/icon/rom.svg',
+                                              //   height: c.maxHeight,
+                                              // ),
+                                              // YSpaceLogoWidget()
+                                            ],
+                                          );
+                                        }),
+                                        // SvgPicture.asset(
+                                        //   'assets/icon/terminal.svg',
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 60.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  NiCardButton(
-                    borderRadius: 24,
-                    onTap: () {
-                      Get.toNamed(
-                        '${Routes.chat}?needCreateChatServer=true',
-                      );
-                    },
-                    color: AppColors.accentColor,
-                    child: SizedBox(
-                      width: 150,
-                      height: 200,
-                      child: Center(
-                        child: Text(
-                          '发起共享',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  NiCardButton(
-                    borderRadius: 24,
-                    onTap: () {
-                      Get.dialog(JoinChat());
-                    },
-                    color: AppColors.sendByUser,
-                    child: SizedBox(
-                      width: 150,
-                      height: 200,
-                      child: Center(
-                        child: Text(
-                          '加入共享',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
               ),
-            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 60.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      NiCardButton(
+                        borderRadius: 24,
+                        onTap: () {
+                          Get.toNamed(
+                            '${Routes.chat}?needCreateChatServer=true',
+                          );
+                        },
+                        color: AppColors.accentColor,
+                        child: SizedBox(
+                          width: 150,
+                          height: 200,
+                          child: Center(
+                            child: Text(
+                              '发起共享',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      NiCardButton(
+                        borderRadius: 24,
+                        onTap: () {
+                          Get.dialog(JoinChat());
+                        },
+                        color: AppColors.sendByUser,
+                        child: SizedBox(
+                          width: 150,
+                          height: 200,
+                          child: Center(
+                            child: Text(
+                              '加入共享',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           // Center(
           //   child: serverOpend

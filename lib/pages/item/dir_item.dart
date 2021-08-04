@@ -42,19 +42,19 @@ class _DirMessageItemState extends State<DirMessageItem> {
       return;
     }
     await Directory('${savePath}/${widget.info.dirName}').create();
+    computeNetSpeed();
     for (String path in widget.info.paths) {
       Log.d(path);
       // .*?是非贪婪匹配，
       String relativePath =
           path.replaceAll(RegExp('.*?${widget.info.dirName}/'), '/');
-      Log.e(relativePath);
+      // Log.e(relativePath);
       if (path.endsWith('/')) {
       } else {
         String tmpSavePath =
             savePath + '/' + widget.info.dirName + '/' + relativePath;
         // print(savePath);
-        computeNetSpeed();
-        Log.e(urlPath + '$path' + '?download=true');
+        // Log.e(urlPath + '$path' + '?download=true');
         await dio.download(
           urlPath + '$path' + '?download=true',
           tmpSavePath,
@@ -68,9 +68,9 @@ class _DirMessageItemState extends State<DirMessageItem> {
             }
           },
         );
-        timer?.cancel();
       }
     }
+    timer?.cancel();
   }
 
   Future<void> computeNetSpeed() async {

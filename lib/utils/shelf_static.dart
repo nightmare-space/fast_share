@@ -51,9 +51,8 @@ class ShelfStatic {
     var handler = createStaticHandler(
       home,
       listDirectories: true,
-      launchDownload: true,
     );
-    io.serve(
+    HttpServer server = await io.serve(
       handler,
       InternetAddress.anyIPv4,
       Config.shelfAllPort,

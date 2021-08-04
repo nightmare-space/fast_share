@@ -48,7 +48,6 @@ Handler createStaticHandler(
   bool listDirectories = false,
   bool useHeaderBytesForContentType = false,
   MimeTypeResolver contentTypeResolver,
-  bool launchDownload = false,
 }) {
   final rootDir = Directory(fileSystemPath);
   if (!rootDir.existsSync()) {
@@ -124,7 +123,6 @@ Handler createStaticHandler(
           return mimeResolver.lookup(file.path);
         }
       },
-      launchDownload: launchDownload,
     );
   };
 }
@@ -195,9 +193,7 @@ Handler createFileHandler(
 Future<Response> _handleFile(
   Request request,
   File file,
-  FutureOr<String> Function() getContentType, {
-  bool launchDownload = false,
-}) async {
+  FutureOr<String> Function() getContentType) async {
   final stat = file.statSync();
   final ifModifiedSince = request.ifModifiedSince;
   // application/zip
@@ -217,7 +213,7 @@ Future<Response> _handleFile(
     HttpHeaders.lastModifiedHeader: formatHttpDate(stat.modified),
     HttpHeaders.acceptRangesHeader: 'bytes',
   };
-  if (launchDownload || request.url.queryParameters['download'] == 'true') {
+  if (request.url.queryParameters['download'] == 'true') {
     Log.e('下载不预览');
     headers['Content-Disposition'] =
         'attachment;filename=${p.toUri(p.basename(file.path))}';

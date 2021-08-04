@@ -25,14 +25,13 @@ void main() {
       systemNavigationBarDividerColor: Colors.transparent,
     ),
   );
+  RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
   if (GetPlatform.isAndroid && !GetPlatform.isWeb) {
-    RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
     ShelfStatic.start();
     // ServerUtil.start();
   }
   if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     ShelfStatic.start();
-    RuntimeEnvir.initEnvirForDesktop();
     // HttpServerUtil.bindServer();
   }
   if (!GetPlatform.isWeb) {
