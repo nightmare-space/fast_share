@@ -1,31 +1,35 @@
-# 速享
-Language: 中文简体 | [English](README-EN.md)
+# SpeedShare
 
 [![Last Commits](https://img.shields.io/github/last-commit/nightmare-space/speed_share?logo=git&logoColor=white)](https://github.com/nightmare-space/speed_share/commits/master)
 [![Pull Requests](https://img.shields.io/github/issues-pr/nightmare-space/speed_share?logo=github&logoColor=white)](https://github.com/nightmare-space/speed_share/pulls)
 [![Code size](https://img.shields.io/github/languages/code-size/nightmare-space/speed_share?logo=github&logoColor=white)](https://github.com/nightmare-space/speed_share)
 [![License](https://img.shields.io/github/license/nightmare-space/speed_share?logo=open-source-initiative&logoColor=green)](https://github.com/nightmare-space/speed_share/blob/master/LICENSE)
 
-速享是一款高可用的局域网文件共享终端，让使用者能像聊天一样共享文件或文件夹，支持浏览器直接加入文件共享。
+Speed Share is a highly available file sharing terminal on LAN(local area network).
 
-## 功能列表
+You can share your file just like chat!
 
-- 类似于 nginx和 tomcat 的文件部署。
-- 局域网设备发现
-- 像聊天一样在局域网共享文件，点对点连接，不使用服务器中转。
-- 支持图片以及视频消息直接预览（视频预览仅支持 Android 与 Web ）
-- 支持多个设备同时分享与查看    
-- 下载进度显示、网速显示
-- 文件夹共享
-- 浏览器快速加入共享
-- 历史消息获取
+## Features
 
-## 开始使用
-在整个文件(夹)的共享开始前，必须由一台设备创建一个共享窗口。
+- Support for multiple platforms:Android,Linux,Windows,macOS,Web
+- Server file like nginx or tomcat
+- device can find each other on the same LAN
+- Share file like chat，peer-to-peer，do not use other server。
+- can preview image and video(just for android)
+- Multiple devices can be viewed simultaneously 
+- Display download progress and network speed
+- Support share directory
+- Support join chat on broswer
+- Can get history message
+
+## Start 
+before share your files or directory,you must create a chat room on one of you devices
+
+if the other devices on the same LAN,it will like this
 
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/boardcast.gif" width="30%" height="30%" />
 
-## 截图
+## Screenshot
 
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src01.jpg" width="30%" height="30%" />
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src02.jpg" width="30%" height="30%" />
@@ -35,8 +39,11 @@ Language: 中文简体 | [English](README-EN.md)
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" />
 <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
 
-## 开发者文档
+## Developers
 
-详见 [DEVELOP.md](DEVELOP.md)
+See [DEVELOP.md](DEVELOP.md)
 
-## 给我买咖啡
+## Donation
+
+the everything powerd by love，and I spent a lot of my time，
+so if you'd like to buy me a cup of coffee,I would like to create more features for this project.
