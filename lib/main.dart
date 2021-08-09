@@ -4,7 +4,6 @@ import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/home_page.dart';
@@ -15,7 +14,6 @@ import 'themes/default_theme_data.dart';
 import 'utils/shelf_static.dart';
 
 void main() {
-  // startProxy();
   runApp(SpeedShare());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
@@ -26,18 +24,16 @@ void main() {
     ),
   );
   RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
-  if (GetPlatform.isAndroid && !GetPlatform.isWeb) {
+  if (GetPlatform.isAndroid || GetPlatform.isDesktop && !GetPlatform.isWeb) {
     ShelfStatic.start();
     // ServerUtil.start();
   }
-  if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
-    ShelfStatic.start();
-    // HttpServerUtil.bindServer();
-  }
   if (!GetPlatform.isWeb) {
+    // 物理平台使用的udp设备互相发现
     Global().initGlobal();
   }
   if (!GetPlatform.isWeb && kReleaseMode) {
+    // 解压网页资源
     unpack();
   }
 }
@@ -83,29 +79,10 @@ class SpeedShare extends StatelessWidget {
             defaultTransition: Transition.fadeIn,
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
-              if (kIsWeb || GetPlatform.isDesktop) {
-                ScreenUtil.init(
-                  context,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  allowFontScaling: false,
-                );
+              if (orientation == Orientation.landscape) {
+                ScreenAdapter.init(896);
               } else {
-                if (orientation == Orientation.landscape) {
-                  ScreenUtil.init(
-                    context,
-                    width: 896,
-                    height: 414,
-                    allowFontScaling: false,
-                  );
-                } else {
-                  ScreenUtil.init(
-                    context,
-                    width: 414,
-                    height: 896,
-                    allowFontScaling: false,
-                  );
-                }
+                ScreenAdapter.init(414);
               }
               final bool isDark =
                   Theme.of(context).brightness == Brightness.dark;
