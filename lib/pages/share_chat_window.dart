@@ -103,7 +103,14 @@ class _ShareChatState extends State<ShareChat> {
     return Scaffold(
       appBar: AppBar(
         shadowColor: AppColors.accentColor,
-        title: Text('文件共享'),
+        title: Text(
+          '文件共享',
+          style: TextStyle(
+            color: AppColors.fontColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.w,
+          ),
+        ),
       ),
       body: GestureDetector(
         onTap: () {
@@ -117,7 +124,7 @@ class _ShareChatState extends State<ShareChat> {
                 return ListView.builder(
                   physics: BouncingScrollPhysics(),
                   padding: EdgeInsets.symmetric(
-                    vertical: 8,
+                    vertical: 8.w,
                   ),
                   controller: controller.scrollController,
                   itemCount: controller.children.length,
@@ -139,12 +146,12 @@ class _ShareChatState extends State<ShareChat> {
     return Material(
       color: AppColors.surface,
       borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(12),
-        topRight: Radius.circular(12),
+        topLeft: Radius.circular(12.w),
+        topRight: Radius.circular(12.w),
       ),
       child: Container(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -152,9 +159,9 @@ class _ShareChatState extends State<ShareChat> {
                 children: [
                   if (GetPlatform.isAndroid)
                     SizedBox(
-                      height: 32,
+                      height: 32.w,
                       child: Transform(
-                        transform: Matrix4.identity()..translate(0.0, -4.0),
+                        transform: Matrix4.identity()..translate(0.0, -4.0.w),
                         child: IconButton(
                           alignment: Alignment.center,
                           padding: EdgeInsets.zero,
@@ -171,9 +178,9 @@ class _ShareChatState extends State<ShareChat> {
                       ),
                     ),
                   SizedBox(
-                    height: 32,
+                    height: 32.w,
                     child: Transform(
-                      transform: Matrix4.identity()..translate(0.0, -4.0),
+                      transform: Matrix4.identity()..translate(0.0, -4.0.w),
                       child: IconButton(
                         alignment: Alignment.center,
                         padding: EdgeInsets.zero,
@@ -193,9 +200,9 @@ class _ShareChatState extends State<ShareChat> {
                     ),
                   ),
                   SizedBox(
-                    height: 32,
+                    height: 32.w,
                     child: Transform(
-                      transform: Matrix4.identity()..translate(0.0, -4.0),
+                      transform: Matrix4.identity()..translate(0.0, -4.w),
                       child: IconButton(
                         alignment: Alignment.center,
                         padding: EdgeInsets.zero,
@@ -233,7 +240,7 @@ class _ShareChatState extends State<ShareChat> {
                     ),
                   ),
                   SizedBox(
-                    width: 16,
+                    width: 16.w,
                   ),
                   Material(
                     color: AppColors.accentColor,

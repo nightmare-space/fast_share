@@ -214,11 +214,11 @@ class DefaultThemeData {
         fillColor: _background,
         isDense: true,
         contentPadding: EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 12,
+          horizontal: 12.w,
+          vertical: 12.w,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.w),
           gapPadding: 0,
           borderSide: BorderSide(
             width: 0,
@@ -226,7 +226,7 @@ class DefaultThemeData {
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.w),
           gapPadding: 0,
           borderSide: BorderSide(
             width: 0,
@@ -253,12 +253,12 @@ class DefaultThemeData {
             color: Colors.black,
           ),
           button: lightThemeData.textTheme.button.copyWith(
-            fontSize: 16,
+            fontSize: 16.w,
             fontWeight: FontWeight.w400,
             color: colorSchema.primary,
           ),
           caption: lightThemeData.textTheme.caption.copyWith(
-            fontSize: 14,
+            fontSize: 14.w,
             fontWeight: FontWeight.w400,
             color: const Color(0xFF8C8C8C),
           ),
