@@ -21,16 +21,16 @@ class TextMessageItem extends StatelessWidget {
           sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
             color: background,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.w),
           ),
           child: Stack(
             alignment: Alignment.bottomRight,
             children: [
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 200),
+                constraints: BoxConstraints(maxWidth: 200.w),
                 child: Theme(
                   data: ThemeData(
                     textSelectionTheme: TextSelectionThemeData(
@@ -41,6 +41,11 @@ class TextMessageItem extends StatelessWidget {
                   child: SelectableText(
                     data,
                     cursorColor: AppColors.accentColor,
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 14.w,
+                      letterSpacing: 1,
+                    ),
                   ),
                 ),
               ),
@@ -62,7 +67,7 @@ class TextMessageItem extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Icon(
                   Icons.content_copy,
-                  size: 18,
+                  size: 18.w,
                 ),
               ),
             ),

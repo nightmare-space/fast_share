@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           child: Icon(
             Icons.settings,
             color: Colors.black,
-            size: 24,
+            size: 24.w,
           ),
           onTap: () async {
             Get.to(SettingPage());
@@ -73,7 +73,6 @@ class _HomePageState extends State<HomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           appBar,
-
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -172,8 +171,8 @@ class _HomePageState extends State<HomePage> {
                         },
                         color: AppColors.accentColor,
                         child: SizedBox(
-                          width: 150,
-                          height: 200,
+                          width: 150.w,
+                          height: 200.w,
                           child: Center(
                             child: Text(
                               '发起共享',
@@ -193,8 +192,8 @@ class _HomePageState extends State<HomePage> {
                         },
                         color: AppColors.sendByUser,
                         child: SizedBox(
-                          width: 150,
-                          height: 200,
+                          width: 150.w,
+                          height: 200.w,
                           child: Center(
                             child: Text(
                               '加入共享',
