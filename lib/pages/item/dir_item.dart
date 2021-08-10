@@ -41,7 +41,14 @@ class _DirMessageItemState extends State<DirMessageItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    await Directory('${savePath}/${widget.info.dirName}').create();
+    String baseDirPath = '${savePath}/${widget.info.dirName}';
+    // 这儿可能已经有一个文件名被占用了
+    try {
+      await Directory(baseDirPath).create();
+    } catch (e) {
+      showToast('发生异常：${e}');
+      return;
+    }
     computeNetSpeed();
     for (String path in widget.info.paths) {
       Log.d(path);
