@@ -36,13 +36,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
-  cached_video_player:
-    dependency: transitive
-    description:
-      name: cached_video_player
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.0-dev.1"
   characters:
     dependency: transitive
     description:
@@ -56,7 +49,7 @@ packages:
       name: charcode
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.1"
   clock:
     dependency: transitive
     description:
@@ -185,13 +178,6 @@ packages:
       relative: true
     source: path
     version: "0.0.2"
-  flick_video_player:
-    dependency: "direct main"
-    description:
-      name: flick_video_player
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -235,13 +221,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.1+4"
-  gesture_x_detector:
-    dependency: transitive
-    description:
-      name: gesture_x_detector
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
   get:
     dependency: "direct main"
     description:
@@ -272,13 +251,6 @@ packages:
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"
-  helpers:
-    dependency: transitive
-    description:
-      name: helpers
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.1.3"
   html:
     dependency: transitive
     description:
@@ -358,13 +330,6 @@ packages:
       url: "https://github.com/nightmare-space/multicast"
     source: git
     version: "0.0.1"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
   oktoast:
     dependency: "direct main"
     description:
@@ -477,13 +442,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.2.1"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "5.0.0"
   qr:
     dependency: transitive
     description:
@@ -623,7 +581,7 @@ packages:
       name: test_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.1"
   typed_data:
     dependency: transitive
     description:
@@ -680,41 +638,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
-  video_compress:
-    dependency: "direct main"
-    description:
-      name: video_compress
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.1"
-  video_player:
-    dependency: transitive
-    description:
-      name: video_player
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.12"
-  video_player_platform_interface:
-    dependency: transitive
-    description:
-      name: video_player_platform_interface
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.1.0"
-  video_player_web:
-    dependency: transitive
-    description:
-      name: video_player_web
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.1"
-  video_viewer:
-    dependency: "direct main"
-    description:
-      name: video_viewer
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.2.3+1"
   visibility_detector:
     dependency: transitive
     description:
@@ -722,13 +645,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
-  volume_watcher:
-    dependency: transitive
-    description:
-      name: volume_watcher
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.1"
   wakelock:
     dependency: transitive
     description:

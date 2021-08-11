@@ -35,10 +35,7 @@ dependencies:
   file_manager_view:
     git: https://github.com/nightmare-space/file_manager_view
   url_launcher: ^6.0.4
-  flick_video_player: ^0.3.1
-  video_viewer: ^1.2.2
   better_player: ^0.0.68
-  video_compress: ^2.1.0
   archive: ^3.1.2
   path: ^1.8.0
   mime_type: ^1.0.0

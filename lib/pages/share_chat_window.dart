@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
@@ -12,12 +8,8 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/chat_server.dart';
-import 'package:speed_share/utils/shelf/static_handler.dart';
-import 'package:video_compress/video_compress.dart';
 import 'item/message_item_factory.dart';
 import 'model/model.dart';
-import 'model/model_factory.dart';
-import 'package:speed_share/utils/string_extension.dart';
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
