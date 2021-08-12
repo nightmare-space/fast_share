@@ -258,7 +258,9 @@ class _FileItemState extends State<FileItem> {
 
   UniqueKey key = UniqueKey();
   Widget buildPreviewWidget() {
-    if (widget.info is MessageImgInfo) {
+    MessageFileInfo info = widget.info;
+
+    if (info.fileName.isImageFileName) {
       String url;
       if (widget.sendByUser) {
         url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
@@ -304,8 +306,8 @@ class _FileItemState extends State<FileItem> {
           ),
         ),
       );
-    } else if (widget.info is MessageVideoInfo) {
-      MessageVideoInfo info = widget.info;
+    } else if (info.fileName.isVideoFileName ||
+        info.fileName.endsWith('.mkv')) {
       String url;
       if (widget.sendByUser) {
         url = 'http://127.0.0.1:${Config.shelfPort}' + info.filePath;

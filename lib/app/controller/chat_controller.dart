@@ -27,6 +27,7 @@ class ChatController extends GetxController {
   ScrollController scrollController = ScrollController();
   bool isConnect = false;
   String chatRoomUrl = '';
+
   @override
   void onClose() {
     if (isConnect) {
@@ -72,7 +73,6 @@ class ChatController extends GetxController {
       return;
     }
     Directory dir = Directory(dirPath);
-    List<FileSystemEntity> list = await dir.list(recursive: true).toList();
 
     String fileUrl = '';
     List<String> address = await PlatformUtil.localAddress();
@@ -98,6 +98,7 @@ class ChatController extends GetxController {
     ));
     scroll();
     update();
+    List<FileSystemEntity> list = await dir.list(recursive: true).toList();
     list.forEach((element) async {
       FileSystemEntity entity = element;
       String suffix = '';
@@ -123,6 +124,8 @@ class ChatController extends GetxController {
       'msgType': 'dirPart',
       'partOf': dirName,
     });
+
+    // TODO 这行是测试代码
     await Future.delayed(Duration(seconds: 1));
     socket.send(info.toString());
   }
@@ -141,15 +144,6 @@ class ChatController extends GetxController {
       serverFile(file.path);
       // 替换windows的路径分隔符
       String filePath = file.path.replaceAll('\\', '/');
-      String msgType = '';
-      // return;
-      if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
-        msgType = 'video';
-      } else if (filePath.isImageFileName) {
-        msgType = 'img';
-      } else {
-        msgType = 'other';
-      }
       int size = await File(filePath).length();
 
       filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
@@ -167,7 +161,7 @@ class ChatController extends GetxController {
       }
       MessageBaseInfo info = MessageInfoFactory.fromJson({
         'filePath': filePath,
-        'msgType': msgType,
+        'msgType': 'file',
         'fileName': context.basename(filePath),
         'fileSize': FileSizeUtils.getFileSize(size),
         'url': url,
@@ -221,41 +215,36 @@ class ChatController extends GetxController {
       if (filePath == null) {
         return;
       }
-      serverFile(filePath);
-      String msgType = '';
-      if (filePath.isVideoFileName || filePath.endsWith('.mkv')) {
-        msgType = 'video';
-      } else if (filePath.isImageFileName) {
-        msgType = 'img';
-      } else {
-        msgType = 'other';
-      }
-      print('msgType $msgType');
-      int size = await File(filePath).length();
-      String fileUrl = '';
-      List<String> address = await PlatformUtil.localAddress();
-      for (String addr in address) {
-        fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
-      }
-      fileUrl = fileUrl.trim();
-      dynamic info = MessageInfoFactory.fromJson({
-        'filePath': filePath,
-        'msgType': msgType,
-        'thumbnailPath': '',
-        'fileName': p.basename(filePath),
-        'fileSize': FileSizeUtils.getFileSize(size),
-        'url': fileUrl,
-      });
-      // 发送消息
-      socket.send(info.toString());
-      // 将消息添加到本地列表
-      children.add(MessageItemFactory.getMessageItem(
-        info,
-        true,
-      ));
-      scroll();
-      update();
+      sendFileFromPath(filePath);
     }
+  }
+
+  Future<void> sendFileFromPath(String filePath) async {
+    serverFile(filePath);
+    int size = await File(filePath).length();
+    String fileUrl = '';
+    List<String> address = await PlatformUtil.localAddress();
+    for (String addr in address) {
+      fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
+    }
+    fileUrl = fileUrl.trim();
+    dynamic info = MessageInfoFactory.fromJson({
+      'filePath': filePath,
+      'msgType': 'file',
+      'thumbnailPath': '',
+      'fileName': p.basename(filePath),
+      'fileSize': FileSizeUtils.getFileSize(size),
+      'url': fileUrl,
+    });
+    // 发送消息
+    socket.send(info.toString());
+    // 将消息添加到本地列表
+    children.add(MessageItemFactory.getMessageItem(
+      info,
+      true,
+    ));
+    scroll();
+    update();
   }
 
   Future<void> sendAddressAndQrCode() async {
@@ -333,7 +322,7 @@ class ChatController extends GetxController {
         }
         Log.w('dirItemMap -> $dirItemMap');
       } else if (messageInfo is MessageDirPartInfo) {
-        Log.w('文件夹子文件 -> ${messageInfo}');
+        // Log.w('文件夹子文件 -> ${messageInfo}');
         if (messageInfo.stat == 'complete') {
           Log.e('完成发送');
           dirMsgMap[messageInfo.partOf].canDownload = true;
@@ -347,6 +336,13 @@ class ChatController extends GetxController {
         } else {
           dirMsgMap[messageInfo.partOf].fullSize += messageInfo.size ?? 0;
           dirMsgMap[messageInfo.partOf].paths.add(messageInfo.path);
+          children[dirItemMap[messageInfo.partOf]] =
+              MessageItemFactory.getMessageItem(
+            dirMsgMap[messageInfo.partOf],
+            false,
+          );
+
+          update();
         }
         return;
       } else if (messageInfo is MessageFileInfo) {

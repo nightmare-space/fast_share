@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/scan_util.dart';
@@ -26,11 +28,27 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     request();
+    handleSendFile();
   }
 
   Future<void> request() async {
     if (GetPlatform.isAndroid) {
       PermissionUtil.requestStorage();
+    }
+  }
+
+  Future<void> handleSendFile() async {
+    if (GetPlatform.isAndroid) {
+      MethodChannel channel = MethodChannel('send_channel');
+      channel.setMethodCallHandler((call) async {
+        if (call.method == 'send_file') {
+          Log.d('send_file response');
+          ChatController controller = Get.find();
+          controller.sendFileFromPath(
+            call.arguments.toString().replaceAll('file://', ''),
+          );
+        }
+      });
     }
   }
 

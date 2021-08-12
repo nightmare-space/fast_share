@@ -216,13 +216,6 @@ class _DirMessageItemState extends State<DirMessageItem> {
                                 ),
                               ),
                               Builder(builder: (context) {
-                                if (!widget.info.canDownload) {
-                                  return SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
                                 return Text(
                                   '${FileSizeUtils.getFileSize(widget.info.fullSize)}',
                                   style: TextStyle(

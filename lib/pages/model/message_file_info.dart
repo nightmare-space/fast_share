@@ -33,29 +33,3 @@ class MessageFileInfo extends MessageBaseInfo {
     return data;
   }
 }
-
-class MessageImgInfo extends MessageFileInfo {
-  MessageImgInfo({
-    String msgType,
-  }) : super(
-          msgType: msgType,
-        );
-
-  MessageImgInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {}
-
-  Map<String, dynamic> toJson() {
-    final data = super.toJson();
-    return data;
-  }
-}
-
-class MessageVideoInfo extends MessageFileInfo {
-  MessageVideoInfo();
-
-  MessageVideoInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {}
-
-  Map<String, dynamic> toJson() {
-    final data = super.toJson();
-    return data;
-  }
-}

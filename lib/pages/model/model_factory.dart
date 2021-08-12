@@ -5,11 +5,8 @@ class MessageInfoFactory {
   static MessageBaseInfo fromJson(Map<String, dynamic> json) {
     String msgType = json['msgType'];
     switch (msgType) {
-      case 'img':
-        return MessageImgInfo.fromJson(json);
-        break;
-      case 'video':
-        return MessageVideoInfo.fromJson(json);
+      case 'file':
+        return MessageFileInfo.fromJson(json);
         break;
       case 'text':
         return MessageTextInfo.fromJson(json);
@@ -26,8 +23,7 @@ class MessageInfoFactory {
       case 'qr':
         return MessageQrInfo.fromJson(json);
         break;
-      default:
-        return MessageFileInfo.fromJson(json);
     }
+    throw '消息异常';
   }
 }
