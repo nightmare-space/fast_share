@@ -11,7 +11,6 @@ import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/widgets/circle_animation.dart';
-import 'package:speed_share/widgets/custom_icon_button.dart';
 import 'package:supercharged/supercharged.dart';
 
 import 'dialog/join_chat.dart';

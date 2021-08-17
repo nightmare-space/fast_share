@@ -28,7 +28,7 @@ packages:
       name: better_player
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.72"
+    version: "0.0.73"
   boolean_selector:
     dependency: transitive
     description:
@@ -139,7 +139,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "85729bde87763da541090f93f7c32c40362b4adf"
+      resolved-ref: a44e41009ba3f01a76a99339297fb10a867b88b3
       url: "https://github.com/nightmare-space/file_manager_view"
     source: git
     version: "1.0.0+1"
@@ -149,7 +149,7 @@ packages:
       name: file_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.4"
   file_selector_linux:
     dependency: "direct main"
     description:
@@ -190,13 +190,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.2"
-  flutter_screenutil:
-    dependency: transitive
-    description:
-      name: flutter_screenutil
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.3.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -220,21 +213,21 @@ packages:
       name: flutter_widget_from_html_core
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.6.1+4"
+    version: "0.6.2"
   get:
     dependency: "direct main"
     description:
       name: get
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.2.4"
+    version: "4.3.8"
   get_server:
     dependency: "direct main"
     description:
       name: get_server
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   getsocket:
     dependency: "direct main"
     description:
@@ -247,7 +240,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "81ca524571773f4a1126ec6aba811191bacc1713"
+      resolved-ref: "773e50a5f29f7d02f6db5201867f26c6be2d9dfe"
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"
@@ -326,7 +319,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "15142aa31349252edf0445f01a9115e494149134"
+      resolved-ref: "9f50a3849202c00a3aaceaaeec026872305741ab"
       url: "https://github.com/nightmare-space/multicast"
     source: git
     version: "0.0.1"
@@ -336,7 +329,7 @@ packages:
       name: oktoast
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0"
+    version: "3.1.1"
   path:
     dependency: "direct main"
     description:
@@ -371,14 +364,14 @@ packages:
       name: path_provider_linux
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.2"
   path_provider_macos:
     dependency: transitive
     description:
       name: path_provider_macos
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.2"
   path_provider_platform_interface:
     dependency: transitive
     description:
@@ -392,7 +385,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.3"
   pedantic:
     dependency: transitive
     description:
@@ -441,7 +434,7 @@ packages:
       name: process
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.2.1"
+    version: "4.2.3"
   qr:
     dependency: transitive
     description:
@@ -510,7 +503,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "90a0ef6f83ebdafacb4c506426000cab16bd1a50"
+      resolved-ref: c08220ab2fff96addd575e1c0744984bda17a5ce
       url: "https://github.com/Nightmare-MY/signale"
     source: git
     version: "0.0.5"
@@ -602,14 +595,14 @@ packages:
       name: url_launcher_linux
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   url_launcher_macos:
     dependency: transitive
     description:
       name: url_launcher_macos
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -623,14 +616,14 @@ packages:
       name: url_launcher_web
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   url_launcher_windows:
     dependency: transitive
     description:
       name: url_launcher_windows
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   vector_math:
     dependency: transitive
     description:
@@ -651,35 +644,35 @@ packages:
       name: wakelock
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.5.2"
+    version: "0.5.3+3"
   wakelock_macos:
     dependency: transitive
     description:
       name: wakelock_macos
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.0+1"
+    version: "0.1.0+2"
   wakelock_platform_interface:
     dependency: transitive
     description:
       name: wakelock_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.2.1+1"
+    version: "0.2.1+2"
   wakelock_web:
     dependency: transitive
     description:
       name: wakelock_web
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.2.0+1"
+    version: "0.2.0+2"
   wakelock_windows:
     dependency: transitive
     description:
       name: wakelock_windows
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.0+1"
   win32:
     dependency: transitive
     description:
