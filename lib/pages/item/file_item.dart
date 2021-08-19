@@ -39,12 +39,31 @@ class _FileItemState extends State<FileItem> {
   // 网速
   String speed = '0';
   Timer timer;
+  String getSafePath(String savePath) {
+    String dirPath = dirname(savePath);
+    String fileNameWithoutExt = basenameWithoutExtension(savePath);
+    int count = 1;
+    String newPath =
+        dirPath + '/' + fileNameWithoutExt + '$count' + extension(savePath);
+    while (File(newPath).existsSync()) {
+      count++;
+      newPath =
+          dirPath + '/' + fileNameWithoutExt + '$count' + extension(savePath);
+    }
+    return newPath;
+  }
+
   Future<void> downloadFile(String urlPath, String savePath) async {
     if (fileDownratio != 0.0) {
       showToast('已经在下载中了哦');
       return;
     }
     savePath = savePath + '/' + basename(urlPath);
+    File saveFile = File(savePath);
+    if (saveFile.existsSync()) {
+      savePath = getSafePath(savePath);
+      Log.d(savePath);
+    }
     // print(savePath);
     computeNetSpeed();
     await dio.download(
