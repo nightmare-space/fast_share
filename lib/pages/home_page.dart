@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -41,11 +42,20 @@ class _HomePageState extends State<HomePage> {
       MethodChannel channel = MethodChannel('send_channel');
       channel.setMethodCallHandler((call) async {
         if (call.method == 'send_file') {
-          Log.d('send_file response');
-          ChatController controller = Get.find();
-          controller.sendFileFromPath(
-            call.arguments.toString().replaceAll('file://', ''),
+          // File file = File.fromUri(Uri.parse(call.arguments));
+          // print(file.path);
+          String realPath = call.arguments.toString().replaceAll('file://', '');
+          realPath = realPath.replaceAll(
+            'content://com.miui.home.fileprovider/data_app',
+            '/data/app',
           );
+          realPath = realPath.replaceAll(
+            'content://com.nightmare.appmanager.fileprovider/root',
+            '',
+          );
+          Log.d('send_file response realPath => $realPath');
+          ChatController controller = Get.find();
+          controller.sendFileFromPath(Uri.decodeFull(realPath));
         }
       });
     }

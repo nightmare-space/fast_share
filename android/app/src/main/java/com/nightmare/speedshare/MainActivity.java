@@ -20,10 +20,12 @@ public class MainActivity extends FlutterActivity {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
-        setIntent(intent);  Uri data_uri;
+        setIntent(intent);
+        Uri data_uri;
         if (intent == null) {
             Log.d("NightmareTAG", "sendFile: no data to send");
             return;
@@ -33,12 +35,13 @@ public class MainActivity extends FlutterActivity {
             Log.d("NightmareTAG", "sendFile: no data in intent");
             return;
         }
-        channel.invokeMethod("send_file",data_uri.toString());
+        channel.invokeMethod("send_file", data_uri.toString());
         Log.d("NightmareTAG", data_uri.toString());
     }
+
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
-        channel=new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(),"send_channel");
+        channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "send_channel");
     }
 }

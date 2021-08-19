@@ -44,7 +44,7 @@
             "name": "平板",
             "request": "launch",
             "type": "dart",
-            "deviceId": "Lenovo TB J606F"
+            "deviceId": "192.168.177.156:5555"
         },
     ]
 }
