@@ -2,7 +2,66 @@
 
 速享使用 websocket 构建了基于聊天服务器(由 get_server 搭建)的文件共享窗口，文件部署使用的是 shelf 相关的库。
 聊天窗口发送的为 Json 类型的消息，根据不同的消息类型用不同的字段进行区分。
-
+## 文件结构
+```sh
+├── app
+# GetX 相关的文件配置
+│   ├── bindings
+│   ├── controller
+│   └── routes
+├── config
+│   ├── assets.dart
+# svg 资源文件配置
+│   └── config.dart
+# 端口等配置
+├── generated_plugin_registrant.dart
+├── global
+│   └── global.dart
+# 全局单例，用来发现设备
+├── main.dart
+# app 启动入口文件
+├── pages
+│   ├── dialog
+# 弹窗相关页面
+│   ├── home_page.dart
+# 主页显示文件夹
+│   ├── item
+# 聊天页面的 item 文件夹
+│   ├── model
+# 聊天相关的 model
+│   ├── qrscan_page.dart
+# 二维码扫描页面
+│   ├── setting_page.dart
+# 设置页面
+│   ├── share_chat_window.dart
+# 聊天窗口
+│   └── video.dart
+# 视频预览
+├── routes
+│   └── page_route_builder.dart
+├── themes
+# 主题相关文件夹
+│   ├── app_colors.dart
+│   ├── color_schema_extension.dart
+│   ├── default_theme_data.dart
+│   └── theme.dart
+├── utils
+# 一些工具类
+│   ├── auth.dart
+│   ├── chat_server.dart
+│   ├── document
+│   ├── http
+│   ├── process_server.dart
+│   ├── proxy.dart
+│   ├── scan_util.dart
+│   ├── shelf
+│   ├── shelf_static.dart
+│   ├── string_extension.dart
+│   └── utils.dart
+└── widgets
+# 主页那个动画
+    └── circle_animation.dart
+```
 ## 文件互传实现
 
 速享的文件共享分三部步：

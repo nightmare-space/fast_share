@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:multicast/multicast.dart';
 import 'package:speed_share/pages/dialog/join_chat_by_udp.dart';
+import 'package:speed_share/utils/string_extension.dart';
 import 'package:speed_share/utils/utils.dart';
 
 /// 主要用来发现局域网的设备
@@ -35,7 +36,7 @@ class Global {
         for (String serverAddr in message.split(' ')) {
           Log.v('消息带有的address -> ${serverAddr}');
           for (String localAddr in await PlatformUtil.localAddress()) {
-            if (serverAddr.isSameSegment(localAddr)) {
+            if (serverAddr.hasThreePartEqual(localAddr)) {
               Log.d('其中消息的 -> ${serverAddr} 与本地的$localAddr 在同一个局域网');
               showDialog(
                 context: Get.context,
