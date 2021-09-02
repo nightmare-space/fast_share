@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  shelf_virtual_directory: ^2.0.0
   file_selector_platform_interface: ^2.0.0
   file_selector_linux:
     path: plugin/file_selector_linux
@@ -29,7 +28,6 @@ dependencies:
   shelf_static: ^1.0.0
   shelf_router: ^1.0.0
   get_server: ^1.1.0
-  getsocket: ^1.0.0
   file_picker: ^3.0.1
   flutter_svg: ^0.22.0
   file_manager_view:
@@ -40,7 +38,6 @@ dependencies:
   path: ^1.8.0
   mime_type: ^1.0.0
   dio: ^4.0.0
-  oktoast: ^3.0.0
   multicast:
     git: https://github.com/nightmare-space/multicast
 
