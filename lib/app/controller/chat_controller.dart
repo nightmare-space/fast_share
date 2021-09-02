@@ -9,7 +9,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
-import 'package:speed_share/pages/item/dir_item.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/model/model_factory.dart';

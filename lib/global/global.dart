@@ -13,7 +13,6 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/dialog/join_chat_by_udp.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/utils/string_extension.dart';
-import 'package:speed_share/utils/utils.dart';
 
 /// 主要用来发现局域网的设备
 class Global {
