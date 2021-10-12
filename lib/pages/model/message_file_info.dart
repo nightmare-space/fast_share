@@ -10,7 +10,8 @@ class MessageFileInfo extends MessageBaseInfo {
     this.fileName,
     this.fileSize,
     this.url,
-    String msgType,
+    this.filePath,
+    String msgType = 'file',
     String type,
   }) : super(
           type: type,

@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:archive/archive.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/home_page.dart';
+import 'package:speed_share/utils/http/http.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
 import 'global/global.dart';
@@ -26,6 +28,21 @@ void main() {
   RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
   // 物理平台使用的udp设备互相发现
   Global().initGlobal();
+  // test();
+}
+
+Future<void> test() async {
+  while (true) {
+    DateTime now = DateTime.now();
+    Log.w('$now');
+    try {
+      await Log.w((await httpInstance.get(
+        'https://nightmare.fun',
+      ))
+          .data);
+    } catch (e) {}
+    await Future.delayed(Duration(milliseconds: 800));
+  }
 }
 
 class SpeedShare extends StatelessWidget {
@@ -68,8 +85,8 @@ class SpeedShare extends StatelessWidget {
   }
 }
 
-class SpeedShareHome extends StatefulWidget {
-  SpeedShareHome() {
+class SpeedShareEntryPoint extends StatefulWidget {
+  SpeedShareEntryPoint() {
     if (RuntimeEnvir.packageName != Config.packageName &&
         !GetPlatform.isDesktop) {
       // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
@@ -78,10 +95,10 @@ class SpeedShareHome extends StatefulWidget {
     }
   }
   @override
-  _SpeedShareHomeState createState() => _SpeedShareHomeState();
+  _SpeedShareEntryPointState createState() => _SpeedShareEntryPointState();
 }
 
-class _SpeedShareHomeState extends State<SpeedShareHome> {
+class _SpeedShareEntryPointState extends State<SpeedShareEntryPoint> {
   @override
   Widget build(BuildContext context) {
     return HomePage();

@@ -1,5 +1,9 @@
 
 import 'package:flutter/material.dart';
+/**
+ * 主页显示的动画
+ * Create by Nightmare
+ */
 
 class WaterRipple extends StatefulWidget {
   const WaterRipple({

@@ -1,4 +1,4 @@
-version='1.2.1'
+version='1.2.2'
 target=root@$server:/home/nightmare/YanTool/resources/SpeedShare
 if [ -f "速享_macOS.tar" ]; then
     rsync -v "速享_macOS.tar" "$target/速享_$version\_macOS.tar"

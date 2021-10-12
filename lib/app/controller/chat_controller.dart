@@ -18,7 +18,9 @@ import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:speed_share/utils/string_extension.dart';
 
 class ChatController extends GetxController {
+  // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
+  // 输入框控制器
   TextEditingController controller = TextEditingController();
   GetSocket socket;
   List<Widget> children = [];
@@ -57,7 +59,7 @@ class ChatController extends GetxController {
       shared: true,
     );
   }
-
+  // 
   Future<void> sendDir() async {
     String dirPath;
     if (GetPlatform.isDesktop) {
@@ -72,13 +74,7 @@ class ChatController extends GetxController {
       return;
     }
     Directory dir = Directory(dirPath);
-
-    String fileUrl = '';
-    List<String> address = await PlatformUtil.localAddress();
-    for (String addr in address) {
-      fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
-    }
-    fileUrl = fileUrl.trim();
+    String fileUrl = await generateUrlList();
     // 可能会存在两个不同路径下有相同文件夹名的问题
     String dirName = p.basename(dirPath);
     MessageBaseInfo info = MessageInfoFactory.fromJson({
@@ -87,7 +83,6 @@ class ChatController extends GetxController {
       'urlPrifix': fileUrl,
       'fullSize': 0,
     });
-
     // 发送消息
     socket.send(info.toString());
     // 将消息添加到本地列表
@@ -106,7 +101,6 @@ class ChatController extends GetxController {
         suffix = '/';
       } else if (entity is File) {
         size = await entity.length();
-
         serverFile(entity.path);
       }
       dynamic info = MessageInfoFactory.fromJson({
@@ -123,8 +117,7 @@ class ChatController extends GetxController {
       'msgType': 'dirPart',
       'partOf': dirName,
     });
-
-    // TODO 这行是测试代码
+    //! TODO 这行是测试代码
     await Future.delayed(Duration(seconds: 1));
     socket.send(info.toString());
   }
@@ -139,45 +132,13 @@ class ChatController extends GetxController {
       return;
     }
     for (XFile xFile in files) {
-      final file = xFile;
-      serverFile(file.path);
-      // 替换windows的路径分隔符
-      String filePath = file.path.replaceAll('\\', '/');
-      int size = await File(filePath).length();
-
-      filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
-      String url = '';
-      List<String> address = await PlatformUtil.localAddress();
-      for (String addr in address) {
-        url += 'http://' + addr + ':${Config.shelfPort} ';
-      }
-      url = url.trim();
-      p.Context context;
-      if (GetPlatform.isWindows) {
-        context = p.windows;
-      } else {
-        context = p.posix;
-      }
-      MessageBaseInfo info = MessageInfoFactory.fromJson({
-        'filePath': filePath,
-        'msgType': 'file',
-        'fileName': context.basename(filePath),
-        'fileSize': FileSizeUtils.getFileSize(size),
-        'url': url,
-      });
-      // Log.w(await PlatformUtil.localAddress());
-      // 发送消息
-      socket.send(info.toString());
-      // 将消息添加到本地列表
-      children.add(MessageItemFactory.getMessageItem(
-        info,
-        true,
-      ));
-      scroll();
-      update();
+      sendFileFromPath(xFile.path);
     }
   }
 
+  /**
+   * useSystemPicker: 是否使用系统文件选择器
+   */
   Future<void> sendFileForAndroid({bool useSystemPicker = false}) async {
     // 选择文件路径
     List<String> filePaths = [];
@@ -197,14 +158,6 @@ class ChatController extends GetxController {
         for (PlatformFile file in result.files) {
           filePaths.add(file.path);
         }
-        // PlatformFile file = result.files.first;
-
-        // print(file.name);
-        // print(file.bytes);
-        // print(file.size);
-        // print(file.extension);
-        // print(file.path);
-        // filePath = file.path;
       } else {
         // User canceled the picker
       }
@@ -218,28 +171,44 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<void> sendFileFromPath(String filePath) async {
-    serverFile(filePath);
-    int size = await File(filePath).length();
-    String fileUrl = '';
+  // 生成Url列表
+  Future<String> generateUrlList() async {
+    String fileUrl;
     List<String> address = await PlatformUtil.localAddress();
     for (String addr in address) {
       fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
     }
-    fileUrl = fileUrl.trim();
-    dynamic info = MessageInfoFactory.fromJson({
-      'filePath': filePath,
-      'msgType': 'file',
-      'thumbnailPath': '',
-      'fileName': p.basename(filePath),
-      'fileSize': FileSizeUtils.getFileSize(size),
-      'url': fileUrl,
-    });
+    return fileUrl.trim();
+  }
+
+  // 基于一个文件路径发送消息
+  Future<void> sendFileFromPath(String filePath) async {
+    serverFile(filePath);
+    // 替换windows的路径分隔符
+    filePath = filePath.replaceAll('\\', '/');
+    // 读取文件大小
+    int size = await File(filePath).length();
+    // 替换windows盘符
+    filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
+    String fileUrl = await generateUrlList();
+    p.Context context;
+    if (GetPlatform.isWindows) {
+      context = p.windows;
+    } else {
+      context = p.posix;
+    }
+    final MessageFileInfo sendFileInfo = MessageFileInfo(
+      filePath: filePath,
+      fileName: context.basename(filePath),
+      fileSize: FileSizeUtils.getFileSize(size),
+      url: fileUrl,
+    );
+
     // 发送消息
-    socket.send(info.toString());
+    socket.send(sendFileInfo.toString());
     // 将消息添加到本地列表
     children.add(MessageItemFactory.getMessageItem(
-      info,
+      sendFileInfo,
       true,
     ));
     scroll();
@@ -420,7 +389,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> scroll() async {
-    // 让listview滚动
+    // 让listview滚动到底部
     await Future.delayed(Duration(milliseconds: 100));
     scrollController.animateTo(
       scrollController.position.maxScrollExtent,
