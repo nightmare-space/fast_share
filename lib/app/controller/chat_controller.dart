@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,8 @@ class ChatController extends GetxController {
       shared: true,
     );
   }
-  // 
+
+  //
   Future<void> sendDir() async {
     String dirPath;
     if (GetPlatform.isDesktop) {
@@ -123,11 +125,8 @@ class ChatController extends GetxController {
   }
 
   Future<void> sendFileForDesktop() async {
-    final typeGroup = XTypeGroup(
-      label: 'images',
-    );
-    final files = await FileSelectorPlatform.instance
-        .openFiles(acceptedTypeGroups: [typeGroup]);
+    final typeGroup = XTypeGroup(label: 'images');
+    final files = await openFiles(acceptedTypeGroups: [typeGroup]);
     if (files.isEmpty) {
       return;
     }
