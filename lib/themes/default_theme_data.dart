@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 
 import 'app_colors.dart';
@@ -62,7 +63,7 @@ class DefaultThemeData {
     );
     return darkThemeData.copyWith(
       colorScheme: colorSchema,
-      accentColor: colorSchema.onPrimary,
+      primaryColor: colorSchema.onPrimary,
       scaffoldBackgroundColor: colorSchema.background,
       primaryColorBrightness: Brightness.dark,
       cupertinoOverrideTheme: const CupertinoThemeData(
@@ -76,7 +77,7 @@ class DefaultThemeData {
       ),
       appBarTheme: darkThemeData.appBarTheme.copyWith(
         centerTitle: true,
-        brightness: Brightness.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         color: colorSchema.surface,
         elevation: 0,
         iconTheme: darkThemeData.iconTheme.copyWith(
@@ -198,7 +199,7 @@ class DefaultThemeData {
     );
     return lightThemeData.copyWith(
       colorScheme: colorSchema,
-      accentColor: colorSchema.primary,
+      primaryColor: colorSchema.primary,
       scaffoldBackgroundColor: colorSchema.background,
       primaryColorBrightness: Brightness.light,
       cupertinoOverrideTheme: const CupertinoThemeData(
@@ -236,6 +237,7 @@ class DefaultThemeData {
         filled: true,
       ),
       appBarTheme: lightThemeData.appBarTheme.copyWith(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
         brightness: Brightness.light,
         color: Colors.transparent,
