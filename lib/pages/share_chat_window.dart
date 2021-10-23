@@ -6,6 +6,7 @@ import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
+import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'item/message_item_factory.dart';
@@ -103,6 +104,7 @@ class _ShareChatState extends State<ShareChat> {
             fontSize: 16.w,
           ),
         ),
+        leading: PopButton(),
       ),
       body: GestureDetector(
         onTap: () {
