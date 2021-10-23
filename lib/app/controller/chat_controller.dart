@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
@@ -13,6 +14,7 @@ import 'package:speed_share/global/global.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/model/model_factory.dart';
+import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_manager_view/file_manager_view.dart' as fm;
@@ -172,7 +174,7 @@ class ChatController extends GetxController {
 
   // 生成Url列表
   Future<String> generateUrlList() async {
-    String fileUrl;
+    String fileUrl = '';
     List<String> address = await PlatformUtil.localAddress();
     for (String addr in address) {
       fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
@@ -251,9 +253,11 @@ class ChatController extends GetxController {
 
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
+
+  /// 这个里面的处理相对复杂一点
   void listenMessage() {
-    Log.e('监听');
-    socket.onMessage((message) {
+    Log.e('监听消息');
+    socket.onMessage((message) async {
       if (message == '') {
         // 发来的空字符串就没必要解析了
         return;
@@ -289,7 +293,6 @@ class ChatController extends GetxController {
         }
         Log.w('dirItemMap -> $dirItemMap');
       } else if (messageInfo is MessageDirPartInfo) {
-        // Log.w('文件夹子文件 -> ${messageInfo}');
         if (messageInfo.stat == 'complete') {
           Log.e('完成发送');
           dirMsgMap[messageInfo.partOf].canDownload = true;
@@ -313,58 +316,67 @@ class ChatController extends GetxController {
         }
         return;
       } else if (messageInfo is MessageFileInfo) {
-        // for (String url in messageInfo.url.split(' ')) {
-        //   Uri uri = Uri.parse(url);
-        //   Log.d('${uri.scheme}://${uri.host}:7001');
-        //   Response response;
-        //   try {
-        //     response = await httpInstance.get(
-        //       '${uri.scheme}://${uri.host}:7001',
-        //     );
-        //     Log.w(response.data);
-        //   } catch (e) {}
-        //   if (response != null) {
-        //     messageInfo.url = url;
-        //   }
-        // }
         if (!GetPlatform.isWeb) {
           for (String url in messageInfo.url.split(' ')) {
             Uri uri = Uri.parse(url);
-            Log.v('消息带有的address -> ${uri.host}');
-            for (String localAddr in addreses) {
-              if (uri.host.hasThreePartEqual(localAddr)) {
-                Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-                messageInfo.url = url;
-              }
+            Log.d('${uri.scheme}://${uri.host}:7001');
+            Response response;
+            try {
+              response = await httpInstance.get(
+                '${uri.scheme}://${uri.host}:7001',
+              );
+              messageInfo.url = url;
+              Log.w(response.data);
+              break;
+            } catch (e) {
+              Log.w(e);
             }
           }
-          if (messageInfo.url.contains(' ')) {
-            // 这儿是没有找到同一个局域网，有可能划分了子网
-            // 相当于提供一个兜底
-            for (String url in messageInfo.url.split(' ')) {
-              Uri uri = Uri.parse(url);
-              Log.v('消息带有的address -> ${uri.host}');
-              for (String localAddr in addreses) {
-                if (uri.host.hasTwoPartEqual(localAddr)) {
-                  Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-                  messageInfo.url = url;
-                }
-              }
-            }
-          }
-          if (messageInfo.url.contains(' ')) {
-            // 这儿是没有找到同一个局域网，有可能划分了子网
-            // 相当于提供一个兜底
-            messageInfo.url = messageInfo.url.split(' ').first;
-          }
+          // --------------------------------------------------
+          // for (String url in messageInfo.url.split(' ')) {
+          //   Uri uri = Uri.parse(url);
+          //   Log.v('消息带有的address -> ${uri.host}');
+          //   for (String localAddr in addreses) {
+          //     if (uri.host.hasThreePartEqual(localAddr)) {
+          //       Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+          //       messageInfo.url = url;
+          //     }
+          //   }
+          // }
+          // if (messageInfo.url.contains(' ')) {
+          //   // 这儿是没有找到同一个局域网，有可能划分了子网
+          //   // 相当于提供一个兜底
+          //   for (String url in messageInfo.url.split(' ')) {
+          //     Uri uri = Uri.parse(url);
+          //     Log.v('消息带有的address -> ${uri.host}');
+          //     for (String localAddr in addreses) {
+          //       if (uri.host.hasTwoPartEqual(localAddr)) {
+          //         Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+          //         messageInfo.url = url;
+          //       }
+          //     }
+          //   }
+          // }
+          // if (messageInfo.url.contains(' ')) {
+          //   // 这儿是没有找到同一个局域网，有可能划分了子网
+          //   // 相当于提供一个兜底
+          //   messageInfo.url = messageInfo.url.split(' ').first;
+          // }
+
+          // --------------------------------------------------
         } else {
-          messageInfo.url = messageInfo.url.split(' ').first;
+          // web端直接使用浏览器上面的url
+          messageInfo.url = chatRoomUrl;
+          // Log.w(messageInfo);
         }
       }
+      // 往聊天列表中添加一条消息
       children.add(MessageItemFactory.getMessageItem(
         messageInfo,
         false,
       ));
+
+      // 自动滑动，振动，更新UI
       scroll();
       vibrate();
       update();
