@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -13,10 +12,11 @@ import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/widgets/circle_animation.dart';
 import 'package:supercharged/supercharged.dart';
-
 import 'dialog/join_chat.dart';
 import 'setting_page.dart';
 
+/// Create by Nightmare at 2021
+/// 速享的主页
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       PermissionUtil.requestStorage();
     }
   }
-
+  // 处理其他设备的分享
   Future<void> handleSendFile() async {
     if (GetPlatform.isAndroid) {
       MethodChannel channel = MethodChannel('send_channel');
@@ -239,39 +239,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          // Center(
-          //   child: serverOpend
-          //       ? LoginButton(
-          //           title: '关闭服务',
-          //           backgroundColor: AppColors.surface,
-          //           fontColor: AppColors.fontColor,
-          //           onTap: () async {
-          //             await Future<void>.delayed(Duration(milliseconds: 300));
-          //             if (!GetPlatform.isWeb) {
-          //               ProcessServer.close();
-          //             }
-          //             ShelfStatic.close();
-          //             serverOpend = false;
-          //             setState(() {});
-          //             return true;
-          //           },
-          //         )
-          //       : LoginButton(
-          //           backgroundColor: Theme.of(context).colorScheme.secondary,
-          //           title: '开启服务',
-          //           fontColor: Colors.white,
-          //           onTap: () async {
-          //             await Future<void>.delayed(Duration(milliseconds: 300));
-          //             if (!GetPlatform.isWeb) {
-          //               ProcessServer.start();
-          //             }
-          //             ShelfStatic.start();
-          //             serverOpend = true;
-          //             setState(() {});
-          //             return true;
-          //           },
-          //         ),
-          // ),
         ],
       ),
     );

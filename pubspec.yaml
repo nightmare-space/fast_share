@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件.
 publish_to: "none"
 
-version: 1.2.1+13
+version: 1.2.2+14
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,36 +11,45 @@ dependencies:
   flutter:
     sdk: flutter
 
-  shelf_virtual_directory: ^2.0.0
-  file_selector_platform_interface: ^2.0.0
-  file_selector_linux:
-    path: plugin/file_selector_linux
-  file_selector_macos:
-    path: plugin/file_selector_macos
-  file_selector_windows:
-    path: plugin/file_selector_windows
+  file_selector: ^0.8.2+1
+  file_selector_linux: 0.0.2+1
+  file_selector_macos: ^0.0.4+1
+  file_selector_windows: ^0.0.2+1
   get: ^4.1.4
+  # 公共库
   global_repository:
     git: https://github.com/nightmare-space/global_repository
+  #动画组件
   simple_animations: ^2.4.0
   shelf_proxy: ^1.0.0
+  # 二维码生成
   qr_flutter: ^3.1.0
+  # 二维码扫描
   qr_code_scanner: ^0.5.1
+  # 文件部署
   shelf_static: ^1.0.0
   shelf_router: ^1.0.0
+  # 聊天服务器
   get_server: ^1.1.0
-  getsocket: ^1.0.0
+  # 安卓端文件选择
   file_picker: ^3.0.1
+  # svg 图片展示
   flutter_svg: ^0.22.0
+  # 文件选择自实现方案
   file_manager_view:
     git: https://github.com/nightmare-space/file_manager_view
+  # 跳转网页
   url_launcher: ^6.0.4
+  # 视频预览
   better_player: ^0.0.68
+  # 压缩插件
   archive: ^3.1.2
   path: ^1.8.0
+  # 获取文件对应的 mime_type 用的库
   mime_type: ^1.0.0
+  # 网络请求
   dio: ^4.0.0
-  oktoast: ^3.0.0
+  # 局域网设备发现
   multicast:
     git: https://github.com/nightmare-space/multicast
 

@@ -24,10 +24,12 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
+// 本地编译注释以下代码
+// start
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+// end
 android {
     compileSdkVersion 30
 
@@ -38,7 +40,6 @@ android {
         disable 'InvalidPackage'
     }
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.nightmare.speedshare"
         minSdkVersion 20
         targetSdkVersion 28
@@ -47,23 +48,36 @@ android {
         multiDexEnabled true
     }
     signingConfigs {
+        // 本地编译注释以下代码
+        // start
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
+        // end
     }
+    // 本地编译放开下面代码
+    // buildTypes {    
+    //     release {
+    //         signingConfig signingConfigs.debug
+    //     }
+    //     debug {
+    //         signingConfig signingConfigs.debug
+    //     }
+    // }
+    // 本地编译注释下面代码
+    // start
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
         }
         debug {
             signingConfig signingConfigs.release
         }
     }
+    // end
 }
 
 flutter {

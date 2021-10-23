@@ -1,25 +1,29 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
-import 'package:speed_share/pages/item/dir_item.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/model/model_factory.dart';
+import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:speed_share/utils/string_extension.dart';
 
 class ChatController extends GetxController {
+  // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
+  // 输入框控制器
   TextEditingController controller = TextEditingController();
   GetSocket socket;
   List<Widget> children = [];
@@ -59,6 +63,7 @@ class ChatController extends GetxController {
     );
   }
 
+  //
   Future<void> sendDir() async {
     String dirPath;
     if (GetPlatform.isDesktop) {
@@ -73,13 +78,7 @@ class ChatController extends GetxController {
       return;
     }
     Directory dir = Directory(dirPath);
-
-    String fileUrl = '';
-    List<String> address = await PlatformUtil.localAddress();
-    for (String addr in address) {
-      fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
-    }
-    fileUrl = fileUrl.trim();
+    String fileUrl = await generateUrlList();
     // 可能会存在两个不同路径下有相同文件夹名的问题
     String dirName = p.basename(dirPath);
     MessageBaseInfo info = MessageInfoFactory.fromJson({
@@ -88,7 +87,6 @@ class ChatController extends GetxController {
       'urlPrifix': fileUrl,
       'fullSize': 0,
     });
-
     // 发送消息
     socket.send(info.toString());
     // 将消息添加到本地列表
@@ -107,7 +105,6 @@ class ChatController extends GetxController {
         suffix = '/';
       } else if (entity is File) {
         size = await entity.length();
-
         serverFile(entity.path);
       }
       dynamic info = MessageInfoFactory.fromJson({
@@ -124,61 +121,25 @@ class ChatController extends GetxController {
       'msgType': 'dirPart',
       'partOf': dirName,
     });
-
-    // TODO 这行是测试代码
+    //! TODO 这行是测试代码
     await Future.delayed(Duration(seconds: 1));
     socket.send(info.toString());
   }
 
   Future<void> sendFileForDesktop() async {
-    final typeGroup = XTypeGroup(
-      label: 'images',
-    );
-    final files = await FileSelectorPlatform.instance
-        .openFiles(acceptedTypeGroups: [typeGroup]);
+    final typeGroup = XTypeGroup(label: 'images');
+    final files = await openFiles(acceptedTypeGroups: [typeGroup]);
     if (files.isEmpty) {
       return;
     }
     for (XFile xFile in files) {
-      final file = xFile;
-      serverFile(file.path);
-      // 替换windows的路径分隔符
-      String filePath = file.path.replaceAll('\\', '/');
-      int size = await File(filePath).length();
-
-      filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
-      String url = '';
-      List<String> address = await PlatformUtil.localAddress();
-      for (String addr in address) {
-        url += 'http://' + addr + ':${Config.shelfPort} ';
-      }
-      url = url.trim();
-      p.Context context;
-      if (GetPlatform.isWindows) {
-        context = p.windows;
-      } else {
-        context = p.posix;
-      }
-      MessageBaseInfo info = MessageInfoFactory.fromJson({
-        'filePath': filePath,
-        'msgType': 'file',
-        'fileName': context.basename(filePath),
-        'fileSize': FileSizeUtils.getFileSize(size),
-        'url': url,
-      });
-      // Log.w(await PlatformUtil.localAddress());
-      // 发送消息
-      socket.send(info.toString());
-      // 将消息添加到本地列表
-      children.add(MessageItemFactory.getMessageItem(
-        info,
-        true,
-      ));
-      scroll();
-      update();
+      sendFileFromPath(xFile.path);
     }
   }
 
+  /**
+   * useSystemPicker: 是否使用系统文件选择器
+   */
   Future<void> sendFileForAndroid({bool useSystemPicker = false}) async {
     // 选择文件路径
     List<String> filePaths = [];
@@ -198,14 +159,6 @@ class ChatController extends GetxController {
         for (PlatformFile file in result.files) {
           filePaths.add(file.path);
         }
-        // PlatformFile file = result.files.first;
-
-        // print(file.name);
-        // print(file.bytes);
-        // print(file.size);
-        // print(file.extension);
-        // print(file.path);
-        // filePath = file.path;
       } else {
         // User canceled the picker
       }
@@ -219,28 +172,44 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<void> sendFileFromPath(String filePath) async {
-    serverFile(filePath);
-    int size = await File(filePath).length();
+  // 生成Url列表
+  Future<String> generateUrlList() async {
     String fileUrl = '';
     List<String> address = await PlatformUtil.localAddress();
     for (String addr in address) {
       fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
     }
-    fileUrl = fileUrl.trim();
-    dynamic info = MessageInfoFactory.fromJson({
-      'filePath': filePath,
-      'msgType': 'file',
-      'thumbnailPath': '',
-      'fileName': p.basename(filePath),
-      'fileSize': FileSizeUtils.getFileSize(size),
-      'url': fileUrl,
-    });
+    return fileUrl.trim();
+  }
+
+  // 基于一个文件路径发送消息
+  Future<void> sendFileFromPath(String filePath) async {
+    serverFile(filePath);
+    // 替换windows的路径分隔符
+    filePath = filePath.replaceAll('\\', '/');
+    // 读取文件大小
+    int size = await File(filePath).length();
+    // 替换windows盘符
+    filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
+    String fileUrl = await generateUrlList();
+    p.Context context;
+    if (GetPlatform.isWindows) {
+      context = p.windows;
+    } else {
+      context = p.posix;
+    }
+    final MessageFileInfo sendFileInfo = MessageFileInfo(
+      filePath: filePath,
+      fileName: context.basename(filePath),
+      fileSize: FileSizeUtils.getFileSize(size),
+      url: fileUrl,
+    );
+
     // 发送消息
-    socket.send(info.toString());
+    socket.send(sendFileInfo.toString());
     // 将消息添加到本地列表
     children.add(MessageItemFactory.getMessageItem(
-      info,
+      sendFileInfo,
       true,
     ));
     scroll();
@@ -284,9 +253,11 @@ class ChatController extends GetxController {
 
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
+
+  /// 这个里面的处理相对复杂一点
   void listenMessage() {
-    Log.e('监听');
-    socket.onMessage((message) {
+    Log.e('监听消息');
+    socket.onMessage((message) async {
       if (message == '') {
         // 发来的空字符串就没必要解析了
         return;
@@ -322,7 +293,6 @@ class ChatController extends GetxController {
         }
         Log.w('dirItemMap -> $dirItemMap');
       } else if (messageInfo is MessageDirPartInfo) {
-        // Log.w('文件夹子文件 -> ${messageInfo}');
         if (messageInfo.stat == 'complete') {
           Log.e('完成发送');
           dirMsgMap[messageInfo.partOf].canDownload = true;
@@ -346,58 +316,67 @@ class ChatController extends GetxController {
         }
         return;
       } else if (messageInfo is MessageFileInfo) {
-        // for (String url in messageInfo.url.split(' ')) {
-        //   Uri uri = Uri.parse(url);
-        //   Log.d('${uri.scheme}://${uri.host}:7001');
-        //   Response response;
-        //   try {
-        //     response = await httpInstance.get(
-        //       '${uri.scheme}://${uri.host}:7001',
-        //     );
-        //     Log.w(response.data);
-        //   } catch (e) {}
-        //   if (response != null) {
-        //     messageInfo.url = url;
-        //   }
-        // }
         if (!GetPlatform.isWeb) {
           for (String url in messageInfo.url.split(' ')) {
             Uri uri = Uri.parse(url);
-            Log.v('消息带有的address -> ${uri.host}');
-            for (String localAddr in addreses) {
-              if (uri.host.hasThreePartEqual(localAddr)) {
-                Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-                messageInfo.url = url;
-              }
+            Log.d('${uri.scheme}://${uri.host}:7001');
+            Response response;
+            try {
+              response = await httpInstance.get(
+                '${uri.scheme}://${uri.host}:7001',
+              );
+              messageInfo.url = url;
+              Log.w(response.data);
+              break;
+            } catch (e) {
+              Log.w(e);
             }
           }
-          if (messageInfo.url.contains(' ')) {
-            // 这儿是没有找到同一个局域网，有可能划分了子网
-            // 相当于提供一个兜底
-            for (String url in messageInfo.url.split(' ')) {
-              Uri uri = Uri.parse(url);
-              Log.v('消息带有的address -> ${uri.host}');
-              for (String localAddr in addreses) {
-                if (uri.host.hasTwoPartEqual(localAddr)) {
-                  Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-                  messageInfo.url = url;
-                }
-              }
-            }
-          }
-          if (messageInfo.url.contains(' ')) {
-            // 这儿是没有找到同一个局域网，有可能划分了子网
-            // 相当于提供一个兜底
-            messageInfo.url = messageInfo.url.split(' ').first;
-          }
+          // --------------------------------------------------
+          // for (String url in messageInfo.url.split(' ')) {
+          //   Uri uri = Uri.parse(url);
+          //   Log.v('消息带有的address -> ${uri.host}');
+          //   for (String localAddr in addreses) {
+          //     if (uri.host.hasThreePartEqual(localAddr)) {
+          //       Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+          //       messageInfo.url = url;
+          //     }
+          //   }
+          // }
+          // if (messageInfo.url.contains(' ')) {
+          //   // 这儿是没有找到同一个局域网，有可能划分了子网
+          //   // 相当于提供一个兜底
+          //   for (String url in messageInfo.url.split(' ')) {
+          //     Uri uri = Uri.parse(url);
+          //     Log.v('消息带有的address -> ${uri.host}');
+          //     for (String localAddr in addreses) {
+          //       if (uri.host.hasTwoPartEqual(localAddr)) {
+          //         Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+          //         messageInfo.url = url;
+          //       }
+          //     }
+          //   }
+          // }
+          // if (messageInfo.url.contains(' ')) {
+          //   // 这儿是没有找到同一个局域网，有可能划分了子网
+          //   // 相当于提供一个兜底
+          //   messageInfo.url = messageInfo.url.split(' ').first;
+          // }
+
+          // --------------------------------------------------
         } else {
-          messageInfo.url = messageInfo.url.split(' ').first;
+          // web端直接使用浏览器上面的url
+          messageInfo.url = chatRoomUrl;
+          // Log.w(messageInfo);
         }
       }
+      // 往聊天列表中添加一条消息
       children.add(MessageItemFactory.getMessageItem(
         messageInfo,
         false,
       ));
+
+      // 自动滑动，振动，更新UI
       scroll();
       vibrate();
       update();
@@ -421,7 +400,7 @@ class ChatController extends GetxController {
   }
 
   Future<void> scroll() async {
-    // 让listview滚动
+    // 让listview滚动到底部
     await Future.delayed(Duration(milliseconds: 100));
     scrollController.animateTo(
       scrollController.position.maxScrollExtent,

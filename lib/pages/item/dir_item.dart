@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
-import 'package:path/path.dart';
 import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/message_dir_info.dart';

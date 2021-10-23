@@ -18,7 +18,7 @@ class SpeedPages {
     GetPage(
       name: Routes.HOME,
       page: () => ThemeWidget(
-        child: SpeedShareHome(),
+        child: SpeedShareEntryPoint(),
       ),
       binding: HomeBinding(),
     ),

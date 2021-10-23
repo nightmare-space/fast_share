@@ -1,9 +1,9 @@
-import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/themes/app_colors.dart';
+/**
+ * 主页显示的动画
+ * Create by Nightmare
+ */
 
 class WaterRipple extends StatefulWidget {
   const WaterRipple({

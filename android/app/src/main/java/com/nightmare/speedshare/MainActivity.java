@@ -1,8 +1,11 @@
 package com.nightmare.speedshare;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,10 +18,42 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
     MethodChannel channel;
+    PowerManager.WakeLock wakeLock = null;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("NightmareTAG", "申请wakelock");
+        acquireWakeLock();
+    }
+    @Override
+    protected void onDestroy() {
+        releaseWakeLock();
+        Log.d("NightmareTAG", "释放wakelock");
+        super.onDestroy();
+    }
 
+    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    @SuppressLint("InvalidWakeLockTag")
+    private void acquireWakeLock() {
+        if (null == wakeLock) {
+            PowerManager pm = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+                if (null != wakeLock) {
+                    wakeLock.acquire();
+                }
+            }
+
+        }
+    }
+
+    //释放设备电源锁
+    private void releaseWakeLock() {
+        if (null != wakeLock) {
+            wakeLock.release();
+            wakeLock = null;
+        }
     }
 
     @Override

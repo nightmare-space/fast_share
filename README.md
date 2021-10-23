@@ -11,6 +11,9 @@ Language: 中文简体 | [English](README-EN.md)
 
 速享是一款高可用的局域网文件共享终端，让使用者能像聊天一样共享文件或文件夹，支持浏览器直接加入文件共享。
 
+## 注意！！！
+这个仓库仍在开发维护中，但是由于平时工作缘故，所以不会有太多空闲的时间，相关的截图等都没来得及更新，见谅！！！
+
 ## 功能列表
 
 - 类似于 nginx和 tomcat 的文件部署。
@@ -30,13 +33,7 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 截图
 
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src01.jpg" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src02.jpg" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src03.jpg" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" />
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src01.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src02.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src03.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
 
 ## 开发者文档
 

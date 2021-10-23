@@ -53,6 +53,7 @@ class _FileItemState extends State<FileItem> {
     return newPath;
   }
 
+  // 执行下载文件
   Future<void> downloadFile(String urlPath, String savePath) async {
     if (fileDownratio != 0.0) {
       showToast('已经在下载中了哦');
@@ -65,6 +66,7 @@ class _FileItemState extends State<FileItem> {
       Log.d(savePath);
     }
     // print(savePath);
+
     computeNetSpeed();
     await dio.download(
       urlPath + '?download=true',
@@ -79,6 +81,7 @@ class _FileItemState extends State<FileItem> {
     timer?.cancel();
   }
 
+  // 计算网速
   Future<void> computeNetSpeed() async {
     int tmpCount = 0;
     timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
@@ -135,6 +138,7 @@ class _FileItemState extends State<FileItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildPreviewWidget(),
+                // 展示下载进度条
                 if (!widget.sendByUser && !GetPlatform.isWeb)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -212,6 +216,7 @@ class _FileItemState extends State<FileItem> {
             ),
           ),
         ),
+        // 展示下载按钮
         if (!widget.sendByUser)
           Material(
             color: Colors.transparent,
@@ -278,14 +283,14 @@ class _FileItemState extends State<FileItem> {
   UniqueKey key = UniqueKey();
   Widget buildPreviewWidget() {
     MessageFileInfo info = widget.info;
-
+    String url;
+    if (widget.sendByUser) {
+      url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
+    } else {
+      url = widget.info.url + widget.info.filePath;
+    }
     if (info.fileName.isImageFileName) {
-      String url;
-      if (widget.sendByUser) {
-        url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
-      } else {
-        url = widget.info.url + widget.info.filePath;
-      }
+      // 如果是图片消息，是支持hero预览的
       return Hero(
         tag: key,
         child: Material(
@@ -327,12 +332,6 @@ class _FileItemState extends State<FileItem> {
       );
     } else if (info.fileName.isVideoFileName ||
         info.fileName.endsWith('.mkv')) {
-      String url;
-      if (widget.sendByUser) {
-        url = 'http://127.0.0.1:${Config.shelfPort}' + info.filePath;
-      } else {
-        url = info.url + info.filePath;
-      }
       return InkWell(
         onTap: () async {
           if (GetPlatform.isWeb) {
@@ -380,22 +379,21 @@ class _FileItemState extends State<FileItem> {
     }
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: SvgPicture.asset(
-            '${Config.flutterPackage}assets/icon/file.svg',
-            width: 32,
-            color: Colors.black,
-          ),
-        ),
         Expanded(
           child: Text(
             widget.info.fileName,
             style: TextStyle(
               color: Colors.black,
-              // fontWeight: FontWeight.bold,
-              fontSize: 14,
+              fontSize: 16.w,
             ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.w),
+          child: SvgPicture.asset(
+            '${Config.flutterPackage}assets/icon/file.svg',
+            height: 40.w,
+            color: Colors.black,
           ),
         ),
       ],

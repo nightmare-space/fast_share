@@ -40,11 +40,5 @@
             "type": "dart",
             "deviceId": "Redmi K30"
         },
-        {
-            "name": "平板",
-            "request": "launch",
-            "type": "dart",
-            "deviceId": "192.168.177.156:5555"
-        },
     ]
 }
