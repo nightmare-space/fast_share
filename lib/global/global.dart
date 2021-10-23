@@ -33,28 +33,21 @@ class Global {
   // 显示过弹窗的id会进这个列表
   List<String> hasShowDialogId = [];
   // /// 接收广播消息
-  Future<void> _receiveUdpMessage(String message, _) async {
+  Future<void> _receiveUdpMessage(String message, String address) async {
     // Log.w(message);
     String id = message.split(' ').first;
     message = message.replaceAll(id, '').trim();
     if (_showDialog && !hasShowDialogId.contains(id)) {
+      // 需要将已经展示弹窗的id缓存，不然会一直弹窗
       hasShowDialogId.add(id);
-      for (String serverAddr in message.split(' ')) {
-        Log.v('消息带有的address -> ${serverAddr}');
-        for (String localAddr in await PlatformUtil.localAddress()) {
-          if (serverAddr.hasThreePartEqual(localAddr)) {
-            Log.d('其中消息的 -> ${serverAddr} 与本地的$localAddr 在同一个局域网');
-            showDialog(
-              context: Get.context,
-              builder: (_) {
-                return JoinChatByUdp(
-                  addr: serverAddr,
-                );
-              },
-            );
-          }
-        }
-      }
+      showDialog(
+        context: Get.context,
+        builder: (_) {
+          return JoinChatByUdp(
+            addr: address,
+          );
+        },
+      );
     }
   }
 
@@ -88,11 +81,12 @@ class Global {
     if (GetPlatform.isAndroid || GetPlatform.isDesktop) {
       // 开启静态部署，类似于 nginx 和 tomcat
       ShelfStatic.start();
-      // ServerUtil.start();
+      HttpServerUtil.bindServer(7001, (address) {});
     }
     unpackWebResource();
   }
 
+  /// 解压web资源
   Future<void> unpackWebResource() async {
     ByteData byteData = await rootBundle.load(
       '${Config.flutterPackage}assets/web.zip',

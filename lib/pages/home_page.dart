@@ -12,10 +12,11 @@ import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/widgets/circle_animation.dart';
 import 'package:supercharged/supercharged.dart';
-
 import 'dialog/join_chat.dart';
 import 'setting_page.dart';
 
+/// Create by Nightmare at 2021
+/// 速享的主页
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       PermissionUtil.requestStorage();
     }
   }
-
+  // 处理其他设备的分享
   Future<void> handleSendFile() async {
     if (GetPlatform.isAndroid) {
       MethodChannel channel = MethodChannel('send_channel');
