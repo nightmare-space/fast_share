@@ -10,6 +10,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.nightmare.applib.AppChannel;
+
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodCall;
@@ -24,7 +26,15 @@ public class MainActivity extends FlutterActivity {
         super.onCreate(savedInstanceState);
         Log.d("NightmareTAG", "申请wakelock");
         acquireWakeLock();
+        new Thread(() -> {
+            try {
+                AppChannel.startServer(getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
+
     @Override
     protected void onDestroy() {
         releaseWakeLock();
