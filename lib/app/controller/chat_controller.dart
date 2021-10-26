@@ -17,7 +17,7 @@ import 'package:speed_share/pages/model/model_factory.dart';
 import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf_io.dart' as io;
-import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/string_extension.dart';
 
 class ChatController extends GetxController {
@@ -71,7 +71,7 @@ class ChatController extends GetxController {
         confirmButtonText: '选择',
       );
     } else {
-      dirPath = await fm.FileManager.pickDirectory(Get.context);
+      dirPath = await FileSelector.pickDirectory(Get.context);
     }
     Log.d('dirPath -> $dirPath');
     if (dirPath == null) {
@@ -144,12 +144,9 @@ class ChatController extends GetxController {
     // 选择文件路径
     List<String> filePaths = [];
     if (!useSystemPicker) {
-      List<fm.FileEntity> pickResult = await fm.FileManager.pickFiles(
+      filePaths = await FileSelector.pick(
         Get.context,
       );
-      pickResult.forEach((element) {
-        filePaths.add(element.path);
-      });
     } else {
       FilePickerResult result = await FilePicker.platform.pickFiles(
         allowCompression: false,

@@ -10,7 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # 文件选择自实现方案
+  file_selector_nightmare:
+    path: /Users/nightmare/Desktop/nightmare-space/file_selector
   file_selector: ^0.8.2+1
   file_selector_linux: 0.0.2+1
   file_selector_macos: ^0.0.4+1
@@ -35,9 +37,6 @@ dependencies:
   file_picker: ^3.0.1
   # svg 图片展示
   flutter_svg: ^0.22.0
-  # 文件选择自实现方案
-  file_manager_view:
-    git: https://github.com/nightmare-space/file_manager_view
   # 跳转网页
   url_launcher: ^6.0.4
   # 视频预览
@@ -63,8 +62,11 @@ flutter:
     - assets/
     - assets/icon/
 
-# dependency_overrides:
-#   global_repository:
-#     path: /Users/nightmare/Desktop/nightmare-space/global_repository
+dependency_overrides:
+  global_repository:
+    path: /Users/nightmare/Desktop/nightmare-space/global_repository
 #   file_manager_view:
 #     path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
+
+  app_manager:
+    path: /Users/nightmare/Desktop/nightmare-space/app_manager
