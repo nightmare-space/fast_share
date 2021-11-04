@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
@@ -31,7 +33,10 @@ class _ShareChatState extends State<ShareChat> {
   @override
   void initState() {
     super.initState();
-    initChat();
+    controller.initChat(
+      widget.needCreateChatServer,
+      widget.chatServerAddress,
+    );
   }
 
   @override
@@ -39,106 +44,83 @@ class _ShareChatState extends State<ShareChat> {
     super.dispose();
   }
 
-  Future<void> initChat() async {
-    Global().disableShowDialog();
-    if (!GetPlatform.isWeb) {
-      controller.addreses = await PlatformUtil.localAddress();
-    }
-    if (widget.needCreateChatServer) {
-      // 是创建房间的一端
-      createChatServer();
-      UniqueKey uniqueKey = UniqueKey();
-      Global().startSendBoardcast(
-        uniqueKey.toString() + ' ' + controller.addreses.join(' '),
-      );
-      controller.chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';
-    } else {
-      controller.chatRoomUrl = widget.chatServerAddress;
-    }
-    controller.socket = GetSocket(controller.chatRoomUrl + '/chat');
-    Log.v('chat open');
-    controller.socket.onOpen(() {
-      Log.d('chat连接成功');
-      controller.isConnect = true;
-    });
-
-    try {
-      await controller.socket.connect();
-      await Future.delayed(Duration.zero);
-    } catch (e) {
-      controller.isConnect = false;
-    }
-    if (!controller.isConnect && !GetPlatform.isWeb) {
-      // 如果连接失败并且不是 web 平台
-      controller.children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '加入失败!'),
-        false,
-      ));
-      return;
-    }
-    if (widget.needCreateChatServer) {
-      await controller.sendAddressAndQrCode();
-    } else {
-      controller.children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '已加入${controller.chatRoomUrl}'),
-        false,
-      ));
-      setState(() {});
-    }
-    // 监听消息
-    controller.listenMessage();
-    await Future.delayed(Duration(milliseconds: 100));
-    controller.getHistoryMsg();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shadowColor: AppColors.accentColor,
-        title: Text(
-          '文件共享',
-          style: TextStyle(
-            color: AppColors.fontColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 16.w,
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              controller.focusNode.unfocus();
+            },
+            child: GetBuilder<ChatController>(builder: (context) {
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.fromLTRB(
+                  0.w,
+                  kToolbarHeight + 20.w,
+                  0.w,
+                  120.w,
+                ),
+                controller: controller.scrollController,
+                itemCount: controller.children.length,
+                cacheExtent: 99999,
+                itemBuilder: (c, i) {
+                  return controller.children[i];
+                },
+              );
+            }),
           ),
-        ),
-        leading: PopButton(),
-      ),
-      body: GestureDetector(
-        onTap: () {
-          controller.focusNode.unfocus();
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-              child: GetBuilder<ChatController>(builder: (context) {
-                return ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.w,
+          Align(
+            alignment: Alignment.topCenter,
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 8.0,
+                  sigmaY: 8.0,
+                ),
+                child: Container(
+                  height: kToolbarHeight + 20.w,
+                  color: AppColors.background.withOpacity(0.4),
+                  child: AppBar(
+                    title: Text(
+                      '文件共享',
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.w,
+                      ),
+                    ),
+                    leading: PopButton(),
                   ),
-                  controller: controller.scrollController,
-                  itemCount: controller.children.length,
-                  cacheExtent: 99999,
-                  itemBuilder: (c, i) {
-                    return controller.children[i];
-                  },
-                );
-              }),
+                ),
+              ),
             ),
-            sendMsgContainer(context),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 8.0,
+                  sigmaY: 8.0,
+                ),
+                child: SizedBox(
+                  height: 120.w,
+                  child: sendMsgContainer(context),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Material sendMsgContainer(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: AppColors.surface.withOpacity(0.8),
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(12.w),
         topRight: Radius.circular(12.w),

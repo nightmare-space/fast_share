@@ -14,11 +14,13 @@ import 'package:speed_share/global/global.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/model/model_factory.dart';
+import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/string_extension.dart';
+import 'package:speed_share/utils/unique_util.dart';
 
 class ChatController extends GetxController {
   // 输入框用到的焦点
@@ -31,6 +33,59 @@ class ChatController extends GetxController {
   ScrollController scrollController = ScrollController();
   bool isConnect = false;
   String chatRoomUrl = '';
+
+  Future<void> initChat(
+      bool needCreateChatServer, String chatServerAddress) async {
+    Global().disableShowDialog();
+    if (!GetPlatform.isWeb) {
+      addreses = await PlatformUtil.localAddress();
+    }
+    if (needCreateChatServer) {
+      // 是创建房间的一端
+      createChatServer();
+      UniqueKey uniqueKey = UniqueKey();
+      Global().startSendBoardcast(
+        uniqueKey.toString() + ' ' + addreses.join(' '),
+      );
+      chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';
+    } else {
+      chatRoomUrl = chatServerAddress;
+    }
+    socket = GetSocket(chatRoomUrl + '/chat');
+    Log.v('chat open');
+    socket.onOpen(() {
+      Log.d('chat连接成功');
+      isConnect = true;
+    });
+    try {
+      await socket.connect();
+      await Future.delayed(Duration.zero);
+    } catch (e) {
+      isConnect = false;
+    }
+    if (!isConnect && !GetPlatform.isWeb) {
+      // 如果连接失败并且不是 web 平台
+      children.add(MessageItemFactory.getMessageItem(
+        MessageTextInfo(content: '加入失败!'),
+        false,
+      ));
+      return;
+    }
+    if (needCreateChatServer) {
+      await sendAddressAndQrCode();
+    } else {
+      children.add(MessageItemFactory.getMessageItem(
+        MessageTextInfo(content: '已加入${chatRoomUrl}'),
+        false,
+      ));
+      update();
+    }
+    // 监听消息
+    listenMessage();
+    sendJoinEvent();
+    await Future.delayed(Duration(milliseconds: 100));
+    getHistoryMsg();
+  }
 
   @override
   void onClose() {
@@ -363,7 +418,10 @@ class ChatController extends GetxController {
           // --------------------------------------------------
         } else {
           // web端直接使用浏览器上面的url
-          messageInfo.url = chatRoomUrl;
+          messageInfo.url = chatRoomUrl.replaceAll(
+            Config.chatPort.toString(),
+            Config.shelfPort.toString(),
+          );
           // Log.w(messageInfo);
         }
       }
@@ -386,6 +444,15 @@ class ChatController extends GetxController {
       Feedback.forLongPress(Get.context);
       await Future.delayed(Duration(milliseconds: 100));
     }
+  }
+
+  Future<void> sendJoinEvent() async {
+    // 这个消息来告诉聊天服务器，自己需要历史消息
+    print('获取历史消息');
+    socket.send(jsonEncode({
+      'type': "join",
+      'name': await UniqueUtil.getDevicesId(),
+    }));
   }
 
   void getHistoryMsg() {

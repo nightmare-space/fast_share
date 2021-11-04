@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:global_repository/src/utils/screen_util.dart';
 import 'package:speed_share/pages/item/text_item.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'dir_item.dart';
@@ -15,11 +16,14 @@ class MessageItemFactory {
       );
     } else if (info is MessageTipInfo) {
       return Center(
-        child: Text(
-          info.content,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 12,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 4.w),
+          child: Text(
+            info.content,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 12.w,
+            ),
           ),
         ),
       );
@@ -42,9 +46,9 @@ class MessageItemFactory {
     return Align(
       alignment: sendByUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 8,
+        padding: EdgeInsets.symmetric(
+          horizontal: 10.w,
+          vertical: 8.w,
         ),
         child: child,
       ),

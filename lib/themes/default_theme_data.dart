@@ -240,7 +240,7 @@ class DefaultThemeData {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
         brightness: Brightness.light,
-        color: Colors.transparent,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: lightThemeData.iconTheme.copyWith(
           color: const Color(0xFF595959),
