@@ -13,6 +13,7 @@ import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/widgets/circle_animation.dart';
 import 'package:supercharged/supercharged.dart';
 import 'dialog/join_chat.dart';
+import 'online_list.dart';
 import 'setting_page.dart';
 
 /// Create by Nightmare at 2021
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
       PermissionUtil.requestStorage();
     }
   }
+
   // 处理其他设备的分享
   Future<void> handleSendFile() async {
     if (GetPlatform.isAndroid) {
@@ -99,7 +101,11 @@ class _HomePageState extends State<HomePage> {
         // crossAxisAlignment: CrossAxisAlignment.center,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          appBar,
+          Column(
+            children: [
+              appBar,
+            ],
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -238,6 +244,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 80.w),
+            child: OnlineList(),
           ),
         ],
       ),

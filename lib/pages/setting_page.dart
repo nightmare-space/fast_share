@@ -98,7 +98,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               SettingItem(
                 title: '聊天服务器端口',
-                subTitle: '默认为${Config.chatPort}',
+                subTitle: '默认为${Config.chatPortRangeStart}到${Config.chatPortRangeEnd}',
               ),
               SettingItem(
                 title: 'IP过滤开关',

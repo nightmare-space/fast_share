@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/message_dir_info.dart';
@@ -26,6 +27,7 @@ class DirMessageItem extends StatefulWidget {
 }
 
 class _DirMessageItemState extends State<DirMessageItem> {
+  ChatController chatController = Get.find();
   MessageDirInfo info;
   final Dio dio = Dio();
   CancelToken cancelToken = CancelToken();
@@ -109,7 +111,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
   Widget build(BuildContext context) {
     String urlPrifix;
     if (widget.sendByUser) {
-      urlPrifix = 'http://127.0.0.1:${Config.shelfPort}';
+      urlPrifix = 'http://127.0.0.1:${chatController.successBindPort}';
     } else {
       urlPrifix = info.urlPrifix;
     }

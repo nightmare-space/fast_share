@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get_server/get_server.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 
-// 聊天服务器
-void createChatServer() {
+// 聊天服务器，返回成功绑定的端口号
+Future<int> createChatServer() async {
   Log.d('chat server starting...');
   String home = '';
   if (GetPlatform.isDesktop) {
@@ -13,18 +14,42 @@ void createChatServer() {
   } else {
     home = RuntimeEnvir.filesPath;
   }
-  runApp(
-    GetServerApp(
-      useLog: false,
-      port: Config.chatPort,
-      home: FolderWidget(home),
-      getPages: [
-        GetPage(name: '/chat', page: () => SocketPage()),
-      ],
-      onNotFound: NotFound(),
-    ),
+  int port = await getSafePort(
+    Config.chatPortRangeStart,
+    Config.chatPortRangeEnd,
   );
+  GetServerApp serverApp = GetServerApp(
+    useLog: false,
+    port: port,
+    home: FolderWidget(home),
+    getPages: [
+      GetPage(name: '/chat', page: () => SocketPage()),
+    ],
+    shared: true,
+    onNotFound: NotFound(),
+  );
+  runApp(serverApp);
   Log.d('chat server down.');
+  return port;
+}
+
+Future<int> getSafePort(int rangeStart, int rangeEnd) async {
+  if (rangeStart == rangeEnd) {
+    // 说明都失败了
+    return null;
+  }
+  try {
+    await ServerSocket.bind(
+      '0.0.0.0',
+      rangeStart,
+      shared: true,
+    );
+    Log.w('端口$rangeStart绑定成功');
+    return rangeStart;
+  } catch (e) {
+    Log.e('端口$rangeStart绑定失败');
+    return await getSafePort(rangeStart + 1, rangeEnd);
+  }
 }
 
 class NotFound extends StatelessWidget {
@@ -46,7 +71,7 @@ class SocketPage extends GetView {
     return Socket(
       builder: (socket) {
         sockets.add(socket);
-        Log.e('连接');
+        // Log.e('连接');
         socket.onOpen((ws) {
           Log.v('${ws.id} 已连接');
           // ws.send('socket ${ws.id} connected');

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/video.dart';
@@ -31,6 +32,7 @@ class FileItem extends StatefulWidget {
 }
 
 class _FileItemState extends State<FileItem> {
+  ChatController chatController = Get.find();
   MessageFileInfo info;
   final Dio dio = Dio();
   CancelToken cancelToken = CancelToken();
@@ -112,7 +114,8 @@ class _FileItemState extends State<FileItem> {
   Widget build(BuildContext context) {
     String url;
     if (widget.sendByUser) {
-      url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
+      url = 'http://127.0.0.1:${chatController.shelfBindPort}' +
+          widget.info.filePath;
     } else {
       url = widget.info.url + widget.info.filePath;
     }
@@ -137,7 +140,7 @@ class _FileItemState extends State<FileItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildPreviewWidget(),
+                buildPreviewWidget(url),
                 // 展示下载进度条
                 if (!widget.sendByUser && !GetPlatform.isWeb)
                   Column(
@@ -281,14 +284,8 @@ class _FileItemState extends State<FileItem> {
   }
 
   UniqueKey key = UniqueKey();
-  Widget buildPreviewWidget() {
+  Widget buildPreviewWidget(String url) {
     MessageFileInfo info = widget.info;
-    String url;
-    if (widget.sendByUser) {
-      url = 'http://127.0.0.1:${Config.shelfPort}' + widget.info.filePath;
-    } else {
-      url = widget.info.url + widget.info.filePath;
-    }
     if (info.fileName.isImageFileName) {
       // 如果是图片消息，是支持hero预览的
       return Hero(

@@ -49,6 +49,7 @@ class _ShareChatState extends State<ShareChat> {
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
+        // fit: StackFit.passthrough,
         children: [
           GestureDetector(
             onTap: () {
@@ -59,7 +60,7 @@ class _ShareChatState extends State<ShareChat> {
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.fromLTRB(
                   0.w,
-                  kToolbarHeight + 20.w,
+                  kToolbarHeight,
                   0.w,
                   120.w,
                 ),
@@ -81,7 +82,7 @@ class _ShareChatState extends State<ShareChat> {
                   sigmaY: 8.0,
                 ),
                 child: Container(
-                  height: kToolbarHeight + 20.w,
+                  height: kToolbarHeight,
                   color: AppColors.background.withOpacity(0.4),
                   child: AppBar(
                     title: Text(
@@ -106,8 +107,11 @@ class _ShareChatState extends State<ShareChat> {
                   sigmaX: 8.0,
                   sigmaY: 8.0,
                 ),
-                child: SizedBox(
-                  height: 120.w,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 120.w,
+                    maxHeight: 240.w,
+                  ),
                   child: sendMsgContainer(context),
                 ),
               ),
@@ -125,34 +129,15 @@ class _ShareChatState extends State<ShareChat> {
         topLeft: Radius.circular(12.w),
         topRight: Radius.circular(12.w),
       ),
-      child: Container(
-        child: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  if (GetPlatform.isAndroid)
-                    SizedBox(
-                      height: 32.w,
-                      child: Transform(
-                        transform: Matrix4.identity()..translate(0.0, -4.0.w),
-                        child: IconButton(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            Icons.image,
-                            color: AppColors.accentColor,
-                          ),
-                          onPressed: () async {
-                            controller.sendFileForAndroid(
-                              useSystemPicker: true,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+      child: Padding(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                if (GetPlatform.isAndroid)
                   SizedBox(
                     height: 32.w,
                     child: Transform(
@@ -161,81 +146,99 @@ class _ShareChatState extends State<ShareChat> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.zero,
                         icon: Icon(
-                          Icons.file_copy,
+                          Icons.image,
                           color: AppColors.accentColor,
                         ),
                         onPressed: () async {
-                          if (GetPlatform.isAndroid) {
-                            controller.sendFileForAndroid();
-                          }
-                          if (GetPlatform.isDesktop) {
-                            controller.sendFileForDesktop();
-                          }
+                          controller.sendFileForAndroid(
+                            useSystemPicker: true,
+                          );
                         },
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 32.w,
-                    child: Transform(
-                      transform: Matrix4.identity()..translate(0.0, -4.w),
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.zero,
-                        icon: SvgPicture.asset(
-                          Assets.dir,
-                          color: AppColors.accentColor,
-                        ),
-                        onPressed: () async {
-                          controller.sendDir();
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      focusNode: controller.focusNode,
-                      controller: controller.controller,
-                      autofocus: false,
-                      maxLines: 8,
-                      minLines: 1,
-                      style: TextStyle(
-                        textBaseline: TextBaseline.ideographic,
-                      ),
-                      onSubmitted: (_) {
-                        controller.sendTextMsg();
-                        Future.delayed(Duration(milliseconds: 100), () {
-                          controller.focusNode.requestFocus();
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16.w,
-                  ),
-                  Material(
-                    color: AppColors.accentColor,
-                    borderRadius: BorderRadius.circular(32),
-                    borderOnForeground: true,
+                SizedBox(
+                  height: 32.w,
+                  child: Transform(
+                    transform: Matrix4.identity()..translate(0.0, -4.0.w),
                     child: IconButton(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.zero,
                       icon: Icon(
-                        Icons.send,
-                        color: AppColors.surface,
+                        Icons.file_copy,
+                        color: AppColors.accentColor,
                       ),
-                      onPressed: () {
-                        controller.sendTextMsg();
+                      onPressed: () async {
+                        if (GetPlatform.isAndroid) {
+                          controller.sendFileForAndroid();
+                        }
+                        if (GetPlatform.isDesktop) {
+                          controller.sendFileForDesktop();
+                        }
                       },
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+                SizedBox(
+                  height: 32.w,
+                  child: Transform(
+                    transform: Matrix4.identity()..translate(0.0, -4.w),
+                    child: IconButton(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.zero,
+                      icon: SvgPicture.asset(
+                        Assets.dir,
+                        color: AppColors.accentColor,
+                      ),
+                      onPressed: () async {
+                        controller.sendDir();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: TextField(
+                    focusNode: controller.focusNode,
+                    controller: controller.controller,
+                    autofocus: false,
+                    maxLines: 8,
+                    minLines: 1,
+                    style: TextStyle(
+                      textBaseline: TextBaseline.ideographic,
+                    ),
+                    onSubmitted: (_) {
+                      controller.sendTextMsg();
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        controller.focusNode.requestFocus();
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 16.w,
+                ),
+                Material(
+                  color: AppColors.accentColor,
+                  borderRadius: BorderRadius.circular(32),
+                  borderOnForeground: true,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.send,
+                      color: AppColors.surface,
+                    ),
+                    onPressed: () {
+                      controller.sendTextMsg();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
