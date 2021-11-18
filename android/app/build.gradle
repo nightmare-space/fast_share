@@ -22,7 +22,6 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 // 本地编译注释以下代码
 // start
@@ -34,7 +33,6 @@ android {
     compileSdkVersion 30
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -78,6 +76,11 @@ android {
         }
     }
     // end
+    project.android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        output.versionCodeOverride = variant.versionCode
+    }
+}
 }
 
 flutter {
@@ -85,5 +88,4 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -35,6 +35,12 @@
             "deviceId": "Mi 10"
         },
         {
+            "name": "小米10s",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "M2102J2SC"
+        },
+        {
             "name": "红米K30",
             "request": "launch",
             "type": "dart",
