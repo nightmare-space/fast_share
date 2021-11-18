@@ -190,10 +190,8 @@ Handler createFileHandler(
 /// This handles caching, and sends a 304 Not Modified response if the request
 /// indicates that it has the latest version of a file. Otherwise, it calls
 /// [getContentType] and uses it to populate the Content-Type header.
-Future<Response> _handleFile(
-  Request request,
-  File file,
-  FutureOr<String> Function() getContentType) async {
+Future<Response> _handleFile(Request request, File file,
+    FutureOr<String> Function() getContentType) async {
   final stat = file.statSync();
   final ifModifiedSince = request.ifModifiedSince;
   // application/zip
@@ -212,6 +210,10 @@ Future<Response> _handleFile(
     HttpHeaders.contentLengthHeader: stat.size.toString(),
     HttpHeaders.lastModifiedHeader: formatHttpDate(stat.modified),
     HttpHeaders.acceptRangesHeader: 'bytes',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': '*',
+    'Access-Control-Allow-Credentials': 'true',
   };
   if (request.url.queryParameters['download'] == 'true') {
     Log.e('下载不预览');
