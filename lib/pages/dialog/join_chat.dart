@@ -39,6 +39,7 @@ class _JoinChatState extends State<JoinChat> {
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
+                    fontSize: 20.w,
                   ),
                 ),
                 SizedBox(
@@ -92,8 +93,8 @@ class _JoinChatState extends State<JoinChat> {
     if (!url.startsWith('http://')) {
       url = 'http://' + url;
     }
-    if (!url.endsWith(':${Config.chatPort}')) {
-      url = url + ':${Config.chatPort}';
+    if (!url.endsWith(':${Config.chatPortRangeStart}')) {
+      url = url + ':${Config.chatPortRangeStart}';
     }
     Get.back();
     Get.toNamed(

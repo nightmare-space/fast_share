@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:archive/archive.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
@@ -11,9 +10,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:multicast/multicast.dart';
 import 'package:speed_share/app/controller/online_controller.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:speed_share/pages/dialog/join_chat_by_udp.dart';
 import 'package:speed_share/utils/shelf_static.dart';
-import 'package:speed_share/utils/string_extension.dart';
 import 'package:speed_share/utils/unique_util.dart';
 
 /// 主要用来发现局域网的设备
