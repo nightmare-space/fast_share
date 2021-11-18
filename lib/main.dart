@@ -16,6 +16,9 @@ import 'themes/default_theme_data.dart';
 import 'utils/shelf_static.dart';
 
 void main() {
+  if (!GetPlatform.isWeb) {
+    RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
+  }
   runApp(SpeedShare());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
@@ -25,7 +28,6 @@ void main() {
       systemNavigationBarDividerColor: Colors.transparent,
     ),
   );
-  RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
   // 物理平台使用的udp设备互相发现
   Global().initGlobal();
   // test();
