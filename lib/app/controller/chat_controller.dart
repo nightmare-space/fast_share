@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -33,6 +34,10 @@ class ChatController extends GetxController {
   ScrollController scrollController = ScrollController();
   bool isConnect = false;
   String chatRoomUrl = '';
+  // 消息服务器成功绑定的端口
+  int successBindPort;
+  // 文件服务器成功绑定的端口
+  int shelfBindPort;
 
   Future<void> initChat(
       bool needCreateChatServer, String chatServerAddress) async {
@@ -42,33 +47,52 @@ class ChatController extends GetxController {
     }
     if (needCreateChatServer) {
       // 是创建房间的一端
-      createChatServer();
-      UniqueKey uniqueKey = UniqueKey();
-      Global().startSendBoardcast(
-        uniqueKey.toString() + ' ' + addreses.join(' '),
-      );
-      chatRoomUrl = 'http://127.0.0.1:${Config.chatPort}';
+      successBindPort = await createChatServer();
+      String udpData = '';
+      udpData += await UniqueUtil.getDevicesId();
+      udpData += ',$successBindPort';
+      Global().startSendBoardcast(udpData);
+      chatRoomUrl = 'http://127.0.0.1:$successBindPort';
     } else {
       chatRoomUrl = chatServerAddress;
     }
     socket = GetSocket(chatRoomUrl + '/chat');
     Log.v('chat open');
+    Completer conLock = Completer();
     socket.onOpen(() {
       Log.d('chat连接成功');
       isConnect = true;
+      if (!conLock.isCompleted) {
+        conLock.complete();
+      }
+    });
+    socket.onClose((p0) {
+      children.add(MessageItemFactory.getMessageItem(
+        MessageTipInfo(content: '所有连接已断开'),
+        false,
+      ));
+      update();
     });
     try {
-      await socket.connect();
-      await Future.delayed(Duration.zero);
+      socket.connect();
+      Future.delayed(Duration(seconds: 2), () {
+        // 可能onopen标记完成了
+        if (!conLock.isCompleted) {
+          conLock.complete();
+        }
+      });
     } catch (e) {
+      conLock.complete();
       isConnect = false;
     }
+    await conLock.future;
     if (!isConnect && !GetPlatform.isWeb) {
       // 如果连接失败并且不是 web 平台
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '加入失败!'),
         false,
       ));
+      update();
       return;
     }
     if (needCreateChatServer) {
@@ -85,11 +109,20 @@ class ChatController extends GetxController {
     sendJoinEvent();
     await Future.delayed(Duration(milliseconds: 100));
     getHistoryMsg();
+    if (!GetPlatform.isWeb) {
+      shelfBindPort = await getSafePort(
+        Config.shelfPortRangeStart,
+        Config.shelfPortRangeEnd,
+      );
+      serverTokenFile();
+    }
+    Log.w('shelfBindPort -> $shelfBindPort');
   }
 
   @override
   void onClose() {
     if (isConnect) {
+      Log.e('socket.close()');
       socket.close();
     }
     Log.e('dispose');
@@ -113,9 +146,52 @@ class ChatController extends GetxController {
     io.serve(
       handler,
       InternetAddress.anyIPv4,
-      Config.shelfPort,
+      shelfBindPort,
       shared: true,
     );
+  }
+
+  void serverTokenFile() {
+    String tokenPath = RuntimeEnvir.filesPath + '/check_token';
+    File(tokenPath).writeAsStringSync('success');
+    var handler = createFileHandler(
+      tokenPath,
+      url: 'check_token',
+    );
+    io.serve(
+      handler,
+      InternetAddress.anyIPv4,
+      shelfBindPort,
+      shared: true,
+    );
+  }
+
+  Future<String> getToken(String url) async {
+    Log.d('$url/check_token');
+    Completer lock = Completer();
+    CancelToken cancelToken = CancelToken();
+    Response response;
+    Future.delayed(Duration(milliseconds: 300), () {
+      if (!lock.isCompleted) {
+        cancelToken.cancel();
+      }
+    });
+    try {
+      response = await httpInstance.get(
+        '$url/check_token',
+        cancelToken: cancelToken,
+      );
+      if (!lock.isCompleted) {
+        lock.complete(response.data);
+      }
+      Log.w(response.data);
+    } catch (e) {
+      if (!lock.isCompleted) {
+        lock.complete(null);
+      }
+      Log.w('$url无法访问 $e');
+    }
+    return await lock.future;
   }
 
   //
@@ -229,7 +305,7 @@ class ChatController extends GetxController {
     String fileUrl = '';
     List<String> address = await PlatformUtil.localAddress();
     for (String addr in address) {
-      fileUrl += 'http://' + addr + ':${Config.shelfPort} ';
+      fileUrl += 'http://' + addr + ':$shelfBindPort ';
     }
     return fileUrl.trim();
   }
@@ -289,12 +365,12 @@ class ChatController extends GetxController {
       for (String address in addreses) {
         // 添加一行文本消息
         children.add(MessageItemFactory.getMessageItem(
-          MessageTextInfo(content: 'http://$address:${Config.chatPort}'),
+          MessageTextInfo(content: 'http://$address:$successBindPort'),
           false,
         ));
         // 添加一行二维码消息
         children.add(MessageItemFactory.getMessageItem(
-          MessageQrInfo(content: 'http://$address:${Config.chatPort}'),
+          MessageQrInfo(content: 'http://$address:$successBindPort'),
           false,
         ));
       }
@@ -368,62 +444,72 @@ class ChatController extends GetxController {
         }
         return;
       } else if (messageInfo is MessageFileInfo) {
-        if (!GetPlatform.isWeb) {
-          for (String url in messageInfo.url.split(' ')) {
-            Uri uri = Uri.parse(url);
-            Log.d('${uri.scheme}://${uri.host}:7001');
-            Response response;
-            try {
-              response = await httpInstance.get(
-                '${uri.scheme}://${uri.host}:7001',
-              );
-              messageInfo.url = url;
-              Log.w(response.data);
-              break;
-            } catch (e) {
-              Log.w(e);
-            }
+        for (String url in messageInfo.url.split(' ')) {
+          String token = await getToken(url);
+          if (token != null) {
+            messageInfo.url = url;
+            break;
           }
-          // --------------------------------------------------
-          // for (String url in messageInfo.url.split(' ')) {
-          //   Uri uri = Uri.parse(url);
-          //   Log.v('消息带有的address -> ${uri.host}');
-          //   for (String localAddr in addreses) {
-          //     if (uri.host.hasThreePartEqual(localAddr)) {
-          //       Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-          //       messageInfo.url = url;
-          //     }
-          //   }
-          // }
-          // if (messageInfo.url.contains(' ')) {
-          //   // 这儿是没有找到同一个局域网，有可能划分了子网
-          //   // 相当于提供一个兜底
-          //   for (String url in messageInfo.url.split(' ')) {
-          //     Uri uri = Uri.parse(url);
-          //     Log.v('消息带有的address -> ${uri.host}');
-          //     for (String localAddr in addreses) {
-          //       if (uri.host.hasTwoPartEqual(localAddr)) {
-          //         Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-          //         messageInfo.url = url;
-          //       }
-          //     }
-          //   }
-          // }
-          // if (messageInfo.url.contains(' ')) {
-          //   // 这儿是没有找到同一个局域网，有可能划分了子网
-          //   // 相当于提供一个兜底
-          //   messageInfo.url = messageInfo.url.split(' ').first;
-          // }
-
-          // --------------------------------------------------
-        } else {
-          // web端直接使用浏览器上面的url
-          messageInfo.url = chatRoomUrl.replaceAll(
-            Config.chatPort.toString(),
-            Config.shelfPort.toString(),
-          );
-          // Log.w(messageInfo);
         }
+        // if (!GetPlatform.isWeb) {
+        //   for (String url in messageInfo.url.split(' ')) {
+        //     Log.d('$url/check_token');
+        //     Response response;
+        //     try {
+        //       response = await httpInstance.get(
+        //         '$url/check_token',
+        //       );
+        //       messageInfo.url = url;
+        //       Log.w(response.data);
+        //       break;
+        //     } catch (e) {
+        //       Log.w('$url无法访问');
+        //       // Log.w(e);
+        //     }
+        //   }
+        // --------------------------------------------------
+        // for (String url in messageInfo.url.split(' ')) {
+        //   Uri uri = Uri.parse(url);
+        //   Log.v('消息带有的address -> ${uri.host}');
+        //   for (String localAddr in addreses) {
+        //     if (uri.host.hasThreePartEqual(localAddr)) {
+        //       Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+        //       messageInfo.url = url;
+        //     }
+        //   }
+        // }
+        // if (messageInfo.url.contains(' ')) {
+        //   // 这儿是没有找到同一个局域网，有可能划分了子网
+        //   // 相当于提供一个兜底
+        //   for (String url in messageInfo.url.split(' ')) {
+        //     Uri uri = Uri.parse(url);
+        //     Log.v('消息带有的address -> ${uri.host}');
+        //     for (String localAddr in addreses) {
+        //       if (uri.host.hasTwoPartEqual(localAddr)) {
+        //         Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
+        //         messageInfo.url = url;
+        //       }
+        //     }
+        //   }
+        // }
+        // if (messageInfo.url.contains(' ')) {
+        //   // 这儿是没有找到同一个局域网，有可能划分了子网
+        //   // 相当于提供一个兜底
+        //   messageInfo.url = messageInfo.url.split(' ').first;
+        // }
+
+        // --------------------------------------------------
+        // } else {
+        //   // web端直接使用浏览器上面的url+任意ip的端口
+        //   Uri uri = Uri.parse(chatRoomUrl);
+        //   String firstUrl = messageInfo.url.split(' ').first;
+        //   Uri tmpUri = Uri.parse(firstUrl);
+        //   messageInfo.url = chatRoomUrl.replaceAll(
+        //     uri.port.toString(),
+        //     tmpUri.port.toString(),
+        //   );
+        //   Log.w(messageInfo);
+        // }
       }
       // 往聊天列表中添加一条消息
       children.add(MessageItemFactory.getMessageItem(
@@ -448,7 +534,6 @@ class ChatController extends GetxController {
 
   Future<void> sendJoinEvent() async {
     // 这个消息来告诉聊天服务器，自己需要历史消息
-    print('获取历史消息');
     socket.send(jsonEncode({
       'type': "join",
       'name': await UniqueUtil.getDevicesId(),

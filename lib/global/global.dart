@@ -9,10 +9,12 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:multicast/multicast.dart';
+import 'package:speed_share/app/controller/online_controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/dialog/join_chat_by_udp.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/utils/string_extension.dart';
+import 'package:speed_share/utils/unique_util.dart';
 
 /// 主要用来发现局域网的设备
 class Global {
@@ -35,20 +37,32 @@ class Global {
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, String address) async {
     // Log.w(message);
-    String id = message.split(' ').first;
-    message = message.replaceAll(id, '').trim();
-    if (_showDialog && !hasShowDialogId.contains(id)) {
-      // 需要将已经展示弹窗的id缓存，不然会一直弹窗
-      hasShowDialogId.add(id);
-      showDialog(
-        context: Get.context,
-        builder: (_) {
-          return JoinChatByUdp(
-            addr: address,
-          );
-        },
+    final String id = message.split(',').first;
+    final String port = message.split(',').last;
+    // if(message)
+    // Log.e('UniqueUtil.getDevicesId() -> ${UniqueUtil.getDevicesId()}');
+    if (id.trim() != await UniqueUtil.getDevicesId()) {
+      OnlineController onlineController = Get.find();
+      onlineController.updateDevices(
+        DeviceEntity(
+          id,
+          address,
+          int.tryParse(port),
+        ),
       );
     }
+    // if (_showDialog && !hasShowDialogId.contains(id)) {
+    //   // 需要将已经展示弹窗的id缓存，不然会一直弹窗
+    //   hasShowDialogId.add(id);
+    //   showDialog(
+    //     context: Get.context,
+    //     builder: (_) {
+    //       return JoinChatByUdp(
+    //         addr: address,
+    //       );
+    //     },
+    //   );
+    // }
   }
 
   void enableShowDialog() {
@@ -81,7 +95,6 @@ class Global {
     if (GetPlatform.isAndroid || GetPlatform.isDesktop) {
       // 开启静态部署，类似于 nginx 和 tomcat
       ShelfStatic.start();
-      HttpServerUtil.bindServer(7001, (address) {});
     }
     unpackWebResource();
   }
