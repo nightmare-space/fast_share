@@ -29,18 +29,7 @@ class ShelfStatic {
       //   Config.shelfPort,
       //   shared: true,
       // );
-      io.serve(
-        createStaticHandler('E:\\', listDirectories: true),
-        InternetAddress.anyIPv4,
-        Config.shelfAllPort,
-        shared: true,
-      );
-      io.serve(
-        createStaticHandler('F:\\', listDirectories: true),
-        InternetAddress.anyIPv4,
-        Config.shelfAllPort,
-        shared: true,
-      );
+      
       return;
     } else if (GetPlatform.isDesktop) {
       home = '/';
