@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件.
 publish_to: "none"
 
-version: 1.2.3+15
+version: 1.2.5+17
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
   # 文件选择自实现方案
   file_selector_nightmare:
     git: https://github.com/nightmare-space/file_selector
@@ -40,7 +41,7 @@ dependencies:
   # 跳转网页
   url_launcher: ^6.0.4
   # 视频预览
-  better_player: ^0.0.68
+  # better_player: 0.0.68
   # 压缩插件
   archive: ^3.1.2
   path: ^1.8.0
@@ -67,6 +68,7 @@ dependency_overrides:
     path: /Users/nightmare/Desktop/nightmare-space/global_repository
 #   file_manager_view:
 #     path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
-
+  file_selector_nightmare:
+    path: /Users/nightmare/Desktop/nightmare-space/file_selector
   app_manager:
     path: /Users/nightmare/Desktop/nightmare-space/app_manager

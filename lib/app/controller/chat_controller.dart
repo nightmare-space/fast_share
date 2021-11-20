@@ -7,7 +7,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
@@ -227,6 +227,9 @@ class ChatController extends GetxController {
     ));
     scroll();
     update();
+    // await for(FileSystemEntity element in  dir.list(recursive: true)){
+
+    // }
     List<FileSystemEntity> list = await dir.list(recursive: true).toList();
     list.forEach((element) async {
       FileSystemEntity entity = element;
@@ -264,7 +267,24 @@ class ChatController extends GetxController {
       return;
     }
     for (XFile xFile in files) {
-      sendFileFromPath(xFile.path);
+      print('-' * 10);
+      print('xFile.path -> ${xFile.path}');
+      print('xFile.name -> ${xFile.name}');
+      print('xFile.length -> ${await xFile.length()}');
+      print('-' * 10);
+      if (GetPlatform.isWeb) {
+        var formData = FormData.fromMap({
+          'fileupload': MultipartFile(
+            xFile.openRead(),
+            await xFile.length(),
+            filename: xFile.name,
+          ),
+        });
+        var response = await Dio()
+            .post('http://192.168.167.152:8000/fileupload', data: formData);
+      } else {
+        sendFileFromPath(xFile.path);
+      }
     }
   }
 

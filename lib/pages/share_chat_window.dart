@@ -150,9 +150,13 @@ class _ShareChatState extends State<ShareChat> {
                           color: AppColors.accentColor,
                         ),
                         onPressed: () async {
-                          controller.sendFileForAndroid(
-                            useSystemPicker: true,
-                          );
+                          if (GetPlatform.isDesktop || GetPlatform.isWeb) {
+                            controller.sendFileForDesktop();
+                          } else if (GetPlatform.isAndroid) {
+                            controller.sendFileForAndroid(
+                              useSystemPicker: true,
+                            );
+                          }
                         },
                       ),
                     ),
@@ -169,11 +173,10 @@ class _ShareChatState extends State<ShareChat> {
                         color: AppColors.accentColor,
                       ),
                       onPressed: () async {
-                        if (GetPlatform.isAndroid) {
-                          controller.sendFileForAndroid();
-                        }
                         if (GetPlatform.isDesktop) {
                           controller.sendFileForDesktop();
+                        } else if (GetPlatform.isAndroid) {
+                          controller.sendFileForAndroid();
                         }
                       },
                     ),
