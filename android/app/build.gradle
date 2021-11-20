@@ -77,10 +77,10 @@ android {
     }
     // end
     project.android.applicationVariants.all { variant ->
-    variant.outputs.each { output ->
-        output.versionCodeOverride = variant.versionCode
+        variant.outputs.each { output ->
+            output.versionCodeOverride = flutterVersionCode.toInteger()
+        }
     }
-}
 }
 
 flutter {
