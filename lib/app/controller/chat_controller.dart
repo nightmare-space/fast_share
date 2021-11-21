@@ -260,6 +260,37 @@ class ChatController extends GetxController {
     socket.send(info.toString());
   }
 
+  // 由于选择文件后并没有第一时间发送，只是发送了一条普通消息
+  Map<String, XFile> webFileSendCache = {};
+  Future<void> sendFileForBroswer() async {
+    final typeGroup = XTypeGroup(
+      label: 'images',
+      extensions: [],
+    );
+    final files = await openFiles(acceptedTypeGroups: [typeGroup]);
+    if (files.isEmpty) {
+      return;
+    }
+    for (XFile xFile in files) {
+      print('-' * 10);
+      print('xFile.path -> ${xFile.path}');
+      print('xFile.name -> ${xFile.name}');
+      print('xFile.length -> ${await xFile.length()}');
+      print('-' * 10);
+      // name可能会重复
+      webFileSendCache[xFile.name] = xFile;
+      // var formData = FormData.fromMap({
+      //   'fileupload': MultipartFile(
+      //     xFile.openRead(),
+      //     await xFile.length(),
+      //     filename: xFile.name,
+      //   ),
+      // });
+      // var response = await Dio()
+      //     .post('http://192.168.167.152:8000/fileupload', data: formData);
+    }
+  }
+
   Future<void> sendFileForDesktop() async {
     final typeGroup = XTypeGroup(label: 'images');
     final files = await openFiles(acceptedTypeGroups: [typeGroup]);
@@ -272,19 +303,7 @@ class ChatController extends GetxController {
       print('xFile.name -> ${xFile.name}');
       print('xFile.length -> ${await xFile.length()}');
       print('-' * 10);
-      if (GetPlatform.isWeb) {
-        var formData = FormData.fromMap({
-          'fileupload': MultipartFile(
-            xFile.openRead(),
-            await xFile.length(),
-            filename: xFile.name,
-          ),
-        });
-        var response = await Dio()
-            .post('http://192.168.167.152:8000/fileupload', data: formData);
-      } else {
-        sendFileFromPath(xFile.path);
-      }
+      sendFileFromPath(xFile.path);
     }
   }
 
@@ -471,65 +490,6 @@ class ChatController extends GetxController {
             break;
           }
         }
-        // if (!GetPlatform.isWeb) {
-        //   for (String url in messageInfo.url.split(' ')) {
-        //     Log.d('$url/check_token');
-        //     Response response;
-        //     try {
-        //       response = await httpInstance.get(
-        //         '$url/check_token',
-        //       );
-        //       messageInfo.url = url;
-        //       Log.w(response.data);
-        //       break;
-        //     } catch (e) {
-        //       Log.w('$url无法访问');
-        //       // Log.w(e);
-        //     }
-        //   }
-        // --------------------------------------------------
-        // for (String url in messageInfo.url.split(' ')) {
-        //   Uri uri = Uri.parse(url);
-        //   Log.v('消息带有的address -> ${uri.host}');
-        //   for (String localAddr in addreses) {
-        //     if (uri.host.hasThreePartEqual(localAddr)) {
-        //       Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-        //       messageInfo.url = url;
-        //     }
-        //   }
-        // }
-        // if (messageInfo.url.contains(' ')) {
-        //   // 这儿是没有找到同一个局域网，有可能划分了子网
-        //   // 相当于提供一个兜底
-        //   for (String url in messageInfo.url.split(' ')) {
-        //     Uri uri = Uri.parse(url);
-        //     Log.v('消息带有的address -> ${uri.host}');
-        //     for (String localAddr in addreses) {
-        //       if (uri.host.hasTwoPartEqual(localAddr)) {
-        //         Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-        //         messageInfo.url = url;
-        //       }
-        //     }
-        //   }
-        // }
-        // if (messageInfo.url.contains(' ')) {
-        //   // 这儿是没有找到同一个局域网，有可能划分了子网
-        //   // 相当于提供一个兜底
-        //   messageInfo.url = messageInfo.url.split(' ').first;
-        // }
-
-        // --------------------------------------------------
-        // } else {
-        //   // web端直接使用浏览器上面的url+任意ip的端口
-        //   Uri uri = Uri.parse(chatRoomUrl);
-        //   String firstUrl = messageInfo.url.split(' ').first;
-        //   Uri tmpUri = Uri.parse(firstUrl);
-        //   messageInfo.url = chatRoomUrl.replaceAll(
-        //     uri.port.toString(),
-        //     tmpUri.port.toString(),
-        //   );
-        //   Log.w(messageInfo);
-        // }
       }
       // 往聊天列表中添加一条消息
       children.add(MessageItemFactory.getMessageItem(
