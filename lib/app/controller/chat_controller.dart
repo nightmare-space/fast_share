@@ -189,7 +189,7 @@ class ChatController extends GetxController {
       if (!lock.isCompleted) {
         lock.complete(null);
       }
-      Log.w('$url无法访问 $e');
+      Log.w('$url无法访问');
     }
     return await lock.future;
   }
