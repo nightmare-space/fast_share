@@ -115,6 +115,10 @@ Future<int> getSafePort(int rangeStart, int rangeEnd) async {
 
 **3. 其它端发起 Get 请求下载文件**
 
+## Web 端上传文件实现
+web 不支持部署某个文件，所以只支持上传一个 blob 代表的文件，客户端部署对应的文件接收服务。
+
+
 ## IP 选择实现
 有这种场景，设备 A 的 ip 列表为 [ip1,ip2,ip3],此时设备 A 发起共享，设备 B 通过 ip1 加入共享，设备 C 通过 ip2 加入共享，设备 D 通过 ip3 加入共享。
 <!-- 由上面互传的实现，无论哪个设备发送文件，都会带上自己的局域网 ip 列表。 -->
@@ -188,6 +192,7 @@ Future<int> getSafePort(int rangeStart, int rangeEnd) async {
 所以目前的方案是，先发送简单的消息体告知其它端这是一条文件夹共享的消息。
 再告知其他端这个文件夹下的子文件的路径，以及文件总大小。
 
+## 
 ## 消息协议
 
 1. 普通消息
@@ -217,4 +222,12 @@ Future<int> getSafePort(int rangeStart, int rangeEnd) async {
 ```
 
 3. 文件夹消息
+
+web 端的文件消息
+```json
+{
+    "msgType": "webfile",
+    "fileName": "截屏2021-08-01 下午3.39.10.png",
+}
+```
 

@@ -137,7 +137,7 @@ class _ShareChatState extends State<ShareChat> {
           children: [
             Row(
               children: [
-                if (GetPlatform.isAndroid)
+                if (!GetPlatform.isWeb && GetPlatform.isAndroid)
                   SizedBox(
                     height: 32.w,
                     child: Transform(
