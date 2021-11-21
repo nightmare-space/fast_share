@@ -173,7 +173,9 @@ class _ShareChatState extends State<ShareChat> {
                         color: AppColors.accentColor,
                       ),
                       onPressed: () async {
-                        if (GetPlatform.isDesktop) {
+                        if (GetPlatform.isWeb) {
+                          controller.sendFileForBroswer();
+                        } else if (GetPlatform.isDesktop) {
                           controller.sendFileForDesktop();
                         } else if (GetPlatform.isAndroid) {
                           controller.sendFileForAndroid();
@@ -182,23 +184,24 @@ class _ShareChatState extends State<ShareChat> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 32.w,
-                  child: Transform(
-                    transform: Matrix4.identity()..translate(0.0, -4.w),
-                    child: IconButton(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.zero,
-                      icon: SvgPicture.asset(
-                        Assets.dir,
-                        color: AppColors.accentColor,
+                if (!GetPlatform.isWeb)
+                  SizedBox(
+                    height: 32.w,
+                    child: Transform(
+                      transform: Matrix4.identity()..translate(0.0, -4.w),
+                      child: IconButton(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.zero,
+                        icon: SvgPicture.asset(
+                          Assets.dir,
+                          color: AppColors.accentColor,
+                        ),
+                        onPressed: () async {
+                          controller.sendDir();
+                        },
                       ),
-                      onPressed: () async {
-                        controller.sendDir();
-                      },
                     ),
                   ),
-                ),
               ],
             ),
             Row(

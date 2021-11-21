@@ -1,4 +1,4 @@
-import 'message_base_info.dart';
+import 'base_message.dart';
 
 class MessageDirInfo extends MessageBaseInfo {
   String dirName;

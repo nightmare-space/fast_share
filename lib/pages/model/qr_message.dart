@@ -1,9 +1,9 @@
-import 'message_base_info.dart';
+import 'base_message.dart';
 
-class MessageTipInfo extends MessageBaseInfo {
+class QRMessage extends MessageBaseInfo {
   String content;
 
-  MessageTipInfo({
+  QRMessage({
     this.content,
     String msgType,
     String type,
@@ -14,7 +14,7 @@ class MessageTipInfo extends MessageBaseInfo {
           msgType: msgType,
         );
 
-  MessageTipInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+  QRMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     content = json['content'];
   }
 

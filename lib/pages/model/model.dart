@@ -1,6 +1,8 @@
-export 'message_base_info.dart';
-export 'message_text_info.dart';
-export 'message_file_info.dart';
-export 'message_tip_info.dart';
-export 'message_qr_info.dart';
-export 'message_dir_info.dart';
+export 'base_message.dart';
+export 'text_message.dart';
+export 'file_message.dart';
+export 'tip_message.dart';
+export 'qr_message.dart';
+export 'dir_message.dart';
+export 'broswer_file_message.dart';
+export 'notify_message.dart';

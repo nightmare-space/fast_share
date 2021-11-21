@@ -16,6 +16,7 @@ import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/model/model_factory.dart';
 import 'package:speed_share/utils/chat_server.dart';
+import 'package:speed_share/utils/file_server.dart';
 import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -38,9 +39,12 @@ class ChatController extends GetxController {
   int successBindPort;
   // 文件服务器成功绑定的端口
   int shelfBindPort;
+  int fileServerPort;
 
   Future<void> initChat(
-      bool needCreateChatServer, String chatServerAddress) async {
+    bool needCreateChatServer,
+    String chatServerAddress,
+  ) async {
     Global().disableShowDialog();
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
@@ -114,7 +118,15 @@ class ChatController extends GetxController {
         Config.shelfPortRangeStart,
         Config.shelfPortRangeEnd,
       );
+
+      Log.d('shelf will server with $shelfBindPort port');
       serverTokenFile();
+      fileServerPort = await getSafePort(
+        Config.filePortRangeStart,
+        Config.filePortRangeEnd,
+      );
+      startFileServer(fileServerPort);
+      Log.d('file server started with $fileServerPort port');
     }
     Log.w('shelfBindPort -> $shelfBindPort');
   }
@@ -164,6 +176,31 @@ class ChatController extends GetxController {
       shelfBindPort,
       shared: true,
     );
+  }
+
+  // 得到正确的url
+  Future<String> getCorrectUrl(String preUrl) async {
+    for (String url in preUrl.split(' ')) {
+      String token = await getToken(url);
+      if (token != null) {
+        return url;
+      }
+    }
+    return null;
+  }
+
+  // 得到正确的url
+  Future<String> getCorrectUrlWithAddressAndPort(
+    List<String> addresses,
+    int port,
+  ) async {
+    for (String address in addresses) {
+      String token = await getToken('http://$address:$port');
+      if (token != null) {
+        return 'http://$address:$port';
+      }
+    }
+    return null;
   }
 
   Future<String> getToken(String url) async {
@@ -260,12 +297,23 @@ class ChatController extends GetxController {
     socket.send(info.toString());
   }
 
+  Future<void> notifyBroswerUploadFile(String name) async {
+    final NotifyMessage notifyMessage = NotifyMessage(
+      name: name,
+      des: 'now you can upload file which called $name to address []',
+      urls: await PlatformUtil.localAddress(),
+      port: fileServerPort,
+    );
+    // 发送消息
+    socket.send(notifyMessage.toString());
+  }
+
   // 由于选择文件后并没有第一时间发送，只是发送了一条普通消息
   Map<String, XFile> webFileSendCache = {};
   Future<void> sendFileForBroswer() async {
     final typeGroup = XTypeGroup(
       label: 'images',
-      extensions: [],
+      extensions: [''],
     );
     final files = await openFiles(acceptedTypeGroups: [typeGroup]);
     if (files.isEmpty) {
@@ -279,16 +327,34 @@ class ChatController extends GetxController {
       print('-' * 10);
       // name可能会重复
       webFileSendCache[xFile.name] = xFile;
-      // var formData = FormData.fromMap({
-      //   'fileupload': MultipartFile(
-      //     xFile.openRead(),
-      //     await xFile.length(),
-      //     filename: xFile.name,
-      //   ),
-      // });
-      // var response = await Dio()
-      //     .post('http://192.168.167.152:8000/fileupload', data: formData);
+      final BroswerFileMessage sendFileInfo = BroswerFileMessage(
+        fileName: xFile.name,
+        fileSize: FileSizeUtils.getFileSize(await xFile.length()),
+      );
+      // 发送消息
+      socket.send(sendFileInfo.toString());
+      // 将消息添加到本地列表
+      children.add(MessageItemFactory.getMessageItem(
+        sendFileInfo,
+        true,
+      ));
+      scroll();
+      update();
     }
+  }
+
+  Future<void> uploadFileForWeb(XFile xFile, String urlPrefix) async {
+    var formData = FormData.fromMap({
+      'fileupload': MultipartFile(
+        xFile.openRead(),
+        await xFile.length(),
+        filename: xFile.name,
+      ),
+    });
+    var response = await Dio().post(
+      '$urlPrefix/fileupload',
+      data: formData,
+    );
   }
 
   Future<void> sendFileForDesktop() async {
@@ -409,7 +475,7 @@ class ChatController extends GetxController {
         ));
         // 添加一行二维码消息
         children.add(MessageItemFactory.getMessageItem(
-          MessageQrInfo(content: 'http://$address:$successBindPort'),
+          QRMessage(content: 'http://$address:$successBindPort'),
           false,
         ));
       }
@@ -440,24 +506,7 @@ class ChatController extends GetxController {
         // 保存文件夹消息所在的index
         dirItemMap[messageInfo.dirName] = children.length;
         dirMsgMap[messageInfo.dirName] = messageInfo;
-        if (!GetPlatform.isWeb) {
-          for (String url in messageInfo.urlPrifix.split(' ')) {
-            Uri uri = Uri.parse(url);
-            Log.v('消息带有的address -> ${uri.host}');
-            for (String localAddr in addreses) {
-              if (uri.host.hasThreePartEqual(localAddr)) {
-                Log.d('其中消息的 -> ${uri.host} 与本地的$localAddr 在同一个局域网');
-                messageInfo.urlPrifix = url;
-              }
-            }
-          }
-          if (messageInfo.urlPrifix.contains(' ')) {
-            // 这儿是没有找到同一个局域网，有可能划分了子网
-            messageInfo.urlPrifix = messageInfo.urlPrifix.split(' ').first;
-          }
-        } else {
-          messageInfo.urlPrifix = messageInfo.urlPrifix.split(' ').first;
-        }
+        messageInfo.urlPrifix = await getCorrectUrl(messageInfo.urlPrifix);
         Log.w('dirItemMap -> $dirItemMap');
       } else if (messageInfo is MessageDirPartInfo) {
         if (messageInfo.stat == 'complete') {
@@ -482,21 +531,27 @@ class ChatController extends GetxController {
           update();
         }
         return;
-      } else if (messageInfo is MessageFileInfo) {
-        for (String url in messageInfo.url.split(' ')) {
-          String token = await getToken(url);
-          if (token != null) {
-            messageInfo.url = url;
-            break;
+      } else if (messageInfo is NotifyMessage) {
+        if (GetPlatform.isWeb) {
+          if (webFileSendCache.containsKey(messageInfo.name)) {
+            Log.e(messageInfo);
+            String url = await getCorrectUrlWithAddressAndPort(
+              messageInfo.urls,
+              messageInfo.port,
+            );
+            Log.d('uploadFileForWeb url -> $url');
+            uploadFileForWeb(webFileSendCache[messageInfo.name], url);
           }
         }
+        return;
+      } else if (messageInfo is MessageFileInfo) {
+        messageInfo.url = await getCorrectUrl(messageInfo.url);
       }
       // 往聊天列表中添加一条消息
       children.add(MessageItemFactory.getMessageItem(
         messageInfo,
         false,
       ));
-
       // 自动滑动，振动，更新UI
       scroll();
       vibrate();

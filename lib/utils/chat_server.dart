@@ -44,7 +44,7 @@ Future<int> getSafePort(int rangeStart, int rangeEnd) async {
       rangeStart,
       shared: true,
     );
-    Log.w('端口$rangeStart绑定成功');
+    Log.d('端口$rangeStart绑定成功');
     return rangeStart;
   } catch (e) {
     Log.e('端口$rangeStart绑定失败');
@@ -140,7 +140,7 @@ class SocketPage extends GetView {
               }));
             });
           }
-          print('$sockets socket has closed. Reason: ${close.message}');
+          print('$socket socket has closed. Reason: ${close.message}');
         });
       },
     );

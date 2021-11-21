@@ -14,6 +14,7 @@ import 'package:speed_share/pages/video.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:speed_share/utils/path_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FileItem extends StatefulWidget {
@@ -41,19 +42,6 @@ class _FileItemState extends State<FileItem> {
   // 网速
   String speed = '0';
   Timer timer;
-  String getSafePath(String savePath) {
-    String dirPath = dirname(savePath);
-    String fileNameWithoutExt = basenameWithoutExtension(savePath);
-    int count = 1;
-    String newPath =
-        dirPath + '/' + fileNameWithoutExt + '$count' + extension(savePath);
-    while (File(newPath).existsSync()) {
-      count++;
-      newPath =
-          dirPath + '/' + fileNameWithoutExt + '$count' + extension(savePath);
-    }
-    return newPath;
-  }
 
   // 执行下载文件
   Future<void> downloadFile(String urlPath, String savePath) async {
@@ -130,13 +118,13 @@ class _FileItemState extends State<FileItem> {
           widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
             color: background,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.w),
           ),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 200),
+            constraints: BoxConstraints(maxWidth: 200.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

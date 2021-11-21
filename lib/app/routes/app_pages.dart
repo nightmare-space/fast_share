@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:speed_share/app/bindings/chat_binding.dart';
@@ -24,20 +25,20 @@ class SpeedPages {
     GetPage(
       name: Routes.chat,
       page: () {
-        if (GetPlatform.isWeb) {
-          Uri uri = Uri.parse(url);
-          return ThemeWidget(
-            child: ShareChat(
-              needCreateChatServer: false,
-              chatServerAddress: 'http://${uri.host}:${uri.port}',
-            ),
-          );
+        bool needCreateChatServer = GetPlatform.isWeb
+            ? false
+            : Get.parameters['needCreateChatServer'] == 'true';
+        Uri uri;
+        if (!needCreateChatServer) {
+          uri = GetPlatform.isWeb
+              ? Uri.parse(kDebugMode ? 'http://192.168.15.137:12000' : url)
+              : Uri.parse(Get.parameters['chatServerAddress']);
         }
         return ThemeWidget(
           child: ShareChat(
-            needCreateChatServer:
-                Get.parameters['needCreateChatServer'] == 'true',
-            chatServerAddress: Get.parameters['chatServerAddress'],
+            needCreateChatServer: needCreateChatServer,
+            chatServerAddress:
+                needCreateChatServer ? null : 'http://${uri.host}:${uri.port}',
           ),
         );
       },

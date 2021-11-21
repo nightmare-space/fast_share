@@ -21,7 +21,11 @@ class MessageInfoFactory {
         return MessageTipInfo.fromJson(json);
         break;
       case 'qr':
-        return MessageQrInfo.fromJson(json);
+        return QRMessage.fromJson(json);
+      case 'webfile':
+        return BroswerFileMessage.fromJson(json);
+      case 'notify':
+        return NotifyMessage.fromJson(json);
         break;
     }
     throw '消息异常';

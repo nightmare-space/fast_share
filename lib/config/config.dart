@@ -4,6 +4,8 @@ class Config {
   static int httpServerPort = 8002;
   static int shelfPortRangeStart = 13000;
   static int shelfPortRangeEnd = 13010;
+  static int filePortRangeStart = 13010;
+  static int filePortRangeEnd = 13020;
   static int chatPortRangeStart = 12000;
   static int chatPortRangeEnd = 12010;
   static String packageName = 'com.nightmare.speedshare';
