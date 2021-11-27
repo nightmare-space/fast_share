@@ -17,15 +17,14 @@ Future<void> startFileServer(int port) async {
     shared: true,
   );
   server.listen((request) async {
+    request.response
+      ..headers.add('Access-Control-Allow-Origin', '*')
+      ..headers.add('Access-Control-Allow-Headers', '*')
+      ..headers.add('Access-Control-Allow-Methods', '*')
+      ..headers.add('Access-Control-Allow-Credentials', 'true')
+      ..statusCode = HttpStatus.ok;
     if (request.uri.path == '/check_token') {
-      request.response
-        ..headers.add('Access-Control-Allow-Origin', '*')
-        ..headers.add('Access-Control-Allow-Headers', '*')
-        ..headers.add('Access-Control-Allow-Methods', '*')
-        ..headers.add('Access-Control-Allow-Credentials', 'true')
-        ..statusCode = HttpStatus.ok
-        ..write('web token access')
-        ..close();
+      request.response.write('web token access');
     } else if (request.uri.path != '/fileupload') {
       request.response
         ..headers.contentType = ContentType.html
@@ -56,7 +55,9 @@ Future<void> startFileServer(int port) async {
           dateBytes.length / request.headers.contentLength,
           dateBytes.length,
         );
-        // print('data -> $data');
+        print(
+            'dateBytes.length ${dateBytes.length} request.headers.contentLength -> ${request.headers.contentLength}');
+        Log.w(dateBytes.length / request.headers.contentLength);
       }
       String boundary = request.headers.contentType.parameters['boundary'];
       final transformer = MimeMultipartTransformer(boundary);
@@ -76,7 +77,6 @@ Future<void> startFileServer(int port) async {
       }
       print('success');
     }
-
     request.response.close();
   });
 }

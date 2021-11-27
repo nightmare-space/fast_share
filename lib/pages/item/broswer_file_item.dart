@@ -165,8 +165,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                         count = c;
                         setState(() {});
                       };
-                      chatController
-                          .notifyBroswerUploadFile(widget.info.fileName);
+                      chatController.notifyBroswerUploadFile(widget.info.hash);
                     }
                     // if (GetPlatform.isWeb) {
                     //   Log.e('web download');

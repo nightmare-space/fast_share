@@ -17,7 +17,7 @@ class SpeedPages {
   static final routes = [
     GetPage(
       name: Routes.HOME,
-      page: () => ThemeWidget(
+      page: () => ThemeWrapper(
         child: SpeedShareEntryPoint(),
       ),
       binding: HomeBinding(),
@@ -31,10 +31,10 @@ class SpeedPages {
         Uri uri;
         if (!needCreateChatServer) {
           uri = GetPlatform.isWeb
-              ? Uri.parse(kDebugMode ? 'http://192.168.15.137:12000' : url)
+              ? Uri.parse(kDebugMode ? 'http://192.168.94.214:12000' : url)
               : Uri.parse(Get.parameters['chatServerAddress']);
         }
-        return ThemeWidget(
+        return ThemeWrapper(
           child: ShareChat(
             needCreateChatServer: needCreateChatServer,
             chatServerAddress:
@@ -47,8 +47,8 @@ class SpeedPages {
   ];
 }
 
-class ThemeWidget extends StatelessWidget {
-  const ThemeWidget({
+class ThemeWrapper extends StatelessWidget {
+  const ThemeWrapper({
     Key key,
     this.child,
   }) : super(key: key);

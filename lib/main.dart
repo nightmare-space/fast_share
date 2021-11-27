@@ -52,7 +52,7 @@ class SpeedShare extends StatelessWidget {
   Widget build(BuildContext context) {
     String initRoute = SpeedPages.INITIAL;
     if (GetPlatform.isWeb) {
-      initRoute = '/chat';
+      initRoute = Routes.chat;
     }
     return NiToastNew(
       child: OrientationBuilder(

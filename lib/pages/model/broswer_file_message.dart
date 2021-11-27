@@ -3,10 +3,12 @@ import 'base_message.dart';
 class BroswerFileMessage extends MessageBaseInfo {
   String fileName;
   String fileSize;
+  String hash;
 
   BroswerFileMessage({
     this.fileName,
     this.fileSize,
+    this.hash,
     String msgType = 'webfile',
     String type,
   }) : super(
@@ -17,12 +19,14 @@ class BroswerFileMessage extends MessageBaseInfo {
   BroswerFileMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     fileName = json['fileName'];
     fileSize = json['fileSize'];
+    hash = json['hash'];
   }
 
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['fileName'] = fileName;
     data['fileSize'] = fileSize;
+    data['hash'] = hash;
     return data;
   }
 }

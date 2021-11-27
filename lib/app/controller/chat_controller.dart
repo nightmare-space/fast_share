@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -297,18 +298,18 @@ class ChatController extends GetxController {
     socket.send(info.toString());
   }
 
-  Future<void> notifyBroswerUploadFile(String name) async {
+  Future<void> notifyBroswerUploadFile(String hash) async {
+    List<String> addresses = await PlatformUtil.localAddress();
     final NotifyMessage notifyMessage = NotifyMessage(
-      name: name,
-      des: 'now you can upload file which called $name to address []',
-      urls: await PlatformUtil.localAddress(),
+      hash: hash,
+      addrs: addresses,
       port: fileServerPort,
     );
     // 发送消息
     socket.send(notifyMessage.toString());
   }
 
-  // 由于选择文件后并没有第一时间发送，只是发送了一条普通消息
+  // 选择文件后并没有第一时间发送，只是发送了一条普通消息
   Map<String, XFile> webFileSendCache = {};
   Future<void> sendFileForBroswer() async {
     final typeGroup = XTypeGroup(
@@ -325,10 +326,12 @@ class ChatController extends GetxController {
       print('xFile.name -> ${xFile.name}');
       print('xFile.length -> ${await xFile.length()}');
       print('-' * 10);
-      // name可能会重复
-      webFileSendCache[xFile.name] = xFile;
+      String hash = shortHash(xFile);
+      webFileSendCache[hash] = xFile;
       final BroswerFileMessage sendFileInfo = BroswerFileMessage(
+        // 用来客户端显示
         fileName: xFile.name,
+        hash: hash,
         fileSize: FileSizeUtils.getFileSize(await xFile.length()),
       );
       // 发送消息
@@ -533,14 +536,18 @@ class ChatController extends GetxController {
         return;
       } else if (messageInfo is NotifyMessage) {
         if (GetPlatform.isWeb) {
-          if (webFileSendCache.containsKey(messageInfo.name)) {
+          if (webFileSendCache.containsKey(messageInfo.hash)) {
             Log.e(messageInfo);
             String url = await getCorrectUrlWithAddressAndPort(
-              messageInfo.urls,
+              messageInfo.addrs,
               messageInfo.port,
             );
             Log.d('uploadFileForWeb url -> $url');
-            uploadFileForWeb(webFileSendCache[messageInfo.name], url);
+            if (url != null) {
+              uploadFileForWeb(webFileSendCache[messageInfo.hash], url);
+            } else {
+              showToast('未检测到可上传IP');
+            }
           }
         }
         return;
