@@ -50,12 +50,8 @@ class _FileItemState extends State<FileItem> {
       return;
     }
     savePath = savePath + '/' + basename(urlPath);
-    File saveFile = File(savePath);
-    if (saveFile.existsSync()) {
-      savePath = getSafePath(savePath);
-      Log.d(savePath);
-    }
-    // print(savePath);
+    File saveFile = File(getSafePath(savePath));
+    Log.d(saveFile.path);
 
     computeNetSpeed();
     await dio.download(

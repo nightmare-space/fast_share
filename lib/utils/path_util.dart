@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 
 String getSafePath(String savePath) {
+  if (!File(savePath).existsSync()) {
+    return savePath;
+  }
   String dirPath = dirname(savePath);
   String fileNameWithoutExt = basenameWithoutExtension(savePath);
   int count = 1;
