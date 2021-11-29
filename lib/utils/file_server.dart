@@ -63,7 +63,7 @@ Future<void> startFileServer(int port) async {
       final transformer = MimeMultipartTransformer(boundary);
       final bodyStream = Stream.fromIterable([dateBytes]);
       final parts = await transformer.bind(bodyStream).toList();
-
+      Directory('/sdcard/SpeedShare').createSync(recursive: true);
       for (var part in parts) {
         // print(part.headers);
         final contentDisposition = part.headers['content-disposition'];

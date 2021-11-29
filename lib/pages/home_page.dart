@@ -81,16 +81,16 @@ class _HomePageState extends State<HomePage> {
               ScanUtil.parseScan();
             },
           ),
-        NiIconButton(
-          child: Icon(
-            Icons.settings,
-            color: Colors.black,
-            size: 24.w,
-          ),
-          onTap: () async {
-            Get.to(SettingPage());
-          },
-        ),
+        // NiIconButton(
+        //   child: Icon(
+        //     Icons.settings,
+        //     color: Colors.black,
+        //     size: 24.w,
+        //   ),
+        //   onTap: () async {
+        //     Get.to(SettingPage());
+        //   },
+        // ),
         SizedBox(width: Dimens.gap_dp12),
       ],
     );
