@@ -1,5 +1,5 @@
 name: speed_share
-description: 局域网共享文件.
+description: 局域网共享文件客户终端.
 publish_to: "none"
 
 version: 1.2.8+20

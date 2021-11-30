@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter_svg/svg.dart';
@@ -178,7 +179,7 @@ class _ShareChatState extends State<ShareChat>
                           style: TextStyle(
                             color: AppColors.fontColor,
                             fontWeight: FontWeight.bold,
-                              fontSize: 12.w,
+                            fontSize: 12.w,
                           ),
                         )
                       ],
@@ -264,7 +265,7 @@ class _ShareChatState extends State<ShareChat>
                           style: TextStyle(
                             color: AppColors.fontColor,
                             fontWeight: FontWeight.bold,
-                              fontSize: 12.w,
+                            fontSize: 12.w,
                           ),
                         )
                       ],
@@ -335,10 +336,21 @@ class _ShareChatState extends State<ShareChat>
                       child: SizedBox(
                         width: 48.w,
                         height: 48.w,
-                        child: Icon(
-                          controller.hasInput ? Icons.send : Icons.add,
-                          color: AppColors.nav,
-                          size: 24.w,
+                        child: AnimatedBuilder(
+                          animation: menuAnim,
+                          builder: (c, child) {
+                            return Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.identity()
+                                ..rotateZ(menuAnim.value * pi / 4),
+                              child: child,
+                            );
+                          },
+                          child: Icon(
+                            controller.hasInput ? Icons.send : Icons.add,
+                            color: AppColors.nav,
+                            size: 24.w,
+                          ),
                         ),
                       ),
                     ),
