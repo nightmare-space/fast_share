@@ -28,11 +28,18 @@ class ShareChat extends StatefulWidget {
   _ShareChatState createState() => _ShareChatState();
 }
 
-class _ShareChatState extends State<ShareChat> {
+class _ShareChatState extends State<ShareChat>
+    with SingleTickerProviderStateMixin {
   ChatController controller = Get.find();
+  AnimationController menuAnim;
   @override
   void initState() {
     super.initState();
+    menuAnim = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 100),
+    );
+
     controller.initChat(
       widget.needCreateChatServer,
       widget.chatServerAddress,
@@ -41,6 +48,7 @@ class _ShareChatState extends State<ShareChat> {
 
   @override
   void dispose() {
+    menuAnim.dispose();
     super.dispose();
   }
 
@@ -62,7 +70,7 @@ class _ShareChatState extends State<ShareChat> {
                   0.w,
                   kToolbarHeight,
                   0.w,
-                  120.w,
+                  80.w,
                 ),
                 controller: controller.scrollController,
                 itemCount: controller.children.length,
@@ -109,7 +117,7 @@ class _ShareChatState extends State<ShareChat> {
                 ),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
-                    minHeight: 120.w,
+                    minHeight: 60.w,
                     maxHeight: 240.w,
                   ),
                   child: sendMsgContainer(context),
@@ -122,131 +130,229 @@ class _ShareChatState extends State<ShareChat> {
     );
   }
 
-  Material sendMsgContainer(BuildContext context) {
-    return Material(
-      color: AppColors.surface.withOpacity(0.8),
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(12.w),
-        topRight: Radius.circular(12.w),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+  Widget menu() {
+    return AnimatedBuilder(
+      animation: menuAnim,
+      builder: (c, child) {
+        return SizedBox(
+          height: 100.w * menuAnim.value,
+          child: child,
+        );
+      },
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: 16.w),
+        physics: NeverScrollableScrollPhysics(),
+        child: Row(
           children: [
-            Row(
-              children: [
-                if (!GetPlatform.isWeb && GetPlatform.isAndroid)
-                  SizedBox(
-                    height: 32.w,
-                    child: Transform(
-                      transform: Matrix4.identity()..translate(0.0, -4.0.w),
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
+            if (!GetPlatform.isWeb && GetPlatform.isAndroid)
+              SizedBox(
+                width: 80.w,
+                height: 80.w,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10.w),
+                  onTap: () {
+                    menuAnim.reverse();
+                    Future.delayed(Duration(milliseconds: 100), () {
+                      if (GetPlatform.isDesktop || GetPlatform.isWeb) {
+                        controller.sendFileForDesktop();
+                      } else if (GetPlatform.isAndroid) {
+                        controller.sendFileForAndroid(
+                          useSystemPicker: true,
+                        );
+                      }
+                    });
+                  },
+                  child: Tooltip(
+                    message: '点击将会调用系统的文件选择器',
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
                           Icons.image,
                           color: AppColors.accentColor,
+                          size: 36.w,
                         ),
-                        onPressed: () async {
-                          if (GetPlatform.isDesktop || GetPlatform.isWeb) {
-                            controller.sendFileForDesktop();
-                          } else if (GetPlatform.isAndroid) {
-                            controller.sendFileForAndroid(
-                              useSystemPicker: true,
-                            );
-                          }
-                        },
-                      ),
+                        SizedBox(height: 4.w),
+                        Text(
+                          '系统管理器',
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontWeight: FontWeight.bold,
+                              fontSize: 12.w,
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                SizedBox(
-                  height: 32.w,
-                  child: Transform(
-                    transform: Matrix4.identity()..translate(0.0, -4.0.w),
-                    child: IconButton(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        Icons.file_copy,
-                        color: AppColors.accentColor,
-                      ),
-                      onPressed: () async {
+                ),
+              ),
+            Theme(
+              data: ThemeData(
+                primaryColor: AppColors.accentColor,
+              ),
+              child: Builder(builder: (context) {
+                return SizedBox(
+                  width: 80.w,
+                  height: 80.w,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10.w),
+                    onTap: () {
+                      menuAnim.reverse();
+                      Future.delayed(Duration(milliseconds: 100), () {
                         if (GetPlatform.isWeb) {
                           controller.sendFileForBroswer();
                         } else if (GetPlatform.isDesktop) {
                           controller.sendFileForDesktop();
                         } else if (GetPlatform.isAndroid) {
-                          controller.sendFileForAndroid();
+                          controller.sendFileForAndroid(
+                            context: context,
+                          );
                         }
-                      },
-                    ),
-                  ),
-                ),
-                if (!GetPlatform.isWeb)
-                  SizedBox(
-                    height: 32.w,
-                    child: Transform(
-                      transform: Matrix4.identity()..translate(0.0, -4.w),
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.zero,
-                        icon: SvgPicture.asset(
-                          Assets.dir,
-                          color: AppColors.accentColor,
-                        ),
-                        onPressed: () async {
-                          controller.sendDir();
-                        },
+                      });
+                    },
+                    child: Tooltip(
+                      message: '点击将调用自实现的文件选择器',
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.file_copy,
+                            color: AppColors.accentColor,
+                            size: 36.w,
+                          ),
+                          SizedBox(height: 4.w),
+                          Text(
+                            '内部管理器',
+                            style: TextStyle(
+                              color: AppColors.fontColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.w,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
-              ],
+                );
+              }),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: TextField(
-                    focusNode: controller.focusNode,
-                    controller: controller.controller,
-                    autofocus: false,
-                    maxLines: 8,
-                    minLines: 1,
-                    style: TextStyle(
-                      textBaseline: TextBaseline.ideographic,
+            if (!GetPlatform.isWeb)
+              SizedBox(
+                width: 80.w,
+                height: 80.w,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10.w),
+                  onTap: () async {
+                    menuAnim.reverse();
+                    Future.delayed(Duration(milliseconds: 100), () {
+                      controller.sendDir();
+                    });
+                  },
+                  child: Tooltip(
+                    message: '点击将调用自实现的文件夹选择器',
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.dir,
+                          color: AppColors.accentColor,
+                          width: 36.w,
+                        ),
+                        SizedBox(height: 4.w),
+                        Text(
+                          '文件夹',
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontWeight: FontWeight.bold,
+                              fontSize: 12.w,
+                          ),
+                        )
+                      ],
                     ),
-                    onSubmitted: (_) {
-                      controller.sendTextMsg();
-                      Future.delayed(Duration(milliseconds: 100), () {
-                        controller.focusNode.requestFocus();
-                      });
-                    },
                   ),
                 ),
-                SizedBox(
-                  width: 16.w,
-                ),
-                Material(
-                  color: AppColors.accentColor,
-                  borderRadius: BorderRadius.circular(32),
-                  borderOnForeground: true,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.send,
-                      color: AppColors.surface,
-                    ),
-                    onPressed: () {
-                      controller.sendTextMsg();
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
           ],
         ),
       ),
     );
+  }
+
+  Widget sendMsgContainer(BuildContext context) {
+    return GetBuilder<ChatController>(builder: (context) {
+      return Material(
+        color: AppColors.nav.withOpacity(0.8),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.w),
+          topRight: Radius.circular(12.w),
+        ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      focusNode: controller.focusNode,
+                      controller: controller.controller,
+                      autofocus: false,
+                      maxLines: 8,
+                      minLines: 1,
+                      style: TextStyle(
+                        textBaseline: TextBaseline.ideographic,
+                      ),
+                      onSubmitted: (_) {
+                        controller.sendTextMsg();
+                        Future.delayed(Duration(milliseconds: 100), () {
+                          controller.focusNode.requestFocus();
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16.w,
+                  ),
+                  GestureWithScale(
+                    onTap: () {
+                      if (controller.hasInput) {
+                        controller.sendTextMsg();
+                      } else {
+                        if (menuAnim.isCompleted) {
+                          menuAnim.reverse();
+                        } else {
+                          menuAnim.forward();
+                        }
+                      }
+                    },
+                    child: Material(
+                      color: AppColors.accentColor,
+                      borderRadius: BorderRadius.circular(24.w),
+                      borderOnForeground: true,
+                      child: SizedBox(
+                        width: 48.w,
+                        height: 48.w,
+                        child: Icon(
+                          controller.hasInput ? Icons.send : Icons.add,
+                          color: AppColors.nav,
+                          size: 24.w,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 16.w,
+              ),
+              menu(),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

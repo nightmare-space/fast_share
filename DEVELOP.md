@@ -70,6 +70,8 @@
   );
   runApp(serverApp);
 ```
+> 这个部署是 get_server 这个 package 提供的能力。
+
 `/`指向的就是部署的速享 web 端，`/chat`指向的是聊天服务器。
 
 

@@ -197,6 +197,9 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       NiCardButton(
                         borderRadius: 24,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                        shadowColor: Colors.transparent,
                         onTap: () {
                           Get.toNamed(
                             '${Routes.chat}?needCreateChatServer=true',
@@ -220,6 +223,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       NiCardButton(
                         borderRadius: 24,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                        shadowColor: Colors.transparent,
                         onTap: () {
                           Get.dialog(JoinChat());
                         },

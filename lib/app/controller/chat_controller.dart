@@ -41,12 +41,21 @@ class ChatController extends GetxController {
   // 文件服务器成功绑定的端口
   int shelfBindPort;
   int fileServerPort;
+  bool hasInput = false;
 
   Future<void> initChat(
     bool needCreateChatServer,
     String chatServerAddress,
   ) async {
     Global().disableShowDialog();
+    controller.addListener(() {
+      if (controller.text.isNotEmpty) {
+        hasInput = true;
+      } else {
+        hasInput = false;
+      }
+      update();
+    });
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
     }
@@ -379,12 +388,15 @@ class ChatController extends GetxController {
   /**
    * useSystemPicker: 是否使用系统文件选择器
    */
-  Future<void> sendFileForAndroid({bool useSystemPicker = false}) async {
+  Future<void> sendFileForAndroid({
+    bool useSystemPicker = false,
+    BuildContext context,
+  }) async {
     // 选择文件路径
     List<String> filePaths = [];
     if (!useSystemPicker) {
       filePaths = await FileSelector.pick(
-        Get.context,
+        context ?? Get.context,
       );
     } else {
       FilePickerResult result = await FilePicker.platform.pickFiles(
@@ -398,6 +410,9 @@ class ChatController extends GetxController {
       } else {
         // User canceled the picker
       }
+    }
+    if (filePaths == null) {
+      return;
     }
     for (String filePath in filePaths) {
       print(filePath);

@@ -31,7 +31,7 @@ class _JoinChatState extends State<JoinChat> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -39,7 +39,7 @@ class _JoinChatState extends State<JoinChat> {
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.w,
+                    fontSize: 18.w,
                   ),
                 ),
                 SizedBox(
@@ -55,7 +55,7 @@ class _JoinChatState extends State<JoinChat> {
                     helperText: '这个地址在创建窗口的时候会提示',
                     hintText: '请输入共享窗口的URL',
                     hintStyle: TextStyle(
-                      fontSize: 12,
+                      fontSize: 12.w,
                     ),
                   ),
                 ),

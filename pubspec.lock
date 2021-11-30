@@ -29,7 +29,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a5bc5b6d51cc1a6eeab4d4c3ff321124d61425ba
+      resolved-ref: "88a0d5f99edc168d77d7d430a5948f989c176e82"
       url: "https://github.com/nightmare-space/apputils"
     source: git
     version: "0.0.1"
@@ -123,7 +123,7 @@ packages:
       name: dio
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.0.3"
+    version: "4.0.4"
   event_bus:
     dependency: transitive
     description:
@@ -228,7 +228,7 @@ packages:
       name: flutter_plugin_android_lifecycle
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   flutter_spinkit:
     dependency: transitive
     description:
@@ -259,7 +259,7 @@ packages:
       name: get
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.3.8"
+    version: "4.5.1"
   get_server:
     dependency: "direct main"
     description:
@@ -632,7 +632,21 @@ packages:
       name: url_launcher
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.15"
+    version: "6.0.16"
+  url_launcher_android:
+    dependency: transitive
+    description:
+      name: url_launcher_android
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "6.0.13"
+  url_launcher_ios:
+    dependency: transitive
+    description:
+      name: url_launcher_ios
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "6.0.13"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -681,7 +695,7 @@ packages:
       name: win32
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   xdg_directories:
     dependency: transitive
     description:
