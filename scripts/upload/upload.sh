@@ -10,6 +10,6 @@ if [ -f $PROJECT_DIR/$APP_NAME'_Windows.zip' ]; then
     echo "upload $target_name"
     rsync -v $PROJECT_DIR/$APP_NAME'_Windows.zip' $TARGET_PATH/$target_name
 fi
-# rsync -v $PROJECT_DIR/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk $TARGET_PATH/$APP_NAME'_'$VERSION'_'Android_arm64.apk
-# rsync -v $PROJECT_DIR/build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk $TARGET_PATH/$APP_NAME'_'$VERSION'_'Android_arm_v7a.apk
-# rsync -v $PROJECT_DIR/build/app/outputs/flutter-apk/app-x86_64-release.apk $TARGET_PATH/$APP_NAME'_'$VERSION'_'Android_x86_64.apk
+rsync -v $PROJECT_DIR/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk $TARGET_PATH/$APP_NAME'_'$VERSION'_'Android_arm64.apk
+rsync -v $PROJECT_DIR/build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk $TARGET_PATH/$APP_NAME'_'$VERSION'_'Android_arm_v7a.apk
+rsync -v $PROJECT_DIR/build/app/outputs/flutter-apk/app-x86_64-release.apk $TARGET_PATH/$APP_NAME'_'$VERSION'_'Android_x86_64.apk
