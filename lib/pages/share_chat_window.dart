@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:desktop_drop/desktop_drop.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
@@ -33,6 +37,8 @@ class _ShareChatState extends State<ShareChat>
     with SingleTickerProviderStateMixin {
   ChatController controller = Get.find();
   AnimationController menuAnim;
+  final List<XFile> files = [];
+  bool dropping = false;
   @override
   void initState() {
     super.initState();
@@ -55,77 +61,146 @@ class _ShareChatState extends State<ShareChat>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        // fit: StackFit.passthrough,
-        children: [
-          GestureDetector(
-            onTap: () {
-              controller.focusNode.unfocus();
-            },
-            child: GetBuilder<ChatController>(builder: (context) {
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.fromLTRB(
-                  0.w,
-                  kToolbarHeight,
-                  0.w,
-                  80.w,
-                ),
-                controller: controller.scrollController,
-                itemCount: controller.children.length,
-                cacheExtent: 99999,
-                itemBuilder: (c, i) {
-                  return controller.children[i];
-                },
-              );
-            }),
+    return DropTarget(
+      onDragDone: (detail) async {
+        // files.addAll(detail.urls.map((e) => XFile(e.path)));
+        // setState(() {});
+        // final List<String> paths = [];
+        // for (final XFile file in files) {
+        //   paths.add(file.path);
+        // }
+        // Log.d('paths -> $paths');
+        // files.clear();
+        files.addAll(
+          detail.urls.map(
+            (e) => XFile(
+              GetPlatform.isWeb ? 'blob:${e.path}' : e.toFilePath(),
+            ),
           ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 8.0,
-                  sigmaY: 8.0,
+        );
+          detail.urls.forEach((element) { 
+            Log.e(element);
+          });
+        Log.d('files -> $files');
+        setState(() {});
+        if (files.isNotEmpty) {
+          controller.sendXFiles(files);
+          files.clear();
+        }
+      },
+      onDragUpdated: (details) {
+        setState(() {
+          // offset = details.localPosition;
+        });
+      },
+      onDragEntered: (detail) {
+        setState(() {
+          dropping = true;
+          // offset = detail.localPosition;
+        });
+      },
+      onDragExited: (detail) {
+        setState(() {
+          dropping = false;
+          // offset = null;
+        });
+      },
+      child: Stack(
+        children: [
+          Scaffold(
+            body: Stack(
+              alignment: Alignment.center,
+              // fit: StackFit.passthrough,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    controller.focusNode.unfocus();
+                  },
+                  child: GetBuilder<ChatController>(builder: (context) {
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.fromLTRB(
+                        0.w,
+                        kToolbarHeight,
+                        0.w,
+                        80.w,
+                      ),
+                      controller: controller.scrollController,
+                      itemCount: controller.children.length,
+                      cacheExtent: 99999,
+                      itemBuilder: (c, i) {
+                        return controller.children[i];
+                      },
+                    );
+                  }),
                 ),
-                child: Container(
-                  height: kToolbarHeight,
-                  color: AppColors.background.withOpacity(0.4),
-                  child: AppBar(
-                    title: Text(
-                      '文件共享',
-                      style: TextStyle(
-                        color: AppColors.fontColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.w,
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: 8.0,
+                        sigmaY: 8.0,
+                      ),
+                      child: Container(
+                        height: kToolbarHeight,
+                        color: AppColors.background.withOpacity(0.4),
+                        child: AppBar(
+                          title: Text(
+                            '文件共享',
+                            style: TextStyle(
+                              color: AppColors.fontColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.w,
+                            ),
+                          ),
+                          leading: PopButton(),
+                        ),
                       ),
                     ),
-                    leading: PopButton(),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: 8.0,
+                        sigmaY: 8.0,
+                      ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: 60.w,
+                          maxHeight: 240.w,
+                        ),
+                        child: sendMsgContainer(context),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (dropping)
+            BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 4.0,
+                sigmaY: 4.0,
+              ),
+              child: Material(
+                color: AppColors.surface.withOpacity(0.4),
+                child: Center(
+                  child: Text(
+                    '释放以分享文件到共享窗口~',
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.w,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 8.0,
-                  sigmaY: 8.0,
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: 60.w,
-                    maxHeight: 240.w,
-                  ),
-                  child: sendMsgContainer(context),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -145,98 +220,92 @@ class _ShareChatState extends State<ShareChat>
         physics: NeverScrollableScrollPhysics(),
         child: Row(
           children: [
-            if (!GetPlatform.isWeb && GetPlatform.isAndroid)
-              SizedBox(
-                width: 80.w,
-                height: 80.w,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10.w),
-                  onTap: () {
-                    menuAnim.reverse();
-                    Future.delayed(Duration(milliseconds: 100), () {
-                      if (GetPlatform.isDesktop || GetPlatform.isWeb) {
-                        controller.sendFileForDesktop();
-                      } else if (GetPlatform.isAndroid) {
-                        controller.sendFileForAndroid(
-                          useSystemPicker: true,
-                        );
-                      }
-                    });
-                  },
-                  child: Tooltip(
-                    message: '点击将会调用系统的文件选择器',
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.image,
-                          color: AppColors.accentColor,
-                          size: 36.w,
+            SizedBox(
+              width: 80.w,
+              height: 80.w,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10.w),
+                onTap: () {
+                  menuAnim.reverse();
+                  Future.delayed(Duration(milliseconds: 100), () {
+                    if (GetPlatform.isDesktop || GetPlatform.isWeb) {
+                      controller.sendFileForBroswerAndDesktop();
+                    } else if (GetPlatform.isAndroid) {
+                      controller.sendFileForAndroid(
+                        useSystemPicker: true,
+                      );
+                    }
+                  });
+                },
+                child: Tooltip(
+                  message: '点击将会调用系统的文件选择器',
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.image,
+                        color: AppColors.accentColor,
+                        size: 36.w,
+                      ),
+                      SizedBox(height: 4.w),
+                      Text(
+                        '系统管理器',
+                        style: TextStyle(
+                          color: AppColors.fontColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.w,
                         ),
-                        SizedBox(height: 4.w),
-                        Text(
-                          '系统管理器',
-                          style: TextStyle(
-                            color: AppColors.fontColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.w,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               ),
-            Theme(
-              data: ThemeData(
-                primaryColor: AppColors.accentColor,
-              ),
-              child: Builder(builder: (context) {
-                return SizedBox(
-                  width: 80.w,
-                  height: 80.w,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10.w),
-                    onTap: () {
-                      menuAnim.reverse();
-                      Future.delayed(Duration(milliseconds: 100), () {
-                        if (GetPlatform.isWeb) {
-                          controller.sendFileForBroswer();
-                        } else if (GetPlatform.isDesktop) {
-                          controller.sendFileForDesktop();
-                        } else if (GetPlatform.isAndroid) {
+            ),
+            if (GetPlatform.isAndroid && !GetPlatform.isWeb)
+              Theme(
+                data: ThemeData(
+                  primaryColor: AppColors.accentColor,
+                ),
+                child: Builder(builder: (context) {
+                  return SizedBox(
+                    width: 80.w,
+                    height: 80.w,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10.w),
+                      onTap: () {
+                        menuAnim.reverse();
+                        Future.delayed(Duration(milliseconds: 100), () {
                           controller.sendFileForAndroid(
                             context: context,
                           );
-                        }
-                      });
-                    },
-                    child: Tooltip(
-                      message: '点击将调用自实现的文件选择器',
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.file_copy,
-                            color: AppColors.accentColor,
-                            size: 36.w,
-                          ),
-                          SizedBox(height: 4.w),
-                          Text(
-                            '内部管理器',
-                            style: TextStyle(
-                              color: AppColors.fontColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.w,
+                        });
+                      },
+                      child: Tooltip(
+                        message: '点击将调用自实现的文件选择器',
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.file_copy,
+                              color: AppColors.accentColor,
+                              size: 36.w,
                             ),
-                          )
-                        ],
+                            SizedBox(height: 4.w),
+                            Text(
+                              '内部管理器',
+                              style: TextStyle(
+                                color: AppColors.fontColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.w,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }),
-            ),
+                  );
+                }),
+              ),
             if (!GetPlatform.isWeb)
               SizedBox(
                 width: 80.w,

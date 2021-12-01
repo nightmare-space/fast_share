@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 1.2.8+20
+version: 1.2.9+21
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   
+  desktop_drop: ^0.2.0
   # 文件选择自实现方案
   file_selector_nightmare:
     git: https://github.com/nightmare-space/file_selector

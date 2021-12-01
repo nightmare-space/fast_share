@@ -318,43 +318,56 @@ class ChatController extends GetxController {
     socket.send(notifyMessage.toString());
   }
 
-  // 选择文件后并没有第一时间发送，只是发送了一条普通消息
-  Map<String, XFile> webFileSendCache = {};
-  Future<void> sendFileForBroswer() async {
-    final typeGroup = XTypeGroup(
-      label: 'images',
-      extensions: [''],
-    );
-    final files = await openFiles(acceptedTypeGroups: [typeGroup]);
-    if (files.isEmpty) {
-      return;
-    }
-    for (XFile xFile in files) {
-      print('-' * 10);
-      print('xFile.path -> ${xFile.path}');
-      print('xFile.name -> ${xFile.name}');
-      print('xFile.length -> ${await xFile.length()}');
-      print('-' * 10);
-      String hash = shortHash(xFile);
-      webFileSendCache[hash] = xFile;
-      final BroswerFileMessage sendFileInfo = BroswerFileMessage(
-        // 用来客户端显示
-        fileName: xFile.name,
-        hash: hash,
-        fileSize: FileSizeUtils.getFileSize(await xFile.length()),
-      );
-      // 发送消息
-      socket.send(sendFileInfo.toString());
-      // 将消息添加到本地列表
-      children.add(MessageItemFactory.getMessageItem(
-        sendFileInfo,
-        true,
-      ));
-      scroll();
-      update();
+  // 给 web 和桌面端提供的方法
+  Future<void> sendXFiles(List<XFile> files) async {
+    if (GetPlatform.isWeb) {
+      for (XFile xFile in files) {
+        Log.w('-' * 10);
+        Log.w('xFile.path -> ${xFile.path}');
+        Log.w('xFile.name -> ${xFile.name}');
+        Log.w('xFile.length -> ${await xFile.length()}');
+        Log.w('-' * 10);
+        String hash = shortHash(xFile);
+        webFileSendCache[hash] = xFile;
+        final BroswerFileMessage sendFileInfo = BroswerFileMessage(
+          // 用来客户端显示
+          fileName: xFile.name,
+          hash: hash,
+          fileSize: FileSizeUtils.getFileSize(await xFile.length()),
+        );
+        // 发送消息
+        socket.send(sendFileInfo.toString());
+        // 将消息添加到本地列表
+        children.add(MessageItemFactory.getMessageItem(
+          sendFileInfo,
+          true,
+        ));
+        scroll();
+        update();
+      }
+    } else if (GetPlatform.isDesktop) {
+      for (XFile xFile in files) {
+        print('-' * 10);
+        print('xFile.path -> ${xFile.path}');
+        print('xFile.name -> ${xFile.name}');
+        print('xFile.length -> ${await xFile.length()}');
+        print('-' * 10);
+        sendFileFromPath(xFile.path);
+      }
     }
   }
 
+  // 选择文件后并没有第一时间发送，只是发送了一条普通消息
+  Map<String, XFile> webFileSendCache = {};
+  Future<void> sendFileForBroswerAndDesktop() async {
+    List<XFile> files = await getFilesForDesktopAndWeb();
+    if (files == null) {
+      return;
+    }
+    sendXFiles(files);
+  }
+
+  // web 端速享上传文件调用的方法
   Future<void> uploadFileForWeb(XFile xFile, String urlPrefix) async {
     var formData = FormData.fromMap({
       'fileupload': MultipartFile(
@@ -369,20 +382,16 @@ class ChatController extends GetxController {
     );
   }
 
-  Future<void> sendFileForDesktop() async {
-    final typeGroup = XTypeGroup(label: 'images');
+  Future<List<XFile>> getFilesForDesktopAndWeb() async {
+    final typeGroup = XTypeGroup(
+      label: 'images',
+      extensions: GetPlatform.isWeb ? [''] : null,
+    );
     final files = await openFiles(acceptedTypeGroups: [typeGroup]);
     if (files.isEmpty) {
-      return;
+      return null;
     }
-    for (XFile xFile in files) {
-      print('-' * 10);
-      print('xFile.path -> ${xFile.path}');
-      print('xFile.name -> ${xFile.name}');
-      print('xFile.length -> ${await xFile.length()}');
-      print('-' * 10);
-      sendFileFromPath(xFile.path);
-    }
+    return files;
   }
 
   /**
