@@ -1,12 +1,18 @@
 package com.nightmare.speedshare;
+
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.MediaStore;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodCall;
@@ -39,7 +45,7 @@ public class MainActivity extends FlutterActivity {
                 pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
                 wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
                 if (null != wakeLock) {
-                    wakeLock.acquire();
+                    wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
                 }
             }
 
@@ -59,17 +65,37 @@ public class MainActivity extends FlutterActivity {
         super.onNewIntent(intent);
         setIntent(intent);
         Uri data_uri;
-        if (intent == null) {
-            Log.d("NightmareTAG", "sendFile: no data to send");
-            return;
-        }
-        data_uri = intent.getParcelableExtra(intent.EXTRA_STREAM);
+        data_uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (data_uri == null) {
             Log.d("NightmareTAG", "sendFile: no data in intent");
             return;
         }
-        channel.invokeMethod("send_file", data_uri.toString());
+        channel.invokeMethod("send_file", getRealPath(data_uri));
         Log.d("NightmareTAG", data_uri.toString());
+    }
+
+    private String getRealPath(Uri fileUrl) {
+        String fileName = null;
+        if (fileUrl != null) {
+            if (fileUrl.getScheme().toString().compareTo("content") == 0) // content://开头的uri
+            {
+                Cursor cursor = this.getContentResolver().query(fileUrl, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    try {
+                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        fileName = cursor.getString(column_index); // 取出文件路径
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } finally {
+                        cursor.close();
+                    }
+                }
+            } else if (fileUrl.getScheme().compareTo("file") == 0) // file:///开头的uri
+            {
+                fileName = fileUrl.getPath();
+            }
+        }
+        return fileName;
     }
 
     @Override

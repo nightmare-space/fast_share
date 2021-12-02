@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
         if (call.method == 'send_file') {
           // File file = File.fromUri(Uri.parse(call.arguments));
           // print(file.path);
+          Log.d('call -> ${call.arguments}');
           String realPath = call.arguments.toString().replaceAll('file://', '');
           realPath = realPath.replaceAll(
             'content://com.miui.home.fileprovider/data_app',
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           );
           Log.d('send_file response realPath => $realPath');
           ChatController controller = Get.find();
-          controller.sendFileFromPath(Uri.decodeFull(realPath));
+          controller.sendFileFromPath(realPath);
         }
       });
     }
