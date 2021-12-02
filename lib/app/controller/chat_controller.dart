@@ -118,6 +118,13 @@ class ChatController extends GetxController {
       ));
       update();
     }
+    if (GetPlatform.isAndroid) {
+      children.add(MessageItemFactory.getMessageItem(
+        MessageTipInfo(content: '下载路径在 /sdcard/SpeedShare'),
+        false,
+      ));
+      update();
+    }
     // 监听消息
     listenMessage();
     sendJoinEvent();
@@ -128,7 +135,6 @@ class ChatController extends GetxController {
         Config.shelfPortRangeStart,
         Config.shelfPortRangeEnd,
       );
-
       Log.d('shelf will server with $shelfBindPort port');
       serverTokenFile();
       fileServerPort = await getSafePort(

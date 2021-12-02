@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
     // if (GetPlatform.isAndroid) {
     appBar = AppBar(
       actions: [
-        if (GetPlatform.isAndroid)
+        if (GetPlatform.isMobile)
           NiIconButton(
             child: SvgPicture.asset(
               GlobalAssets.qrCode,

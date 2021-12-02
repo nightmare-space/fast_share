@@ -80,7 +80,7 @@ class Global {
 
   Future<void> initGlobal() async {
     print('initGlobal');
-    if (GetPlatform.isWeb) {
+    if (GetPlatform.isWeb || GetPlatform.isIOS) {
       // web udp 和部署都不支持
       return;
     }

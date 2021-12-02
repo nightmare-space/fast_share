@@ -16,7 +16,7 @@ import 'themes/default_theme_data.dart';
 import 'utils/shelf_static.dart';
 
 void main() {
-  if (!GetPlatform.isWeb) {
+  if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
     RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
   }
   runApp(SpeedShare());
