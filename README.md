@@ -29,11 +29,11 @@ Language: 中文简体 | [English](README-EN.md)
 ## 开始使用
 在整个文件(夹)的共享开始前，必须由一台设备创建一个共享窗口。
 
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/boardcast.gif" width="30%" height="30%" />
+<!-- <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/boardcast.gif" width="30%" height="30%" /> -->
 
 ## 截图
 
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src01.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src02.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src03.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src01.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src02.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
 
 ## 开发者文档
 
