@@ -18,11 +18,13 @@ packages:
     source: hosted
     version: "1.0.2"
   app_manager:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/app_manager"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: d0921fd9f98fd645745b523382ee8a041ef14ebb
+      url: "https://github.com/nightmare-space/app_manager"
+    source: git
     version: "1.0.0+1"
   apputils:
     dependency: transitive
@@ -199,9 +201,11 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/file_selector"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "6d81b74c9b3fb1af4a559adc345763623fb0da9a"
+      url: "https://github.com/nightmare-space/file_selector"
+    source: git
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -277,9 +281,11 @@ packages:
   global_repository:
     dependency: "direct main"
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/global_repository"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "0995fb696724da3d8fc22b1009f5b313b8fbb3e3"
+      url: "https://github.com/nightmare-space/global_repository"
+    source: git
     version: "0.0.1"
   hive:
     dependency: transitive
@@ -415,7 +421,7 @@ packages:
       name: path_provider_macos
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   path_provider_platform_interface:
     dependency: transitive
     description:
@@ -464,7 +470,7 @@ packages:
       name: platform
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -639,7 +645,7 @@ packages:
       name: url_launcher
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.16"
+    version: "6.0.17"
   url_launcher_android:
     dependency: transitive
     description:
@@ -681,7 +687,7 @@ packages:
       name: url_launcher_web
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   url_launcher_windows:
     dependency: transitive
     description:

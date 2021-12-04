@@ -45,3 +45,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 android/app/keystore.jks
+macos/Flutter/GeneratedPluginRegistrant.swift

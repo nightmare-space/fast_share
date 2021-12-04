@@ -63,13 +63,3 @@ flutter:
   assets:
     - assets/
     - assets/icon/
-
-dependency_overrides:
-  global_repository:
-    path: /Users/nightmare/Desktop/nightmare-space/global_repository
-#   file_manager_view:
-#     path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
-  file_selector_nightmare:
-    path: /Users/nightmare/Desktop/nightmare-space/file_selector
-  app_manager:
-    path: /Users/nightmare/Desktop/nightmare-space/app_manager
