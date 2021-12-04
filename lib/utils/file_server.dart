@@ -4,6 +4,8 @@
  */
 import 'dart:io';
 
+import 'package:file_selector/file_selector.dart';
+import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:mime/mime.dart';
 
@@ -51,8 +53,16 @@ Future<void> startFileServer(int port) async {
       List<int> dateBytes = [];
       final fileName = request.headers.value('filename');
       if (fileName != null) {
+        String downPath = '/sdcard/SpeedShare';
+        if (GetPlatform.isDesktop) {
+          downPath = await getDirectoryPath();
+          if (downPath == null) {
+            request.response.close();
+            return;
+          }
+        }
         RandomAccessFile randomAccessFile =
-            await File(getSafePath('/sdcard/SpeedShare/$fileName')).open(
+            await File(getSafePath('$downPath/$fileName')).open(
           mode: FileMode.write,
         );
         await for (var data in request) {
