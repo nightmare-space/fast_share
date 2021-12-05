@@ -10,11 +10,11 @@ String getSafePath(String savePath) {
   String fileNameWithoutExt = basenameWithoutExtension(savePath);
   int count = 1;
   String newPath =
-      dirPath + '/' + fileNameWithoutExt + '$count' + extension(savePath);
+      dirPath + '/' + fileNameWithoutExt + '($count)' + extension(savePath);
   while (File(newPath).existsSync()) {
     count++;
     newPath =
-        dirPath + '/' + fileNameWithoutExt + '$count' + extension(savePath);
+        dirPath + '/' + fileNameWithoutExt + '($count)' + extension(savePath);
   }
   return newPath;
 }

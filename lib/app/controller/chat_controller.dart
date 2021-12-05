@@ -71,7 +71,6 @@ class ChatController extends GetxController {
       chatRoomUrl = chatServerAddress;
     }
     socket = GetSocket(chatRoomUrl + '/chat');
-    Log.v('chat open');
     Completer conLock = Completer();
     socket.onOpen(() {
       Log.d('chat连接成功');
@@ -81,6 +80,7 @@ class ChatController extends GetxController {
       }
     });
     socket.onClose((p0) {
+      Log.e('socket onClose $p0');
       children.add(MessageItemFactory.getMessageItem(
         MessageTipInfo(content: '所有连接已断开'),
         false,
@@ -100,7 +100,7 @@ class ChatController extends GetxController {
       isConnect = false;
     }
     await conLock.future;
-    if (!isConnect && !GetPlatform.isWeb) {
+    if (!isConnect) {
       // 如果连接失败并且不是 web 平台
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '加入失败!'),
@@ -375,16 +375,38 @@ class ChatController extends GetxController {
 
   // web 端速享上传文件调用的方法
   Future<void> uploadFileForWeb(XFile xFile, String urlPrefix) async {
-    var formData = FormData.fromMap({
-      'fileupload': MultipartFile(
-        xFile.openRead(),
-        await xFile.length(),
-        filename: xFile.name,
-      ),
-    });
+    // var formData = FormData.fromMap({
+    //   'file': MultipartFile(
+    //     xFile.openRead(),
+    //     await xFile.length(),
+    //     filename: xFile.name,
+    //   ),
+    //   'files': [
+    //     MultipartFile(
+    //       xFile.openRead(),
+    //       await xFile.length(),
+    //       filename: xFile.name,
+    //     ),
+    //     MultipartFile(
+    //       xFile.openRead(),
+    //       await xFile.length(),
+    //       filename: xFile.name,
+    //     ),
+    //   ],
+    // });
     var response = await Dio().post(
-      '$urlPrefix/fileupload',
-      data: formData,
+      '$urlPrefix/file',
+      data: xFile.openRead(),
+      onSendProgress: (count, total) {
+        print('count:$count total:$total pro:${count / total}');
+      },
+      options: Options(
+        headers: {
+          Headers.contentLengthHeader: await xFile.length(),
+          HttpHeaders.contentTypeHeader: ContentType.binary.toString(),
+          'filename': xFile.name,
+        },
+      ),
     );
   }
 

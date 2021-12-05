@@ -11,7 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   
-  desktop_drop: ^0.2.0
+  desktop_drop: 
+    git:
+      url: https://github.com/mengyanshou/flutter-plugins
+      path: packages/desktop_drop
   # 文件选择自实现方案
   file_selector_nightmare:
     git: https://github.com/nightmare-space/file_selector

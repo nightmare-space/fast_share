@@ -63,24 +63,7 @@ class _ShareChatState extends State<ShareChat>
   Widget build(BuildContext context) {
     return DropTarget(
       onDragDone: (detail) async {
-        // files.addAll(detail.urls.map((e) => XFile(e.path)));
-        // setState(() {});
-        // final List<String> paths = [];
-        // for (final XFile file in files) {
-        //   paths.add(file.path);
-        // }
-        // Log.d('paths -> $paths');
-        // files.clear();
-        files.addAll(
-          detail.urls.map(
-            (e) => XFile(
-              GetPlatform.isWeb ? 'blob:${e.path}' : e.toFilePath(),
-            ),
-          ),
-        );
-          detail.urls.forEach((element) { 
-            Log.e(element);
-          });
+        files.addAll(detail.files);
         Log.d('files -> $files');
         setState(() {});
         if (files.isNotEmpty) {

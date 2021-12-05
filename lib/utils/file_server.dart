@@ -25,7 +25,7 @@ Future<void> startFileServer(int port) async {
       ..statusCode = HttpStatus.ok;
     if (request.uri.path == '/check_token') {
       request.response.write('web token access');
-    } else if (request.uri.path != '/fileupload') {
+    } else if (request.uri.path != '/file') {
       request.response
         ..headers.contentType = ContentType.html
         ..write('''<!DOCTYPE html>
@@ -46,6 +46,27 @@ Future<void> startFileServer(int port) async {
     </form>
 </body>
 </html>''');
+    } else if (request.uri.path == '/file') {
+      Log.w(request.headers);
+      List<int> dateBytes = [];
+      final fileName = request.headers.value('filename');
+      if (fileName != null) {
+        RandomAccessFile randomAccessFile =
+            await File(getSafePath('/sdcard/SpeedShare/$fileName')).open(
+          mode: FileMode.write,
+        );
+        await for (var data in request) {
+          dateBytes.addAll(data);
+          progressCall?.call(
+            dateBytes.length / request.headers.contentLength,
+            dateBytes.length,
+          );
+          await randomAccessFile.writeFrom(data);
+          Log.w(dateBytes.length / request.headers.contentLength);
+        }
+        randomAccessFile.close();
+        print('success');
+      }
     } else {
       Log.w(request.headers);
       List<int> dateBytes = [];
@@ -65,7 +86,7 @@ Future<void> startFileServer(int port) async {
       final parts = await transformer.bind(bodyStream).toList();
       Directory('/sdcard/SpeedShare').createSync(recursive: true);
       for (var part in parts) {
-        // print(part.headers);
+        print(part.headers);
         final contentDisposition = part.headers['content-disposition'];
         print('contentDisposition -> $contentDisposition');
         final fimename = RegExp(r'filename="([^"]*)"')
