@@ -9,27 +9,30 @@ Language: 中文简体 | [English](README-EN.md)
 [![License](https://img.shields.io/github/license/nightmare-space/speed_share?logo=open-source-initiative&logoColor=green)](https://github.com/nightmare-space/speed_share/blob/master/LICENSE)
  ![Platform](https://img.shields.io/badge/support%20platform-android%20%7C%20web%20%7C%20windows%20%7C%20macos%20%7C%20linux-green) ![download time](https://img.shields.io/github/downloads/nightmare-space/speed_share/total) ![open issues](https://img.shields.io/github/issues/nightmare-space/speed_share) ![fork](https://img.shields.io/github/forks/nightmare-space/speed_share?style=social) ![code line](https://img.shields.io/tokei/lines/github/nightmare-space/speed_share) ![build](https://img.shields.io/github/workflow/status/nightmare-space/speed_share/daily%20build%20apk) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f969750dc4aa424ead664219ddcf321d)](https://app.codacy.com/gh/nightmare-space/speed_share?utm_source=github.com&utm_medium=referral&utm_content=nightmare-space/speed_share&utm_campaign=Badge_Grade)
 
-速享是一款高可用的局域网文件共享终端，让使用者能像聊天一样共享文件或文件夹，支持浏览器直接加入文件共享。
-配色有些违和，有更好的配色可以提供给我，目前是扣的material you的颜色
+这是一款完全基于局域网的文件互传终端，速享不使用任何服务器，不使用您的移动流量，不收集任何用户数据，完全的点对点传输。
+
+可以快速共享文本消息，图片或其他文件，文件夹。
+
+适用于局域网中的文件互传，解决 QQ，微信等上传文件会经过服务器的问题，或者部分测试手机，没有这类聊天软件。
 ## 注意！！！
 这个仓库仍在开发维护中，但是由于平时工作缘故，所以不会有太多空闲的时间，相关的截图等都没来得及更新，见谅！！！
 
+## 说明
+这是一个纯个人的开源项目，它虽然不及企业级的一些项目一般完整和强大，但我会耐心的完善以及打磨这个产品。
 ## 功能列表
 
 - 类似于 nginx和 tomcat 的文件部署。
-- 局域网设备发现
+- 局域网设备发现，快速加入共享。
 - 像聊天一样在局域网共享文件，点对点连接，不使用服务器中转。
-- 支持图片以及视频消息直接预览（视频预览仅支持 Android 与 Web ）
-- 支持多个设备同时分享与查看    
-- 下载进度显示、网速显示
+- 支持图片以及视频消息直接预览（视频预览仅支持 Android 与 Web ），快速缓冲。
+- 支持断点续传
+- 支持多个设备同时分享与查看
 - 文件夹共享
 - 浏览器快速加入共享
 - 历史消息获取
 
 ## 开始使用
 在整个文件(夹)的共享开始前，必须由一台设备创建一个共享窗口。
-
-<!-- <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/boardcast.gif" width="30%" height="30%" /> -->
 
 ## 截图
 
