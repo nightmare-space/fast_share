@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
@@ -7,17 +6,11 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
-import 'package:speed_share/config/config.dart';
-import 'package:speed_share/global/global.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/utils/chat_server.dart';
-import 'item/message_item_factory.dart';
-import 'model/model.dart';
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
@@ -44,7 +37,7 @@ class _ShareChatState extends State<ShareChat>
     super.initState();
     menuAnim = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
     );
 
     controller.initChat(
@@ -101,7 +94,7 @@ class _ShareChatState extends State<ShareChat>
                   },
                   child: GetBuilder<ChatController>(builder: (context) {
                     return ListView.builder(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.fromLTRB(
                         0.w,
                         kToolbarHeight,
@@ -137,7 +130,7 @@ class _ShareChatState extends State<ShareChat>
                               fontSize: 16.w,
                             ),
                           ),
-                          leading: PopButton(),
+                          leading: const PopButton(),
                         ),
                       ),
                     ),
@@ -200,7 +193,7 @@ class _ShareChatState extends State<ShareChat>
       },
       child: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 16.w),
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Row(
           children: [
             SizedBox(
@@ -210,7 +203,7 @@ class _ShareChatState extends State<ShareChat>
                 borderRadius: BorderRadius.circular(10.w),
                 onTap: () {
                   menuAnim.reverse();
-                  Future.delayed(Duration(milliseconds: 100), () {
+                  Future.delayed(const Duration(milliseconds: 100), () {
                     if (GetPlatform.isDesktop || GetPlatform.isWeb) {
                       controller.sendFileForBroswerAndDesktop();
                     } else if (GetPlatform.isAndroid) {
@@ -257,7 +250,7 @@ class _ShareChatState extends State<ShareChat>
                       borderRadius: BorderRadius.circular(10.w),
                       onTap: () {
                         menuAnim.reverse();
-                        Future.delayed(Duration(milliseconds: 100), () {
+                        Future.delayed(const Duration(milliseconds: 100), () {
                           controller.sendFileForAndroid(
                             context: context,
                           );
@@ -297,7 +290,7 @@ class _ShareChatState extends State<ShareChat>
                   borderRadius: BorderRadius.circular(10.w),
                   onTap: () async {
                     menuAnim.reverse();
-                    Future.delayed(Duration(milliseconds: 100), () {
+                    Future.delayed(const Duration(milliseconds: 100), () {
                       controller.sendDir();
                     });
                   },
@@ -355,12 +348,12 @@ class _ShareChatState extends State<ShareChat>
                       autofocus: false,
                       maxLines: 8,
                       minLines: 1,
-                      style: TextStyle(
+                      style: const TextStyle(
                         textBaseline: TextBaseline.ideographic,
                       ),
                       onSubmitted: (_) {
                         controller.sendTextMsg();
-                        Future.delayed(Duration(milliseconds: 100), () {
+                        Future.delayed(const Duration(milliseconds: 100), () {
                           controller.focusNode.requestFocus();
                         });
                       },

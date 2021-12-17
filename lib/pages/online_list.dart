@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:global_repository/src/utils/screen_util.dart';
 import 'package:speed_share/app/controller/online_controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
-import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 class OnlineList extends StatelessWidget {
@@ -22,7 +20,7 @@ class OnlineList extends StatelessWidget {
               if (ctl.list.isNotEmpty)
                 Padding(
                   padding: EdgeInsets.only(bottom: 4.w),
-                  child: Text(
+                  child: const Text(
                     '点击 √ 加入房间',
                     style: TextStyle(
                       color: AppColors.fontColor,
@@ -41,7 +39,7 @@ class OnlineList extends StatelessWidget {
                           height: 52.w,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            color: Color(0xffeeeeee).withOpacity(0.6),
+                            color: const Color(0xffeeeeee).withOpacity(0.6),
                             borderRadius: BorderRadius.circular(12.w),
                           ),
                           padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -51,7 +49,7 @@ class OnlineList extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    '${device.address}',
+                                    device.address,
                                     style: TextStyle(
                                       color: AppColors.fontColor,
                                       fontWeight: FontWeight.bold,
@@ -85,7 +83,7 @@ class OnlineList extends StatelessWidget {
                                           '${Routes.chat}?needCreateChatServer=false&chatServerAddress=http://${device.address}:${device.port}',
                                         );
                                       },
-                                      child: Icon(Icons.check),
+                                      child: const Icon(Icons.check),
                                     ),
                                   ),
                                 ],

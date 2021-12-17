@@ -2,7 +2,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:signale/signale.dart';
 
 class SettingController extends GetxController {
-  SettingController() {}
+  SettingController();
   bool enableFilter = false;
   bool enableServer = true;
 

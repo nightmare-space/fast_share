@@ -77,7 +77,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       SizedBox(
-                        height: 8,
+                        height: 8.w,
                       ),
                       ClipRRect(
                         borderRadius:
@@ -91,7 +91,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                         ),
                       ),
                       SizedBox(
-                        height: 4,
+                        height: 4.w,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,7 +100,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                             if (fileDownratio == 1.0) {
                               return Icon(
                                 Icons.check,
-                                size: 16,
+                                size: 16.w,
                                 color: Colors.green,
                               );
                             }
@@ -108,7 +108,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                               '$speed/s',
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 12,
+                                fontSize: 12.w,
                               ),
                             );
                           }),
@@ -116,10 +116,10 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                             children: [
                               SizedBox(
                                 child: Text(
-                                  '${FileSizeUtils.getFileSize(count)}',
+                                  FileSizeUtils.getFileSize(count),
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 12,
+                                    fontSize: 12.w,
                                   ),
                                 ),
                               ),
@@ -127,15 +127,15 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                                 '/',
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 12,
+                                  fontSize: 12.w,
                                 ),
                               ),
                               SizedBox(
                                 child: Text(
-                                  '${widget.info.fileSize}',
+                                  widget.info.fileSize,
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 12,
+                                    fontSize: 12.w,
                                   ),
                                 ),
                               ),
@@ -198,7 +198,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.file_download,
-                      size: 18,
+                      size: 18.w,
                     ),
                   ),
                 ),

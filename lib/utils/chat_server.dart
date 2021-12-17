@@ -95,10 +95,10 @@ class SocketPage extends GetView {
               if (msgs.isEmpty) {
                 return;
               }
-              msgs.forEach((element) {
+              for (String msg in msgs) {
                 // 这个发了，加入的都能收到
-                socket.send(element);
-              });
+                socket.send(msg);
+              }
               socket.send(json.encode({
                 'msgType': 'tip',
                 'content': '以上是历史消息',
@@ -133,14 +133,14 @@ class SocketPage extends GetView {
           if (sockets.isNotEmpty) {
             // 这儿不放到dispose，是因为app被杀掉，dispose收不到
             String name = deviceNameStore.remove(socket.id);
-            sockets.forEach((element) {
-              element.send(json.encode({
+            for (GetSocket socket in sockets) {
+              socket.send(json.encode({
                 'msgType': 'tip',
                 'content': '$name 退出房间',
               }));
-            });
+            }
           }
-          print('$socket socket has closed. Reason: ${close.message}');
+          Log.v('$socket socket has closed. Reason: ${close.message}');
         });
       },
     );

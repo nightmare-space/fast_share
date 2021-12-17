@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:global_repository/global_repository.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:speed_share/config/config.dart';
 
@@ -47,6 +48,7 @@ class ShelfStatic {
       Config.shelfAllPort,
       shared: true,
     );
+    Log.w('$server is start');
   }
 
   static void close() {}

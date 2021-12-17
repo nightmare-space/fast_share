@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,8 +14,6 @@ class DefaultThemeData {
   static const Color _on_primary = Colors.white;
   static const Color _on_dark_primary = Colors.white;
 
-  static const Color _primary_variant = Color(0xFF0C89DB);
-  static const Color _dark_primary_variant = Color(0xFF0C89DB);
   // 浮动按钮类颜色
   static const Color _secondary = _primary;
   static const Color _dark_secondary = Color(0xFF61CE92);
@@ -21,8 +21,6 @@ class DefaultThemeData {
   static const Color _on_secondary = Colors.white;
   static const Color _on_dark_secondary = Colors.white;
 
-  static const Color _secondary_variant = Color(0xFF00954D);
-  static const Color _dark_secondary_variant = Color(0xFF00954D);
 
   static const Color _surface = Color(0xFFFFFFFF);
   static const Color _dark_surface = Color(0xFF282828);
@@ -49,9 +47,7 @@ class DefaultThemeData {
     final darkThemeData = ThemeData.dark();
     final colorSchema = darkThemeData.colorScheme.copyWith(
       primary: _dark_primary,
-      primaryVariant: _dark_primary_variant,
       secondary: _dark_secondary,
-      secondaryVariant: _dark_secondary_variant,
       surface: _dark_surface,
       background: _dark_background,
       error: _dark_error,
@@ -65,7 +61,6 @@ class DefaultThemeData {
       colorScheme: colorSchema,
       primaryColor: colorSchema.onPrimary,
       scaffoldBackgroundColor: colorSchema.background,
-      primaryColorBrightness: Brightness.dark,
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.dark,
       ),
@@ -86,23 +81,6 @@ class DefaultThemeData {
         actionsIconTheme: darkThemeData.iconTheme.copyWith(
           color: const Color(0xFF8C8C8C),
         ),
-        textTheme: TextTheme(
-          headline6: darkThemeData.textTheme.headline6.copyWith(
-            fontSize: Dimens.font_sp20,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFFA8A8A8),
-          ),
-          button: darkThemeData.textTheme.button.copyWith(
-            fontSize: 16,
-            color: colorSchema.primary,
-            fontWeight: FontWeight.w400,
-          ),
-          caption: darkThemeData.textTheme.caption.copyWith(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: const Color(0xFF8C8C8C),
-          ),
-        ),
       ),
       tabBarTheme: darkThemeData.tabBarTheme.copyWith(
         indicator: UnderlineTabIndicator(
@@ -119,11 +97,6 @@ class DefaultThemeData {
         unselectedLabelColor: colorSchema.onSurface,
         unselectedLabelStyle: TextStyle(
           fontSize: Dimens.font_sp16,
-        ),
-      ),
-      accentTextTheme: darkThemeData.textTheme.copyWith(
-        headline6: darkThemeData.textTheme.headline6.copyWith(
-          color: colorSchema.onPrimary,
         ),
       ),
       unselectedWidgetColor: const Color(0xFF696969),
@@ -185,9 +158,7 @@ class DefaultThemeData {
     final lightThemeData = ThemeData.light();
     final colorSchema = lightThemeData.colorScheme.copyWith(
       primary: _primary,
-      primaryVariant: _primary_variant,
       secondary: _secondary,
-      secondaryVariant: _secondary_variant,
       surface: _surface,
       background: _background,
       error: _error,
@@ -201,7 +172,6 @@ class DefaultThemeData {
       colorScheme: colorSchema,
       primaryColor: colorSchema.primary,
       scaffoldBackgroundColor: colorSchema.background,
-      primaryColorBrightness: Brightness.light,
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.light,
       ),
@@ -221,7 +191,7 @@ class DefaultThemeData {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.w),
           gapPadding: 0,
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 0,
             color: Colors.transparent,
           ),
@@ -229,7 +199,7 @@ class DefaultThemeData {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.w),
           gapPadding: 0,
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 0,
             color: Colors.transparent,
           ),
@@ -239,7 +209,6 @@ class DefaultThemeData {
       appBarTheme: lightThemeData.appBarTheme.copyWith(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        brightness: Brightness.light,
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: lightThemeData.iconTheme.copyWith(
@@ -247,23 +216,6 @@ class DefaultThemeData {
         ),
         actionsIconTheme: lightThemeData.iconTheme.copyWith(
           color: colorSchema.primary,
-        ),
-        textTheme: TextTheme(
-          headline6: lightThemeData.textTheme.headline6.copyWith(
-            fontSize: Dimens.font_sp20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          button: lightThemeData.textTheme.button.copyWith(
-            fontSize: 16.w,
-            fontWeight: FontWeight.w400,
-            color: colorSchema.primary,
-          ),
-          caption: lightThemeData.textTheme.caption.copyWith(
-            fontSize: 14.w,
-            fontWeight: FontWeight.w400,
-            color: const Color(0xFF8C8C8C),
-          ),
         ),
       ),
       tabBarTheme: lightThemeData.tabBarTheme.copyWith(
@@ -281,13 +233,6 @@ class DefaultThemeData {
         unselectedLabelColor: colorSchema.onSurface,
         unselectedLabelStyle: TextStyle(
           fontSize: Dimens.font_sp16,
-        ),
-      ),
-      accentTextTheme: lightThemeData.textTheme.copyWith(
-        headline6: lightThemeData.textTheme.headline6.copyWith(
-          fontSize: Dimens.font_sp18,
-          fontWeight: FontWeight.w500,
-          color: colorSchema.onPrimary,
         ),
       ),
       unselectedWidgetColor: const Color(0xFFBFBFBF),

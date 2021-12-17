@@ -41,8 +41,6 @@ class ErrorInterceptor extends InterceptorsWrapper {
             // Log.d(err.response.data.toString());
             final Map<String, dynamic> decode =
                 err.response.data as Map<String, dynamic>;
-            // Log.d('$this-------error---->$decode');
-            //TODO
             message = decode['error'] as String;
           } catch (error) {
             message = error.toString();

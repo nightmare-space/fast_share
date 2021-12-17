@@ -33,7 +33,7 @@ class TextMessageItem extends StatelessWidget {
                 constraints: BoxConstraints(maxWidth: 200.w),
                 child: Theme(
                   data: ThemeData(
-                    textSelectionTheme: TextSelectionThemeData(
+                    textSelectionTheme: const TextSelectionThemeData(
                       cursorColor: Colors.red,
                       selectionColor: AppColors.accentColor,
                     ),

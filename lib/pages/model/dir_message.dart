@@ -29,6 +29,7 @@ class MessageDirInfo extends MessageBaseInfo {
     canDownload = json['canDownload'] ?? false;
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['dirName'] = dirName;
@@ -63,6 +64,7 @@ class MessageDirPartInfo extends MessageBaseInfo {
     size = json['size'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['path'] = path;

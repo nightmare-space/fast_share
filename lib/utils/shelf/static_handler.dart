@@ -20,7 +20,6 @@ import 'util.dart';
 /// The default resolver for MIME types based on file extensions.
 final _defaultMimeTypeResolver = MimeTypeResolver();
 
-// TODO option to exclude hidden files?
 
 /// Creates a Shelf [Handler] that serves files from the provided
 /// [fileSystemPath].

@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
-/**
- * 主页显示的动画
- * Create by Nightmare
- */
+/// 主页显示的动画
+/// Create by Nightmare
 
 class WaterRipple extends StatefulWidget {
   const WaterRipple({
@@ -172,7 +170,7 @@ class OutWaterRipplePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = size.width;
+    // final double radius = size.width;
     _paint.color = color.withOpacity(0.3);
     // print(radius);
     double outRadius = (size.width + 180 + 20);

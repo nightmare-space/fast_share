@@ -22,6 +22,7 @@ class BroswerFileMessage extends MessageBaseInfo {
     hash = json['hash'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['fileName'] = fileName;

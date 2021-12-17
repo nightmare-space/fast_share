@@ -18,6 +18,7 @@ class MessageTipInfo extends MessageBaseInfo {
     content = json['content'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['content'] = content;

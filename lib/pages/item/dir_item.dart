@@ -9,7 +9,6 @@ import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
-import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/dir_message.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
@@ -42,12 +41,12 @@ class _DirMessageItemState extends State<DirMessageItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    String baseDirPath = '${savePath}/${widget.info.dirName}';
+    String baseDirPath = '$savePath/${widget.info.dirName}';
     // 这儿可能已经有一个文件名被占用了
     try {
       await Directory(baseDirPath).create();
     } catch (e) {
-      showToast('发生异常：${e}');
+      showToast('发生异常：$e');
       return;
     }
     computeNetSpeed();
@@ -64,7 +63,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
         // print(savePath);
         // Log.e(urlPath + '$path' + '?download=true');
         await dio.download(
-          urlPath + '$path' + '?download=true',
+          urlPath + path + '?download=true',
           tmpSavePath,
           cancelToken: cancelToken,
           onReceiveProgress: (count, total) {
@@ -83,7 +82,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
 
   Future<void> computeNetSpeed() async {
     int tmpCount = 0;
-    timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       int diff = count - tmpCount;
       tmpCount = count;
       // Log.e('diff -> $diff');
@@ -115,7 +114,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
     } else {
       urlPrifix = info.urlPrifix;
     }
-    print('urlPrifix -> $urlPrifix');
+    Log.v('urlPrifix -> $urlPrifix');
     Color background = AppColors.surface;
     if (widget.sendByUser) {
       background = AppColors.sendByUser;
@@ -126,13 +125,13 @@ class _DirMessageItemState extends State<DirMessageItem> {
           widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: background,
             borderRadius: BorderRadius.circular(10),
           ),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 200),
+            constraints: BoxConstraints(maxWidth: 200.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -148,11 +147,11 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     ),
                     Expanded(
                       child: Text(
-                        '${widget.info.dirName}',
+                        widget.info.dirName,
                         style: TextStyle(
                           color: Colors.black,
                           // fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: 16.w,
                         ),
                       ),
                     ),
@@ -163,7 +162,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       SizedBox(
-                        height: 8,
+                        height: 8.w,
                       ),
                       ClipRRect(
                         borderRadius:
@@ -177,7 +176,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                         ),
                       ),
                       SizedBox(
-                        height: 4,
+                        height: 4.w,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -186,7 +185,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                             if (fileDownratio == 1.0) {
                               return Icon(
                                 Icons.check,
-                                size: 16,
+                                size: 16.w,
                                 color: Colors.green,
                               );
                             }
@@ -194,7 +193,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                               '$speed/s',
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 12,
+                                fontSize: 12.w,
                               ),
                             );
                           }),
@@ -202,10 +201,10 @@ class _DirMessageItemState extends State<DirMessageItem> {
                             children: [
                               SizedBox(
                                 child: Text(
-                                  '${FileSizeUtils.getFileSize(count)}',
+                                  FileSizeUtils.getFileSize(count),
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 12,
+                                    fontSize: 12.w,
                                   ),
                                 ),
                               ),
@@ -213,15 +212,15 @@ class _DirMessageItemState extends State<DirMessageItem> {
                                 '/',
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 12,
+                                  fontSize: 12.w,
                                 ),
                               ),
                               Builder(builder: (context) {
                                 return Text(
-                                  '${FileSizeUtils.getFileSize(widget.info.fullSize)}',
+                                  FileSizeUtils.getFileSize(widget.info.fullSize),
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 12,
+                                    fontSize: 12.w,
                                   ),
                                 );
                               }),
@@ -272,7 +271,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.file_download,
-                      size: 18,
+                      size: 18.w,
                     ),
                   ),
                 ),
@@ -283,7 +282,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.content_copy,
-                      size: 18,
+                      size: 18.w,
                     ),
                   ),
                 ),

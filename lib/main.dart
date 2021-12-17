@@ -1,25 +1,18 @@
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:archive/archive.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/home_page.dart';
-import 'package:speed_share/utils/http/http.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
 import 'global/global.dart';
 import 'themes/default_theme_data.dart';
-import 'utils/shelf_static.dart';
 
 void main() {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
     RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
   }
-  runApp(SpeedShare());
+  runApp(const SpeedShare());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -30,27 +23,14 @@ void main() {
   );
   // 物理平台使用的udp设备互相发现
   Global().initGlobal();
-  // test();
-}
-
-Future<void> test() async {
-  while (true) {
-    DateTime now = DateTime.now();
-    Log.w('$now');
-    try {
-      await Log.w((await httpInstance.get(
-        'https://nightmare.fun',
-      ))
-          .data);
-    } catch (e) {}
-    await Future.delayed(Duration(milliseconds: 800));
-  }
 }
 
 class SpeedShare extends StatelessWidget {
+  const SpeedShare({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    String initRoute = SpeedPages.INITIAL;
+    String initRoute = SpeedPages.initial;
     if (GetPlatform.isWeb) {
       initRoute = Routes.chat;
     }
@@ -88,7 +68,7 @@ class SpeedShare extends StatelessWidget {
 }
 
 class SpeedShareEntryPoint extends StatefulWidget {
-  SpeedShareEntryPoint() {
+  SpeedShareEntryPoint({Key key}) : super(key: key) {
     if (RuntimeEnvir.packageName != Config.packageName &&
         !GetPlatform.isDesktop) {
       // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
@@ -103,6 +83,6 @@ class SpeedShareEntryPoint extends StatefulWidget {
 class _SpeedShareEntryPointState extends State<SpeedShareEntryPoint> {
   @override
   Widget build(BuildContext context) {
-    return HomePage();
+    return const HomePage();
   }
 }

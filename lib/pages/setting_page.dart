@@ -46,7 +46,7 @@ class _SettingPageState extends State<SettingPage> {
               SizedBox(width: Dimens.gap_dp8),
               Text(
                 uri,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -78,7 +78,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('设置'),
+        title: const Text('设置'),
       ),
       body: GetBuilder<SettingController>(builder: (ctl) {
         return SingleChildScrollView(
@@ -169,7 +169,7 @@ class SettingItem extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 12,
+            horizontal: 12.w,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +180,7 @@ class SettingItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '$title',
+                    title,
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontWeight: FontWeight.bold,
@@ -188,7 +188,7 @@ class SettingItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '$subTitle',
+                    subTitle,
                     style: TextStyle(
                       color: AppColors.fontColor.withOpacity(0.8),
                       // fontWeight: FontWeight.bold,

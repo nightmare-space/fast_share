@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
-import 'package:global_repository/global_repository.dart';
 
 class DeviceEntity {
   DeviceEntity(this.unique, this.address, this.port);

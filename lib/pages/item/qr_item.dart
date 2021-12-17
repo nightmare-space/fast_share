@@ -10,7 +10,7 @@ class QrMessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(10),

@@ -1,7 +1,5 @@
-/**
- * 一个接收文件的服务端
- * Create by Nightmare at 2021/11/21
- */
+/// 一个接收文件的服务端
+/// Create by Nightmare at 2021/11/21
 import 'dart:io';
 
 import 'package:file_selector/file_selector.dart';
@@ -75,7 +73,7 @@ Future<void> startFileServer(int port) async {
           Log.w(dateBytes.length / request.headers.contentLength);
         }
         randomAccessFile.close();
-        print('success');
+        Log.v('success');
       }
     } else {
       Log.w(request.headers);
@@ -86,7 +84,7 @@ Future<void> startFileServer(int port) async {
           dateBytes.length / request.headers.contentLength,
           dateBytes.length,
         );
-        print(
+        Log.v(
             'dateBytes.length ${dateBytes.length} request.headers.contentLength -> ${request.headers.contentLength}');
         Log.w(dateBytes.length / request.headers.contentLength);
       }
@@ -96,9 +94,9 @@ Future<void> startFileServer(int port) async {
       final parts = await transformer.bind(bodyStream).toList();
       Directory('/sdcard/SpeedShare').createSync(recursive: true);
       for (var part in parts) {
-        print(part.headers);
+        Log.v(part.headers);
         final contentDisposition = part.headers['content-disposition'];
-        print('contentDisposition -> $contentDisposition');
+        Log.v('contentDisposition -> $contentDisposition');
         final fimename = RegExp(r'filename="([^"]*)"')
             .firstMatch(contentDisposition)
             .group(1);
@@ -106,7 +104,7 @@ Future<void> startFileServer(int port) async {
         File(getSafePath('/sdcard/SpeedShare/$fimename'))
             .writeAsBytesSync(content[0]);
       }
-      print('success');
+      Log.v('success');
     }
     request.response.close();
   });

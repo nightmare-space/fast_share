@@ -9,7 +9,6 @@ import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
@@ -22,7 +21,6 @@ import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
-import 'package:speed_share/utils/string_extension.dart';
 import 'package:speed_share/utils/unique_util.dart';
 
 class ChatController extends GetxController {
@@ -47,7 +45,6 @@ class ChatController extends GetxController {
     bool needCreateChatServer,
     String chatServerAddress,
   ) async {
-    Global().disableShowDialog();
     controller.addListener(() {
       if (controller.text.isNotEmpty) {
         hasInput = true;
@@ -89,7 +86,7 @@ class ChatController extends GetxController {
     });
     try {
       socket.connect();
-      Future.delayed(Duration(seconds: 2), () {
+      Future.delayed(const Duration(seconds: 2), () {
         // 可能onopen标记完成了
         if (!conLock.isCompleted) {
           conLock.complete();
@@ -113,7 +110,7 @@ class ChatController extends GetxController {
       await sendAddressAndQrCode();
     } else {
       children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '已加入${chatRoomUrl}'),
+        MessageTextInfo(content: '已加入$chatRoomUrl'),
         false,
       ));
       update();
@@ -128,7 +125,7 @@ class ChatController extends GetxController {
     // 监听消息
     listenMessage();
     sendJoinEvent();
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     getHistoryMsg();
     if (!GetPlatform.isWeb) {
       shelfBindPort = await getSafePort(
@@ -154,7 +151,6 @@ class ChatController extends GetxController {
       socket.close();
     }
     Log.e('dispose');
-    Global().enableShowDialog();
     Global().stopSendBoradcast();
     focusNode.dispose();
     controller.dispose();
@@ -224,7 +220,7 @@ class ChatController extends GetxController {
     Completer lock = Completer();
     CancelToken cancelToken = CancelToken();
     Response response;
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       if (!lock.isCompleted) {
         cancelToken.cancel();
       }
@@ -284,6 +280,9 @@ class ChatController extends GetxController {
 
     // }
     List<FileSystemEntity> list = await dir.list(recursive: true).toList();
+    // TODO
+    // 这儿还不敢随便改，等后面分配时间优化
+    // 不await list，不然在文件特别多的时候，会等待很久
     list.forEach((element) async {
       FileSystemEntity entity = element;
       String suffix = '';
@@ -308,8 +307,6 @@ class ChatController extends GetxController {
       'msgType': 'dirPart',
       'partOf': dirName,
     });
-    //! TODO 这行是测试代码
-    await Future.delayed(Duration(seconds: 1));
     socket.send(info.toString());
   }
 
@@ -353,11 +350,11 @@ class ChatController extends GetxController {
       }
     } else if (GetPlatform.isDesktop) {
       for (XFile xFile in files) {
-        print('-' * 10);
-        print('xFile.path -> ${xFile.path}');
-        print('xFile.name -> ${xFile.name}');
-        print('xFile.length -> ${await xFile.length()}');
-        print('-' * 10);
+        Log.d('-' * 10);
+        Log.d('xFile.path -> ${xFile.path}');
+        Log.d('xFile.name -> ${xFile.name}');
+        Log.d('xFile.length -> ${await xFile.length()}');
+        Log.d('-' * 10);
         sendFileFromPath(xFile.path);
       }
     }
@@ -394,11 +391,11 @@ class ChatController extends GetxController {
     //     ),
     //   ],
     // });
-    var response = await Dio().post(
+    await Dio().post(
       '$urlPrefix/file',
       data: xFile.openRead(),
       onSendProgress: (count, total) {
-        print('count:$count total:$total pro:${count / total}');
+        Log.v('count:$count total:$total pro:${count / total}');
       },
       options: Options(
         headers: {
@@ -422,9 +419,7 @@ class ChatController extends GetxController {
     return files;
   }
 
-  /**
-   * useSystemPicker: 是否使用系统文件选择器
-   */
+  /// useSystemPicker: 是否使用系统文件选择器
   Future<void> sendFileForAndroid({
     bool useSystemPicker = false,
     BuildContext context,
@@ -452,7 +447,7 @@ class ChatController extends GetxController {
       return;
     }
     for (String filePath in filePaths) {
-      print(filePath);
+      Log.v(filePath);
       if (filePath == null) {
         return;
       }
@@ -622,7 +617,7 @@ class ChatController extends GetxController {
     // 这个用来触发移动端的振动
     for (int i = 0; i < 3; i++) {
       Feedback.forLongPress(Get.context);
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 
@@ -636,7 +631,7 @@ class ChatController extends GetxController {
 
   void getHistoryMsg() {
     // 这个消息来告诉聊天服务器，自己需要历史消息
-    print('获取历史消息');
+    Log.v('获取历史消息');
     socket.send(jsonEncode({
       'type': "getHistory",
     }));
@@ -644,10 +639,10 @@ class ChatController extends GetxController {
 
   Future<void> scroll() async {
     // 让listview滚动到底部
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     scrollController.animateTo(
       scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
       curve: Curves.ease,
     );
   }

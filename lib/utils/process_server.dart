@@ -13,7 +13,7 @@ class ProcessServer {
     );
 //HttpServer.bind(主机地址，端口号)
 //主机地址：InternetAddress.loopbackIPv4和InternetAddress.loopbackIPv6都可以监听到
-    print('监听 localhost地址，端口号为${requestServer.port}');
+    Log.v('监听 localhost地址，端口号为${requestServer.port}');
     //监听请求
     await for (final HttpRequest request in requestServer) {
       //监听到请求后response回复它一个Hello World!然后关闭这个请求
@@ -48,9 +48,9 @@ void handleMessage(HttpRequest request) {
         ..close();
     }
   } catch (e) {
-    print('出现了一个异常，异常为：$e');
+    Log.v('出现了一个异常，异常为：$e');
   }
-  print('请求被处理了');
+  Log.v('请求被处理了');
 }
 
 Future<void> handleGET(HttpRequest request) async {
@@ -62,7 +62,7 @@ Future<void> handleGET(HttpRequest request) async {
       }
     },
   );
-  print('cmdline ->$cmdline');
+  Log.v('cmdline ->$cmdline');
   // ProcessResult result = Process.runSync('sh', ['-c', cmdline]);
   // print('resultstdout -> ${result.stdout}');
   // print('resultstderr -> ${result.stderr}');

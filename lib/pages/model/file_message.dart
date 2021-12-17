@@ -25,6 +25,7 @@ class MessageFileInfo extends MessageBaseInfo {
     url = json['url'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['fileName'] = fileName;

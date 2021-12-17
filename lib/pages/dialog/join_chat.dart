@@ -5,6 +5,8 @@ import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/config/config.dart';
 
 class JoinChat extends StatefulWidget {
+  const JoinChat({Key key}) : super(key: key);
+
   @override
   _JoinChatState createState() => _JoinChatState();
 }
@@ -43,7 +45,7 @@ class _JoinChatState extends State<JoinChat> {
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 8.w,
                 ),
                 TextField(
                   controller: controller,
@@ -51,7 +53,7 @@ class _JoinChatState extends State<JoinChat> {
                     joinChat();
                   },
                   decoration: InputDecoration(
-                    fillColor: Color(0xfff0f0f0),
+                    fillColor: const Color(0xfff0f0f0),
                     helperText: '这个地址在创建窗口的时候会提示',
                     hintText: '请输入共享窗口的URL',
                     hintStyle: TextStyle(
@@ -60,7 +62,7 @@ class _JoinChatState extends State<JoinChat> {
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 8.w,
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -68,7 +70,7 @@ class _JoinChatState extends State<JoinChat> {
                     onPressed: () {
                       joinChat();
                     },
-                    child: Text(
+                    child: const Text(
                       '加入',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,

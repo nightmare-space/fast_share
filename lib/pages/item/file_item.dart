@@ -70,7 +70,7 @@ class _FileItemState extends State<FileItem> {
   // 计算网速
   Future<void> computeNetSpeed() async {
     int tmpCount = 0;
-    timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       int diff = count - tmpCount;
       tmpCount = count;
       // Log.e('diff -> $diff');
@@ -131,7 +131,7 @@ class _FileItemState extends State<FileItem> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       SizedBox(
-                        height: 8,
+                        height: 8.w,
                       ),
                       ClipRRect(
                         borderRadius:
@@ -145,7 +145,7 @@ class _FileItemState extends State<FileItem> {
                         ),
                       ),
                       SizedBox(
-                        height: 4,
+                        height: 4.w,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,7 +154,7 @@ class _FileItemState extends State<FileItem> {
                             if (fileDownratio == 1.0) {
                               return Icon(
                                 Icons.check,
-                                size: 16,
+                                size: 16.w,
                                 color: Colors.green,
                               );
                             }
@@ -162,7 +162,7 @@ class _FileItemState extends State<FileItem> {
                               '$speed/s',
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 12,
+                                fontSize: 12.w,
                               ),
                             );
                           }),
@@ -170,10 +170,10 @@ class _FileItemState extends State<FileItem> {
                             children: [
                               SizedBox(
                                 child: Text(
-                                  '${FileSizeUtils.getFileSize(count)}',
+                                  FileSizeUtils.getFileSize(count),
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 12,
+                                    fontSize: 12.w,
                                   ),
                                 ),
                               ),
@@ -181,15 +181,15 @@ class _FileItemState extends State<FileItem> {
                                 '/',
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 12,
+                                  fontSize: 12.w,
                                 ),
                               ),
                               SizedBox(
                                 child: Text(
-                                  '${widget.info.fileSize}',
+                                  widget.info.fileSize,
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 12,
+                                    fontSize: 12.w,
                                   ),
                                 ),
                               ),
@@ -242,7 +242,7 @@ class _FileItemState extends State<FileItem> {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.file_download,
-                      size: 18,
+                      size: 18.w,
                     ),
                   ),
                 ),
@@ -256,7 +256,7 @@ class _FileItemState extends State<FileItem> {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.content_copy,
-                      size: 18,
+                      size: 18.w,
                     ),
                   ),
                 ),
@@ -295,7 +295,7 @@ class _FileItemState extends State<FileItem> {
                             onPressed: () {
                               Get.back();
                             },
-                            icon: Icon(Icons.clear),
+                            icon: const Icon(Icons.clear),
                           ),
                         ),
                       )
@@ -340,16 +340,16 @@ class _FileItemState extends State<FileItem> {
               Icon(
                 Icons.video_library,
                 color: Colors.black,
-                size: 26,
+                size: 26.w,
               ),
-              SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Expanded(
                 child: Text(
                   widget.info.fileName,
                   style: TextStyle(
                     color: Colors.black,
                     // fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 14.w,
                   ),
                 ),
               ),

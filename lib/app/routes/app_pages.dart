@@ -12,11 +12,11 @@ part 'app_routes.dart';
 
 class SpeedPages {
   SpeedPages._();
-  static const INITIAL = Routes.HOME;
+  static const initial = Routes.home;
 
   static final routes = [
     GetPage(
-      name: Routes.HOME,
+      name: Routes.home,
       page: () => ThemeWrapper(
         child: SpeedShareEntryPoint(),
       ),

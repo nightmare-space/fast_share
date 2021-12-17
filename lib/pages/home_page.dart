@@ -14,11 +14,12 @@ import 'package:speed_share/widgets/circle_animation.dart';
 import 'package:supercharged/supercharged.dart';
 import 'dialog/join_chat.dart';
 import 'online_list.dart';
-import 'setting_page.dart';
 
 /// Create by Nightmare at 2021
 /// 速享的主页
 class HomePage extends StatefulWidget {
+  const HomePage({Key key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   // 处理其他设备的分享
   Future<void> handleSendFile() async {
     if (GetPlatform.isAndroid) {
-      MethodChannel channel = MethodChannel('send_channel');
+      MethodChannel channel = const MethodChannel('send_channel');
       channel.setMethodCallHandler((call) async {
         if (call.method == 'send_file') {
           // File file = File.fromUri(Uri.parse(call.arguments));
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      WaterRipple(),
+                      const WaterRipple(),
                       SizedBox(
                         width: size,
                         height: size,
@@ -132,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 color: Colors.transparent,
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     // color: Colors.red,
                                     gradient: LinearGradient(
                                       begin: Alignment.topLeft,
@@ -162,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                                               Icon(
                                                 Icons.share,
                                                 size: c.maxHeight,
-                                                color: Color(0xfff5f5f7),
+                                                color: const Color(0xfff5f5f7),
                                               ),
                                               // SvgPicture.asset(
                                               //   'assets/icon/rom.svg',
@@ -215,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                               '发起共享',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 20.w,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -228,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                         blurRadius: 0,
                         shadowColor: Colors.transparent,
                         onTap: () {
-                          Get.dialog(JoinChat());
+                          Get.dialog(const JoinChat());
                         },
                         color: AppColors.sendByUser,
                         child: SizedBox(
@@ -239,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                               '加入共享',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 20.w,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

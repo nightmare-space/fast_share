@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:global_repository/src/utils/screen_util.dart';
+import 'package:global_repository/global_repository.dart';
 
 class PopButton extends StatelessWidget {
   const PopButton({

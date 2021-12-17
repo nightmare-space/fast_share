@@ -1,10 +1,9 @@
 // import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-import 'package:speed_share/themes/app_colors.dart';
 
 class SerieExample extends StatefulWidget {
+  const SerieExample({Key key, this.url}) : super(key: key);
   final String url;
-  SerieExample({Key key, this.url}) : super(key: key);
 
   @override
   _SerieExampleState createState() => _SerieExampleState();

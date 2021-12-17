@@ -58,7 +58,7 @@ Response listDirectory(String fileSystemPath, String dirPath) {
     modified ??= '';
     size ??= '-';
     String button =
-        isDir ? '' : '<button onclick="onClick(\'$name\?download=true\')">直接下载</button>';
+        isDir ? '' : '<button onclick="onClick(\'$name?download=true\')">直接下载</button>';
     var entry = '''  <tr>
     <td><a href="$name">$name</a>$button</td>
     <td>$modified</td>
@@ -78,7 +78,7 @@ Response listDirectory(String fileSystemPath, String dirPath) {
 
   // Return a sorted listing of the directory contents asynchronously.
   Directory(dirPath).list().toList()
-    ..then((entities) {
+    .then((entities) {
       entities.sort(fileNodeCompare);
       if (dirPath != '/') {
         add('../', null, null, true);
