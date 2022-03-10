@@ -3,17 +3,28 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/home_page.dart';
+import 'package:window_manager/window_manager.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
 import 'global/global.dart';
 import 'themes/default_theme_data.dart';
 
-void main() {
+Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
-    RuntimeEnvir.initEnvirWithPackageName('com.nightmare.speedshare');
+    RuntimeEnvir.initEnvirWithPackageName(Config.packageName);
   }
   runApp(const SpeedShare());
-  WidgetsFlutterBinding.ensureInitialized();
+  if (GetPlatform.isDesktop) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
+    windowManager.waitUntilReadyToShow().then((_) async {
+      // Hide window title bar
+      // await windowManager.setTitleBarStyle('hidden');
+      await windowManager.setSize(const Size(500, 300));
+      await windowManager.show();
+      // await windowManager.setSkipTaskbar(false);
+    });
+  }
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,

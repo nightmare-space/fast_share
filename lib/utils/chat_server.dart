@@ -32,26 +32,6 @@ Future<int> createChatServer() async {
   Log.d('chat server down.');
   return port;
 }
-
-Future<int> getSafePort(int rangeStart, int rangeEnd) async {
-  if (rangeStart == rangeEnd) {
-    // 说明都失败了
-    return null;
-  }
-  try {
-    await ServerSocket.bind(
-      '0.0.0.0',
-      rangeStart,
-      shared: true,
-    );
-    Log.d('端口$rangeStart绑定成功');
-    return rangeStart;
-  } catch (e) {
-    Log.e('端口$rangeStart绑定失败');
-    return await getSafePort(rangeStart + 1, rangeEnd);
-  }
-}
-
 class NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

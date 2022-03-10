@@ -40,6 +40,7 @@ class ChatController extends GetxController {
   int shelfBindPort;
   int fileServerPort;
   bool hasInput = false;
+  Completer initLock = Completer();
 
   Future<void> initChat(
     bool needCreateChatServer,
@@ -142,6 +143,9 @@ class ChatController extends GetxController {
       Log.d('file server started with $fileServerPort port');
     }
     Log.w('shelfBindPort -> $shelfBindPort');
+    if (!initLock.isCompleted) {
+      initLock.complete();
+    }
   }
 
   @override
@@ -323,6 +327,7 @@ class ChatController extends GetxController {
 
   // 给 web 和桌面端提供的方法
   Future<void> sendXFiles(List<XFile> files) async {
+    await initLock.future;
     if (GetPlatform.isWeb) {
       for (XFile xFile in files) {
         Log.w('-' * 10);

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 class JoinChat extends StatefulWidget {
   const JoinChat({Key key}) : super(key: key);
@@ -28,24 +29,27 @@ class _JoinChatState extends State<JoinChat> {
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(12),
         child: SizedBox(
-          height: 180,
-          width: 260,
+          height: 200.w,
+          width: 300.w,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                SizedBox(
+                  height: 4.w,
+                ),
                 Text(
                   '请输入文件共享窗口地址',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: AppColors.fontColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 18.w,
+                    fontSize: 16.w,
                   ),
                 ),
                 SizedBox(
-                  height: 8.w,
+                  height: 16.w,
                 ),
                 TextField(
                   controller: controller,

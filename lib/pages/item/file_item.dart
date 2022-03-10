@@ -56,7 +56,7 @@ class _FileItemState extends State<FileItem> {
     computeNetSpeed();
     await dio.download(
       urlPath + '?download=true',
-      savePath,
+      saveFile.path,
       cancelToken: cancelToken,
       onReceiveProgress: (count, total) {
         this.count = count;

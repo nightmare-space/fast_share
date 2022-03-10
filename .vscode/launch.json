@@ -29,6 +29,12 @@
             "deviceId": "windows"
         },
         {
+            "name": "平板",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "M2105K81AC"
+        },
+        {
             "name": "小米10",
             "request": "launch",
             "type": "dart",

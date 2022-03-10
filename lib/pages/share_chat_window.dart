@@ -30,8 +30,8 @@ class _ShareChatState extends State<ShareChat>
     with SingleTickerProviderStateMixin {
   ChatController controller = Get.find();
   AnimationController menuAnim;
-  final List<XFile> files = [];
   bool dropping = false;
+  
   @override
   void initState() {
     super.initState();
@@ -56,12 +56,10 @@ class _ShareChatState extends State<ShareChat>
   Widget build(BuildContext context) {
     return DropTarget(
       onDragDone: (detail) async {
-        files.addAll(detail.files);
-        Log.d('files -> $files');
+        Log.d('files -> ${detail.files}');
         setState(() {});
-        if (files.isNotEmpty) {
-          controller.sendXFiles(files);
-          files.clear();
+        if (detail.files.isNotEmpty) {
+          controller.sendXFiles(detail.files);
         }
       },
       onDragUpdated: (details) {
@@ -97,7 +95,7 @@ class _ShareChatState extends State<ShareChat>
                       physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.fromLTRB(
                         0.w,
-                        kToolbarHeight,
+                        84.w,
                         0.w,
                         80.w,
                       ),
@@ -119,7 +117,7 @@ class _ShareChatState extends State<ShareChat>
                         sigmaY: 8.0,
                       ),
                       child: Container(
-                        height: kToolbarHeight,
+                        height: 84.w,
                         color: AppColors.background.withOpacity(0.4),
                         child: AppBar(
                           title: Text(
