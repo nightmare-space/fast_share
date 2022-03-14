@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:speed_share/themes/theme.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_range_download/dio_range_download.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,6 +44,8 @@ class _FileItemState extends State<FileItem> {
   String speed = '0';
   Timer timer;
 
+  DateTime startTime;
+  bool isStarted = false;
   // 执行下载文件
   Future<void> downloadFile(String urlPath, String savePath) async {
     if (fileDownratio != 0.0) {
@@ -54,16 +57,47 @@ class _FileItemState extends State<FileItem> {
     Log.d(saveFile.path);
 
     computeNetSpeed();
-    await dio.download(
-      urlPath + '?download=true',
-      saveFile.path,
-      cancelToken: cancelToken,
-      onReceiveProgress: (count, total) {
-        this.count = count;
-        fileDownratio = count / total;
-        setState(() {});
-      },
-    );
+    Response res = await RangeDownload.downloadWithChunks(
+        urlPath + '?download=true', saveFile.path,
+        //isRangeDownload: false,//Support normal download
+        maxChunk: 4,
+        // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
+        // cancelToken: cancelToken,
+        onReceiveProgress: (received, total) {
+      count = received;
+      fileDownratio = received / total;
+      setState(() {});
+      if (!isStarted) {
+        startTime = DateTime.now();
+        isStarted = true;
+      }
+      if (total != -1) {
+        print("${(received / total * 100).floor()}%");
+        // if (received / total * 100.floor() > 50) {
+        //   cancelToken.cancel();
+        // }
+      }
+      if ((received / total * 100).floor() >= 100) {
+        var duration = (DateTime.now().millisecondsSinceEpoch -
+                startTime.millisecondsSinceEpoch) /
+            1000;
+        print(duration.toString() + "s");
+        print((duration ~/ 60).toString() +
+            "m" +
+            (duration % 60).toString() +
+            "s");
+      }
+    });
+    // await dio.download(
+    //   urlPath + '?download=true',
+    //   saveFile.path,
+    //   cancelToken: cancelToken,
+    //   onReceiveProgress: (count, total) {
+    //     this.count = count;
+    //     fileDownratio = count / total;
+    //     setState(() {});
+    //   },
+    // );
     timer?.cancel();
   }
 
@@ -104,7 +138,7 @@ class _FileItemState extends State<FileItem> {
       url = widget.info.url + widget.info.filePath;
     }
     // Log.e('fileitem url -> $url');
-    Color background = AppColors.surface;
+    Color background = scheme.primary.withOpacity(0.05);
     if (widget.sendByUser) {
       background = AppColors.sendByUser;
     }
@@ -280,7 +314,6 @@ class _FileItemState extends State<FileItem> {
             onTap: () {
               Get.to(
                 Material(
-                  color: AppColors.background,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [

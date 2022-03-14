@@ -19,7 +19,7 @@ class OnlineList extends StatelessWidget {
             children: [
               if (ctl.list.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.only(bottom: 4.w),
+                  padding: EdgeInsets.only(bottom: 4.w, left: 8.w),
                   child: const Text(
                     '点击 √ 加入房间',
                     style: TextStyle(

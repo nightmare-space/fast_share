@@ -133,6 +133,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.4"
+  dio_range_download:
+    dependency: "direct main"
+    description:
+      name: dio_range_download
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
   event_bus:
     dependency: transitive
     description:

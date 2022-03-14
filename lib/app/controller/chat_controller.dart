@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_server/get_server.dart' show runIsolate;
 import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -41,11 +42,16 @@ class ChatController extends GetxController {
   int fileServerPort;
   bool hasInput = false;
   Completer initLock = Completer();
+  bool isInit = false;
 
   Future<void> initChat(
     bool needCreateChatServer,
     String chatServerAddress,
   ) async {
+    if (isInit) {
+      return;
+    }
+    isInit = true;
     controller.addListener(() {
       if (controller.text.isNotEmpty) {
         hasInput = true;
@@ -171,12 +177,17 @@ class ChatController extends GetxController {
     String url = p.toUri(filePath).toString();
     Log.e('部署 url -> $url');
     var handler = createFileHandler(path, url: url);
-    io.serve(
-      handler,
-      InternetAddress.anyIPv4,
-      shelfBindPort,
-      shared: true,
-    );
+
+    void init(_) {
+      io.serve(
+        handler,
+        InternetAddress.anyIPv4,
+        shelfBindPort,
+        shared: true,
+      );
+    }
+
+    runIsolate(init);
   }
 
   void serverTokenFile() {

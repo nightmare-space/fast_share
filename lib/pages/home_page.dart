@@ -10,6 +10,7 @@ import 'package:logger_view/log_page.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/widgets/circle_animation.dart';
@@ -321,36 +322,46 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             Center(
-              child: SizedBox(
-                width: 500.w,
-                height: 360.w,
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xfff5f5f8).withOpacity(0.4),
-                      borderRadius: BorderRadius.circular(16.w),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: InkWell(
-                            onTap: () async {
-                              windowManager.setSize(const Size(500, 800));
-                              await Get.toNamed(
-                                '${Routes.chat}?needCreateChatServer=true',
-                              );
-                              await windowManager.setSize(const Size(500, 300));
-                            },
-                            child: SvgPicture.asset(
-                              'assets/icon/add2.svg',
-                              width: 64.w,
-                              color: AppColors.fontColor.withOpacity(0.4),
+              child: Material(
+                color: Colors.transparent,
+                child: SizedBox(
+                  width: 500.w,
+                  height: 360.w,
+                  child: Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xfff5f5f8).withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(16.w),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: InkWell(
+                              onTap: () async {
+                                if (GetPlatform.isDesktop) {
+                                  windowManager.setSize(const Size(500, 800));
+                                  await Get.toNamed(
+                                    '${Routes.chat}?needCreateChatServer=true',
+                                  );
+                                  await windowManager
+                                      .setSize(const Size(500, 300));
+                                } else {
+                                  await Get.toNamed(
+                                    '${Routes.chat}?needCreateChatServer=true',
+                                  );
+                                }
+                              },
+                              child: SvgPicture.asset(
+                                '${Config.flutterPackage}assets/icon/add2.svg',
+                                width: 64.w,
+                                color: AppColors.fontColor.withOpacity(0.4),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

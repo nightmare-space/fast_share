@@ -7,6 +7,7 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/pages/model/broswer_file_message.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/file_server.dart';
+import 'package:speed_share/themes/theme.dart';
 
 class BroswerFileItem extends StatefulWidget {
   const BroswerFileItem({
@@ -30,7 +31,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
   int count = 0;
   @override
   Widget build(BuildContext context) {
-    Color background = AppColors.surface;
+    Color background = scheme.primary.withOpacity(0.05);
     if (widget.sendByUser) {
       background = AppColors.sendByUser;
     }

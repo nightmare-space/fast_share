@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
@@ -11,6 +12,7 @@ import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
+import 'package:speed_share/themes/theme.dart';
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
@@ -31,7 +33,7 @@ class _ShareChatState extends State<ShareChat>
   ChatController controller = Get.find();
   AnimationController menuAnim;
   bool dropping = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -54,128 +56,130 @@ class _ShareChatState extends State<ShareChat>
 
   @override
   Widget build(BuildContext context) {
-    return DropTarget(
-      onDragDone: (detail) async {
-        Log.d('files -> ${detail.files}');
-        setState(() {});
-        if (detail.files.isNotEmpty) {
-          controller.sendXFiles(detail.files);
-        }
-      },
-      onDragUpdated: (details) {
-        setState(() {
-          // offset = details.localPosition;
-        });
-      },
-      onDragEntered: (detail) {
-        setState(() {
-          dropping = true;
-          // offset = detail.localPosition;
-        });
-      },
-      onDragExited: (detail) {
-        setState(() {
-          dropping = false;
-          // offset = null;
-        });
-      },
-      child: Stack(
-        children: [
-          Scaffold(
-            body: Stack(
-              alignment: Alignment.center,
-              // fit: StackFit.passthrough,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    controller.focusNode.unfocus();
-                  },
-                  child: GetBuilder<ChatController>(builder: (context) {
-                    return ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(
-                        0.w,
-                        84.w,
-                        0.w,
-                        80.w,
-                      ),
-                      controller: controller.scrollController,
-                      itemCount: controller.children.length,
-                      cacheExtent: 99999,
-                      itemBuilder: (c, i) {
-                        return controller.children[i];
-                      },
-                    );
-                  }),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 8.0,
-                        sigmaY: 8.0,
-                      ),
-                      child: Container(
-                        height: 84.w,
-                        color: AppColors.background.withOpacity(0.4),
-                        child: AppBar(
-                          title: Text(
-                            '文件共享',
-                            style: TextStyle(
-                              color: AppColors.fontColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.w,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: OverlayStyle.dark,
+      child: DropTarget(
+        onDragDone: (detail) async {
+          Log.d('files -> ${detail.files}');
+          setState(() {});
+          if (detail.files.isNotEmpty) {
+            controller.sendXFiles(detail.files);
+          }
+        },
+        onDragUpdated: (details) {
+          setState(() {
+            // offset = details.localPosition;
+          });
+        },
+        onDragEntered: (detail) {
+          setState(() {
+            dropping = true;
+            // offset = detail.localPosition;
+          });
+        },
+        onDragExited: (detail) {
+          setState(() {
+            dropping = false;
+            // offset = null;
+          });
+        },
+        child: Stack(
+          children: [
+            Scaffold(
+              body: Stack(
+                alignment: Alignment.center,
+                // fit: StackFit.passthrough,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      controller.focusNode.unfocus();
+                    },
+                    child: GetBuilder<ChatController>(builder: (context) {
+                      return ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(
+                          0.w,
+                          84.w,
+                          0.w,
+                          80.w,
+                        ),
+                        controller: controller.scrollController,
+                        itemCount: controller.children.length,
+                        cacheExtent: 99999,
+                        itemBuilder: (c, i) {
+                          return controller.children[i];
+                        },
+                      );
+                    }),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaX: 8.0,
+                          sigmaY: 8.0,
+                        ),
+                        child: SizedBox(
+                          height: 84.w,
+                          child: AppBar(
+                            systemOverlayStyle: OverlayStyle.dark,
+                            title: Text(
+                              '文件共享',
+                              style: TextStyle(
+                                color: AppColors.fontColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.w,
+                              ),
                             ),
+                            leading: const PopButton(),
                           ),
-                          leading: const PopButton(),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 8.0,
-                        sigmaY: 8.0,
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: 60.w,
-                          maxHeight: 240.w,
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaX: 8.0,
+                          sigmaY: 8.0,
                         ),
-                        child: sendMsgContainer(context),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: 60.w,
+                            maxHeight: 240.w,
+                          ),
+                          child: sendMsgContainer(context),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (dropping)
+              BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 4.0,
+                  sigmaY: 4.0,
+                ),
+                child: Material(
+                  child: Center(
+                    child: Text(
+                      '释放以分享文件到共享窗口~',
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.w,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          if (dropping)
-            BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 4.0,
-                sigmaY: 4.0,
               ),
-              child: Material(
-                color: AppColors.surface.withOpacity(0.4),
-                child: Center(
-                  child: Text(
-                    '释放以分享文件到共享窗口~',
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.w,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -218,8 +222,8 @@ class _ShareChatState extends State<ShareChat>
                     children: [
                       Icon(
                         Icons.image,
-                        color: AppColors.accentColor,
                         size: 36.w,
+                        color: Theme.of(context).colorScheme.surface4,
                       ),
                       SizedBox(height: 4.w),
                       Text(
@@ -237,9 +241,7 @@ class _ShareChatState extends State<ShareChat>
             ),
             if (GetPlatform.isAndroid && !GetPlatform.isWeb)
               Theme(
-                data: ThemeData(
-                  primaryColor: AppColors.accentColor,
-                ),
+                data: ThemeData(),
                 child: Builder(builder: (context) {
                   return SizedBox(
                     width: 80.w,
@@ -261,8 +263,8 @@ class _ShareChatState extends State<ShareChat>
                           children: [
                             Icon(
                               Icons.file_copy,
-                              color: AppColors.accentColor,
                               size: 36.w,
+                              color: scheme.surface4,
                             ),
                             SizedBox(height: 4.w),
                             Text(
@@ -299,8 +301,8 @@ class _ShareChatState extends State<ShareChat>
                       children: [
                         SvgPicture.asset(
                           Assets.dir,
-                          color: AppColors.accentColor,
                           width: 36.w,
+                          color: scheme.surface4,
                         ),
                         SizedBox(height: 4.w),
                         Text(
@@ -323,13 +325,13 @@ class _ShareChatState extends State<ShareChat>
   }
 
   Widget sendMsgContainer(BuildContext context) {
-    return GetBuilder<ChatController>(builder: (context) {
+    return GetBuilder<ChatController>(builder: (ctl) {
       return Material(
-        color: AppColors.nav.withOpacity(0.8),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12.w),
           topRight: Radius.circular(12.w),
         ),
+        color: Theme.of(context).colorScheme.surface1,
         child: Padding(
           padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
           child: Column(
@@ -373,7 +375,6 @@ class _ShareChatState extends State<ShareChat>
                       }
                     },
                     child: Material(
-                      color: AppColors.accentColor,
                       borderRadius: BorderRadius.circular(24.w),
                       borderOnForeground: true,
                       child: SizedBox(
@@ -391,7 +392,6 @@ class _ShareChatState extends State<ShareChat>
                           },
                           child: Icon(
                             controller.hasInput ? Icons.send : Icons.add,
-                            color: AppColors.nav,
                             size: 24.w,
                           ),
                         ),

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:speed_share/themes/theme.dart';
 import 'package:dio/dio.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +115,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
       urlPrifix = info.urlPrifix;
     }
     Log.v('urlPrifix -> $urlPrifix');
-    Color background = AppColors.surface;
+    Color background = scheme.primary.withOpacity(0.05);
     if (widget.sendByUser) {
       background = AppColors.sendByUser;
     }

@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   window_manager: 0.1.6
   desktop_drop: ^0.3.3
+  dio_range_download: ^1.0.1
   # 文件选择自实现方案
   file_selector_nightmare:
     git: https://github.com/nightmare-space/file_selector_meng
