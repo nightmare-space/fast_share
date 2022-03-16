@@ -50,13 +50,14 @@ class SpeedShare extends StatelessWidget {
         builder: (_, Orientation orientation) {
           return GetMaterialApp(
             enableLog: false,
-            locale: const Locale('en', 'US'),
+            locale: const Locale('zh', 'CN'),
             title: '速享',
             initialRoute: initRoute,
             getPages: SpeedPages.routes,
             defaultTransition: Transition.fadeIn,
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
+              Log.i(Get.locale);
               if (orientation == Orientation.landscape) {
                 ScreenAdapter.init(896);
               } else {

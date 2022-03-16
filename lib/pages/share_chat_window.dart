@@ -13,6 +13,7 @@ import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
+import 'package:window_manager/window_manager.dart';
 
 class ShareChat extends StatefulWidget {
   const ShareChat({
@@ -41,16 +42,18 @@ class _ShareChatState extends State<ShareChat>
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
-
     controller.initChat(
       widget.needCreateChatServer,
       widget.chatServerAddress,
     );
+
+    windowManager.setSize(const Size(500, 800));
   }
 
   @override
   void dispose() {
     menuAnim.dispose();
+    windowManager.setSize(const Size(500, 300));
     super.dispose();
   }
 
@@ -126,11 +129,14 @@ class _ShareChatState extends State<ShareChat>
                             systemOverlayStyle: OverlayStyle.dark,
                             title: Text(
                               '文件共享',
-                              style: TextStyle(
-                                color: AppColors.fontColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.w,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(
+                                    color: AppColors.fontColor,
+                                    fontWeight: bold,
+                                    fontSize: 16.w,
+                                  ),
                             ),
                             leading: const PopButton(),
                           ),
@@ -230,7 +236,7 @@ class _ShareChatState extends State<ShareChat>
                         '系统管理器',
                         style: TextStyle(
                           color: AppColors.fontColor,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: bold,
                           fontSize: 12.w,
                         ),
                       )
@@ -271,7 +277,7 @@ class _ShareChatState extends State<ShareChat>
                               '内部管理器',
                               style: TextStyle(
                                 color: AppColors.fontColor,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: bold,
                                 fontSize: 12.w,
                               ),
                             )
@@ -309,7 +315,7 @@ class _ShareChatState extends State<ShareChat>
                           '文件夹',
                           style: TextStyle(
                             color: AppColors.fontColor,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: bold,
                             fontSize: 12.w,
                           ),
                         )

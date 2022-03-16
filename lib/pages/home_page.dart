@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
+import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/widgets/circle_animation.dart';
 import 'package:supercharged/supercharged.dart';
@@ -76,6 +78,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
     Widget appBar;
     // if (GetPlatform.isAndroid) {
     appBar = SafeArea(
@@ -341,12 +344,9 @@ class _HomePageState extends State<HomePage> {
                             child: InkWell(
                               onTap: () async {
                                 if (GetPlatform.isDesktop) {
-                                  windowManager.setSize(const Size(500, 800));
                                   await Get.toNamed(
                                     '${Routes.chat}?needCreateChatServer=true',
                                   );
-                                  await windowManager
-                                      .setSize(const Size(500, 300));
                                 } else {
                                   await Get.toNamed(
                                     '${Routes.chat}?needCreateChatServer=true',
@@ -370,14 +370,18 @@ class _HomePageState extends State<HomePage> {
             Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 150.w),
-                child: Text(
-                  (GetPlatform.isDesktop ? '拖拽文件到此或者' : '') + '点击加号开始文件分享',
-                  style: TextStyle(
-                    color: AppColors.fontColor.withOpacity(0.8),
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: Builder(builder: (context) {
+                  Log.i(
+                      Theme.of(context).textTheme.bodyText2.fontFamilyFallback);
+                  return Text(
+                    (GetPlatform.isDesktop ? '拖拽文件到此或者' : '') + '点击加号开始文件分享',
+                    style: themeData.textTheme.bodyText2.copyWith(
+                      color: AppColors.fontColor.withOpacity(0.8),
+                      fontSize: 16.w,
+                      fontWeight: bold,
+                    ),
+                  );
+                }),
               ),
             ),
             Padding(
