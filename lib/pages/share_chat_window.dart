@@ -223,7 +223,7 @@ class _ShareChatState extends State<ShareChat>
                       Icon(
                         Icons.image,
                         size: 36.w,
-                        color: Theme.of(context).colorScheme.surface4,
+                        color: Theme.of(context).primaryColor,
                       ),
                       SizedBox(height: 4.w),
                       Text(
@@ -241,7 +241,7 @@ class _ShareChatState extends State<ShareChat>
             ),
             if (GetPlatform.isAndroid && !GetPlatform.isWeb)
               Theme(
-                data: ThemeData(),
+                data: Theme.of(context),
                 child: Builder(builder: (context) {
                   return SizedBox(
                     width: 80.w,
@@ -264,7 +264,7 @@ class _ShareChatState extends State<ShareChat>
                             Icon(
                               Icons.file_copy,
                               size: 36.w,
-                              color: scheme.surface4,
+                              color: Theme.of(context).primaryColor,
                             ),
                             SizedBox(height: 4.w),
                             Text(
@@ -302,7 +302,7 @@ class _ShareChatState extends State<ShareChat>
                         SvgPicture.asset(
                           Assets.dir,
                           width: 36.w,
-                          color: scheme.surface4,
+                          color: Theme.of(context).primaryColor,
                         ),
                         SizedBox(height: 4.w),
                         Text(

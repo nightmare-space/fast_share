@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:open_file/open_file.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_range_download/dio_range_download.dart';
@@ -43,6 +44,7 @@ class _FileItemState extends State<FileItem> {
   // 网速
   String speed = '0';
   Timer timer;
+  String savePath;
 
   DateTime startTime;
   bool isStarted = false;
@@ -52,42 +54,43 @@ class _FileItemState extends State<FileItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    savePath = savePath + '/' + basename(urlPath);
+    this.savePath = savePath = savePath + '/' + basename(urlPath);
     File saveFile = File(getSafePath(savePath));
+    this.savePath = saveFile.path;
     Log.d(saveFile.path);
-
     computeNetSpeed();
     Response res = await RangeDownload.downloadWithChunks(
-        urlPath + '?download=true', saveFile.path,
-        //isRangeDownload: false,//Support normal download
-        maxChunk: 4,
-        // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
-        // cancelToken: cancelToken,
-        onReceiveProgress: (received, total) {
-      count = received;
-      fileDownratio = received / total;
-      setState(() {});
-      if (!isStarted) {
-        startTime = DateTime.now();
-        isStarted = true;
-      }
-      if (total != -1) {
-        print("${(received / total * 100).floor()}%");
-        // if (received / total * 100.floor() > 50) {
-        //   cancelToken.cancel();
-        // }
-      }
-      if ((received / total * 100).floor() >= 100) {
-        var duration = (DateTime.now().millisecondsSinceEpoch -
-                startTime.millisecondsSinceEpoch) /
-            1000;
-        print(duration.toString() + "s");
-        print((duration ~/ 60).toString() +
-            "m" +
-            (duration % 60).toString() +
-            "s");
-      }
-    });
+      urlPath + '?download=true', saveFile.path,
+      //isRangeDownload: false,//Support normal download
+      maxChunk: 4,
+      // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
+      // cancelToken: cancelToken,
+      onReceiveProgress: (received, total) {
+        count = received;
+        fileDownratio = received / total;
+        setState(() {});
+        if (!isStarted) {
+          startTime = DateTime.now();
+          isStarted = true;
+        }
+        if (total != -1) {
+          print("${(received / total * 100).floor()}%");
+          // if (received / total * 100.floor() > 50) {
+          //   cancelToken.cancel();
+          // }
+        }
+        if ((received / total * 100).floor() >= 100) {
+          var duration = (DateTime.now().millisecondsSinceEpoch -
+                  startTime.millisecondsSinceEpoch) /
+              1000;
+          print(duration.toString() + "s");
+          print((duration ~/ 60).toString() +
+              "m" +
+              (duration % 60).toString() +
+              "s");
+        }
+      },
+    );
     // await dio.download(
     //   urlPath + '?download=true',
     //   saveFile.path,
@@ -99,6 +102,7 @@ class _FileItemState extends State<FileItem> {
     //   },
     // );
     timer?.cancel();
+    setState(() {});
   }
 
   // 计算网速
@@ -150,7 +154,7 @@ class _FileItemState extends State<FileItem> {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: background,
+            color: Theme.of(context).colorScheme.surface4,
             borderRadius: BorderRadius.circular(10.w),
           ),
           child: ConstrainedBox(
@@ -158,7 +162,19 @@ class _FileItemState extends State<FileItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildPreviewWidget(url),
+                Builder(builder: (context) {
+                  void Function() onTap;
+                  if (fileDownratio == 1.0 && !timer.isActive) {
+                    onTap = () {
+                      OpenFile.open(savePath);
+                    };
+                  }
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: onTap,
+                    child: buildPreviewWidget(url),
+                  );
+                }),
                 // 展示下载进度条
                 if (!widget.sendByUser && !GetPlatform.isWeb)
                   Column(
@@ -173,7 +189,9 @@ class _FileItemState extends State<FileItem> {
                         child: LinearProgressIndicator(
                           backgroundColor: Colors.black12,
                           valueColor: AlwaysStoppedAnimation(
-                            fileDownratio == 1.0 ? Colors.blue : Colors.red,
+                            fileDownratio == 1.0
+                                ? Colors.blue
+                                : Theme.of(context).primaryColor,
                           ),
                           value: fileDownratio,
                         ),
@@ -185,7 +203,16 @@ class _FileItemState extends State<FileItem> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Builder(builder: (_) {
-                            if (fileDownratio == 1.0) {
+                            if (fileDownratio == 1.0 && timer.isActive) {
+                              return Text(
+                                '合并文件中',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 12.w,
+                                ),
+                              );
+                            }
+                            if (fileDownratio == 1.0 && !timer.isActive) {
                               return Icon(
                                 Icons.check,
                                 size: 16.w,

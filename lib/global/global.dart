@@ -27,7 +27,7 @@ class Global {
   bool isInit = false;
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, String address) async {
-    Log.w(message);
+    // Log.w(message);
     final String id = message.split(',').first;
     final String port = message.split(',').last;
     // if(message)
@@ -39,7 +39,6 @@ class Global {
     if (id.startsWith('clip')) {
       String data = id.replaceAll('clip', '');
       if (data != clipData) {
-        clipData = data;
         showToast('已复制剪切板');
         Clipboard.setData(ClipboardData(text: data));
       }
