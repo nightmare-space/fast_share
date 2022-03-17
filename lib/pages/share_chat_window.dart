@@ -46,14 +46,17 @@ class _ShareChatState extends State<ShareChat>
       widget.needCreateChatServer,
       widget.chatServerAddress,
     );
-
-    windowManager.setSize(const Size(500, 800));
+    if (GetPlatform.isDesktop) {
+      windowManager.setSize(const Size(500, 800));
+    }
   }
 
   @override
   void dispose() {
     menuAnim.dispose();
-    windowManager.setSize(const Size(500, 300));
+    if (GetPlatform.isDesktop) {
+      windowManager.setSize(const Size(500, 300));
+    }
     super.dispose();
   }
 

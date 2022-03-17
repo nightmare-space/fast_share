@@ -161,7 +161,7 @@ class ChatController extends GetxController {
       socket.close();
     }
     Log.e('dispose');
-    Global().stopSendBoradcast();
+    Global().stopSendBoardcast();
     focusNode.dispose();
     controller.dispose();
     scrollController.dispose();

@@ -23,11 +23,13 @@ class Global {
   }
 
   Multicast multicast = Multicast();
-  String clipData = '';
+  String localClipdata = '';
+  String remoteClipdata = '';
+
   bool isInit = false;
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, String address) async {
-    // Log.w(message);
+    Log.w(message);
     final String id = message.split(',').first;
     final String port = message.split(',').last;
     // if(message)
@@ -37,9 +39,11 @@ class Global {
       return;
     }
     if (id.startsWith('clip')) {
-      String data = id.replaceAll('clip', '');
-      if (data != clipData) {
+      String data = id.replaceFirst(RegExp('^clip'), '');
+      if (data != remoteClipdata && data != await getLocalClip()) {
         showToast('已复制剪切板');
+        Log.i('已复制剪切板 ClipboardData ： $data');
+        remoteClipdata = data;
         Clipboard.setData(ClipboardData(text: data));
       }
     } else if (id.trim() != await UniqueUtil.getDevicesId()) {
@@ -66,24 +70,37 @@ class Global {
     // }
   }
 
-  Multicast clipM = Multicast();
+  Future<String> getLocalClip() async {
+    ClipboardData clip = await Clipboard.getData(Clipboard.kTextPlain);
+    return clip?.text ?? '';
+  }
+
   void getclipboard() {
     Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       ClipboardData clip = await Clipboard.getData(Clipboard.kTextPlain);
-      if (clip != null && clip.text != clipData) {
-        clipData = clip.text;
+      if (clip != null && clip.text != localClipdata) {
+        localClipdata = clip.text;
         Log.i('ClipboardData ： ${clip.text}');
-        clipM.stopSendBoardcast();
-        clipM.startSendBoardcast('clip' + clip.text);
+        stopSendBoardcast();
+        startSendBoardcast('clip' + clip.text);
+        Future.delayed(const Duration(seconds: 3), () {
+          stopSendBoardcast();
+          boardcasdMessage.remove('clip' + clip.text);
+          multicast.startSendBoardcast(boardcasdMessage);
+        });
       }
     });
   }
 
+  List<String> boardcasdMessage = [];
   Future<void> startSendBoardcast(String data) async {
-    multicast.startSendBoardcast(data);
+    if (!boardcasdMessage.contains(data)) {
+      boardcasdMessage.add(data);
+    }
+    multicast.startSendBoardcast(boardcasdMessage);
   }
 
-  Future<void> stopSendBoradcast() async {
+  Future<void> stopSendBoardcast() async {
     multicast.stopSendBoardcast();
   }
 
