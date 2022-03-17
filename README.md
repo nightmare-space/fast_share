@@ -40,7 +40,7 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 截图
 
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/easy.png" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/connect.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
+<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/easy.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/connect.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src05.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src06.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src07.png" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/src08.png" width="30%" height="30%" />
 
 ## 开发者文档
 
