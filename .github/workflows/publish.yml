@@ -3,7 +3,7 @@ on: [push]
 
 env:
   # APP名称
-  APP_NAME: SpeedShare
+  APP_NAME: Speed Share
 
 jobs:
   # build-linux:
