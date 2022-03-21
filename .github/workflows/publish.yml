@@ -1,4 +1,4 @@
-name: Uncon Publish Actions
+name: SpeedShare Publish Actions
 on: [push]
 
 env:
@@ -69,7 +69,7 @@ jobs:
 
       - name: Packaging
         run: |
-          ./scripts/dmg/wrapper.sh
+          ./scripts/build/generate_mac_app.sh
 
       - name: Release
         run: |
