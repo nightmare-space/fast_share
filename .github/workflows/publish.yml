@@ -97,8 +97,8 @@ jobs:
 
       - name: Packaging
         run: |
-          Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath ${{ env.APP_NAME }}-windows.zip
+          Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath "${{ env.APP_NAME }}-windows.zip"
 
       - name: Release
         run: |
-          curl --upload-file ${{ env.APP_NAME }}-windows.zip https://transfer.sh/${{ env.APP_NAME }}-windows.zip
+          curl --upload-file "${{ env.APP_NAME }}-windows.zip" "https://transfer.sh/${{ env.APP_NAME }}-windows.zip"
