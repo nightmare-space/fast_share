@@ -1,0 +1,90 @@
+name: Uncon Publish Actions
+on: [push]
+
+env:
+  # APP名称
+  APP_NAME: Uncon
+
+jobs:
+  # build-linux:
+  #   runs-on: ubuntu-latest
+  #   steps:
+
+  #     - name: Checkout the code
+  #       uses: actions/checkout@v2
+
+  #     - name: Install and set Flutter version
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: 'stable'
+
+  #     - run: |
+  #         sudo apt-get update -y
+  #         sudo apt-get install -y ninja-build libgtk-3-dev
+  #     - run: flutter config --enable-linux-desktop
+
+  #     - name: Building
+  #       run: flutter build linux
+      
+  #     - name: Packaging
+  #       run: ./scripts/build/generate_linux.sh
+      
+  #     - name: Release
+  #       run: |
+  #         curl --upload-file ${{ env.APP_NAME }}.deb https://transfer.sh/${{ env.APP_NAME }}.deb
+
+  build-mac:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Building
+        run: |
+          flutter config --enable-macos-desktop
+          flutter build macos
+
+      - name: Packaging
+        run: |
+          ./scripts/dmg/wrapper.sh
+
+      - name: Release
+        run: |
+          curl --upload-file ${{ env.APP_NAME }}.dmg https://transfer.sh/${{ env.APP_NAME }}_macOS.dmg
+            
+  build-windows:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Building...
+        run: |
+          flutter config --enable-windows-desktop
+          flutter build windows
+
+      - name: Packaging
+        run: |
+          Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath ${{ env.APP_NAME }}-windows.zip
+
+      - name: Release
+        run: |
+          curl --upload-file ${{ env.APP_NAME }}-windows.zip https://transfer.sh/${{ env.APP_NAME }}-windows.zip
