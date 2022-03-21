@@ -3,7 +3,7 @@ on: [push]
 
 env:
   # APP名称
-  APP_NAME: Uncon
+  APP_NAME: SpeedShare
 
 jobs:
   # build-linux:
