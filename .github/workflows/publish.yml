@@ -74,7 +74,7 @@ jobs:
 
       - name: Release
         run: |
-          curl --upload-file ${{ env.ZIP_NAME }}.dmg https://transfer.sh/${{ env.APP_NAME }}_macOS.dmg
+          curl --upload-file "${{ env.ZIP_NAME }}.dmg" https://transfer.sh/${{ env.APP_NAME }}_macOS.dmg
             
   build-windows:
     # The type of runner that the job will run on
