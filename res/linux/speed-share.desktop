@@ -1,0 +1,11 @@
+ [Desktop Entry]
+Name=Speed Share
+Name[zh_CN]=Speed Share
+Exec=/opt/speed-share/speed_share %U
+Terminal=false
+Type=Application
+Icon=speed-share
+Categories=Network;
+StartupWMClass=speed_share
+GenericName=Speed Share for Linux
+Comment=Speed Share for Linux
