@@ -32,7 +32,7 @@ jobs:
       
       - name: Release
         run: |
-          curl --upload-file ${{ env.ZIP_NAME }}.deb https://transfer.sh/${{ env.APP_NAME }}.deb
+          curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfer.sh/${{ env.APP_NAME }}.deb
 
   build-mac:
     # The type of runner that the job will run on
