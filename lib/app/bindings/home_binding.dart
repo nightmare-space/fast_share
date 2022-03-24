@@ -8,6 +8,5 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.put(SettingController());
     Get.put(OnlineController());
-    Get.put(ChatController());
   }
 }

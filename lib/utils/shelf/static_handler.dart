@@ -272,8 +272,8 @@ Future<Response> _handleFile(Request request, File file,
       }
     }
   }
-  Log.w(' headers -> $headers');
-  Log.w(' request.method -> ${request.method}');
+  // Log.w(' headers -> $headers');
+  // Log.w(' request.method -> ${request.method}');
   return Response.ok(
     request.method == 'HEAD' ? null : file.openRead(),
     headers: headers,

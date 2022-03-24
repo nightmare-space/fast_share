@@ -19,10 +19,15 @@ Language: 中文简体 | [English](README-EN.md)
 编译不过联系 QQ:906262255
 
 ## 说明
+
 这是一个纯个人的开源项目，它虽然不及企业级的一些项目一般完整和强大，但我会耐心的完善以及打磨这个产品。
 
 ## 下载
+
 - [个人服务器下载地址](http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A)
+
+改项目集成了 Github Action 来提供自动打包的功能，然后使用``进行包的上传，
+
 ## 功能列表
 
 - 类似于 nginx和 tomcat 的文件部署。

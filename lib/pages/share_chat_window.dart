@@ -10,6 +10,7 @@ import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
+import 'package:speed_share/config/size.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
@@ -47,7 +48,7 @@ class _ShareChatState extends State<ShareChat>
       widget.chatServerAddress,
     );
     if (GetPlatform.isDesktop) {
-      windowManager.setSize(const Size(500, 800));
+      windowManager.setSize(SizeConfig.chatSize);
     }
   }
 
@@ -55,7 +56,7 @@ class _ShareChatState extends State<ShareChat>
   void dispose() {
     menuAnim.dispose();
     if (GetPlatform.isDesktop) {
-      windowManager.setSize(const Size(500, 300));
+      windowManager.setSize(SizeConfig.defaultSize);
     }
     super.dispose();
   }

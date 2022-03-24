@@ -32,7 +32,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool serverOpend = true;
-  ChatController controller = Get.find();
+  // ChatController controller = Get.find();
   bool dropping = false;
 
   @override
@@ -48,7 +48,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // 处理其他设备的分享
+  // 处理其他软件过来的分享
+  // TODO 冷启动分享
   Future<void> handleSendFile() async {
     if (GetPlatform.isAndroid) {
       MethodChannel channel = const MethodChannel('send_channel');
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () async {
               Get.to(Responsive(
                 builder: (context, screenType) {
-                  return Material(
+                  return const Material(
                     child: SafeArea(
                       child: LoggerView(),
                     ),
@@ -133,16 +134,16 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       body: DropTarget(
         onDragDone: (detail) async {
-          windowManager.setSize(const Size(500, 800));
-          if (detail.files.isNotEmpty) {
-            controller.sendXFiles(detail.files);
-          }
+          // windowManager.setSize(const Size(500, 800));
+          // if (detail.files.isNotEmpty) {
+          //   controller.sendXFiles(detail.files);
+          // }
           await Get.toNamed(
             '${Routes.chat}?needCreateChatServer=true',
           );
-          await windowManager.setSize(const Size(500, 300));
-          Log.d('files -> ${detail.files}');
-          setState(() {});
+          // await windowManager.setSize(const Size(500, 300));
+          // Log.d('files -> ${detail.files}');
+          // setState(() {});
         },
         onDragUpdated: (details) {
           setState(() {
@@ -371,8 +372,6 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: EdgeInsets.only(top: 150.w),
                 child: Builder(builder: (context) {
-                  Log.i(
-                      Theme.of(context).textTheme.bodyText2.fontFamilyFallback);
                   return Text(
                     (GetPlatform.isDesktop ? '拖拽文件到此或者' : '') + '点击加号开始文件分享',
                     style: themeData.textTheme.bodyText2.copyWith(

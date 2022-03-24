@@ -29,7 +29,7 @@ class Global {
   bool isInit = false;
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, String address) async {
-    Log.w(message);
+    // Log.w(message);
     final String id = message.split(',').first;
     final String port = message.split(',').last;
     // if(message)

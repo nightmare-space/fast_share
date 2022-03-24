@@ -53,6 +53,7 @@ class ChatController extends GetxController {
     }
     isInit = true;
     controller.addListener(() {
+      // 这个监听主要是为了改变发送按钮为+号按钮
       if (controller.text.isNotEmpty) {
         hasInput = true;
       } else {
@@ -69,6 +70,7 @@ class ChatController extends GetxController {
       String udpData = '';
       udpData += await UniqueUtil.getDevicesId();
       udpData += ',$successBindPort';
+      // 将设备ID与聊天服务器成功创建的端口UDP广播出去
       Global().startSendBoardcast(udpData);
       chatRoomUrl = 'http://127.0.0.1:$successBindPort';
     } else {
@@ -168,6 +170,7 @@ class ChatController extends GetxController {
     super.onClose();
   }
 
+  // 用shelf部署一个路径的文件
   void serverFile(String path) {
     Log.e('部署 path -> $path');
     String filePath = path.replaceAll('\\', '/');
@@ -190,6 +193,7 @@ class ChatController extends GetxController {
     runIsolate(init);
   }
 
+  // 这儿其实可以直接部署响应的
   void serverTokenFile() {
     String tokenPath = RuntimeEnvir.filesPath + '/check_token';
     File(tokenPath).writeAsStringSync('success');
@@ -276,6 +280,7 @@ class ChatController extends GetxController {
     String fileUrl = await generateUrlList();
     // 可能会存在两个不同路径下有相同文件夹名的问题
     String dirName = p.basename(dirPath);
+    // TODO 改Model
     MessageBaseInfo info = MessageInfoFactory.fromJson({
       'dirName': dirName,
       'msgType': 'dir',
@@ -308,6 +313,7 @@ class ChatController extends GetxController {
         size = await entity.length();
         serverFile(entity.path);
       }
+    // TODO 改Model
       dynamic info = MessageInfoFactory.fromJson({
         'path': element.path + suffix,
         'size': size,
@@ -316,6 +322,7 @@ class ChatController extends GetxController {
       });
       socket.send(info.toString());
     });
+    // TODO 改Model
     info = MessageInfoFactory.fromJson({
       'stat': 'complete',
       // 'size':element.s
@@ -616,6 +623,11 @@ class ChatController extends GetxController {
         return;
       } else if (messageInfo is MessageFileInfo) {
         messageInfo.url = await getCorrectUrl(messageInfo.url);
+        if (messageInfo.url == null) {
+          // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
+          // C加入A的房间，自然是不能再拿到这个文件的信息了
+          messageInfo.url='';
+        }
       }
       // 往聊天列表中添加一条消息
       children.add(MessageItemFactory.getMessageItem(
@@ -638,7 +650,8 @@ class ChatController extends GetxController {
   }
 
   Future<void> sendJoinEvent() async {
-    // 这个消息来告诉聊天服务器，自己需要历史消息
+    // 这个消息来告诉聊天服务器，自己连接上来了
+    // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID
     socket.send(jsonEncode({
       'type': "join",
       'name': await UniqueUtil.getDevicesId(),
