@@ -662,7 +662,7 @@ class ChatController extends GetxController {
     // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID
     socket.send(jsonEncode({
       'type': "join",
-      'name': await UniqueUtil.getDevicesId(),
+      'name':GetPlatform.isWeb?"WEB": await UniqueUtil.getDevicesId(),
     }));
   }
 

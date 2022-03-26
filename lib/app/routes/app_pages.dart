@@ -31,7 +31,7 @@ class SpeedPages {
         Uri uri;
         if (!needCreateChatServer) {
           uri = GetPlatform.isWeb
-              ? Uri.parse(kDebugMode ? 'http://192.168.251.137:12001' : url)
+              ? Uri.parse(kDebugMode ? 'http://192.168.253.152:12000/' : url)
               : Uri.parse(Get.parameters['chatServerAddress']);
         }
         return ThemeWrapper(
