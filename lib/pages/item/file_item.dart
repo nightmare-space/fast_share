@@ -61,7 +61,7 @@ class _FileItemState extends State<FileItem> {
     computeNetSpeed();
     Response res = await RangeDownload.downloadWithChunks(
       urlPath + '?download=true', saveFile.path,
-      isRangeDownload: false, //Support normal download
+      // isRangeDownload: false, //Support normal download
       maxChunk: 4,
       // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
       // cancelToken: cancelToken,

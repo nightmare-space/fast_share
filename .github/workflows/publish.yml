@@ -1,105 +1,105 @@
-name: SpeedShare Publish Actions
-# on: [push]
+# name: SpeedShare Publish Actions
+# # on: [push]
 
-env:
-  # APP名称
-  APP_NAME: SpeedShare
-  ZIP_NAME: Speed Share
+# env:
+#   # APP名称
+#   APP_NAME: SpeedShare
+#   ZIP_NAME: Speed Share
 
-jobs:
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
+# jobs:
+#   build-linux:
+#     runs-on: ubuntu-latest
+#     steps:
 
-      - name: Checkout the code
-        uses: actions/checkout@v2
+#       - name: Checkout the code
+#         uses: actions/checkout@v2
 
-      - name: Install and set Flutter version
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
+#       - name: Install and set Flutter version
+#         uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
 
-      - run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev
-      - run: flutter config --enable-linux-desktop
+#       - run: |
+#           sudo apt-get update -y
+#           sudo apt-get install -y ninja-build libgtk-3-dev
+#       - run: flutter config --enable-linux-desktop
 
-      - name: Building
-        run: flutter build linux
+#       - name: Building
+#         run: flutter build linux
       
-      - name: Packaging
-        run: ./scripts/build/generate_linux.sh
+#       - name: Packaging
+#         run: ./scripts/build/generate_linux.sh
       
-      - name: Release
-        run: |
-          curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfer.sh/${{ env.APP_NAME }}.deb
+#       - name: Release
+#         run: |
+#           curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfer.sh/${{ env.APP_NAME }}.deb
 
-  build-mac:
-    # The type of runner that the job will run on
-    runs-on: macos-latest
+#   build-mac:
+#     # The type of runner that the job will run on
+#     runs-on: macos-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Checkout the code
-        uses: actions/checkout@v2
+#     # Steps represent a sequence of tasks that will be executed as part of the job
+#     steps:
+#       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+#       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+#       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+#       - name: Check out repository code
+#         uses: actions/checkout@v2
+#       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+#       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+#       - name: List files in the repository
+#         run: |
+#           ls ${{ github.workspace }}
+#       - run: echo "🍏 This job's status is ${{ job.status }}."
+#       - name: Checkout the code
+#         uses: actions/checkout@v2
 
-      - name: actions/setup-node@v2
-        uses: actions/setup-node@v2   
+#       - name: actions/setup-node@v2
+#         uses: actions/setup-node@v2   
       
-      - run: npm install -g appdmg
-      - name: Install and set Flutter version
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
+#       - run: npm install -g appdmg
+#       - name: Install and set Flutter version
+#         uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
           
-      - name: Building
-        run: |
-          flutter config --enable-macos-desktop
-          flutter build macos
+#       - name: Building
+#         run: |
+#           flutter config --enable-macos-desktop
+#           flutter build macos
 
-      - name: Packaging
-        run: |
-          ./scripts/build/generate_mac_app.sh
+#       - name: Packaging
+#         run: |
+#           ./scripts/build/generate_mac_app.sh
 
-      - name: Release
-        run: |
-          curl --upload-file "${{ env.ZIP_NAME }}.dmg" https://transfer.sh/${{ env.APP_NAME }}_macOS.dmg
+#       - name: Release
+#         run: |
+#           curl --upload-file "${{ env.ZIP_NAME }}.dmg" https://transfer.sh/${{ env.APP_NAME }}_macOS.dmg
             
-  build-windows:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
+#   build-windows:
+#     # The type of runner that the job will run on
+#     runs-on: windows-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
+#     # Steps represent a sequence of tasks that will be executed as part of the job
+#     steps:
 
-      - name: Checkout the code
-        uses: actions/checkout@v2
+#       - name: Checkout the code
+#         uses: actions/checkout@v2
 
-      - name: Install and set Flutter version
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
+#       - name: Install and set Flutter version
+#         uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
           
-      - name: Building...
-        run: |
-          flutter config --enable-windows-desktop
-          flutter build windows
+#       - name: Building...
+#         run: |
+#           flutter config --enable-windows-desktop
+#           flutter build windows
 
-      - name: Packaging
-        run: |
-          Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath "${{ env.ZIP_NAME }}-windows.zip"
+#       - name: Packaging
+#         run: |
+#           Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath "${{ env.ZIP_NAME }}-windows.zip"
 
-      - name: Release
-        run: |
-          curl --upload-file "${{ env.ZIP_NAME }}-windows.zip" "https://transfer.sh/${{ env.APP_NAME }}-windows.zip"
+#       - name: Release
+#         run: |
+#           curl --upload-file "${{ env.ZIP_NAME }}-windows.zip" "https://transfer.sh/${{ env.APP_NAME }}-windows.zip"

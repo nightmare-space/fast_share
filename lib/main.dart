@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/config/size.dart';
 import 'package:speed_share/pages/home_page.dart';
 import 'package:window_manager/window_manager.dart';
 import 'app/routes/app_pages.dart';
@@ -16,14 +17,16 @@ Future<void> main() async {
   runApp(const SpeedShare());
   if (GetPlatform.isDesktop) {
     WidgetsFlutterBinding.ensureInitialized();
-    await windowManager.ensureInitialized();
-    windowManager.waitUntilReadyToShow().then((_) async {
-      // Hide window title bar
-      // await windowManager.setTitleBarStyle('hidden');
-      await windowManager.setSize(const Size(500, 300));
-      await windowManager.show();
-      // await windowManager.setSkipTaskbar(false);
-    });
+    if (!GetPlatform.isWeb) {
+      await windowManager.ensureInitialized();
+      windowManager.waitUntilReadyToShow().then((_) async {
+        // Hide window title bar
+        // await windowManager.setTitleBarStyle('hidden');
+        await windowManager.setSize(SizeConfig.defaultSize);
+        await windowManager.show();
+        // await windowManager.setSkipTaskbar(false);
+      });
+    }
   }
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(

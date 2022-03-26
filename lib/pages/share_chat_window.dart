@@ -47,7 +47,7 @@ class _ShareChatState extends State<ShareChat>
       widget.needCreateChatServer,
       widget.chatServerAddress,
     );
-    if (GetPlatform.isDesktop) {
+    if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
       windowManager.setSize(SizeConfig.chatSize);
     }
   }
@@ -55,7 +55,7 @@ class _ShareChatState extends State<ShareChat>
   @override
   void dispose() {
     menuAnim.dispose();
-    if (GetPlatform.isDesktop) {
+    if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
       windowManager.setSize(SizeConfig.defaultSize);
     }
     super.dispose();
