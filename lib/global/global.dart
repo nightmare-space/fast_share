@@ -106,6 +106,12 @@ class Global {
 
   Future<void> initGlobal() async {
     Log.v('initGlobal');
+    if (RuntimeEnvir.packageName != Config.packageName &&
+        !GetPlatform.isDesktop) {
+      // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
+      // 这个 if 就不会走到，如果是被其他的项目依赖，RuntimeEnvir.packageName就会是对应的主仓库的包名
+      Config.flutterPackage = 'packages/speed_share/';
+    }
     if (GetPlatform.isWeb || GetPlatform.isIOS) {
       // web udp 和部署都不支持
       return;

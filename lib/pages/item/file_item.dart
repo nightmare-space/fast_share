@@ -61,7 +61,7 @@ class _FileItemState extends State<FileItem> {
     computeNetSpeed();
     Response res = await RangeDownload.downloadWithChunks(
       urlPath + '?download=true', saveFile.path,
-      //isRangeDownload: false,//Support normal download
+      isRangeDownload: false, //Support normal download
       maxChunk: 4,
       // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
       // cancelToken: cancelToken,
@@ -72,22 +72,6 @@ class _FileItemState extends State<FileItem> {
         if (!isStarted) {
           startTime = DateTime.now();
           isStarted = true;
-        }
-        if (total != -1) {
-          print("${(received / total * 100).floor()}%");
-          // if (received / total * 100.floor() > 50) {
-          //   cancelToken.cancel();
-          // }
-        }
-        if ((received / total * 100).floor() >= 100) {
-          var duration = (DateTime.now().millisecondsSinceEpoch -
-                  startTime.millisecondsSinceEpoch) /
-              1000;
-          print(duration.toString() + "s");
-          print((duration ~/ 60).toString() +
-              "m" +
-              (duration % 60).toString() +
-              "s");
         }
       },
     );

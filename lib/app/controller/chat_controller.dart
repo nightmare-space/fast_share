@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
@@ -23,6 +24,8 @@ import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/unique_util.dart';
+
+void Function(Null arg) serverFileFunc;
 
 class ChatController extends GetxController {
   // 输入框用到的焦点
@@ -181,16 +184,21 @@ class ChatController extends GetxController {
     Log.e('部署 url -> $url');
     var handler = createFileHandler(path, url: url);
 
-    void init(_) {
+    serverFileFunc = (_) {
       io.serve(
         handler,
         InternetAddress.anyIPv4,
         shelfBindPort,
         shared: true,
       );
-    }
+    };
 
-    runIsolate(init);
+    serverFileFunc(null);
+    // final list =
+    //     List.generate(Platform.numberOfProcessors - 1, (index) => null);
+    // for (var item in list) {
+    //   Isolate.spawn(serverFileFunc, null);
+    // }
   }
 
   // 这儿其实可以直接部署响应的
@@ -313,7 +321,7 @@ class ChatController extends GetxController {
         size = await entity.length();
         serverFile(entity.path);
       }
-    // TODO 改Model
+      // TODO 改Model
       dynamic info = MessageInfoFactory.fromJson({
         'path': element.path + suffix,
         'size': size,
@@ -626,7 +634,7 @@ class ChatController extends GetxController {
         if (messageInfo.url == null) {
           // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
           // C加入A的房间，自然是不能再拿到这个文件的信息了
-          messageInfo.url='';
+          messageInfo.url = '';
         }
       }
       // 往聊天列表中添加一条消息

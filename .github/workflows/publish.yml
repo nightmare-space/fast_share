@@ -1,5 +1,5 @@
 name: SpeedShare Publish Actions
-on: [push]
+# on: [push]
 
 env:
   # APP名称
