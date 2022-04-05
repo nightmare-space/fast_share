@@ -166,20 +166,20 @@ class _HomePageState extends State<HomePage> {
           // crossAxisAlignment: CrossAxisAlignment.center,
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color.fromARGB(119, 83, 109, 254).withOpacity(0.8),
-                      Color(0xffedbac8).withOpacity(0.8),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Center(
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       gradient: LinearGradient(
+            //         begin: Alignment.topLeft,
+            //         end: Alignment.bottomRight,
+            //         colors: [
+            //           Color.fromARGB(119, 83, 109, 254).withOpacity(0.8),
+            //           Color(0xffedbac8).withOpacity(0.8),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -189,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        const WaterRipple(),
+                        // const WaterRipple(),
                         // SizedBox(
                         //   width: size,
                         //   height: size,

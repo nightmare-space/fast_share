@@ -14,6 +14,11 @@ Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
     RuntimeEnvir.initEnvirWithPackageName(Config.packageName);
   }
+  Get.config(
+    logWriterCallback: (text, {isError}) {
+      Log.d(text, tag: 'GetX');
+    },
+  );
   runApp(const SpeedShare());
   if (GetPlatform.isDesktop) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +57,6 @@ class SpeedShare extends StatelessWidget {
       child: OrientationBuilder(
         builder: (_, Orientation orientation) {
           return GetMaterialApp(
-            enableLog: false,
             locale: const Locale('zh', 'CN'),
             title: '速享',
             initialRoute: initRoute,
@@ -82,15 +86,8 @@ class SpeedShare extends StatelessWidget {
 }
 
 class SpeedShareEntryPoint extends StatefulWidget {
-  SpeedShareEntryPoint({Key key}) : super(key: key) {
-    if (RuntimeEnvir.packageName != Config.packageName &&
-        !GetPlatform.isDesktop) {
-      // ! 我感觉我不应该写到这儿奥
-      // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
-      // 这个 if 就不会走到，如果是被其他的项目依赖，RuntimeEnvir.packageName就会是对应的主仓库的包名
-      Config.flutterPackage = 'packages/speed_share/';
-    }
-  }
+  const SpeedShareEntryPoint({Key key}) : super(key: key);
+
   @override
   _SpeedShareEntryPointState createState() => _SpeedShareEntryPointState();
 }
