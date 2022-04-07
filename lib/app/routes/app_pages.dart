@@ -7,6 +7,7 @@ import 'package:speed_share/main.dart';
 import 'package:speed_share/pages/share_chat_window.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
+import 'package:speed_share/v2/home_page.dart';
 
 part 'app_routes.dart';
 
@@ -18,7 +19,7 @@ class SpeedPages {
     GetPage(
       name: Routes.home,
       page: () => ThemeWrapper(
-        child: SpeedShareEntryPoint(),
+        child: HomePage(),
       ),
       binding: HomeBinding(),
     ),

@@ -67,7 +67,7 @@ class SpeedShare extends StatelessWidget {
               if (orientation == Orientation.landscape) {
                 ScreenAdapter.init(896);
               } else {
-                ScreenAdapter.init(414);
+                ScreenAdapter.init(360);
               }
               final bool isDark =
                   Theme.of(context).brightness == Brightness.dark;

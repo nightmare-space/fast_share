@@ -14,7 +14,7 @@ class QrMessageItem extends StatelessWidget {
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.w),
-        color: Theme.of(context).colorScheme.surface4,
+        color: Colors.white,
       ),
       child: QrImage(
         data: data,
