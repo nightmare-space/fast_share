@@ -12,6 +12,7 @@ class FileController extends GetxController {
   List<String> audioFiles = [];
   List<FileSystemEntity> imgFiles = [];
   List<FileSystemEntity> dirFiles = [];
+  
   List<String> keys = [
     '未知',
     '压缩包',
@@ -21,6 +22,7 @@ class FileController extends GetxController {
     '文件夹',
   ];
   String prefix = '/sdcard/SpeedShare';
+
   @override
   void onInit() {
     super.onInit();
@@ -28,35 +30,44 @@ class FileController extends GetxController {
     initFile();
   }
 
-  void checkIfNotExist() {}
+  void checkIfNotExist() {
+    for (var key in keys) {
+      Directory dir = Directory(prefix + '/' + key);
+      if (!dir.existsSync()) {
+        dir.createSync();
+      }
+    }
+  }
+
   Future<void> initFile() async {
+    checkIfNotExist();
     List<FileSystemEntity> list =
-        await (Directory('/sdcard/SpeedShare/未知').list()).toList();
+        await (Directory('$prefix/未知').list()).toList();
     for (var element in list) {
       onknown.add(basename(element.path));
     }
     List<FileSystemEntity> zip =
-        await (Directory('/sdcard/SpeedShare/压缩包').list()).toList();
+        await (Directory('$prefix/压缩包').list()).toList();
     for (var element in zip) {
       zipFiles.add(basename(element.path));
     }
     List<FileSystemEntity> doc =
-        await (Directory('/sdcard/SpeedShare/文档').list()).toList();
+        await (Directory('$prefix/文档').list()).toList();
     for (var element in doc) {
       docFiles.add(basename(element.path));
     }
     List<FileSystemEntity> audio =
-        await (Directory('/sdcard/SpeedShare/音乐').list()).toList();
+        await Directory('$prefix/音乐').list().toList();
     for (var element in audio) {
       audioFiles.add(basename(element.path));
     }
     List<FileSystemEntity> img =
-        await (Directory('/sdcard/SpeedShare/图片').list()).toList();
+        await (Directory('$prefix/图片').list()).toList();
     for (var element in img) {
       imgFiles.add(element);
     }
     List<FileSystemEntity> dirs =
-        await (Directory('/sdcard/SpeedShare/文件夹').list()).toList();
+        await (Directory('$prefix/文件夹').list()).toList();
     for (var element in dirs) {
       dirFiles.add(element);
     }

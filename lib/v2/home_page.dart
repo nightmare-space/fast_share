@@ -251,9 +251,9 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Icon(
                           Icons.home,
-                          size: 18.w,
+                          size: 16.w,
                         ),
-                        SizedBox(height: 4.w),
+                        SizedBox(height: 2.w),
                         Text(
                           '首页',
                           style: TextStyle(
@@ -290,9 +290,9 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Icon(
                           Icons.file_copy,
-                          size: 18.w,
+                          size: 16.w,
                         ),
-                        SizedBox(height: 4.w),
+                        SizedBox(height: 2.w),
                         Text(
                           '文件',
                           style: TextStyle(
