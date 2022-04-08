@@ -12,6 +12,7 @@ class FileController extends GetxController {
   List<String> audioFiles = [];
   List<FileSystemEntity> imgFiles = [];
   List<FileSystemEntity> dirFiles = [];
+  List<FileSystemEntity> apkFiles = [];
   List<String> keys = [
     '未知',
     '压缩包',
@@ -19,6 +20,8 @@ class FileController extends GetxController {
     '音乐',
     '图片',
     '文件夹',
+    '视频',
+    '安装包',
   ];
   String prefix = '/sdcard/SpeedShare';
   @override
@@ -59,6 +62,11 @@ class FileController extends GetxController {
         await (Directory('/sdcard/SpeedShare/文件夹').list()).toList();
     for (var element in dirs) {
       dirFiles.add(element);
+    }
+    List<FileSystemEntity> apks =
+        await (Directory('/sdcard/SpeedShare/安装包').list()).toList();
+    for (var element in apks) {
+      apkFiles.add(element);
     }
     update();
   }
