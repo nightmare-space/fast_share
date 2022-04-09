@@ -45,7 +45,7 @@ class TextMessageItem extends StatelessWidget {
                 ),
               ),
             SizedBox(
-              height: 2.w,
+              height: 4.w,
             ),
             Container(
               padding: EdgeInsets.all(10.w),

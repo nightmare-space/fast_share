@@ -31,7 +31,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
         child: PageView.builder(
           itemCount: address.length,
           itemBuilder: (c, i) {
-    Log.i('http://' + address[i] + ':' + widget.port.toString());
+            Log.i('http://' + address[i] + ':' + widget.port.toString());
             return Container(
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(

@@ -3,11 +3,22 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
+import 'package:speed_share/v2/ext_util.dart';
+
+const onknownKey = '未知';
+const zipKey = '压缩包';
+const docKey = '文档';
+const audioKey = '音乐';
+const picKey = '图片';
+const dirKey = '文件夹';
+const videoKey = '视频';
+const apkKey = '安装包';
 
 class FileController extends GetxController {
   FileController() {
     if (GetPlatform.isWindows) {
-      prefix = FileSystemEntity.parentOf(Platform.resolvedExecutable);
+      prefix = FileSystemEntity.parentOf(Platform.resolvedExecutable) +
+          '/SpeedShare';
     }
   }
   List<FileSystemEntity> onknown = [];
@@ -19,14 +30,14 @@ class FileController extends GetxController {
   List<FileSystemEntity> apkFiles = [];
   List<FileSystemEntity> videoFiles = [];
   List<String> keys = [
-    '未知',
-    '压缩包',
-    '文档',
-    '音乐',
-    '图片',
-    '文件夹',
-    '视频',
-    '安装包',
+    onknownKey,
+    zipKey,
+    docKey,
+    audioKey,
+    picKey,
+    dirKey,
+    videoKey,
+    apkKey,
   ];
   String prefix = '/sdcard/SpeedShare';
 
@@ -67,47 +78,87 @@ class FileController extends GetxController {
 
   Future<void> initFile() async {
     checkIfNotExist();
+    moveFile();
     List<FileSystemEntity> list =
-        await (Directory('$prefix/未知').list()).toList();
+        await (Directory('$prefix/$onknownKey').list()).toList();
     for (var element in list) {
       onknown.add(element);
     }
     List<FileSystemEntity> zip =
-        await (Directory('$prefix/压缩包').list()).toList();
+        await (Directory('$prefix/$zipKey').list()).toList();
     for (var element in zip) {
       zipFiles.add(element);
     }
     List<FileSystemEntity> doc =
-        await (Directory('$prefix/文档').list()).toList();
+        await (Directory('$prefix/$docKey').list()).toList();
     for (var element in doc) {
       docFiles.add(element);
     }
     List<FileSystemEntity> audio =
-        await Directory('$prefix/音乐').list().toList();
+        await Directory('$prefix/$audioKey').list().toList();
     for (var element in audio) {
       audioFiles.add(element);
     }
     List<FileSystemEntity> img =
-        await (Directory('$prefix/图片').list()).toList();
+        await (Directory('$prefix/$picKey').list()).toList();
     for (var element in img) {
       imgFiles.add(element);
     }
     List<FileSystemEntity> dirs =
-        await (Directory('$prefix/文件夹').list()).toList();
+        await (Directory('$prefix/$dirKey').list()).toList();
     for (var element in dirs) {
       dirFiles.add(element);
     }
     List<FileSystemEntity> apks =
-        await (Directory('$prefix/安装包').list()).toList();
+        await (Directory('$prefix/$apkKey').list()).toList();
     for (var element in apks) {
       apkFiles.add(element);
     }
     List<FileSystemEntity> video =
-        await (Directory('$prefix/视频').list()).toList();
+        await (Directory('$prefix/$videoKey').list()).toList();
     for (var element in video) {
       videoFiles.add(element);
     }
     update();
+  }
+
+  Future<File> moveFileSafe(File sourceFile, String newPath) async {
+    try {
+      // prefer using rename as it is probably faster
+      return await sourceFile.rename(newPath);
+    } on FileSystemException catch (e) {
+      // if rename fails, copy the source file and then delete it
+      final newFile = await sourceFile.copy(newPath);
+      await sourceFile.delete();
+      return newFile;
+    }
+  }
+
+  void moveFile() async {
+    List<FileSystemEntity> video = await (Directory('$prefix').list()).toList();
+    for (var element in video) {
+      String path = element.path;
+      if (element is File) {
+        if (path.isVideo) {
+          moveFileSafe(
+              element, prefix + '/$videoKey/' + basename(element.path));
+        } else if (path.isDoc) {
+          moveFileSafe(element, prefix + '/$docKey/' + basename(element.path));
+        } else if (path.isAudio) {
+          moveFileSafe(
+              element, prefix + '/$audioKey/' + basename(element.path));
+        } else if (path.isApk) {
+          moveFileSafe(element, prefix + '/$apkKey/' + basename(element.path));
+        } else if (path.isImg) {
+          moveFileSafe(element, prefix + '/$picKey/' + basename(element.path));
+        } else if (path.isZip) {
+          moveFileSafe(element, prefix + '/$zipKey/' + basename(element.path));
+        } else {
+          moveFileSafe(
+              element, prefix + '/$onknownKey/' + basename(element.path));
+        }
+      }
+    }
   }
 
   @override

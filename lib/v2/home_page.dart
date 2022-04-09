@@ -18,6 +18,7 @@ import 'package:speed_share/v2/send_file_bottom_sheet.dart';
 
 import 'header.dart';
 import 'icon.dart';
+import 'nav.dart';
 import 'share_chat_window.dart';
 
 // 响应式布局
@@ -29,18 +30,47 @@ class AdaptiveEntryPoint extends StatefulWidget {
 }
 
 class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
+  int page = 0;
   @override
   Widget build(BuildContext context) {
     ScreenType screenType = Responsive.of(context).screenType;
     if (screenType == ScreenType.desktop || screenType == ScreenType.tablet) {
-      return Row(
+      return Column(
         children: [
-          DesktopDrawer(),
-          Expanded(child: HomePage()),
+          Container(
+            height: 2.w,
+            color: Theme.of(context).primaryColor,
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                DesktopDrawer(
+                  value: page,
+                  onChange: (value) {
+                    page = value;
+                    setState(() {});
+                  },
+                ),
+                Expanded(
+                  child: [
+                    HomePage(),
+                    ShareChatV2(),
+                    FilePage(),
+                    HomePage(),
+                  ][page],
+                ),
+              ],
+            ),
+          ),
         ],
       );
     }
-    return HomePage();
+    return Column(
+      children: [
+        HomePage(),
+        Nav(),
+      ],
+    );
   }
 }
 
@@ -330,83 +360,6 @@ class _HomePageState extends State<HomePage> {
                   const FilePage(),
                 ][index],
               ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  BottomTab(
-                    onChange: (value) {
-                      index = min(value, 1);
-                      setState(() {});
-                    },
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.home,
-                            size: 14.w,
-                          ),
-                          SizedBox(height: 2.w),
-                          Text(
-                            '首页',
-                            style: TextStyle(
-                              fontSize: 12.w,
-                              color: Theme.of(context).colorScheme.onBackground,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.file_copy,
-                            size: 14.w,
-                          ),
-                          SizedBox(height: 2.w),
-                          Text(
-                            '文件',
-                            style: TextStyle(
-                              fontSize: 12.w,
-                              color: Theme.of(context).colorScheme.onBackground,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  GestureWithScale(
-                    onTap: () {
-                      Navigator.of(context).push(CustomRoute(
-                        const SendFilePage(),
-                      ));
-                    },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: const Color(0xff6A6DED),
-                          ),
-                          transformAlignment: Alignment.center,
-                          transform: Matrix4.identity()..rotateZ(pi / 4),
-                          width: 42.w,
-                          height: 42.w,
-                        ),
-                        Center(
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 24.w,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),
@@ -416,41 +369,5 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildHead(BuildContext context) {
     return const Header();
-  }
-}
-
-class BottomTab extends StatefulWidget {
-  const BottomTab({Key key, this.children, this.onChange}) : super(key: key);
-  final List<Widget> children;
-  final void Function(int index) onChange;
-
-  @override
-  State<BottomTab> createState() => _BottomTabState();
-}
-
-class _BottomTabState extends State<BottomTab> {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      child: SizedBox(
-        height: 58.w,
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            for (int i = 0; i < widget.children.length; i++)
-              IconButton(
-                padding: EdgeInsets.all(4.w),
-                onPressed: () {
-                  widget.onChange?.call(i);
-                },
-                icon: widget.children[i],
-              ),
-          ],
-        ),
-      ),
-    );
   }
 }

@@ -76,3 +76,5 @@ dependency_overrides:
     path: ../app_manager
   applib_util:
     path: ../applib/applib_util
+  global_repository:
+    path: ../global_repository

@@ -22,41 +22,43 @@ class FilePage extends StatefulWidget {
 class _FilePageState extends State<FilePage> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Header(),
-            SizedBox(height: 10.w),
-            dir(context),
-            const SizedBox(height: 10),
-            onknownFile(context),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                zipFile(context),
-                const SizedBox(width: 10),
-                docFile(context),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                audio(context),
-                SizedBox(width: 10.w),
-                video(context),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                imgFile(context),
-                const SizedBox(width: 10),
-                apkFile(context),
-              ],
-            ),
-          ],
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Header(),
+              SizedBox(height: 10.w),
+              dir(context),
+              SizedBox(height: 10.w),
+              onknownFile(context),
+              SizedBox(height: 10.w),
+              Row(
+                children: [
+                  zipFile(context),
+                  SizedBox(width: 10.w),
+                  docFile(context),
+                ],
+              ),
+              SizedBox(height: 10.w),
+              Row(
+                children: [
+                  audio(context),
+                  SizedBox(width: 10.w),
+                  video(context),
+                ],
+              ),
+              SizedBox(height: 10.w),
+              Row(
+                children: [
+                  imgFile(context),
+                  SizedBox(width: 10.w),
+                  apkFile(context),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -120,6 +122,17 @@ class _FilePageState extends State<FilePage> {
                     children.add(
                       SizedBox(
                         width: 20.w,
+                      ),
+                    );
+                  }
+                  if (children.isEmpty) {
+                    return Center(
+                      child: Text(
+                        '空',
+                        style: TextStyle(
+                          fontSize: 20.w,
+                          color: Colors.black54,
+                        ),
                       ),
                     );
                   }
@@ -189,6 +202,17 @@ class _FilePageState extends State<FilePage> {
                   children.add(
                     SizedBox(
                       width: 20.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 20.w,
+                        color: Colors.black54,
+                      ),
                     ),
                   );
                 }
@@ -270,6 +294,17 @@ class _FilePageState extends State<FilePage> {
                     ),
                   );
                 }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 20.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.zero,
@@ -345,6 +380,17 @@ class _FilePageState extends State<FilePage> {
                       ),
                     );
                   }
+                  if (children.isEmpty) {
+                    return Center(
+                      child: Text(
+                        '空',
+                        style: TextStyle(
+                          fontSize: 20.w,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    );
+                  }
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -387,6 +433,9 @@ class _FilePageState extends State<FilePage> {
             Expanded(
               child: GetBuilder<FileController>(
                 builder: (ctl) {
+                  if(GetPlatform.isDesktop){
+                    return SizedBox();
+                  }
                   List<Widget> children = [];
                   for (FileSystemEntity name in ctl.apkFiles) {
                     children.add(
@@ -431,6 +480,17 @@ class _FilePageState extends State<FilePage> {
                     children.add(
                       SizedBox(
                         width: 20.w,
+                      ),
+                    );
+                  }
+                  if (children.isEmpty) {
+                    return Center(
+                      child: Text(
+                        '空',
+                        style: TextStyle(
+                          fontSize: 20.w,
+                          color: Colors.black54,
+                        ),
                       ),
                     );
                   }
@@ -510,6 +570,17 @@ class _FilePageState extends State<FilePage> {
                       ),
                     );
                   }
+                  if (children.isEmpty) {
+                    return Center(
+                      child: Text(
+                        '空',
+                        style: TextStyle(
+                          fontSize: 20.w,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    );
+                  }
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -581,6 +652,17 @@ class _FilePageState extends State<FilePage> {
                     children.add(
                       SizedBox(
                         width: 20.w,
+                      ),
+                    );
+                  }
+                  if (children.isEmpty) {
+                    return Center(
+                      child: Text(
+                        '空',
+                        style: TextStyle(
+                          fontSize: 20.w,
+                          color: Colors.black54,
+                        ),
                       ),
                     );
                   }
