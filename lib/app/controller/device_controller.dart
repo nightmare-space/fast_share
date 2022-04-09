@@ -24,5 +24,6 @@ class DeviceController extends GetxController {
 
   void onDeviceConnect(String id) {
     connectDevice.add(Device(id));
+    update();
   }
 }

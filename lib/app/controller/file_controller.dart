@@ -5,7 +5,11 @@ import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
 
 class FileController extends GetxController {
-  FileController();
+  FileController() {
+    if (GetPlatform.isWindows) {
+      prefix = FileSystemEntity.parentOf(Platform.resolvedExecutable);
+    }
+  }
   List<FileSystemEntity> onknown = [];
   List<FileSystemEntity> zipFiles = [];
   List<FileSystemEntity> docFiles = [];
@@ -37,9 +41,7 @@ class FileController extends GetxController {
     for (var key in keys) {
       Directory dir = Directory(prefix + '/' + key);
       if (!dir.existsSync()) {
-        dir.createSync(
-          recursive: true
-        );
+        dir.createSync(recursive: true);
       }
     }
   }

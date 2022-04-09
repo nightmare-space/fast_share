@@ -35,7 +35,7 @@ class TextMessageItem extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '小米10s',
+                    Global().deviceId,
                     style: TextStyle(
                       height: 1,
                       fontSize: 12.w,

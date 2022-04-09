@@ -75,4 +75,4 @@ dependency_overrides:
   app_manager:
     path: ../app_manager
   applib_util:
-    path: /Users/nightmare/Desktop/nightmare-space/applib/applib_util
+    path: ../applib/applib_util

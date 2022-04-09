@@ -27,8 +27,8 @@ packages:
   applib_util:
     dependency: "direct overridden"
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/applib/applib_util"
-      relative: false
+      path: "../applib/applib_util"
+      relative: true
     source: path
     version: "0.0.1"
   archive:

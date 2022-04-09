@@ -24,38 +24,40 @@ class _FilePageState extends State<FilePage> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        children: [
-          const Header(),
-          SizedBox(height: 10.w),
-          dir(context),
-          const SizedBox(height: 10),
-          onknownFile(context),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              zipFile(context),
-              const SizedBox(width: 10),
-              docFile(context),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              audio(context),
-              SizedBox(width: 10.w),
-              video(context),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              imgFile(context),
-              const SizedBox(width: 10),
-              apkFile(context),
-            ],
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Header(),
+            SizedBox(height: 10.w),
+            dir(context),
+            const SizedBox(height: 10),
+            onknownFile(context),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                zipFile(context),
+                const SizedBox(width: 10),
+                docFile(context),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                audio(context),
+                SizedBox(width: 10.w),
+                video(context),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                imgFile(context),
+                const SizedBox(width: 10),
+                apkFile(context),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
