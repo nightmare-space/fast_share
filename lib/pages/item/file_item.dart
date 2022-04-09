@@ -17,6 +17,7 @@ import 'package:speed_share/themes/app_colors.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:speed_share/utils/path_util.dart';
+import 'package:speed_share/v2/ext_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FileItem extends StatefulWidget {
@@ -54,7 +55,8 @@ class _FileItemState extends State<FileItem> {
       showToast('已经在下载中了哦');
       return;
     }
-    this.savePath = savePath = savePath + '/' + basename(urlPath);
+    String type = urlPath.getType;
+    this.savePath = savePath = savePath + '/$type/' + basename(urlPath);
     File saveFile = File(getSafePath(savePath));
     this.savePath = saveFile.path;
     Log.d(saveFile.path);

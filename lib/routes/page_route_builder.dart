@@ -14,7 +14,7 @@ class CustomRoute extends PageRouteBuilder<void> {
           ) {
             return widget;
           },
-          opaque: true,
+          opaque: false,
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,

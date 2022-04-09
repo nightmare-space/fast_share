@@ -1,29 +1,33 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:isolate';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get_server/get_server.dart' show runIsolate;
 import 'package:path/path.dart' as p;
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:global_repository/global_repository.dart';
+import 'package:shelf_router/shelf_router.dart';
+import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
+import 'package:speed_share/pages/model/join_message.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/model/model_factory.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/file_server.dart';
 import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
+import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/unique_util.dart';
+
+import 'server_util.dart';
 
 void Function(Null arg) serverFileFunc;
 
@@ -46,6 +50,7 @@ class ChatController extends GetxController {
   bool hasInput = false;
   Completer initLock = Completer();
   bool isInit = false;
+  DeviceController deviceController = Get.find();
 
   Future<void> initChat(
     bool needCreateChatServer,
@@ -145,7 +150,7 @@ class ChatController extends GetxController {
         Config.shelfPortRangeEnd,
       );
       Log.d('shelf will server with $shelfBindPort port');
-      serverTokenFile();
+      handleTokenCheck();
       fileServerPort = await getSafePort(
         Config.filePortRangeStart,
         Config.filePortRangeEnd,
@@ -173,44 +178,14 @@ class ChatController extends GetxController {
     super.onClose();
   }
 
-  // 用shelf部署一个路径的文件
-  void serverFile(String path) {
-    Log.e('部署 path -> $path');
-    String filePath = path.replaceAll('\\', '/');
-    filePath = filePath.replaceAll(RegExp('^[A-Z]:'), '');
-    filePath = filePath.replaceAll(RegExp('^/'), '');
-    // 部署文件
-    String url = p.toUri(filePath).toString();
-    Log.e('部署 url -> $url');
-    var handler = createFileHandler(path, url: url);
+  void handleTokenCheck() {
+    var app = Router();
+    app.get('/check_token', (shelf.Request request) {
+      return shelf.Response.ok('success');
+    });
 
-    serverFileFunc = (_) {
-      io.serve(
-        handler,
-        InternetAddress.anyIPv4,
-        shelfBindPort,
-        shared: true,
-      );
-    };
-
-    serverFileFunc(null);
-    // final list =
-    //     List.generate(Platform.numberOfProcessors - 1, (index) => null);
-    // for (var item in list) {
-    //   Isolate.spawn(serverFileFunc, null);
-    // }
-  }
-
-  // 这儿其实可以直接部署响应的
-  void serverTokenFile() {
-    String tokenPath = RuntimeEnvir.filesPath + '/check_token';
-    File(tokenPath).writeAsStringSync('success');
-    var handler = createFileHandler(
-      tokenPath,
-      url: 'check_token',
-    );
     io.serve(
-      handler,
+      app,
       InternetAddress.anyIPv4,
       shelfBindPort,
       shared: true,
@@ -319,7 +294,7 @@ class ChatController extends GetxController {
         suffix = '/';
       } else if (entity is File) {
         size = await entity.length();
-        serverFile(entity.path);
+        ServerUtil.serveFile(entity.path, successBindPort);
       }
       // TODO 改Model
       dynamic info = MessageInfoFactory.fromJson({
@@ -498,7 +473,7 @@ class ChatController extends GetxController {
 
   // 基于一个文件路径发送消息
   Future<void> sendFileFromPath(String filePath) async {
-    serverFile(filePath);
+    ServerUtil.serveFile(filePath, successBindPort);
     // 替换windows的路径分隔符
     filePath = filePath.replaceAll('\\', '/');
     // 读取文件大小
@@ -583,7 +558,10 @@ class ChatController extends GetxController {
         return;
       }
       MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
-      if (messageInfo is MessageDirInfo) {
+      if (messageInfo is JoinMessage) {
+        deviceController.onDeviceConnect(messageInfo.deviceId);
+        update();
+      } else if (messageInfo is MessageDirInfo) {
         // 保存文件夹消息所在的index
         dirItemMap[messageInfo.dirName] = children.length;
         dirMsgMap[messageInfo.dirName] = messageInfo;
@@ -662,7 +640,7 @@ class ChatController extends GetxController {
     // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID
     socket.send(jsonEncode({
       'type': "join",
-      'name':GetPlatform.isWeb?"WEB": await UniqueUtil.getDevicesId(),
+      'name': GetPlatform.isWeb ? "WEB" : await UniqueUtil.getDevicesId(),
     }));
   }
 

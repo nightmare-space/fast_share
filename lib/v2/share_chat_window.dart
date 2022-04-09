@@ -35,6 +35,7 @@ class _ShareChatV2State extends State<ShareChatV2>
   ChatController controller = Get.find();
   AnimationController menuAnim;
   bool dropping = false;
+  int index = 0;
 
   @override
   void initState() {
@@ -93,68 +94,132 @@ class _ShareChatV2State extends State<ShareChatV2>
         child: Stack(
           children: [
             Scaffold(
-              backgroundColor: Color(0xfff7f7f7),
+              backgroundColor: Colors.white,
               body: Stack(
                 alignment: Alignment.center,
                 // fit: StackFit.passthrough,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.focusNode.unfocus();
-                    },
-                    child: GetBuilder<ChatController>(builder: (context) {
-                      return ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        padding: EdgeInsets.fromLTRB(
-                          0.w,
-                          84.w,
-                          0.w,
-                          80.w,
-                        ),
-                        controller: controller.scrollController,
-                        itemCount: controller.children.length,
-                        cacheExtent: 99999,
-                        itemBuilder: (c, i) {
-                          return controller.children[i];
-                        },
-                      );
-                    }),
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Material(
-                      color: Colors.white,
-                      child: SizedBox(
-                        height: 84.w,
-                        child: AppBar(
-                          systemOverlayStyle: OverlayStyle.dark,
-                          centerTitle: false,
-                          title: Text(
-                            '全部设备',
-                            style:
-                                Theme.of(context).textTheme.bodyText2.copyWith(
-                                      color: AppColors.fontColor,
-                                      fontWeight: bold,
-                                      fontSize: 16.w,
-                                    ),
+                  Column(
+                    children: [
+                      Material(
+                        color: Colors.white,
+                        child: SizedBox(
+                          height: 84.w,
+                          child: AppBar(
+                            systemOverlayStyle: OverlayStyle.dark,
+                            centerTitle: false,
+                            title: Text(
+                              '全部设备',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(
+                                    color: AppColors.fontColor,
+                                    fontWeight: bold,
+                                    fontSize: 16.w,
+                                  ),
+                            ),
+                            leading: const PopButton(),
                           ),
-                          leading: const PopButton(),
                         ),
                       ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Material(
-                      color: Colors.white,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: 60.w,
-                          maxHeight: 240.w,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 60.w,
+                              child: Material(
+                                color: Colors.white,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10.w,
+                                    ),
+                                    MenuButton(
+                                      value: 0,
+                                      enable: index == 0,
+                                      onChange: (value) {
+                                        index = value;
+                                        setState(() {});
+                                      },
+                                    ),
+                                    MenuButton(
+                                      value: 1,
+                                      enable: index == 1,
+                                      onChange: (value) {
+                                        index = value;
+                                        setState(() {});
+                                      },
+                                    ),
+                                    MenuButton(
+                                      value: 2,
+                                      enable: index == 2,
+                                      onChange: (value) {
+                                        index = value;
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        controller.focusNode.unfocus();
+                                      },
+                                      child: Material(
+                                        borderRadius:
+                                            BorderRadius.circular(10.w),
+                                        color: Color(0xfff7f7f7),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: GetBuilder<ChatController>(
+                                            builder: (context) {
+                                          return ListView.builder(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            padding: EdgeInsets.fromLTRB(
+                                              0.w,
+                                              0.w,
+                                              0.w,
+                                              80.w,
+                                            ),
+                                            controller:
+                                                controller.scrollController,
+                                            itemCount:
+                                                controller.children.length,
+                                            cacheExtent: 99999,
+                                            itemBuilder: (c, i) {
+                                              return controller.children[i];
+                                            },
+                                          );
+                                        }),
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Material(
+                                      color: Colors.white,
+                                      child: ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          minHeight: 56.w,
+                                          maxHeight: 240.w,
+                                        ),
+                                        child: sendMsgContainer(context),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        child: sendMsgContainer(context),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -333,7 +398,7 @@ class _ShareChatV2State extends State<ShareChatV2>
         ),
         color: Colors.white,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
+          padding: EdgeInsets.fromLTRB(0.w, 4.w, 4.w, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -404,7 +469,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                 ],
               ),
               SizedBox(
-                height: 16.w,
+                height: 4.w,
               ),
               menu(),
             ],
@@ -412,5 +477,117 @@ class _ShareChatV2State extends State<ShareChatV2>
         ),
       );
     });
+  }
+}
+
+class MenuButton extends StatelessWidget {
+  const MenuButton({
+    Key key,
+    this.enable = true,
+    this.value,
+    this.onChange,
+  }) : super(key: key);
+  final bool enable;
+  final int value;
+  final void Function(int index) onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          children: [
+            Material(
+              color: Color(0xfff7f7f7),
+              child: SizedBox(
+                height: 10.w,
+                width: 60.w,
+              ),
+            ),
+            Material(
+              color: Colors.white,
+              borderRadius: enable
+                  ? BorderRadius.only(
+                      bottomRight: Radius.circular(12.w),
+                    )
+                  : null,
+              child: SizedBox(
+                height: 10.w,
+                width: 60.w,
+              ),
+            ),
+          ],
+        ),
+        GestureDetector(
+          onTap: () {
+            onChange?.call(value);
+          },
+          child: SizedBox(
+            width: 60.w,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 10.w,
+              ),
+              child: Material(
+                color: enable ? Color(0xfff7f7f7) : Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.w),
+                  bottomLeft: Radius.circular(10.w),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.w),
+                        color: Color(0xfff7f7f7),
+                      ),
+                      width: 40.w,
+                      height: 40.w,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/icon/computer.png',
+                          width: 32.w,
+                          height: 32.w,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: enable ? Color(0xfff7f7f7) : Colors.white,
+                      ),
+                      width: 10.w,
+                      height: 40.w,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Stack(
+          children: [
+            Material(
+              color: Color(0xfff7f7f7),
+              child: SizedBox(
+                height: 10.w,
+                width: 60.w,
+              ),
+            ),
+            Material(
+              color: Colors.white,
+              borderRadius: enable
+                  ? BorderRadius.only(
+                      topRight: Radius.circular(12.w),
+                    )
+                  : null,
+              child: SizedBox(
+                height: 10.w,
+                width: 60.w,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

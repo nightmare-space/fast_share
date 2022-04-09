@@ -1,3 +1,5 @@
+import 'package:speed_share/pages/model/join_message.dart';
+
 import 'model.dart';
 
 class MessageInfoFactory {
@@ -26,6 +28,8 @@ class MessageInfoFactory {
         return BroswerFileMessage.fromJson(json);
       case 'notify':
         return NotifyMessage.fromJson(json);
+      case 'join':
+        return JoinMessage.fromJson(json);
         break;
     }
     throw '消息异常';

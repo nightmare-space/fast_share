@@ -32,6 +32,7 @@ Future<int> createChatServer() async {
   Log.d('chat server down.');
   return port;
 }
+
 class NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -98,6 +99,10 @@ class SocketPage extends GetView {
               socket.broadcast(json.encode({
                 'msgType': 'tip',
                 'content': '$name 加入房间',
+              }));
+              socket.broadcast(json.encode({
+                'msgType': 'join',
+                'device_id': '$name',
               }));
               return;
             }

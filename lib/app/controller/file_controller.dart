@@ -6,13 +6,14 @@ import 'package:path/path.dart';
 
 class FileController extends GetxController {
   FileController();
-  List<String> onknown = [];
-  List<String> zipFiles = [];
-  List<String> docFiles = [];
-  List<String> audioFiles = [];
+  List<FileSystemEntity> onknown = [];
+  List<FileSystemEntity> zipFiles = [];
+  List<FileSystemEntity> docFiles = [];
+  List<FileSystemEntity> audioFiles = [];
   List<FileSystemEntity> imgFiles = [];
   List<FileSystemEntity> dirFiles = [];
   List<FileSystemEntity> apkFiles = [];
+  List<FileSystemEntity> videoFiles = [];
   List<String> keys = [
     '未知',
     '压缩包',
@@ -36,9 +37,30 @@ class FileController extends GetxController {
     for (var key in keys) {
       Directory dir = Directory(prefix + '/' + key);
       if (!dir.existsSync()) {
-        dir.createSync();
+        dir.createSync(
+          recursive: true
+        );
       }
     }
+  }
+
+  List<FileSystemEntity> getRecent() {
+    List<FileSystemEntity> all = [];
+    all.addAll(onknown);
+    all.addAll(zipFiles);
+    all.addAll(docFiles);
+    all.addAll(audioFiles);
+    all.addAll(imgFiles);
+    all.addAll(dirFiles);
+    all.addAll(apkFiles);
+    all.addAll(videoFiles);
+    all.removeWhere((element) => element is Directory);
+    all.sort((a, b) {
+      return (b as File)
+          .lastModifiedSync()
+          .compareTo((a as File).lastModifiedSync());
+    });
+    return all;
   }
 
   Future<void> initFile() async {
@@ -46,22 +68,22 @@ class FileController extends GetxController {
     List<FileSystemEntity> list =
         await (Directory('$prefix/未知').list()).toList();
     for (var element in list) {
-      onknown.add(basename(element.path));
+      onknown.add(element);
     }
     List<FileSystemEntity> zip =
         await (Directory('$prefix/压缩包').list()).toList();
     for (var element in zip) {
-      zipFiles.add(basename(element.path));
+      zipFiles.add(element);
     }
     List<FileSystemEntity> doc =
         await (Directory('$prefix/文档').list()).toList();
     for (var element in doc) {
-      docFiles.add(basename(element.path));
+      docFiles.add(element);
     }
     List<FileSystemEntity> audio =
         await Directory('$prefix/音乐').list().toList();
     for (var element in audio) {
-      audioFiles.add(basename(element.path));
+      audioFiles.add(element);
     }
     List<FileSystemEntity> img =
         await (Directory('$prefix/图片').list()).toList();
@@ -74,9 +96,14 @@ class FileController extends GetxController {
       dirFiles.add(element);
     }
     List<FileSystemEntity> apks =
-        await (Directory('/sdcard/SpeedShare/安装包').list()).toList();
+        await (Directory('$prefix/安装包').list()).toList();
     for (var element in apks) {
       apkFiles.add(element);
+    }
+    List<FileSystemEntity> video =
+        await (Directory('$prefix/视频').list()).toList();
+    for (var element in video) {
+      videoFiles.add(element);
     }
     update();
   }
