@@ -12,7 +12,7 @@ class MessageItemFactory {
     Widget child;
     if (info is MessageTextInfo) {
       child = TextMessageItem(
-        data: info.content,
+        info: info,
         sendByUser: sendByUser,
       );
     } else if (info is MessageTipInfo) {

@@ -97,10 +97,6 @@ class SocketPage extends GetView {
               String name = jsonMap['name'];
               deviceNameStore[socket.id] = name;
               socket.broadcast(json.encode({
-                'msgType': 'tip',
-                'content': '$name 加入房间',
-              }));
-              socket.broadcast(json.encode({
                 'msgType': 'join',
                 'device_id': '$name',
               }));

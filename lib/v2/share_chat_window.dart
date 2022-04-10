@@ -19,12 +19,9 @@ import 'package:window_manager/window_manager.dart';
 class ShareChatV2 extends StatefulWidget {
   const ShareChatV2({
     Key key,
-    this.needCreateChatServer = true,
     this.chatServerAddress,
   }) : super(key: key);
 
-  /// 为`true`的时候，会创建一个聊天服务器，如果为`false`，则代表加入已有的聊天
-  final bool needCreateChatServer;
   final String chatServerAddress;
   @override
   _ShareChatV2State createState() => _ShareChatV2State();
@@ -36,6 +33,8 @@ class _ShareChatV2State extends State<ShareChatV2>
   AnimationController menuAnim;
   bool dropping = false;
   int index = 0;
+  // 输入框控制器
+  TextEditingController editingController = TextEditingController();
 
   @override
   void initState() {
@@ -45,7 +44,6 @@ class _ShareChatV2State extends State<ShareChatV2>
       duration: const Duration(milliseconds: 100),
     );
     controller.initChat(
-      widget.needCreateChatServer,
       widget.chatServerAddress,
     );
     // if (GetPlatform.isDesktop && !GetPlatform.isWeb) {

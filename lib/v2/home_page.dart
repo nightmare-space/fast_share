@@ -10,6 +10,7 @@ import 'package:path/path.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
+import 'package:speed_share/pages/online_list.dart';
 import 'package:speed_share/routes/page_route_builder.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/v2/desktop_drawer.dart';
@@ -30,39 +31,50 @@ class AdaptiveEntryPoint extends StatefulWidget {
 }
 
 class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
+  ChatController chatController = Get.put(ChatController());
+  @override
+  void initState() {
+    super.initState();
+    chatController.createChatRoom();
+  }
+
   int page = 0;
   @override
   Widget build(BuildContext context) {
     ScreenType screenType = Responsive.of(context).screenType;
     if (screenType == ScreenType.desktop || screenType == ScreenType.tablet) {
-      return Column(
-        children: [
-          Container(
-            height: 2.w,
-            color: Theme.of(context).primaryColor,
-          ),
-          Expanded(
-            child: Row(
-              children: [
-                DesktopDrawer(
-                  value: page,
-                  onChange: (value) {
-                    page = value;
-                    setState(() {});
-                  },
+      return Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                height: 2.w,
+                color: Theme.of(context).primaryColor,
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    DesktopDrawer(
+                      value: page,
+                      onChange: (value) {
+                        page = value;
+                        setState(() {});
+                      },
+                    ),
+                    Expanded(
+                      child: [
+                        HomePage(),
+                        ShareChatV2(),
+                        FilePage(),
+                        HomePage(),
+                      ][page],
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: [
-                    HomePage(),
-                    ShareChatV2(),
-                    FilePage(),
-                    HomePage(),
-                  ][page],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       );
     }
     return Column(
@@ -97,6 +109,11 @@ class _HomePageState extends State<HomePage> {
   ChatController chatController = Get.put(ChatController());
   int index = 0;
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: OverlayStyle.dark,
@@ -113,9 +130,9 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           buildHead(context),
-                          SizedBox(
-                            height: 12.w,
-                          ),
+                          SizedBox(height: 12.w),
+                          OnlineList(),
+                          SizedBox(height: 4.w),
                           Row(
                             children: [
                               Container(
@@ -206,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                                   height: 1,
                                 ),
                                 SizedBox(
-                                  height: 10.w,
+                                  height: 4.w,
                                 ),
                                 Expanded(
                                   child: GetBuilder<FileController>(
@@ -230,6 +247,7 @@ class _HomePageState extends State<HomePage> {
                                                     maxLines: 2,
                                                     style: TextStyle(
                                                       fontSize: 6.w,
+                                                      height: 1,
                                                       color: Colors.black,
                                                     ),
                                                   ),
@@ -311,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 10.w,
                           ),
-                          Builder(builder: (context) {
+                          GetBuilder<DeviceController>(builder: (_) {
                             List<Widget> children = [];
                             DeviceController deviceController = Get.find();
                             for (Device device
@@ -329,7 +347,7 @@ class _HomePageState extends State<HomePage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        device.id,
+                                        device.id.toString(),
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Theme.of(context)
@@ -360,6 +378,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               );
+                              children.add(SizedBox(
+                                height: 8.w,
+                              ));
                             }
                             return Column(
                               children: children,

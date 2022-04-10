@@ -47,12 +47,19 @@ Widget getIconByExt(String path) {
         onTap: () {
           Get.to(PreviewImage(path: path));
         },
-        child: Image.file(
-          File(path),
-          width: 36.w,
-          height: 36.w,
-          fit: BoxFit.cover,
-        ),
+        child: path.startsWith('http')
+            ? Image.network(
+                path,
+                width: 36.w,
+                height: 36.w,
+                fit: BoxFit.cover,
+              )
+            : Image.file(
+                File(path),
+                width: 36.w,
+                height: 36.w,
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }

@@ -17,9 +17,11 @@ class MessageFileInfo extends MessageBaseInfo {
     this.filePath,
     String msgType = 'file',
     String type,
+    String sendFrom,
   }) : super(
           type: type,
           msgType: msgType,
+          sendFrom: sendFrom,
         );
 
   MessageFileInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {

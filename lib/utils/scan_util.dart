@@ -18,7 +18,7 @@ class ScanUtil {
     final List<String> localAddress = await PlatformUtil.localAddress();
     Log.v(localAddress);
     Get.toNamed(
-      '${Routes.chat}?needCreateChatServer=false&chatServerAddress=$cameraScanResult',
+      '${Routes.chat}?chatServerAddress=$cameraScanResult',
     );
   }
 }

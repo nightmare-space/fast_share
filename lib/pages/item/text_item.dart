@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/global/global.dart';
+import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 import 'package:speed_share/themes/theme.dart';
 
 class TextMessageItem extends StatelessWidget {
-  final String data;
+  final MessageTextInfo info;
   final bool sendByUser;
 
-  const TextMessageItem({Key key, this.data, this.sendByUser})
+  const TextMessageItem({Key key, this.info, this.sendByUser})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class TextMessageItem extends StatelessWidget {
           crossAxisAlignment:
               sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            if (sendByUser)
+            if (info.sendFrom != null)
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xffED796A).withOpacity(0.15),
@@ -35,7 +36,7 @@ class TextMessageItem extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    Global().deviceId,
+                    info.sendFrom ?? '',
                     style: TextStyle(
                       height: 1,
                       fontSize: 12.w,
@@ -67,7 +68,7 @@ class TextMessageItem extends StatelessWidget {
                             ),
                           ),
                           child: SelectableText(
-                            data,
+                            info.content,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontSize: 14.w,
@@ -90,7 +91,7 @@ class TextMessageItem extends StatelessWidget {
               onTap: () async {
                 showToast('内容已复制');
                 await Clipboard.setData(ClipboardData(
-                  text: data,
+                  text: info.content,
                 ));
               },
               borderRadius: BorderRadius.circular(12),

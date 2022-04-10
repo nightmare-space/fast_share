@@ -5,13 +5,15 @@ class MessageTextInfo extends MessageBaseInfo {
 
   MessageTextInfo({
     this.content,
-    String msgType,
+    String msgType = 'text',
     String type,
     String data,
+    String sendFrom,
   }) : super(
           data: data,
           type: type,
           msgType: msgType,
+          sendFrom: sendFrom,
         );
 
   MessageTextInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {

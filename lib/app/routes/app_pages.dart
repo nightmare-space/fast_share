@@ -8,6 +8,7 @@ import 'package:speed_share/pages/share_chat_window.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
 import 'package:speed_share/v2/home_page.dart';
+import 'package:speed_share/v2/share_chat_window.dart';
 
 part 'app_routes.dart';
 
@@ -26,20 +27,18 @@ class SpeedPages {
     GetPage(
       name: Routes.chat,
       page: () {
-        bool needCreateChatServer = GetPlatform.isWeb
-            ? false
-            : Get.parameters['needCreateChatServer'] == 'true';
+        // bool needCreateChatServer = GetPlatform.isWeb
+        //     ? false
+        //     : Get.parameters['needCreateChatServer'] == 'true';
         Uri uri;
-        if (!needCreateChatServer) {
-          uri = GetPlatform.isWeb
-              ? Uri.parse(kDebugMode ? 'http://192.168.253.152:12000/' : url)
-              : Uri.parse(Get.parameters['chatServerAddress']);
-        }
+        // if (!needCreateChatServer) {
+        uri = GetPlatform.isWeb
+            ? Uri.parse(kDebugMode ? 'http://192.168.253.152:12000/' : url)
+            : Uri.parse(Get.parameters['chatServerAddress']);
+        // }
         return ThemeWrapper(
-          child: ShareChat(
-            needCreateChatServer: needCreateChatServer,
-            chatServerAddress:
-                needCreateChatServer ? null : 'http://${uri.host}:${uri.port}',
+          child: ShareChatV2(
+            chatServerAddress: 'http://${uri.host}:${uri.port}',
           ),
         );
       },

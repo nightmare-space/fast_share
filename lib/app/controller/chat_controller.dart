@@ -33,6 +33,7 @@ import 'server_util.dart';
 void Function(Null arg) serverFileFunc;
 
 class ChatController extends GetxController {
+  ChatController() {}
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
   // 输入框控制器
@@ -50,17 +51,19 @@ class ChatController extends GetxController {
   int fileServerPort;
   bool hasInput = false;
   Completer initLock = Completer();
-  bool isInit = false;
   DeviceController deviceController = Get.find();
 
-  Future<void> initChat(
-    bool needCreateChatServer,
-    String chatServerAddress,
-  ) async {
-    if (isInit) {
-      return;
-    }
-    isInit = true;
+  Future<void> createChatRoom() async {
+    chatBindPort = await createChatServer();
+    Log.i('聊天服务器端口 : $chatBindPort');
+    String udpData = '';
+    udpData += await UniqueUtil.getDevicesId();
+    udpData += ',$chatBindPort';
+    // 将设备ID与聊天服务器成功创建的端口UDP广播出去
+    Global().startSendBoardcast(udpData);
+    chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
+    await sendAddressAndQrCode();
+
     controller.addListener(() {
       // 这个监听主要是为了改变发送按钮为+号按钮
       if (controller.text.isNotEmpty) {
@@ -70,32 +73,39 @@ class ChatController extends GetxController {
       }
       update();
     });
+  }
+
+  Future<void> initChat(
+    String chatServerAddress,
+  ) async {
+    if (socket != null && chatServerAddress == null) {
+      return;
+    }
+    if (chatServerAddress != null) {
+      Global().stopSendBoardcast();
+    }
+    // 保存本地的IP地址列表
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
     }
-    if (needCreateChatServer) {
-      // 是创建房间的一端
-      chatBindPort = await createChatServer();
-      String udpData = '';
-      udpData += await UniqueUtil.getDevicesId();
-      udpData += ',$chatBindPort';
-      // 将设备ID与聊天服务器成功创建的端口UDP广播出去
-      Global().startSendBoardcast(udpData);
-      chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
-    } else {
-      chatRoomUrl = chatServerAddress;
-    }
-    socket = GetSocket(chatRoomUrl + '/chat');
+    socket = GetSocket((chatServerAddress ?? chatRoomUrl) + '/chat');
     Completer conLock = Completer();
     socket.onOpen(() {
       Log.d('chat连接成功');
+      if (chatServerAddress != null) {
+        deviceController.onDeviceConnect(chatServerAddress);
+      }
       isConnect = true;
       if (!conLock.isCompleted) {
         conLock.complete();
       }
     });
     socket.onClose((p0) {
+      socket = null;
       Log.e('socket onClose $p0');
+      if (chatServerAddress != null) {
+        deviceController.onDeviceClose(chatServerAddress);
+      }
       children.add(MessageItemFactory.getMessageItem(
         MessageTipInfo(content: '所有连接已断开'),
         false,
@@ -124,15 +134,15 @@ class ChatController extends GetxController {
       update();
       return;
     }
-    if (needCreateChatServer) {
-      await sendAddressAndQrCode();
-    } else {
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '已加入$chatRoomUrl'),
-        false,
-      ));
-      update();
-    }
+    // if (needCreateChatServer) {
+    //   await sendAddressAndQrCode();
+    // } else {
+    //   children.add(MessageItemFactory.getMessageItem(
+    //     MessageTextInfo(content: '已加入$chatRoomUrl'),
+    //     false,
+    //   ));
+    //   update();
+    // }
     if (GetPlatform.isAndroid) {
       children.add(MessageItemFactory.getMessageItem(
         MessageTipInfo(content: '下载路径在 /sdcard/SpeedShare'),
@@ -171,7 +181,6 @@ class ChatController extends GetxController {
       socket.close();
     }
     Log.e('dispose');
-    Global().stopSendBoardcast();
     focusNode.dispose();
     controller.dispose();
     scrollController.dispose();
@@ -473,6 +482,7 @@ class ChatController extends GetxController {
       fileSize: FileSizeUtils.getFileSize(size),
       addrs: addreses,
       port: shelfBindPort,
+      sendFrom: Global().deviceId,
     );
     // 发送消息
     socket.send(sendFileInfo.toString());
@@ -622,18 +632,20 @@ class ChatController extends GetxController {
   Future<void> scroll() async {
     // 让listview滚动到底部
     await Future.delayed(const Duration(milliseconds: 100));
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 100),
-      curve: Curves.ease,
-    );
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.ease,
+      );
+    }
   }
 
   void sendTextMsg() {
     // 发送文本消息
     MessageTextInfo info = MessageTextInfo(
       content: controller.text,
-      msgType: 'text',
+      sendFrom: Global().deviceId,
     );
     socket.send(info.toString());
     children.add(MessageItemFactory.getMessageItem(

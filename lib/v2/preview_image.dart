@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 // 预览图片的组件
 class PreviewImage extends StatefulWidget {
   const PreviewImage({Key key, this.path}) : super(key: key);
@@ -23,9 +24,11 @@ class _PreviewImageState extends State<PreviewImage> {
               onTap: () {
                 Get.back();
               },
-              child: Image.file(
-                File(widget.path),
-              ),
+              child: widget.path.startsWith('http')
+                  ? Image.network(widget.path)
+                  : Image.file(
+                      File(widget.path),
+                    ),
             ),
           ),
           SafeArea(

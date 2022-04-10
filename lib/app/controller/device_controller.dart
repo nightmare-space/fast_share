@@ -4,6 +4,13 @@ import 'package:global_repository/global_repository.dart';
 class Device {
   Device(this.id);
   String id;
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return super == other;
+  }
 }
 
 class DeviceController extends GetxController {
@@ -24,6 +31,11 @@ class DeviceController extends GetxController {
 
   void onDeviceConnect(String id) {
     connectDevice.add(Device(id));
+    update();
+  }
+
+  void onDeviceClose(String id) {
+    connectDevice.remove(Device(id));
     update();
   }
 }

@@ -19,6 +19,7 @@ import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:speed_share/utils/path_util.dart';
 import 'package:speed_share/v2/ext_util.dart';
+import 'package:speed_share/v2/icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FileItem extends StatefulWidget {
@@ -143,27 +144,26 @@ class _FileItemState extends State<FileItem> {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.start,
           children: [
-            if (widget.sendByUser)
-              Container(
-                decoration: BoxDecoration(
-                  color: Color(0xffED796A).withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-                child: Center(
-                  child: Text(
-                    Global().deviceId,
-                    style: TextStyle(
-                      height: 1,
-                      fontSize: 12.w,
-                      color: Color(0xffED796A),
-                    ),
+            if (info.sendFrom != null)Container(
+              decoration: BoxDecoration(
+                color: Color(0xffED796A).withOpacity(0.15),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 4,
+              ),
+              child: Center(
+                child: Text(
+                  info.sendFrom,
+                  style: TextStyle(
+                    height: 1,
+                    fontSize: 12.w,
+                    color: Color(0xffED796A),
                   ),
                 ),
               ),
+            ),
             SizedBox(
               height: 4.w,
             ),
@@ -349,110 +349,59 @@ class _FileItemState extends State<FileItem> {
   UniqueKey key = UniqueKey();
   Widget buildPreviewWidget(String url) {
     MessageFileInfo info = widget.info;
-    if (info.fileName.isImageFileName) {
-      // 如果是图片消息，是支持hero预览的
-      return Hero(
-        tag: key,
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              Get.to(
-                Material(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Hero(
-                        tag: key,
-                        child: Image.network(url),
-                      ),
-                      SafeArea(
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: const Icon(Icons.clear),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-            child: Image.network(
-              url,
-              width: 200,
-            ),
-          ),
-        ),
-      );
-    } else if (info.fileName.isVideoFileName ||
-        info.fileName.endsWith('.mkv')) {
-      return InkWell(
-        onTap: () async {
-          if (GetPlatform.isWeb) {
-            await canLaunch(url)
-                ? await launch(url)
-                : throw 'Could not launch $url';
-            return;
-          }
-          NiNavigator.of(Get.context).pushVoid(
-            Material(
-              child: Hero(
-                tag: key,
-                child: SerieExample(
-                  url: url,
-                ),
-              ),
-            ),
-          );
-        },
-        child: Hero(
-          tag: key,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.video_library,
-                color: Colors.black,
-                size: 26.w,
-              ),
-              SizedBox(width: 8.w),
-              Expanded(
-                child: Text(
-                  widget.info.fileName,
-                  style: TextStyle(
-                    color: Colors.black,
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 14.w,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+    // if (info.fileName.isVideoFileName || info.fileName.endsWith('.mkv')) {
+    //   return InkWell(
+    //     onTap: () async {
+    //       if (GetPlatform.isWeb) {
+    //         await canLaunch(url)
+    //             ? await launch(url)
+    //             : throw 'Could not launch $url';
+    //         return;
+    //       }
+    //       NiNavigator.of(Get.context).pushVoid(
+    //         Material(
+    //           child: Hero(
+    //             tag: key,
+    //             child: SerieExample(
+    //               url: url,
+    //             ),
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //     child: Hero(
+    //       tag: key,
+    //       child: Row(
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //           getIconByExt(info.fileName),
+    //           SizedBox(width: 8.w),
+    //           Expanded(
+    //             child: Text(
+    //               widget.info.fileName,
+    //               style: TextStyle(
+    //                 color: Colors.black,
+    //                 // fontWeight: FontWeight.bold,
+    //                 fontSize: 14.w,
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+    // }
     return Row(
       children: [
+        getIconByExt(url),
+        SizedBox(width: 8.w),
         Expanded(
           child: Text(
             widget.info.fileName,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 16.w,
+              fontSize: 12.w,
             ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(right: 8.w),
-          child: SvgPicture.asset(
-            '${Config.flutterPackage}assets/icon/file.svg',
-            height: 40.w,
-            color: Colors.black,
           ),
         ),
       ],
