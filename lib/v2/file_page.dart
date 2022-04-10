@@ -639,6 +639,7 @@ class _FilePageState extends State<FilePage> {
                             height: 14.w,
                             child: Text(
                               basename(file.path),
+                              maxLines: 2,
                               style: TextStyle(
                                 fontSize: 6.w,
                                 color: Colors.black,
