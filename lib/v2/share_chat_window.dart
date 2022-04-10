@@ -117,7 +117,8 @@ class _ShareChatV2State extends State<ShareChatV2>
                                       child: Material(
                                         borderRadius:
                                             BorderRadius.circular(10.w),
-                                        color: Color(0xfff7f7f7),
+                                        color:
+                                            Theme.of(context).backgroundColor,
                                         clipBehavior: Clip.antiAlias,
                                         child: GetBuilder<ChatController>(
                                             builder: (context) {
@@ -149,7 +150,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                                       color: Colors.white,
                                       child: ConstrainedBox(
                                         constraints: BoxConstraints(
-                                          minHeight: 56.w,
+                                          minHeight: 50.w,
                                           maxHeight: 240.w,
                                         ),
                                         child: sendMsgContainer(context),
@@ -419,7 +420,12 @@ class _ShareChatV2State extends State<ShareChatV2>
                       maxLines: 8,
                       minLines: 1,
                       decoration: InputDecoration(
-                        fillColor: Color(0xfff7f7f7),
+                        fillColor: Theme.of(context).backgroundColor,
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 8.w,
+                          horizontal: 8.w,
+                        ),
                       ),
                       style: const TextStyle(
                         textBaseline: TextBaseline.ideographic,
@@ -433,7 +439,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                     ),
                   ),
                   SizedBox(
-                    width: 16.w,
+                    width: 8.w,
                   ),
                   GestureWithScale(
                     onTap: () {
@@ -451,8 +457,8 @@ class _ShareChatV2State extends State<ShareChatV2>
                       borderRadius: BorderRadius.circular(24.w),
                       borderOnForeground: true,
                       child: SizedBox(
-                        width: 48.w,
-                        height: 48.w,
+                        width: 40.w,
+                        height: 40.w,
                         child: AnimatedBuilder(
                           animation: menuAnim,
                           builder: (c, child) {
@@ -465,17 +471,16 @@ class _ShareChatV2State extends State<ShareChatV2>
                           },
                           child: Icon(
                             controller.hasInput ? Icons.send : Icons.add,
-                            size: 24.w,
+                            size: 20.w,
                           ),
                         ),
                       ),
                     ),
                   ),
+                  SizedBox(width: 4.w),
                 ],
               ),
-              SizedBox(
-                height: 4.w,
-              ),
+              SizedBox(height: 4.w),
               menu(),
             ],
           ),

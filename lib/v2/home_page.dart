@@ -67,8 +67,20 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
     }
     return Column(
       children: [
-        HomePage(),
-        Nav(),
+        Expanded(
+          child: [
+            HomePage(),
+            FilePage(),
+            HomePage(),
+          ][page],
+        ),
+        Nav(
+          value: page,
+          onTap: (value) {
+            page = value;
+            setState(() {});
+          },
+        ),
       ],
     );
   }

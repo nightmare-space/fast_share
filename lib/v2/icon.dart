@@ -16,15 +16,15 @@ Widget getIconByExt(String path) {
       width: 36.w,
       height: 36.w,
     );
-  } else if (path.isDoc) {
-    child = Image.asset(
-      'assets/icon/doc.png',
-      width: 36.w,
-      height: 36.w,
-    );
   } else if (path.isPdf) {
     child = Image.asset(
       'assets/icon/pdf.png',
+      width: 36.w,
+      height: 36.w,
+    );
+  } else if (path.isDoc) {
+    child = Image.asset(
+      'assets/icon/doc.png',
       width: 36.w,
       height: 36.w,
     );

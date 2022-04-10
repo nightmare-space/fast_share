@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:open_file/open_file.dart';
+import 'package:speed_share/global/global.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_range_download/dio_range_download.dart';
@@ -137,118 +138,149 @@ class _FileItemState extends State<FileItem> {
       mainAxisAlignment:
           widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
-        Container(
-          padding: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface4,
-            borderRadius: BorderRadius.circular(10.w),
-          ),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 200.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Builder(builder: (context) {
-                  void Function() onTap;
-                  if (fileDownratio == 1.0 && !timer.isActive) {
-                    onTap = () {
-                      OpenFile.open(savePath);
-                    };
-                  }
-                  return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: onTap,
-                    child: buildPreviewWidget(url),
-                  );
-                }),
-                // 展示下载进度条
-                if (!widget.sendByUser && !GetPlatform.isWeb)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: 8.w,
-                      ),
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25.0)),
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.black12,
-                          valueColor: AlwaysStoppedAnimation(
-                            fileDownratio == 1.0
-                                ? Colors.blue
-                                : Theme.of(context).primaryColor,
-                          ),
-                          value: fileDownratio,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 4.w,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          crossAxisAlignment: widget.sendByUser
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
+          children: [
+            if (widget.sendByUser)
+              Container(
+                decoration: BoxDecoration(
+                  color: Color(0xffED796A).withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                child: Center(
+                  child: Text(
+                    Global().deviceId,
+                    style: TextStyle(
+                      height: 1,
+                      fontSize: 12.w,
+                      color: Color(0xffED796A),
+                    ),
+                  ),
+                ),
+              ),
+            SizedBox(
+              height: 4.w,
+            ),
+            Container(
+              padding: EdgeInsets.all(10.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.w),
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 200.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Builder(builder: (context) {
+                      void Function() onTap;
+                      if (fileDownratio == 1.0 && !timer.isActive) {
+                        onTap = () {
+                          OpenFile.open(savePath);
+                        };
+                      }
+                      return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: onTap,
+                        child: buildPreviewWidget(url),
+                      );
+                    }),
+                    // 展示下载进度条
+                    if (!widget.sendByUser && !GetPlatform.isWeb)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Builder(builder: (_) {
-                            if (fileDownratio == 1.0 && timer.isActive) {
-                              return Text(
-                                '合并文件中',
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 12.w,
-                                ),
-                              );
-                            }
-                            if (fileDownratio == 1.0 && !timer.isActive) {
-                              return Icon(
-                                Icons.check,
-                                size: 16.w,
-                                color: Colors.green,
-                              );
-                            }
-                            return Text(
-                              '$speed/s',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 12.w,
+                          SizedBox(
+                            height: 8.w,
+                          ),
+                          ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(25.0)),
+                            child: LinearProgressIndicator(
+                              backgroundColor: Colors.black12,
+                              valueColor: AlwaysStoppedAnimation(
+                                fileDownratio == 1.0
+                                    ? Colors.blue
+                                    : Theme.of(context).primaryColor,
                               ),
-                            );
-                          }),
+                              value: fileDownratio,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 4.w,
+                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                child: Text(
-                                  FileSizeUtils.getFileSize(count),
+                              Builder(builder: (_) {
+                                if (fileDownratio == 1.0 && timer.isActive) {
+                                  return Text(
+                                    '合并文件中',
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 12.w,
+                                    ),
+                                  );
+                                }
+                                if (fileDownratio == 1.0 && !timer.isActive) {
+                                  return Icon(
+                                    Icons.check,
+                                    size: 16.w,
+                                    color: Colors.green,
+                                  );
+                                }
+                                return Text(
+                                  '$speed/s',
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12.w,
                                   ),
-                                ),
-                              ),
-                              Text(
-                                '/',
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 12.w,
-                                ),
-                              ),
-                              SizedBox(
-                                child: Text(
-                                  widget.info.fileSize,
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 12.w,
+                                );
+                              }),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    child: Text(
+                                      FileSizeUtils.getFileSize(count),
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 12.w,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Text(
+                                    '/',
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 12.w,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    child: Text(
+                                      widget.info.fileSize,
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 12.w,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-              ],
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
         // 展示下载按钮
         if (!widget.sendByUser)

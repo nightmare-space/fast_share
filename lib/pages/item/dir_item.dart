@@ -110,7 +110,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
   Widget build(BuildContext context) {
     String urlPrifix;
     if (widget.sendByUser) {
-      urlPrifix = 'http://127.0.0.1:${chatController.successBindPort}';
+      urlPrifix = 'http://127.0.0.1:${chatController.chatBindPort}';
     } else {
       urlPrifix = info.urlPrifix;
     }

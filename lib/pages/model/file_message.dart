@@ -1,15 +1,19 @@
 import 'base_message.dart';
+import 'notify_message.dart';
 
 class MessageFileInfo extends MessageBaseInfo {
   String fileName;
   String filePath;
   String fileSize;
+  List<String> addrs;
   String url;
+  int port;
 
   MessageFileInfo({
     this.fileName,
     this.fileSize,
-    this.url,
+    this.port,
+    this.addrs,
     this.filePath,
     String msgType = 'file',
     String type,
@@ -22,7 +26,16 @@ class MessageFileInfo extends MessageBaseInfo {
     fileName = json['fileName'];
     filePath = json['filePath'];
     fileSize = json['fileSize'];
-    url = json['url'];
+    final List<String> addrs = json['addrs'] is List ? <String>[] : null;
+    if (addrs != null) {
+      for (final dynamic item in json['addrs']) {
+        if (item != null) {
+          addrs.add(asT<String>(item));
+        }
+      }
+    }
+    this.addrs = addrs;
+    port = asT<int>(json['port']);
   }
 
   @override
@@ -31,7 +44,8 @@ class MessageFileInfo extends MessageBaseInfo {
     data['fileName'] = fileName;
     data['filePath'] = filePath;
     data['fileSize'] = fileSize;
-    data['url'] = url;
+    data['port'] = port;
+    data['addrs'] = addrs;
     return data;
   }
 }

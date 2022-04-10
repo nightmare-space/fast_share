@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/utils/scan_util.dart';
+
+import 'setting_page.dart';
 
 class Header extends StatelessWidget {
   const Header({ Key key }) : super(key: key);
@@ -13,12 +16,17 @@ class Header extends StatelessWidget {
       children: [
         Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Image.network(
-                'http://nightmare.fun/YanTool/image/hong.jpg',
-                width: 30.w,
-                height: 30.w,
+            GestureDetector(
+              onTap: (){
+                Get.to(SettingPage());
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.network(
+                  'http://nightmare.fun/YanTool/image/hong.jpg',
+                  width: 30.w,
+                  height: 30.w,
+                ),
               ),
             ),
             SizedBox(

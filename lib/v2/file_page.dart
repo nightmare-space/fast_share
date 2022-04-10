@@ -23,41 +23,43 @@ class _FilePageState extends State<FilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Header(),
-              SizedBox(height: 10.w),
-              dir(context),
-              SizedBox(height: 10.w),
-              onknownFile(context),
-              SizedBox(height: 10.w),
-              Row(
-                children: [
-                  zipFile(context),
-                  SizedBox(width: 10.w),
-                  docFile(context),
-                ],
-              ),
-              SizedBox(height: 10.w),
-              Row(
-                children: [
-                  audio(context),
-                  SizedBox(width: 10.w),
-                  video(context),
-                ],
-              ),
-              SizedBox(height: 10.w),
-              Row(
-                children: [
-                  imgFile(context),
-                  SizedBox(width: 10.w),
-                  apkFile(context),
-                ],
-              ),
-            ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Header(),
+                SizedBox(height: 10.w),
+                dir(context),
+                SizedBox(height: 10.w),
+                onknownFile(context),
+                SizedBox(height: 10.w),
+                Row(
+                  children: [
+                    zipFile(context),
+                    SizedBox(width: 10.w),
+                    docFile(context),
+                  ],
+                ),
+                SizedBox(height: 10.w),
+                Row(
+                  children: [
+                    audio(context),
+                    SizedBox(width: 10.w),
+                    video(context),
+                  ],
+                ),
+                SizedBox(height: 10.w),
+                Row(
+                  children: [
+                    imgFile(context),
+                    SizedBox(width: 10.w),
+                    apkFile(context),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -130,7 +132,7 @@ class _FilePageState extends State<FilePage> {
                       child: Text(
                         '空',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 16.w,
                           color: Colors.black54,
                         ),
                       ),
@@ -210,7 +212,7 @@ class _FilePageState extends State<FilePage> {
                     child: Text(
                       '空',
                       style: TextStyle(
-                        fontSize: 20.w,
+                        fontSize: 16.w,
                         color: Colors.black54,
                       ),
                     ),
@@ -299,7 +301,7 @@ class _FilePageState extends State<FilePage> {
                     child: Text(
                       '空',
                       style: TextStyle(
-                        fontSize: 20.w,
+                        fontSize: 16.w,
                         color: Colors.black54,
                       ),
                     ),
@@ -385,7 +387,7 @@ class _FilePageState extends State<FilePage> {
                       child: Text(
                         '空',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 16.w,
                           color: Colors.black54,
                         ),
                       ),
@@ -433,7 +435,7 @@ class _FilePageState extends State<FilePage> {
             Expanded(
               child: GetBuilder<FileController>(
                 builder: (ctl) {
-                  if(GetPlatform.isDesktop){
+                  if (GetPlatform.isDesktop) {
                     return SizedBox();
                   }
                   List<Widget> children = [];
@@ -488,7 +490,7 @@ class _FilePageState extends State<FilePage> {
                       child: Text(
                         '空',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 16.w,
                           color: Colors.black54,
                         ),
                       ),
@@ -575,7 +577,7 @@ class _FilePageState extends State<FilePage> {
                       child: Text(
                         '空',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 16.w,
                           color: Colors.black54,
                         ),
                       ),
@@ -660,7 +662,7 @@ class _FilePageState extends State<FilePage> {
                       child: Text(
                         '空',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 16.w,
                           color: Colors.black54,
                         ),
                       ),
@@ -741,9 +743,23 @@ class _FilePageState extends State<FilePage> {
                     ),
                   );
                 }
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children,
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
                 );
               },
             ),
