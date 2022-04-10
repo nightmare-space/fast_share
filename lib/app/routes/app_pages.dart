@@ -19,7 +19,7 @@ class SpeedPages {
     GetPage(
       name: Routes.home,
       page: () => ThemeWrapper(
-        child: HomePage(),
+        child: AdaptiveEntryPoint(),
       ),
       binding: HomeBinding(),
     ),

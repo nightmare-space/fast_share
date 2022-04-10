@@ -48,17 +48,17 @@ class _ShareChatV2State extends State<ShareChatV2>
       widget.needCreateChatServer,
       widget.chatServerAddress,
     );
-    if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
-      windowManager.setSize(SizeConfig.chatSize);
-    }
+    // if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
+    //   windowManager.setSize(SizeConfig.chatSize);
+    // }
   }
 
   @override
   void dispose() {
     menuAnim.dispose();
-    if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
-      windowManager.setSize(SizeConfig.defaultSize);
-    }
+    // if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
+    //   windowManager.setSize(SizeConfig.defaultSize);
+    // }
     super.dispose();
   }
 
@@ -101,68 +101,11 @@ class _ShareChatV2State extends State<ShareChatV2>
                 children: [
                   Column(
                     children: [
-                      Material(
-                        color: Colors.white,
-                        child: SizedBox(
-                          height: 84.w,
-                          child: AppBar(
-                            systemOverlayStyle: OverlayStyle.dark,
-                            centerTitle: false,
-                            title: Text(
-                              '全部设备',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  .copyWith(
-                                    color: AppColors.fontColor,
-                                    fontWeight: bold,
-                                    fontSize: 16.w,
-                                  ),
-                            ),
-                            leading: const PopButton(),
-                          ),
-                        ),
-                      ),
+                      if (GetPlatform.isAndroid) appbar(context),
                       Expanded(
                         child: Row(
                           children: [
-                            SizedBox(
-                              width: 60.w,
-                              child: Material(
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 10.w,
-                                    ),
-                                    MenuButton(
-                                      value: 0,
-                                      enable: index == 0,
-                                      onChange: (value) {
-                                        index = value;
-                                        setState(() {});
-                                      },
-                                    ),
-                                    MenuButton(
-                                      value: 1,
-                                      enable: index == 1,
-                                      onChange: (value) {
-                                        index = value;
-                                        setState(() {});
-                                      },
-                                    ),
-                                    MenuButton(
-                                      value: 2,
-                                      enable: index == 2,
-                                      onChange: (value) {
-                                        index = value;
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            if (GetPlatform.isAndroid) leftNav(),
                             Expanded(
                               child: Column(
                                 children: [
@@ -244,6 +187,68 @@ class _ShareChatV2State extends State<ShareChatV2>
                 ),
               ),
           ],
+        ),
+      ),
+    );
+  }
+
+  SizedBox leftNav() {
+    return SizedBox(
+      width: 60.w,
+      child: Material(
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10.w,
+            ),
+            MenuButton(
+              value: 0,
+              enable: index == 0,
+              onChange: (value) {
+                index = value;
+                setState(() {});
+              },
+            ),
+            MenuButton(
+              value: 1,
+              enable: index == 1,
+              onChange: (value) {
+                index = value;
+                setState(() {});
+              },
+            ),
+            MenuButton(
+              value: 2,
+              enable: index == 2,
+              onChange: (value) {
+                index = value;
+                setState(() {});
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Material appbar(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      child: SizedBox(
+        height: 84.w,
+        child: AppBar(
+          systemOverlayStyle: OverlayStyle.dark,
+          centerTitle: false,
+          title: Text(
+            '全部设备',
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                  color: AppColors.fontColor,
+                  fontWeight: bold,
+                  fontSize: 16.w,
+                ),
+          ),
+          leading: const PopButton(),
         ),
       ),
     );

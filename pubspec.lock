@@ -27,8 +27,8 @@ packages:
   applib_util:
     dependency: "direct overridden"
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/applib/applib_util"
-      relative: false
+      path: "../applib/applib_util"
+      relative: true
     source: path
     version: "0.0.1"
   archive:
@@ -284,11 +284,9 @@ packages:
   global_repository:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "1d6ab06349c355813779d978b21a512fbf462d51"
-      url: "https://github.com/nightmare-space/global_repository"
-    source: git
+      path: "../global_repository"
+      relative: true
+    source: path
     version: "0.0.1"
   hive:
     dependency: transitive

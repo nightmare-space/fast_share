@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/size.dart';
 import 'package:speed_share/pages/home_page.dart';
@@ -14,6 +14,7 @@ Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
     RuntimeEnvir.initEnvirWithPackageName(Config.packageName);
   }
+  Log.e(RuntimeEnvir.dataPath);
   Get.config(
     logWriterCallback: (text, {isError}) {
       Log.d(text, tag: 'GetX');
@@ -73,9 +74,13 @@ class SpeedShare extends StatelessWidget {
                   Theme.of(context).brightness == Brightness.dark;
               final ThemeData theme =
                   isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
-              return Theme(
-                data: theme,
-                child: child,
+              return Responsive(
+                builder: (_, __) {
+                  return Theme(
+                    data: theme,
+                    child: child,
+                  );
+                },
               );
             },
           );

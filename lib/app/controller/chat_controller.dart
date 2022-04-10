@@ -21,11 +21,11 @@ import 'package:speed_share/pages/model/model_factory.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/file_server.dart';
 import 'package:speed_share/utils/http/http.dart';
-import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/unique_util.dart';
+import 'package:speed_share/v2/show_qr_page.dart';
 
 import 'server_util.dart';
 
@@ -179,6 +179,9 @@ class ChatController extends GetxController {
   }
 
   void handleTokenCheck() {
+    // 用来为其他设备检测网络互通的方案
+    // 其他设备会通过消息中的IP地址对 `/check_token` 发起 get 请求
+    // 如果有响应说明胡互通
     var app = Router();
     app.get('/check_token', (shelf.Request request) {
       return shelf.Response.ok('success');
@@ -507,35 +510,20 @@ class ChatController extends GetxController {
 
   Future<void> sendAddressAndQrCode() async {
     // 这个if的内容是创建房间的设备，会得到本机ip的消息
-    children.add(MessageItemFactory.getMessageItem(
-      MessageTextInfo(
-        content: '当前窗口可通过以下url加入，也可以使用浏览器直接打开以下url，'
-            '只有同局域网下的设备能打开喔~',
-      ),
-      false,
-    ));
-    List<String> addreses = await PlatformUtil.localAddress();
-    // 10开头一般是数据网络的IP，后续考虑通过设置放开
-    // addreses.removeWhere((element) => element.startsWith('10.'));
-    if (addreses.isEmpty) {
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '未发现局域网IP'),
+    children.add(InkWell(
+      onTap: () {
+        Get.dialog(ShowQRPage(
+          port: successBindPort,
+        ));
+      },
+      child: MessageItemFactory.getMessageItem(
+        MessageTextInfo(
+          content: '点击查看连接二维码',
+        ),
         false,
-      ));
-    } else {
-      for (String address in addreses) {
-        // 添加一行文本消息
-        children.add(MessageItemFactory.getMessageItem(
-          MessageTextInfo(content: 'http://$address:$successBindPort'),
-          false,
-        ));
-        // 添加一行二维码消息
-        children.add(MessageItemFactory.getMessageItem(
-          QRMessage(content: 'http://$address:$successBindPort'),
-          false,
-        ));
-      }
-    }
+      ),
+    ));
+
     update();
     scroll();
   }

@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:speed_share/v2/ext_util.dart';
 
+import 'preview_image.dart';
+
 Widget getIconByExt(String path) {
   Widget child;
   if (path.isVideo) {
@@ -43,30 +45,7 @@ Widget getIconByExt(String path) {
       tag: path,
       child: GestureDetector(
         onTap: () {
-          Get.to(
-            Material(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Hero(
-                    tag: path,
-                    child: Image.file(File(path)),
-                  ),
-                  SafeArea(
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.clear),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
+          Get.to(PreviewImage(path: path));
         },
         child: Image.file(
           File(path),

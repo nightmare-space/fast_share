@@ -22,7 +22,8 @@ extension Ext on String {
     return endsWith('.doc') ||
         endsWith('.docx') ||
         endsWith('.ppt') ||
-        endsWith('.pptx');
+        endsWith('.pptx') ||
+        endsWith('.pdf');
   }
 
   bool get isPdf {

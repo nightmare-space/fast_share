@@ -25,8 +25,12 @@ class Global {
   Multicast multicast = Multicast();
   String localClipdata = '';
   String remoteClipdata = '';
+  String deviceId='';
 
   bool isInit = false;
+
+
+
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, String address) async {
     // Log.w(message);
@@ -119,6 +123,7 @@ class Global {
     if (isInit) {
       return;
     }
+    deviceId=await UniqueUtil.getDevicesId();
     isInit = true;
     multicast.addListener(_receiveUdpMessage);
     if (GetPlatform.isAndroid || GetPlatform.isDesktop) {
