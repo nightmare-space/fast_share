@@ -199,31 +199,10 @@ class _ShareChatV2State extends State<ShareChatV2>
         child: Column(
           children: [
             SizedBox(
-              height: 10.w,
+              height: 8.w,
             ),
-            MenuButton(
-              value: 0,
-              enable: index == 0,
-              onChange: (value) {
-                index = value;
-                setState(() {});
-              },
-            ),
-            MenuButton(
-              value: 1,
-              enable: index == 1,
-              onChange: (value) {
-                index = value;
-                setState(() {});
-              },
-            ),
-            MenuButton(
-              value: 2,
-              enable: index == 2,
-              onChange: (value) {
-                index = value;
-                setState(() {});
-              },
+            LeftNav(
+              value: index,
             ),
           ],
         ),
@@ -488,6 +467,159 @@ class _ShareChatV2State extends State<ShareChatV2>
   }
 }
 
+class LeftNav extends StatefulWidget {
+  const LeftNav({
+    Key key,
+    this.value,
+  }) : super(key: key);
+  final int value;
+
+  @override
+  State<LeftNav> createState() => _LeftNavState();
+}
+
+class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  Animation offset;
+  int index;
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+    );
+    offset = Tween<double>(begin: 0, end: 0).animate(controller);
+    index = widget.value;
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 10.w),
+          child: Column(
+            children: [
+              AnimatedBuilder(
+                animation: controller,
+                builder: (context, c) {
+                  return SizedBox(
+                    height: offset.value,
+                  );
+                },
+              ),
+              Stack(
+                children: [
+                  Material(
+                    color: Theme.of(context).backgroundColor,
+                    child: SizedBox(
+                      height: 10.w,
+                      width: 60.w,
+                    ),
+                  ),
+                  Material(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(12.w),
+                    ),
+                    child: SizedBox(
+                      height: 10.w,
+                      width: 60.w,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                height: 40.w,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12.w),
+                    bottomLeft: Radius.circular(12.w),
+                  ),
+                ),
+              ),
+              Stack(
+                children: [
+                  Material(
+                    color: Theme.of(context).backgroundColor,
+                    child: SizedBox(
+                      height: 10.w,
+                      width: 60.w,
+                    ),
+                  ),
+                  Material(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(12.w),
+                    ),
+                    child: SizedBox(
+                      height: 10.w,
+                      width: 60.w,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Column(
+          children: [
+            SizedBox(
+              height: 10.w,
+            ),
+            MenuButton(
+              value: 0,
+              enable: index == 0,
+              onChange: (value) {
+                index = value;
+                offset = Tween<double>(begin: offset.value, end: 0.w)
+                    .animate(controller);
+                controller.reset();
+                controller.forward();
+                setState(() {});
+              },
+            ),
+            MenuButton(
+              value: 1,
+              enable: index == 1,
+              onChange: (value) {
+                index = value;
+                setState(() {});
+                offset = Tween<double>(begin: offset.value, end: 52.w)
+                    .animate(controller);
+                controller.reset();
+                controller.forward();
+              },
+            ),
+            MenuButton(
+              value: 2,
+              enable: index == 2,
+              onChange: (value) {
+                index = value;
+                setState(() {});
+                offset = Tween<double>(begin: offset.value, end: 104.w)
+                    .animate(controller);
+                controller.reset();
+                controller.forward();
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class MenuButton extends StatelessWidget {
   const MenuButton({
     Key key,
@@ -503,29 +635,6 @@ class MenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Stack(
-          children: [
-            Material(
-              color: Color(0xfff7f7f7),
-              child: SizedBox(
-                height: 10.w,
-                width: 60.w,
-              ),
-            ),
-            Material(
-              color: Colors.white,
-              borderRadius: enable
-                  ? BorderRadius.only(
-                      bottomRight: Radius.circular(12.w),
-                    )
-                  : null,
-              child: SizedBox(
-                height: 10.w,
-                width: 60.w,
-              ),
-            ),
-          ],
-        ),
         GestureDetector(
           onTap: () {
             onChange?.call(value);
@@ -537,7 +646,7 @@ class MenuButton extends StatelessWidget {
                 left: 10.w,
               ),
               child: Material(
-                color: enable ? Color(0xfff7f7f7) : Colors.white,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10.w),
                   bottomLeft: Radius.circular(10.w),
@@ -559,41 +668,14 @@ class MenuButton extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: enable ? Color(0xfff7f7f7) : Colors.white,
-                      ),
-                      width: 10.w,
-                      height: 40.w,
-                    ),
                   ],
                 ),
               ),
             ),
           ),
         ),
-        Stack(
-          children: [
-            Material(
-              color: Color(0xfff7f7f7),
-              child: SizedBox(
-                height: 10.w,
-                width: 60.w,
-              ),
-            ),
-            Material(
-              color: Colors.white,
-              borderRadius: enable
-                  ? BorderRadius.only(
-                      topRight: Radius.circular(12.w),
-                    )
-                  : null,
-              child: SizedBox(
-                height: 10.w,
-                width: 60.w,
-              ),
-            ),
-          ],
+        SizedBox(
+          height: 12.w,
         ),
       ],
     );

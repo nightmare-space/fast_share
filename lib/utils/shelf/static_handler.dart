@@ -20,7 +20,6 @@ import 'util.dart';
 /// The default resolver for MIME types based on file extensions.
 final _defaultMimeTypeResolver = MimeTypeResolver();
 
-
 /// Creates a Shelf [Handler] that serves files from the provided
 /// [fileSystemPath].
 ///
@@ -173,7 +172,10 @@ Handler createFileHandler(
   } else if (url != null && !p.url.isRelative(url)) {
     throw ArgumentError.value(url, 'url', 'must be relative.');
   }
-
+  _defaultMimeTypeResolver.addExtension(
+    'tgz',
+    'application/zip',
+  );
   final mimeType = contentType ?? _defaultMimeTypeResolver.lookup(path);
   url ??= p.toUri(p.basename(path)).toString();
   // Log.d('createFileHandler -> $url');

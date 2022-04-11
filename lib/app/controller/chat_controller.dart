@@ -497,19 +497,21 @@ class ChatController extends GetxController {
 
   Future<void> sendAddressAndQrCode() async {
     // 这个if的内容是创建房间的设备，会得到本机ip的消息
-    children.add(InkWell(
-      onTap: () {
-        Get.dialog(ShowQRPage(
-          port: chatBindPort,
-        ));
-      },
-      child: MessageItemFactory.getMessageItem(
-        MessageTextInfo(
-          content: '点击查看连接二维码',
+    children.add(
+      GestureDetector(
+        onTap: () {
+          Get.dialog(ShowQRPage(
+            port: chatBindPort,
+          ));
+        },
+        child: MessageItemFactory.getMessageItem(
+          MessageTextInfo(
+            content: '点击查看连接二维码',
+          ),
+          false,
         ),
-        false,
       ),
-    ));
+    );
 
     update();
     scroll();

@@ -81,8 +81,8 @@ class _NavState extends State<Nav> {
                 ),
                 transformAlignment: Alignment.center,
                 transform: Matrix4.identity()..rotateZ(pi / 4),
-                width: 40.w,
-                height: 40.w,
+                width: 36.w,
+                height: 36.w,
               ),
               Center(
                 child: Icon(
