@@ -29,7 +29,7 @@ class _SettingPageState extends State<SettingPage> {
         centerTitle: false,
         titleSpacing: 0,
         title: Text(
-          '全部设备',
+          '设置',
           style: Theme.of(context).textTheme.bodyText2.copyWith(
                 fontWeight: bold,
                 fontSize: 18.w,
@@ -45,7 +45,14 @@ class _SettingPageState extends State<SettingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    '设置功能还在开发中，暂无实际作用',
+                    style: title,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     '常规',
                     style: title,
@@ -98,7 +105,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () {
-                    controller.enableAutoChange(!controller.enableAutoDownload);
+                    controller.clipChange(!controller.clipboardShare);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,15 +117,15 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       AquaSwitch(
-                        value: controller.enableAutoDownload,
-                        onChanged: controller.enableAutoChange,
+                        value: controller.clipboardShare,
+                        onChanged: controller.clipChange,
                       ),
                     ],
                   ),
                 ),
                 SettingItem(
                   onTap: () {
-                    controller.enableAutoChange(!controller.enableAutoDownload);
+                    controller.vibrateChange(!controller.vibrate);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,8 +137,8 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       AquaSwitch(
-                        value: controller.enableAutoDownload,
-                        onChanged: controller.enableAutoChange,
+                        value: controller.vibrate,
+                        onChanged: controller.vibrateChange,
                       ),
                     ],
                   ),
@@ -181,8 +188,55 @@ class _SettingPageState extends State<SettingPage> {
                           fontSize: 20.w,
                         ),
                       ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16.w,
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '其他版本下载',
+                            style: TextStyle(
+                              fontSize: 20.w,
+                            ),
+                          ),
+                          Text(
+                            '速享还支持Windows、macOS、Linux',
+                            style: TextStyle(
+                              fontSize: 16.w,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16.w,
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
-                        'v2.0',
+                        '开发者',
+                        style: TextStyle(
+                          fontSize: 20.w,
+                        ),
+                      ),
+                      Text(
+                        '梦魇兽',
                         style: TextStyle(
                           fontSize: 20.w,
                           fontWeight: FontWeight.normal,
@@ -190,7 +244,7 @@ class _SettingPageState extends State<SettingPage> {
                               .textTheme
                               .bodyText2
                               .color
-                              .withOpacity(0.6),
+                              .withOpacity(0.4),
                         ),
                       ),
                     ],
@@ -201,13 +255,13 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '其他版本下载',
+                        'UI设计师',
                         style: TextStyle(
                           fontSize: 20.w,
                         ),
                       ),
                       Text(
-                        'v2.0',
+                        '柚凛',
                         style: TextStyle(
                           fontSize: 20.w,
                           fontWeight: FontWeight.normal,
@@ -215,7 +269,7 @@ class _SettingPageState extends State<SettingPage> {
                               .textTheme
                               .bodyText2
                               .color
-                              .withOpacity(0.6),
+                              .withOpacity(0.4),
                         ),
                       ),
                     ],

@@ -6,6 +6,8 @@ class SettingController extends GetxController {
   bool enableFilter = false;
   bool enableServer = true;
   bool enableAutoDownload = false;
+  bool clipboardShare = true;
+  bool vibrate = true;
   String savePath = '/sdcard/SpeedShare';
 
   @override
@@ -18,6 +20,16 @@ class SettingController extends GetxController {
   void onReady() {
     super.onReady();
     Log.w('$this onReady');
+  }
+
+  void clipChange(bool value) {
+    clipboardShare = value;
+    update();
+  }
+
+  void vibrateChange(bool value) {
+    vibrate = value;
+    update();
   }
 
   void enableAutoChange(bool value) {

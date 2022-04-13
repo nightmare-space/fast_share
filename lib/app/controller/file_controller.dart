@@ -57,6 +57,17 @@ class FileController extends GetxController {
     }
   }
 
+  FileSystemEntity getRecentImage() {
+    List<FileSystemEntity> tmp = [];
+    tmp.addAll(imgFiles);
+    tmp.sort((a, b) {
+      return (b as File)
+          .lastModifiedSync()
+          .compareTo((a as File).lastModifiedSync());
+    });
+    return tmp.isEmpty ? null : tmp.first;
+  }
+
   List<FileSystemEntity> getRecent() {
     List<FileSystemEntity> all = [];
     all.addAll(onknown);

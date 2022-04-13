@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 const seed = Color(0xff6A6DED);
 
 const lightColorScheme = ColorScheme(
 	brightness: Brightness.light,
 	primary : seed,
-	onPrimary : Colors.black,
+	onPrimary : AppColors.fontColor,
 	primaryContainer : Color(0xFFEADDFF),
 	onPrimaryContainer : Color(0xFF21005D),
 	secondary : Color(0xffedbac8),

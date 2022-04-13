@@ -39,6 +39,7 @@ class ChatController extends GetxController {
   // 输入框控制器
   TextEditingController controller = TextEditingController();
   GetSocket socket;
+  List<Widget> fixedChildren = [];
   List<Widget> children = [];
   List<String> addreses = [];
   ScrollController scrollController = ScrollController();
@@ -500,7 +501,7 @@ class ChatController extends GetxController {
 
   Future<void> sendAddressAndQrCode() async {
     // 这个if的内容是创建房间的设备，会得到本机ip的消息
-    children.add(
+    fixedChildren.add(
       GestureDetector(
         onTap: () {
           Get.dialog(ShowQRPage(

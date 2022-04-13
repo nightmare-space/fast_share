@@ -108,39 +108,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                               child: Column(
                                 children: [
                                   Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.focusNode.unfocus();
-                                      },
-                                      child: Material(
-                                        borderRadius:
-                                            BorderRadius.circular(10.w),
-                                        color:
-                                            Theme.of(context).backgroundColor,
-                                        clipBehavior: Clip.antiAlias,
-                                        child: GetBuilder<ChatController>(
-                                            builder: (context) {
-                                          return ListView.builder(
-                                            physics:
-                                                const BouncingScrollPhysics(),
-                                            padding: EdgeInsets.fromLTRB(
-                                              0.w,
-                                              0.w,
-                                              0.w,
-                                              80.w,
-                                            ),
-                                            controller:
-                                                controller.scrollController,
-                                            itemCount:
-                                                controller.children.length,
-                                            cacheExtent: 99999,
-                                            itemBuilder: (c, i) {
-                                              return controller.children[i];
-                                            },
-                                          );
-                                        }),
-                                      ),
-                                    ),
+                                    child: chatList(context),
                                   ),
                                   Align(
                                     alignment: Alignment.bottomCenter,
@@ -187,6 +155,37 @@ class _ShareChatV2State extends State<ShareChatV2>
               ),
           ],
         ),
+      ),
+    );
+  }
+
+  GestureDetector chatList(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        controller.focusNode.unfocus();
+      },
+      child: Material(
+        borderRadius: BorderRadius.circular(10.w),
+        color: Theme.of(context).backgroundColor,
+        clipBehavior: Clip.antiAlias,
+        child: GetBuilder<ChatController>(builder: (context) {
+          return ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.fromLTRB(
+              0.w,
+              0.w,
+              0.w,
+              80.w,
+            ),
+            controller: controller.scrollController,
+            itemCount:
+                controller.fixedChildren.length + controller.children.length,
+            cacheExtent: 99999,
+            itemBuilder: (c, i) {
+              return (controller.fixedChildren + controller.children)[i];
+            },
+          );
+        }),
       ),
     );
   }

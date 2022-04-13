@@ -15,6 +15,7 @@ import 'package:speed_share/routes/page_route_builder.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/v2/desktop_drawer.dart';
 import 'package:speed_share/v2/file_page.dart';
+import 'package:speed_share/v2/preview_image.dart';
 import 'package:speed_share/v2/send_file_bottom_sheet.dart';
 
 import 'header.dart';
@@ -109,7 +110,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ChatController chatController = Get.put(ChatController());
+  FileController fileController = Get.find();
   int index = 0;
+
   @override
   void initState() {
     super.initState();
@@ -221,60 +224,24 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 4.w),
                           Row(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                width: 101.96,
-                                height: 160.w,
-                                padding: EdgeInsets.all(10.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '记事本',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 4.w,
-                                    ),
-                                    Container(
-                                      color: const Color(0xffE0C4C4)
-                                          .withOpacity(0.2),
-                                      height: 1,
-                                      width: 100,
-                                    ),
-                                    SizedBox(
-                                      height: 10.w,
-                                    ),
-                                    Text(
-                                      '此记事本模块的内容。',
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 20.w),
                               Expanded(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    'http://nightmare.fun/YanTool/image/hong.jpg',
-                                    height: 160.w,
-                                    fit: BoxFit.fitWidth,
-                                    // width: double.infinity,
-                                  ),
-                                ),
+                                child: GetBuilder<FileController>(builder: (context) {
+                                  File file = fileController.getRecentImage();
+                                  if(file==null){
+                                    return const SizedBox();
+                                  }
+                                  return GestureWithScale(
+                                    onTap: () {
+                                      Get.to(PreviewImage(
+                                        path: file.path,
+                                      ));
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.file(file),
+                                    ),
+                                  );
+                                }),
                               ),
                             ],
                           ),
@@ -285,66 +252,7 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 10.w,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.put(ChatController());
-                              Get.to(const ShareChatV2());
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: EdgeInsets.all(10.w),
-                              child: GetBuilder<ChatController>(builder: (_) {
-                                return Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '全部设备',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 4.w,
-                                    ),
-                                    Container(
-                                      color: const Color(0xffE0C4C4)
-                                          .withOpacity(0.2),
-                                      height: 1,
-                                    ),
-                                    SizedBox(
-                                      height: 10.w,
-                                    ),
-                                    chatController.children.isEmpty
-                                        ? Text(
-                                            '当前没有任何消息，点击查看连接二维码',
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onBackground,
-                                            ),
-                                          )
-                                        : Container(
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .backgroundColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            child:
-                                                chatController.children.last,
-                                          ),
-                                  ],
-                                );
-                              }),
-                            ),
-                          ),
+                          allDevice(context),
                           SizedBox(
                             height: 10.w,
                           ),
@@ -417,6 +325,67 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  GestureDetector allDevice(BuildContext context) {
+    return GestureDetector(
+                          onTap: () {
+                            Get.put(ChatController());
+                            Get.to(const ShareChatV2());
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.all(10.w),
+                            child: GetBuilder<ChatController>(builder: (_) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '全部设备',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  Container(
+                                    color: const Color(0xffE0C4C4)
+                                        .withOpacity(0.2),
+                                    height: 1,
+                                  ),
+                                  SizedBox(
+                                    height: 10.w,
+                                  ),
+                                  chatController.children.isEmpty
+                                      ? Text(
+                                          '当前没有任何消息，点击查看连接二维码',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                          ),
+                                        )
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .backgroundColor,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: chatController.children.last,
+                                        ),
+                                ],
+                              );
+                            }),
+                          ),
+                        );
   }
 
   Widget buildHead(BuildContext context) {
