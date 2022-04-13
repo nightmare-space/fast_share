@@ -208,7 +208,7 @@ class DefaultThemeData {
       ),
       textTheme: lightThemeData.textTheme.copyWith(
         bodyText2: lightThemeData.textTheme.bodyText2.copyWith(
-          fontSize: Dimens.font_sp14,
+          fontSize: 14.w,
           fontWeight: FontWeight.w500,
           color: colorScheme.onPrimary,
         ),

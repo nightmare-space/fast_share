@@ -148,7 +148,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                                       color: Colors.white,
                                       child: ConstrainedBox(
                                         constraints: BoxConstraints(
-                                          minHeight: 50.w,
+                                          minHeight: 60.w,
                                           maxHeight: 240.w,
                                         ),
                                         child: sendMsgContainer(context),
@@ -193,14 +193,12 @@ class _ShareChatV2State extends State<ShareChatV2>
 
   SizedBox leftNav() {
     return SizedBox(
-      width: 60.w,
+      width: 64.w,
       child: Material(
         color: Colors.white,
         child: Column(
           children: [
-            SizedBox(
-              height: 8.w,
-            ),
+            SizedBox(height: 4.w),
             LeftNav(
               value: index,
             ),
@@ -381,7 +379,7 @@ class _ShareChatV2State extends State<ShareChatV2>
         ),
         color: Colors.white,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0.w, 4.w, 4.w, 0),
+          padding: EdgeInsets.fromLTRB(0.w, 8.w, 8.w, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -400,7 +398,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                         fillColor: Theme.of(context).backgroundColor,
                         isDense: true,
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 8.w,
+                          vertical: 10.w,
                           horizontal: 8.w,
                         ),
                       ),
@@ -434,8 +432,8 @@ class _ShareChatV2State extends State<ShareChatV2>
                       borderRadius: BorderRadius.circular(24.w),
                       borderOnForeground: true,
                       child: SizedBox(
-                        width: 40.w,
-                        height: 40.w,
+                        width: 46.w,
+                        height: 46.w,
                         child: AnimatedBuilder(
                           animation: menuAnim,
                           builder: (c, child) {
@@ -523,7 +521,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                     color: Theme.of(context).backgroundColor,
                     child: SizedBox(
                       height: 10.w,
-                      width: 60.w,
+                      width: 64.w,
                     ),
                   ),
                   Material(
@@ -533,13 +531,13 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                     ),
                     child: SizedBox(
                       height: 10.w,
-                      width: 60.w,
+                      width: 64.w,
                     ),
                   ),
                 ],
               ),
               Container(
-                height: 40.w,
+                height: 48.w,
                 decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.only(
@@ -595,7 +593,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               onChange: (value) {
                 index = value;
                 setState(() {});
-                offset = Tween<double>(begin: offset.value, end: 52.w)
+                offset = Tween<double>(begin: offset.value, end: 60.w)
                     .animate(controller);
                 controller.reset();
                 controller.forward();
@@ -607,7 +605,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               onChange: (value) {
                 index = value;
                 setState(() {});
-                offset = Tween<double>(begin: offset.value, end: 104.w)
+                offset = Tween<double>(begin: offset.value, end: 120.w)
                     .animate(controller);
                 controller.reset();
                 controller.forward();
@@ -656,10 +654,9 @@ class MenuButton extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.w),
-                        color: Color(0xfff7f7f7),
                       ),
-                      width: 40.w,
-                      height: 40.w,
+                      width: 48.w,
+                      height: 48.w,
                       child: Center(
                         child: Image.asset(
                           'assets/icon/computer.png',

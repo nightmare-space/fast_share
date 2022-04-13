@@ -5,6 +5,8 @@ class SettingController extends GetxController {
   SettingController();
   bool enableFilter = false;
   bool enableServer = true;
+  bool enableAutoDownload = false;
+  String savePath = '/sdcard/SpeedShare';
 
   @override
   void onInit() {
@@ -18,6 +20,11 @@ class SettingController extends GetxController {
     Log.w('$this onReady');
   }
 
+  void enableAutoChange(bool value) {
+    enableAutoDownload = value;
+    update();
+  }
+
   void filterEnabledChange(bool value) {
     enableFilter = value;
     update();
@@ -25,6 +32,11 @@ class SettingController extends GetxController {
 
   void serverEnableChange(bool value) {
     enableServer = value;
+    update();
+  }
+
+  void changeSavepath(String path) {
+    savePath = path;
     update();
   }
 }

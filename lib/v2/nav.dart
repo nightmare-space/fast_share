@@ -18,6 +18,28 @@ class Nav extends StatefulWidget {
 class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
+    Widget center = Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: const Color(0xff6A6DED),
+          ),
+          transformAlignment: Alignment.center,
+          transform: Matrix4.identity()..rotateZ(pi / 4),
+          width: 42.w,
+          height: 42.w,
+        ),
+        Center(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 28.w,
+          ),
+        ),
+      ],
+    );
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -33,7 +55,7 @@ class _NavState extends State<Nav> {
               children: [
                 Icon(
                   Icons.home,
-                  size: 14.w,
+                  size: 18.w,
                 ),
                 SizedBox(height: 2.w),
                 Text(
@@ -51,7 +73,7 @@ class _NavState extends State<Nav> {
               children: [
                 Icon(
                   Icons.file_copy,
-                  size: 14.w,
+                  size: 18.w,
                 ),
                 SizedBox(height: 2.w),
                 Text(
@@ -68,31 +90,12 @@ class _NavState extends State<Nav> {
         GestureWithScale(
           onTap: () {
             Navigator.of(context).push(CustomRoute(
-              const SendFilePage(),
+              SendFilePage(
+                child: center,
+              ),
             ));
           },
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xff6A6DED),
-                ),
-                transformAlignment: Alignment.center,
-                transform: Matrix4.identity()..rotateZ(pi / 4),
-                width: 36.w,
-                height: 36.w,
-              ),
-              Center(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 24.w,
-                ),
-              ),
-            ],
-          ),
+          child: center,
         ),
       ],
     );
@@ -112,9 +115,10 @@ class _BottomTabState extends State<BottomTab> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      elevation: 0,
       color: Colors.white,
       child: SizedBox(
-        height: 58.w,
+        height: 66.w,
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

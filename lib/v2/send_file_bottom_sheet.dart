@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 
 class SendFilePage extends StatefulWidget {
-  const SendFilePage({Key key}) : super(key: key);
+  const SendFilePage({Key key, this.child}) : super(key: key);
+  final Widget child;
 
   @override
   State<SendFilePage> createState() => _SendFilePageState();
@@ -41,7 +42,8 @@ class _SendFilePageState extends State<SendFilePage>
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.black12,
+      color: Colors.transparent,
+      elevation: 0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -113,7 +115,7 @@ class _SendFilePageState extends State<SendFilePage>
           ),
           Container(
             color: Colors.white,
-            height: 58.w,
+            height: 66.w,
             child: GestureWithScale(
               onTap: () async {
                 await controller.reverse();
@@ -129,28 +131,7 @@ class _SendFilePageState extends State<SendFilePage>
                     child: child,
                   );
                 },
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: color.value,
-                      ),
-                      transformAlignment: Alignment.center,
-                      transform: Matrix4.identity()..rotateZ(pi / 4),
-                      width: 36.w,
-                      height: 36.w,
-                    ),
-                    Center(
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 24.w,
-                      ),
-                    ),
-                  ],
-                ),
+                child: widget.child,
               ),
             ),
           ),

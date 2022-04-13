@@ -73,28 +73,32 @@ class ChatController extends GetxController {
       }
       update();
     });
+    initChat(chatRoomUrl);
   }
 
+  String chatServerAddress;
   Future<void> initChat(
     String chatServerAddress,
   ) async {
     if (socket != null && chatServerAddress == null) {
       return;
     }
-    if (chatServerAddress != null) {
-      Global().stopSendBoardcast();
+    // if (chatServerAddress != null) {
+    //   Global().stopSendBoardcast();
+    // }
+    if (chatServerAddress == this.chatServerAddress) {
+      return;
     }
+    this.chatServerAddress = chatServerAddress;
     // 保存本地的IP地址列表
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
     }
     socket = GetSocket((chatServerAddress ?? chatRoomUrl) + '/chat');
+    children.clear();
     Completer conLock = Completer();
     socket.onOpen(() {
       Log.d('chat连接成功');
-      if (chatServerAddress != null) {
-        deviceController.onDeviceConnect(chatServerAddress);
-      }
       isConnect = true;
       if (!conLock.isCompleted) {
         conLock.complete();
@@ -103,9 +107,6 @@ class ChatController extends GetxController {
     socket.onClose((p0) {
       socket = null;
       Log.e('socket onClose $p0');
-      if (chatServerAddress != null) {
-        deviceController.onDeviceClose(chatServerAddress);
-      }
       children.add(MessageItemFactory.getMessageItem(
         MessageTipInfo(content: '所有连接已断开'),
         false,
@@ -217,6 +218,8 @@ class ChatController extends GetxController {
     return null;
   }
 
+  // 发起http get请求，用来校验网络是否互通
+  // 如果不通，会返回null
   Future<String> getToken(String url) async {
     Log.i('$url/check_token');
     Completer lock = Completer();
@@ -504,11 +507,14 @@ class ChatController extends GetxController {
             port: chatBindPort,
           ));
         },
-        child: MessageItemFactory.getMessageItem(
-          MessageTextInfo(
-            content: '点击查看连接二维码',
+        child: Container(
+          padding: EdgeInsets.all(10.w),
+          margin: EdgeInsets.all(10.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.w),
           ),
-          false,
+          child: const Text('点击查看连接二维码'),
         ),
       ),
     );
@@ -522,7 +528,7 @@ class ChatController extends GetxController {
 
   /// 这个里面的处理相对复杂一点
   void listenMessage() {
-    Log.e('监听消息');
+    Log.i('$this 监听消息');
     socket.onMessage((message) async {
       if (message == '') {
         // 发来的空字符串就没必要解析了
@@ -536,8 +542,10 @@ class ChatController extends GetxController {
       }
       MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
       if (messageInfo is JoinMessage) {
-        deviceController.onDeviceConnect(messageInfo.deviceId);
-        update();
+        if (messageInfo.deviceId != await UniqueUtil.getDevicesId()) {
+          deviceController.onDeviceConnect(messageInfo.deviceId);
+          update();
+        }
       } else if (messageInfo is MessageDirInfo) {
         // 保存文件夹消息所在的index
         // dirItemMap[messageInfo.dirName] = children.length;

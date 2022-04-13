@@ -26,26 +26,30 @@ class _ShowQRPageState extends State<ShowQRPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(100.w),
+      padding: EdgeInsets.all(40.w),
       child: Center(
-        child: PageView.builder(
-          itemCount: address.length,
-          itemBuilder: (c, i) {
-            Log.i('http://' + address[i] + ':' + widget.port.toString());
-            return Container(
-              padding: EdgeInsets.all(10.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.w),
-                color: Colors.white,
-              ),
-              child: QrImage(
-                data: 'http://' + address[i] + ':' + widget.port.toString(),
-                version: QrVersions.auto,
-                size: 240.w,
-                foregroundColor: Theme.of(context).colorScheme.onSurface,
-              ),
-            );
-          },
+        child: SizedBox(
+          height: 300.w,
+          width: 300.w,
+          child: PageView.builder(
+            itemCount: address.length,
+            itemBuilder: (c, i) {
+              Log.i('http://' + address[i] + ':' + widget.port.toString());
+              return Container(
+                padding: EdgeInsets.all(10.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.w),
+                  color: Colors.white,
+                ),
+                child: QrImage(
+                  data: 'http://' + address[i] + ':' + widget.port.toString(),
+                  version: QrVersions.auto,
+                  size: 240.w,
+                  foregroundColor: Theme.of(context).colorScheme.onSurface,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

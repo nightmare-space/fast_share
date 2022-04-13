@@ -77,23 +77,25 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
         ),
       );
     }
-    return Column(
-      children: [
-        Expanded(
-          child: [
-            HomePage(),
-            FilePage(),
-            HomePage(),
-          ][page],
-        ),
-        Nav(
-          value: page,
-          onTap: (value) {
-            page = value;
-            setState(() {});
-          },
-        ),
-      ],
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: [
+              HomePage(),
+              FilePage(),
+              HomePage(),
+            ][page],
+          ),
+          Nav(
+            value: page,
+            onTap: (value) {
+              page = value;
+              setState(() {});
+            },
+          ),
+        ],
+      ),
     );
   }
 }
@@ -113,6 +115,89 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  CardWrapper onknownFile(BuildContext context) {
+    return CardWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '最近文件',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+          SizedBox(
+            height: 4.w,
+          ),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(
+            height: 4.w,
+          ),
+          Expanded(
+            child: GetBuilder<FileController>(
+              builder: (ctl) {
+                List<Widget> children = [];
+                for (FileSystemEntity file in ctl.getRecent()) {
+                  children.add(
+                    SizedBox(
+                      width: 40.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getIconByExt(file.path),
+                          SizedBox(height: 4.w),
+                          SizedBox(
+                            height: 16.w,
+                            child: Text(
+                              basename(file.path),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 6.w,
+                                color: Colors.black,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                  children.add(
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -127,6 +212,7 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
                           buildHead(context),
@@ -195,87 +281,7 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 10.w,
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            height: 126,
-                            padding: EdgeInsets.all(10.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '近期文件',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 4.w,
-                                ),
-                                Container(
-                                  color:
-                                      const Color(0xffE0C4C4).withOpacity(0.2),
-                                  height: 1,
-                                ),
-                                SizedBox(
-                                  height: 4.w,
-                                ),
-                                Expanded(
-                                  child: GetBuilder<FileController>(
-                                    builder: (ctl) {
-                                      List<Widget> children = [];
-                                      for (FileSystemEntity name
-                                          in ctl.getRecent()) {
-                                        children.add(
-                                          SizedBox(
-                                            width: 40.w,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                getIconByExt(name.path),
-                                                SizedBox(height: 4.w),
-                                                SizedBox(
-                                                  height: 14.w,
-                                                  child: Text(
-                                                    basename(name.path),
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                      fontSize: 6.w,
-                                                      height: 1,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                        children.add(
-                                          SizedBox(
-                                            width: 20.w,
-                                          ),
-                                        );
-                                      }
-                                      return SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: children,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          onknownFile(context),
                           SizedBox(
                             height: 10.w,
                           ),
@@ -289,41 +295,54 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              height: 126,
                               padding: EdgeInsets.all(10.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '全部设备',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
+                              child: GetBuilder<ChatController>(builder: (_) {
+                                return Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '全部设备',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 4.w,
-                                  ),
-                                  Container(
-                                    color: const Color(0xffE0C4C4)
-                                        .withOpacity(0.2),
-                                    height: 1,
-                                  ),
-                                  SizedBox(
-                                    height: 10.w,
-                                  ),
-                                  Text(
-                                    '当前没有任何消息，点击查看连接二维码',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
+                                    SizedBox(
+                                      height: 4.w,
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    Container(
+                                      color: const Color(0xffE0C4C4)
+                                          .withOpacity(0.2),
+                                      height: 1,
+                                    ),
+                                    SizedBox(
+                                      height: 10.w,
+                                    ),
+                                    chatController.children.isEmpty
+                                        ? Text(
+                                            '当前没有任何消息，点击查看连接二维码',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                            ),
+                                          )
+                                        : Container(
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .backgroundColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            child:
+                                                chatController.children.last,
+                                          ),
+                                  ],
+                                );
+                              }),
                             ),
                           ),
                           SizedBox(

@@ -32,6 +32,6 @@ class MessageInfoFactory {
         return JoinMessage.fromJson(json);
         break;
     }
-    throw '消息异常';
+    return null;
   }
 }

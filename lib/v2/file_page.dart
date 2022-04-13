@@ -30,15 +30,15 @@ class _FilePageState extends State<FilePage> {
             child: Column(
               children: [
                 const Header(),
-                SizedBox(height: 10.w),
+                SizedBox(height: 12.w),
                 dir(context),
-                SizedBox(height: 10.w),
+                SizedBox(height: 12.w),
                 onknownFile(context),
-                SizedBox(height: 10.w),
+                SizedBox(height: 12.w),
                 Row(
                   children: [
                     zipFile(context),
-                    SizedBox(width: 10.w),
+                    SizedBox(width: 12.w),
                     docFile(context),
                   ],
                 ),
@@ -78,7 +78,7 @@ class _FilePageState extends State<FilePage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 14.w,
+                  fontSize: 16.w,
                 ),
               ),
             ),
@@ -106,7 +106,7 @@ class _FilePageState extends State<FilePage> {
                             getIconByExt(name.path),
                             SizedBox(height: 4.w),
                             SizedBox(
-                              height: 14.w,
+                              height: 16.w,
                               child: Text(
                                 basename(name.path),
                                 maxLines: 2,
@@ -166,7 +166,7 @@ class _FilePageState extends State<FilePage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 14.w,
+                  fontSize: 16.w,
                 ),
               ),
             ),
@@ -243,7 +243,7 @@ class _FilePageState extends State<FilePage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 14.w,
+                fontSize: 16.w,
               ),
             ),
           ),
@@ -277,7 +277,7 @@ class _FilePageState extends State<FilePage> {
                             height: 4.w,
                           ),
                           SizedBox(
-                            height: 14.w,
+                            height: 16.w,
                             child: Text(
                               basename(name.path),
                               style: TextStyle(
@@ -334,7 +334,7 @@ class _FilePageState extends State<FilePage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 14.w,
+                fontSize: 16.w,
               ),
             ),
             SizedBox(
@@ -361,7 +361,7 @@ class _FilePageState extends State<FilePage> {
                             getIconByExt(name.path),
                             SizedBox(height: 4.w),
                             SizedBox(
-                              height: 14.w,
+                              height: 16.w,
                               child: Text(
                                 basename(name.path),
                                 maxLines: 2,
@@ -419,7 +419,7 @@ class _FilePageState extends State<FilePage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 14.w,
+                fontSize: 16.w,
               ),
             ),
             SizedBox(
@@ -465,7 +465,7 @@ class _FilePageState extends State<FilePage> {
                               height: 4.w,
                             ),
                             SizedBox(
-                              height: 14.w,
+                              height: 16.w,
                               child: Text(
                                 basename(name.path),
                                 maxLines: 2,
@@ -523,7 +523,7 @@ class _FilePageState extends State<FilePage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 14.w,
+                  fontSize: 16.w,
                 ),
               ),
             ),
@@ -551,7 +551,7 @@ class _FilePageState extends State<FilePage> {
                             getIconByExt(file.path),
                             SizedBox(height: 4.w),
                             SizedBox(
-                              height: 14.w,
+                              height: 16.w,
                               child: Text(
                                 basename(file.path),
                                 maxLines: 2,
@@ -611,7 +611,7 @@ class _FilePageState extends State<FilePage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 14.w,
+                  fontSize: 16.w,
                 ),
               ),
             ),
@@ -637,7 +637,7 @@ class _FilePageState extends State<FilePage> {
                             getIconByExt(file.path),
                             SizedBox(height: 4.w),
                             SizedBox(
-                              height: 14.w,
+                              height: 16.w,
                               child: Text(
                                 basename(file.path),
                                 maxLines: 2,
@@ -722,7 +722,7 @@ class _FilePageState extends State<FilePage> {
                           getIconByExt(file.path),
                           SizedBox(height: 4.w),
                           SizedBox(
-                            height: 14.w,
+                            height: 16.w,
                             child: Text(
                               basename(file.path),
                               maxLines: 2,

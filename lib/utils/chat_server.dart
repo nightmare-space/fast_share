@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:get_server/get_server.dart';
 import 'package:global_repository/global_repository.dart';
@@ -46,6 +45,47 @@ class SocketPage extends GetView {
   List<GetSocket> sockets = [];
   // 储存ws id和设备名的map
   Map<int, String> deviceNameStore = {};
+  void dispatch(GetSocket socket, Map jsonMap) {
+    String type = jsonMap['type'];
+    switch (type) {
+      case 'join':
+        // 有A B C设备
+        // B加入房间，就是用的B的ws进行的广播，A C会收到消息，B自己不会收到消息，
+        String name = jsonMap['name'];
+        deviceNameStore[socket.id] = name;
+        msgs.add(json.encode({
+          'msgType': 'join',
+          'device_id': name,
+        }));
+        socket.broadcast(json.encode({
+          'msgType': 'join',
+          'device_id': name,
+        }));
+        return;
+      case 'getHistory':
+        // 说明是请求历史消息，把历史消息单独发给这个客户端
+        Log.v('客户端请求获取历史消息');
+        if (msgs.isEmpty) {
+          return;
+        }
+        for (String msg in msgs) {
+          // 这个发了，加入的才能收到
+          socket.send(msg);
+        }
+        if (msgs.isNotEmpty) {
+          socket.send(json.encode({
+            'msgType': 'tip',
+            'content': '以上是历史消息',
+          }));
+        }
+        return;
+      default:
+        // 保存到历史
+        msgs.add(jsonEncode(jsonMap));
+        // 广播到其他设备
+        socket.broadcast(jsonEncode(jsonMap));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,57 +97,20 @@ class SocketPage extends GetView {
           Log.v('${ws.id} 已连接');
           // ws.send('socket ${ws.id} connected');
         });
-        // socket.on('join', (val) {
-        //   print('val -> $val');
-        //   final join = socket.join(val);
-        //   if (join) {
-        //     socket.sendToRoom(val, 'socket: ${socket.hashCode} join to room');
-        //   }
-        // });
+
         socket.onMessage((data) {
           if (data.toString().isEmpty) {
             // 很诡异，chrome的ws连接过来，会一直发空字符串
             return;
           }
+          Map<String, dynamic> jsonMap;
           try {
-            if (json.decode(data)['type'] == 'getHistory') {
-              // 说明是请求历史消息，把历史消息单独发给这个客户端
-              Log.v('客户端请求获取历史消息');
-              if (msgs.isEmpty) {
-                return;
-              }
-              for (String msg in msgs) {
-                // 这个发了，加入的都能收到
-                socket.send(msg);
-              }
-              socket.send(json.encode({
-                'msgType': 'tip',
-                'content': '以上是历史消息',
-              }));
-              return;
-            }
+            jsonMap = json.decode(data);
+            dispatch(socket, jsonMap);
           } catch (e) {
-            Log.e('e -> $e');
+            Log.e('json.decode error -> $e');
           }
-          try {
-            Map<String, dynamic> jsonMap = json.decode(data);
-            if (jsonMap['type'] == 'join') {
-              // 有A B C设备
-              // B加入房间，就是用的B的ws进行的广播，A C会收到消息，B自己不会收到消息，
-              String name = jsonMap['name'];
-              deviceNameStore[socket.id] = name;
-              socket.broadcast(json.encode({
-                'msgType': 'join',
-                'device_id': '$name',
-              }));
-              return;
-            }
-          } catch (e) {
-            Log.e('e -> $e');
-          }
-          Log.v('服务端收到消息: $data');
-          msgs.add(data);
-          socket.broadcast(data);
+          Log.i('服务端收到消息: $data');
         });
         socket.onClose((close) {
           sockets.remove(socket);
