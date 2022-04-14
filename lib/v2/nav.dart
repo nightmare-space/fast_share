@@ -53,15 +53,15 @@ class _NavState extends State<Nav> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.home,
-                  size: 18.w,
+                Image.asset(
+                  'assets/icon/home.png',
+                  width: 20.w,
                 ),
                 SizedBox(height: 2.w),
                 Text(
                   '首页',
                   style: TextStyle(
-                    fontSize: 12.w,
+                    fontSize: 14.w,
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
@@ -73,13 +73,13 @@ class _NavState extends State<Nav> {
               children: [
                 Icon(
                   Icons.file_copy,
-                  size: 18.w,
+                  size: 20.w,
                 ),
                 SizedBox(height: 2.w),
                 Text(
                   '文件',
                   style: TextStyle(
-                    fontSize: 12.w,
+                    fontSize: 14.w,
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),

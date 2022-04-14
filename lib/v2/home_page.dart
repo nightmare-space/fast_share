@@ -128,10 +128,11 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onBackground,
+              fontSize: 16.w,
             ),
           ),
           SizedBox(
-            height: 4.w,
+            height: 8.w,
           ),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -147,19 +148,19 @@ class _HomePageState extends State<HomePage> {
                 for (FileSystemEntity file in ctl.getRecent()) {
                   children.add(
                     SizedBox(
-                      width: 40.w,
+                      width: 60.w,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           getIconByExt(file.path),
-                          SizedBox(height: 4.w),
+                          SizedBox(height: 8.w),
                           SizedBox(
-                            height: 16.w,
+                            height: 20.w,
                             child: Text(
                               basename(file.path),
                               maxLines: 2,
                               style: TextStyle(
-                                fontSize: 6.w,
+                                fontSize: 8.w,
                                 color: Colors.black,
                                 height: 1,
                               ),
@@ -171,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                   );
                   children.add(
                     SizedBox(
-                      width: 20.w,
+                      width: 4.w,
                     ),
                   );
                 }
@@ -225,9 +226,10 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             children: [
                               Expanded(
-                                child: GetBuilder<FileController>(builder: (context) {
+                                child: GetBuilder<FileController>(
+                                    builder: (context) {
                                   File file = fileController.getRecentImage();
-                                  if(file==null){
+                                  if (file == null) {
                                     return const SizedBox();
                                   }
                                   return GestureWithScale(
@@ -329,63 +331,56 @@ class _HomePageState extends State<HomePage> {
 
   GestureDetector allDevice(BuildContext context) {
     return GestureDetector(
-                          onTap: () {
-                            Get.put(ChatController());
-                            Get.to(const ShareChatV2());
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: EdgeInsets.all(10.w),
-                            child: GetBuilder<ChatController>(builder: (_) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '全部设备',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4.w,
-                                  ),
-                                  Container(
-                                    color: const Color(0xffE0C4C4)
-                                        .withOpacity(0.2),
-                                    height: 1,
-                                  ),
-                                  SizedBox(
-                                    height: 10.w,
-                                  ),
-                                  chatController.children.isEmpty
-                                      ? Text(
-                                          '当前没有任何消息，点击查看连接二维码',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                          ),
-                                        )
-                                      : Container(
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .backgroundColor,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          child: chatController.children.last,
-                                        ),
-                                ],
-                              );
-                            }),
-                          ),
-                        );
+      onTap: () {
+        Get.put(ChatController());
+        Get.to(const ShareChatV2());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        padding: EdgeInsets.all(10.w),
+        child: GetBuilder<ChatController>(builder: (_) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '全部设备',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+              ),
+              SizedBox(
+                height: 4.w,
+              ),
+              Container(
+                color: const Color(0xffE0C4C4).withOpacity(0.2),
+                height: 1,
+              ),
+              SizedBox(
+                height: 10.w,
+              ),
+              chatController.children.isEmpty
+                  ? Text(
+                      '当前没有任何消息，点击查看连接二维码',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: chatController.children.last,
+                    ),
+            ],
+          );
+        }),
+      ),
+    );
   }
 
   Widget buildHead(BuildContext context) {
