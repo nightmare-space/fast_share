@@ -73,9 +73,9 @@ flutter:
     - assets/icon/
 
 dependency_overrides:
-  app_manager:
-    path: ../app_manager
-  applib_util:
-    path: ../applib/applib_util
-  global_repository:
-    path: ../global_repository
+  # app_manager:
+  #   path: ../app_manager
+  # applib_util:
+  #   path: ../applib/applib_util
+  # global_repository:
+  #   path: ../global_repository

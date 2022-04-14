@@ -6,7 +6,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "77a0e1b7150422a3a472fe88c3beb5bca6a71612"
+      resolved-ref: adcf6d6c0bb94554646fcc3f3fb7670c3e7bdadd
       url: "https://github.com/nightmare-space/adbutil"
     source: git
     version: "0.0.1"
@@ -20,16 +20,20 @@ packages:
   app_manager:
     dependency: "direct main"
     description:
-      path: "../app_manager"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "93c9b805ef8581cca2c75f114d3c732aa63c2e97"
+      url: "https://github.com/nightmare-space/app_manager"
+    source: git
     version: "1.0.0+1"
   applib_util:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../applib/applib_util"
-      relative: true
-    source: path
+      path: applib_util
+      ref: HEAD
+      resolved-ref: b2a0e42e465d80c68353a927902ab2b0105a8216
+      url: "https://github.com/nightmare-space/applib"
+    source: git
     version: "0.0.1"
   archive:
     dependency: "direct main"
@@ -37,7 +41,7 @@ packages:
       name: archive
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.3.0"
+    version: "3.2.2"
   async:
     dependency: transitive
     description:
@@ -128,7 +132,7 @@ packages:
       name: dio
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.0.6"
+    version: "4.0.4"
   dio_range_download:
     dependency: "direct main"
     description:
@@ -199,7 +203,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e402a3831c4b87f27113b9837bc876b6144a8af7
+      resolved-ref: a5cc81d4e7cba24f5cc6f7ce089d0d59eb19dd4f
       url: "https://github.com/nightmare-space/file_selector_meng"
     source: git
     version: "1.0.0+1"
@@ -284,9 +288,11 @@ packages:
   global_repository:
     dependency: "direct main"
     description:
-      path: "../global_repository"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "8003dc1c4a93731f1a1179719342002f052e5d50"
+      url: "https://github.com/nightmare-space/global_repository"
+    source: git
     version: "0.0.1"
   hive:
     dependency: transitive
@@ -536,7 +542,7 @@ packages:
       name: shelf
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.3.0"
+    version: "1.2.0"
   shelf_proxy:
     dependency: "direct main"
     description:
@@ -570,10 +576,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "330855a5d6859066006f2ec415bc4f3cbb3828e5"
+      resolved-ref: ea01227498ba905c78d37430d71c7175ee45790e
       url: "https://github.com/nightmare-space/signale"
     source: git
-    version: "0.0.7"
+    version: "0.0.6"
   simple_animations:
     dependency: "direct main"
     description:
@@ -634,7 +640,7 @@ packages:
       name: synchronized
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0+2"
+    version: "3.0.0"
   term_glyph:
     dependency: transitive
     description:
@@ -743,5 +749,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: ">=2.16.0 <3.0.0"
+  dart: ">=2.15.1 <3.0.0"
   flutter: ">=2.10.0"
