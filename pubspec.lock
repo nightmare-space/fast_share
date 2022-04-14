@@ -6,7 +6,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: adcf6d6c0bb94554646fcc3f3fb7670c3e7bdadd
+      resolved-ref: "77a0e1b7150422a3a472fe88c3beb5bca6a71612"
       url: "https://github.com/nightmare-space/adbutil"
     source: git
     version: "0.0.1"
@@ -41,7 +41,7 @@ packages:
       name: archive
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.2.2"
+    version: "3.3.0"
   async:
     dependency: transitive
     description:
@@ -132,7 +132,7 @@ packages:
       name: dio
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.6"
   dio_range_download:
     dependency: "direct main"
     description:
@@ -203,7 +203,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a5cc81d4e7cba24f5cc6f7ce089d0d59eb19dd4f
+      resolved-ref: e402a3831c4b87f27113b9837bc876b6144a8af7
       url: "https://github.com/nightmare-space/file_selector_meng"
     source: git
     version: "1.0.0+1"
@@ -542,7 +542,7 @@ packages:
       name: shelf
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   shelf_proxy:
     dependency: "direct main"
     description:
@@ -576,10 +576,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ea01227498ba905c78d37430d71c7175ee45790e
+      resolved-ref: "330855a5d6859066006f2ec415bc4f3cbb3828e5"
       url: "https://github.com/nightmare-space/signale"
     source: git
-    version: "0.0.6"
+    version: "0.0.7"
   simple_animations:
     dependency: "direct main"
     description:
@@ -640,7 +640,7 @@ packages:
       name: synchronized
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.0+2"
   term_glyph:
     dependency: transitive
     description:
@@ -749,5 +749,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: ">=2.15.1 <3.0.0"
+  dart: ">=2.16.0 <3.0.0"
   flutter: ">=2.10.0"
