@@ -387,7 +387,7 @@ class _FilePageState extends State<FilePage> {
               child: GetBuilder<FileController>(
                 builder: (ctl) {
                   if (GetPlatform.isDesktop) {
-                    return SizedBox();
+                    return const SizedBox();
                   }
                   List<Widget> children = [];
                   for (FileSystemEntity name in ctl.apkFiles) {
@@ -483,7 +483,7 @@ class _FilePageState extends State<FilePage> {
                   List<Widget> children = [];
                   for (FileSystemEntity file in ctl.docFiles) {
                     children.add(
-                      Container(
+                      SizedBox(
                         // color: Colors.red,
                         width: 64.w,
                         child: Column(
@@ -560,7 +560,7 @@ class _FilePageState extends State<FilePage> {
                   List<Widget> children = [];
                   for (FileSystemEntity file in ctl.zipFiles) {
                     children.add(
-                      Container(
+                      SizedBox(
                         // color: Colors.red,
                         width: 64.w,
                         child: Column(

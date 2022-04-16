@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +9,11 @@ import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
-import 'package:speed_share/config/size.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:window_manager/window_manager.dart';
+
+import 'show_qr_page.dart';
 
 class ShareChatV2 extends StatefulWidget {
   const ShareChatV2({
@@ -224,6 +223,16 @@ class _ShareChatV2State extends State<ShareChatV2>
                 ),
           ),
           leading: const PopButton(),
+          actions: [
+            NiIconButton(
+              onTap: () {
+                Get.dialog(ShowQRPage(
+                  port: controller.chatBindPort,
+                ));
+              },
+              child: Image.asset('assets/icon/qr.png'),
+            ),
+          ],
         ),
       ),
     );
@@ -484,7 +493,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 100,
       ),
     );

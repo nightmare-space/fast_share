@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/themes/theme.dart';
 
 class QrMessageItem extends StatelessWidget {
   final String data;

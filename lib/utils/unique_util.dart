@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 
 class UniqueUtil {

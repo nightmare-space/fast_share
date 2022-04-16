@@ -146,7 +146,7 @@ class FileController extends GetxController {
   }
 
   void moveFile() async {
-    List<FileSystemEntity> video = await (Directory('$prefix').list()).toList();
+    List<FileSystemEntity> video = await (Directory(prefix).list()).toList();
     for (var element in video) {
       String path = element.path;
       if (element is File) {

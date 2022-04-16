@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
@@ -11,12 +9,9 @@ import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:speed_share/pages/online_list.dart';
-import 'package:speed_share/routes/page_route_builder.dart';
-import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/v2/desktop_drawer.dart';
 import 'package:speed_share/v2/file_page.dart';
 import 'package:speed_share/v2/preview_image.dart';
-import 'package:speed_share/v2/send_file_bottom_sheet.dart';
 
 import 'header.dart';
 import 'icon.dart';
@@ -64,10 +59,10 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                     ),
                     Expanded(
                       child: [
-                        HomePage(),
-                        ShareChatV2(),
-                        FilePage(),
-                        HomePage(),
+                        const HomePage(),
+                        const ShareChatV2(),
+                        const FilePage(),
+                        const HomePage(),
                       ][page],
                     ),
                   ],
@@ -83,9 +78,9 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
         children: [
           Expanded(
             child: [
-              HomePage(),
-              FilePage(),
-              HomePage(),
+              const HomePage(),
+              const FilePage(),
+              const HomePage(),
             ][page],
           ),
           Nav(
@@ -207,7 +202,6 @@ class _HomePageState extends State<HomePage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: OverlayStyle.dark,
       child: Scaffold(
-        backgroundColor: const Color(0xfff7f7f7),
         body: SafeArea(
           child: Column(
             children: [
@@ -216,12 +210,12 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       child: Column(
                         children: [
                           buildHead(context),
                           SizedBox(height: 12.w),
-                          OnlineList(),
+                          const OnlineList(),
                           SizedBox(height: 4.w),
                           Row(
                             children: [
@@ -374,7 +368,13 @@ class _HomePageState extends State<HomePage> {
                         color: Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: chatController.children.last,
+                      height: 100.w,
+                      child: ListView.builder(
+                        itemCount: chatController.children.length,
+                        itemBuilder: (c, i) {
+                          return chatController.children[i];
+                        },
+                      ),
                     ),
             ],
           );

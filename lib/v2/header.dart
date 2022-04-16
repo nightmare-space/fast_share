@@ -18,7 +18,7 @@ class Header extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: (){
-                Get.to(SettingPage());
+                Get.to(const SettingPage());
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(24),

@@ -50,41 +50,61 @@ class _NavState extends State<Nav> {
             setState(() {});
           },
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/icon/home.png',
-                  width: 20.w,
-                ),
-                SizedBox(height: 2.w),
-                Text(
-                  '首页',
-                  style: TextStyle(
-                    fontSize: 14.w,
-                    color: Theme.of(context).colorScheme.onBackground,
+            Builder(builder: (context) {
+              bool enable = widget.value == 0;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    enable
+                        ? 'assets/icon/home_sel.png'
+                        : 'assets/icon/home.png',
+                    width: 20.w,
+                    height: 20.w,
+                    color: enable ? Theme.of(context).primaryColor : null,
+                    gaplessPlayback: false,
                   ),
-                ),
-              ],
-            ),
+                  SizedBox(height: 2.w),
+                  Text(
+                    '首页',
+                    style: TextStyle(
+                      fontSize: 14.w,
+                      color: enable
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                ],
+              );
+            }),
             const SizedBox(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.file_copy,
-                  size: 20.w,
-                ),
-                SizedBox(height: 2.w),
-                Text(
-                  '文件',
-                  style: TextStyle(
-                    fontSize: 14.w,
-                    color: Theme.of(context).colorScheme.onBackground,
+            Builder(builder: (context) {
+              bool enable = widget.value == 1;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    enable
+                        ? 'assets/icon/file_sel.png'
+                        : 'assets/icon/file.png',
+                    width: 20.w,
+                    height: 20.w,
+                    gaplessPlayback: false,
+                    color: enable ? Theme.of(context).primaryColor : null,
                   ),
-                ),
-              ],
-            ),
+                  SizedBox(height: 2.w),
+                  Text(
+                    '文件',
+                    style: TextStyle(
+                      fontSize: 14.w,
+                      color: enable
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                ],
+              );
+            }),
           ],
         ),
         GestureWithScale(

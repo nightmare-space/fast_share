@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:speed_share/app/bindings/chat_binding.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
-import 'package:speed_share/main.dart';
-import 'package:speed_share/pages/share_chat_window.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
 import 'package:speed_share/v2/home_page.dart';
@@ -19,7 +17,7 @@ class SpeedPages {
   static final routes = [
     GetPage(
       name: Routes.home,
-      page: () => ThemeWrapper(
+      page: () => const ThemeWrapper(
         child: AdaptiveEntryPoint(),
       ),
       binding: HomeBinding(),

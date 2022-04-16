@@ -147,7 +147,7 @@ class _SettingPageState extends State<SettingPage> {
                 // Text('消息和通知'),
                 // Text('快捷键'),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     '关于速享',
                     style: title,
