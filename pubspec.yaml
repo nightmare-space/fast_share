@@ -79,3 +79,7 @@ dependency_overrides:
     path: ../applib/applib_util
   global_repository:
     path: ../global_repository
+  file_manager_view:
+    path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
+  file_selector_nightmare:
+    path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng

@@ -31,7 +31,9 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   @override
   void initState() {
     super.initState();
-    chatController.createChatRoom();
+    if (!GetPlatform.isWeb) {
+      chatController.createChatRoom();
+    }
   }
 
   int page = 0;
@@ -245,13 +247,61 @@ class _HomePageState extends State<HomePage> {
                             height: 10.w,
                           ),
                           onknownFile(context),
-                          SizedBox(
-                            height: 10.w,
-                          ),
+                          SizedBox(height: 10.w),
                           allDevice(context),
-                          SizedBox(
-                            height: 10.w,
+                          SizedBox(height: 10.w),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.all(10.w),
+                            child: GetBuilder<ChatController>(builder: (_) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '远程访问',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  Container(
+                                    color: const Color(0xffE0C4C4)
+                                        .withOpacity(0.2),
+                                    height: 1,
+                                  ),
+                                  SizedBox(
+                                    height: 10.w,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).backgroundColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    height: 100.w,
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(8.w),
+                                    child: SelectableText(
+                                      'http://127.0.0.1:20000/file',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
                           ),
+                          SizedBox(height: 10.w),
                           GetBuilder<DeviceController>(builder: (_) {
                             List<Widget> children = [];
                             DeviceController deviceController = Get.find();

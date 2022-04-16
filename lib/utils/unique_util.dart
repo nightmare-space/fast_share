@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 
 class UniqueUtil {
   UniqueUtil._();
   static Future<String> getDevicesId() async {
+    if (GetPlatform.isWeb) {
+      return 'WBE';
+    }
     if (PlatformUtil.isDesktop()) {
       return Platform.operatingSystem;
     } else {
@@ -17,8 +21,6 @@ class UniqueUtil {
           : getValueFromProps('ro.product.model');
     }
   }
-
-
 
   static String props;
   static String getValueFromProps(String key) {

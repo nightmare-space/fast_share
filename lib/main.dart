@@ -5,21 +5,24 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/size.dart';
 import 'package:speed_share/pages/home_page.dart';
 import 'package:window_manager/window_manager.dart';
+import 'app/controller/device_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
 import 'global/global.dart';
 import 'themes/default_theme_data.dart';
+import 'package:file_manager_view/file_manager_view.dart' as fm;
 
 Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
     RuntimeEnvir.initEnvirWithPackageName(Config.packageName);
+    fm.Server.start();
   }
-  Log.e(RuntimeEnvir.dataPath);
   Get.config(
     logWriterCallback: (text, {isError}) {
       Log.d(text, tag: 'GetX');
     },
   );
+  Get.put(DeviceController());
   runApp(const SpeedShare());
   if (GetPlatform.isDesktop) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -34,13 +37,7 @@ Future<void> main() async {
       });
     }
   }
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarDividerColor: Colors.transparent,
-    ),
-  );
+  StatusBarUtil.transparent();
   // 物理平台使用的udp设备互相发现
   Global().initGlobal();
 }

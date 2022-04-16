@@ -158,13 +158,11 @@ packages:
     source: hosted
     version: "1.1.2"
   file_manager_view:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "5e3b566c7b3640a09359a1534b7eee9e22d08965"
-      url: "https://github.com/nightmare-space/file_manager_view.git"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/file_manager_view"
+      relative: false
+    source: path
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
@@ -197,11 +195,9 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e402a3831c4b87f27113b9837bc876b6144a8af7
-      url: "https://github.com/nightmare-space/file_selector_meng"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/file_selector_meng"
+      relative: false
+    source: path
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -568,11 +564,9 @@ packages:
   signale:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "330855a5d6859066006f2ec415bc4f3cbb3828e5"
-      url: "https://github.com/nightmare-space/signale"
-    source: git
+      name: signale
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "0.0.7"
   simple_animations:
     dependency: "direct main"

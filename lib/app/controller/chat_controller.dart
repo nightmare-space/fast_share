@@ -30,7 +30,17 @@ import 'server_util.dart';
 void Function(Null arg) serverFileFunc;
 
 class ChatController extends GetxController {
-  ChatController();
+  ChatController() {
+    controller.addListener(() {
+      // 这个监听主要是为了改变发送按钮为+号按钮
+      if (controller.text.isNotEmpty) {
+        hasInput = true;
+      } else {
+        hasInput = false;
+      }
+      update();
+    });
+  }
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
   // 输入框控制器
@@ -60,16 +70,6 @@ class ChatController extends GetxController {
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
     Global().startSendBoardcast(udpData);
     chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
-
-    controller.addListener(() {
-      // 这个监听主要是为了改变发送按钮为+号按钮
-      if (controller.text.isNotEmpty) {
-        hasInput = true;
-      } else {
-        hasInput = false;
-      }
-      update();
-    });
     initChat(chatRoomUrl);
   }
 
@@ -494,7 +494,6 @@ class ChatController extends GetxController {
     scroll();
     update();
   }
-
 
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
