@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   window_manager: 0.1.6
+  animations: ^2.0.2
   desktop_drop: ^0.3.3
   dio_range_download: ^1.0.1
   # 文件选择自实现方案
@@ -60,6 +61,8 @@ dependencies:
   app_manager:
     git: https://github.com/nightmare-space/app_manager
   image_picker: ^0.8.5
+  settings:
+    git: https://github.com/nightmare-space/settings
 
 dev_dependencies:
   flutter_test:

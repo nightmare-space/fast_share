@@ -17,14 +17,11 @@ class MessageItemFactory {
       );
     } else if (info is MessageTipInfo) {
       return Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 4.w),
-          child: Text(
-            info.content,
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 12.w,
-            ),
+        child: Text(
+          info.content,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12.w,
           ),
         ),
       );

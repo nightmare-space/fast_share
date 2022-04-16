@@ -10,6 +10,7 @@ import 'package:flutter/material.dart' hide Router;
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
+import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
@@ -60,6 +61,7 @@ class ChatController extends GetxController {
   bool hasInput = false;
   Completer initLock = Completer();
   DeviceController deviceController = Get.find();
+  SettingController settingController = Get.find();
 
   Future<void> createChatRoom() async {
     chatBindPort = await createChatServer();
@@ -69,7 +71,10 @@ class ChatController extends GetxController {
     udpData += ',$chatBindPort';
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
     Global().startSendBoardcast(udpData);
-    chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
+    chatRoomUrl = 'http://127.0.0.1:$chatBindPort'; // 保存本地的IP地址列表
+    if (!GetPlatform.isWeb) {
+      addreses = await PlatformUtil.localAddress();
+    }
     initChat(chatRoomUrl);
   }
 
@@ -87,10 +92,7 @@ class ChatController extends GetxController {
       return;
     }
     this.chatServerAddress = chatServerAddress;
-    // 保存本地的IP地址列表
-    if (!GetPlatform.isWeb) {
-      addreses = await PlatformUtil.localAddress();
-    }
+
     socket = GetSocket((chatServerAddress ?? chatRoomUrl) + '/chat');
     children.clear();
     Completer conLock = Completer();
@@ -587,6 +589,9 @@ class ChatController extends GetxController {
   }
 
   Future<void> vibrate() async {
+    if (!settingController.vibrate) {
+      return;
+    }
     // 这个用来触发移动端的振动
     for (int i = 0; i < 3; i++) {
       Feedback.forLongPress(Get.context);

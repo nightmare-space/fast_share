@@ -117,6 +117,7 @@ class _HomePageState extends State<HomePage> {
 
   CardWrapper onknownFile(BuildContext context) {
     return CardWrapper(
+      padding: EdgeInsets.all(8.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -125,19 +126,14 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 16.w,
             ),
           ),
-          SizedBox(
-            height: 8.w,
-          ),
+          SizedBox(height: 8.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
             height: 1,
           ),
-          SizedBox(
-            height: 4.w,
-          ),
+          SizedBox(height: 4.w),
           Expanded(
             child: GetBuilder<FileController>(
               builder: (ctl) {
@@ -219,11 +215,29 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 12.w),
                           const OnlineList(),
                           SizedBox(height: 4.w),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: GetBuilder<FileController>(
-                                    builder: (context) {
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8.w,
+                              horizontal: 8.w,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '最近图片',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                                ),
+                                SizedBox(height: 4.w),
+                                GetBuilder<FileController>(builder: (context) {
                                   File file = fileController.getRecentImage();
                                   if (file == null) {
                                     return const SizedBox();
@@ -240,12 +254,10 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   );
                                 }),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            height: 10.w,
-                          ),
+                          SizedBox(height: 10.w),
                           onknownFile(context),
                           SizedBox(height: 10.w),
                           allDevice(context),
@@ -288,13 +300,18 @@ class _HomePageState extends State<HomePage> {
                                     height: 100.w,
                                     width: double.infinity,
                                     padding: EdgeInsets.all(8.w),
-                                    child: SelectableText(
-                                      'http://127.0.0.1:20000/file',
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
-                                      ),
+                                    child: ListView.builder(
+                                      itemCount: chatController.addreses.length,
+                                      itemBuilder: (context, index) {
+                                        return SelectableText(
+                                          'http://${chatController.addreses[index]}:12000/#/file',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
@@ -390,7 +407,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '全部设备',
+                '消息窗口(以前点那个+号打开的页面)',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,

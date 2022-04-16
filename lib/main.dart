@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
+import 'package:settings/settings.dart';
 import 'package:speed_share/config/size.dart';
 import 'package:speed_share/pages/home_page.dart';
 import 'package:window_manager/window_manager.dart';
@@ -11,6 +12,10 @@ import 'config/config.dart';
 import 'global/global.dart';
 import 'themes/default_theme_data.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
+
+Future<void> initSetting() async {
+  await initSettingStore(RuntimeEnvir.configPath);
+}
 
 Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
@@ -22,6 +27,7 @@ Future<void> main() async {
       Log.d(text, tag: 'GetX');
     },
   );
+  await initSetting();
   Get.put(DeviceController());
   runApp(const SpeedShare());
   if (GetPlatform.isDesktop) {

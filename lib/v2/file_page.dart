@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animations/animations.dart';
 import 'package:app_manager/app_manager.dart';
 import 'package:app_manager/global/global.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,31 @@ import 'package:global_repository/global_repository.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
 import 'package:speed_share/app/controller/file_controller.dart';
+import 'package:file_manager_view/file_manager_view.dart' as fm;
 
 import 'header.dart';
 import 'icon.dart';
+
+class NiIconButton extends StatelessWidget {
+  const NiIconButton({Key key, this.child, this.onTap}) : super(key: key);
+  final Widget child;
+  final GestureTapCallback onTap;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 48.w,
+      height: 48.w,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24.w),
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.all(12.w),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
 
 class FilePage extends StatefulWidget {
   const FilePage({Key key}) : super(key: key);
@@ -20,46 +43,88 @@ class FilePage extends StatefulWidget {
 }
 
 class _FilePageState extends State<FilePage> {
+  int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Header(),
-                SizedBox(height: 12.w),
-                dir(context),
-                SizedBox(height: 12.w),
-                onknownFile(context),
-                SizedBox(height: 12.w),
-                Row(
-                  children: [
-                    zipFile(context),
-                    SizedBox(width: 12.w),
-                    docFile(context),
-                  ],
+          child: Column(
+            children: [
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  const Header(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32.w),
+                    child: NiIconButton(
+                      onTap: () {
+                        pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
+                        setState(() {});
+                      },
+                      child: Icon(Icons.refresh),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: PageTransitionSwitcher(
+                  transitionBuilder: (
+                    Widget child,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                  ) {
+                    return FadeThroughTransition(
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      child: child,
+                    );
+                  },
+                  child: [
+                    Material(
+                      color: Theme.of(context).backgroundColor,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 12.w),
+                          dir(context),
+                          SizedBox(height: 12.w),
+                          onknownFile(context),
+                          SizedBox(height: 12.w),
+                          Row(
+                            children: [
+                              zipFile(context),
+                              SizedBox(width: 12.w),
+                              docFile(context),
+                            ],
+                          ),
+                          SizedBox(height: 10.w),
+                          Row(
+                            children: [
+                              audio(context),
+                              SizedBox(width: 10.w),
+                              video(context),
+                            ],
+                          ),
+                          SizedBox(height: 10.w),
+                          Row(
+                            children: [
+                              imgFile(context),
+                              SizedBox(width: 10.w),
+                              apkFile(context),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    fm.HomePage(
+                      drawer: false,
+                      path: '/sdcard/SpeedShare',
+                    ),
+                  ][pageIndex],
                 ),
-                SizedBox(height: 10.w),
-                Row(
-                  children: [
-                    audio(context),
-                    SizedBox(width: 10.w),
-                    video(context),
-                  ],
-                ),
-                SizedBox(height: 10.w),
-                Row(
-                  children: [
-                    imgFile(context),
-                    SizedBox(width: 10.w),
-                    apkFile(context),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -709,8 +774,10 @@ class CardWrapper extends StatelessWidget {
   const CardWrapper({
     Key key,
     this.child,
+    this.padding,
   }) : super(key: key);
   final Widget child;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
@@ -720,10 +787,11 @@ class CardWrapper extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       height: 120.w,
-      padding: EdgeInsets.symmetric(
-        vertical: 4.w,
-        horizontal: 12.w,
-      ),
+      padding: padding ??
+          EdgeInsets.symmetric(
+            vertical: 4.w,
+            horizontal: 12.w,
+          ),
       child: child,
     );
   }

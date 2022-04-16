@@ -17,6 +17,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.2"
+  animations:
+    dependency: "direct main"
+    description:
+      name: animations
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.2"
   app_manager:
     dependency: "direct main"
     description:
@@ -526,6 +533,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.2"
+  settings:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "1ef47b7e45a959e97e3352844c56049564cc5117"
+      url: "https://github.com/nightmare-space/settings"
+    source: git
+    version: "0.0.1"
   shelf:
     dependency: transitive
     description:

@@ -1,14 +1,24 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:signale/signale.dart';
+import 'package:settings/settings.dart';
 
 class SettingController extends GetxController {
-  SettingController();
+  SettingController() {
+    initConfig();
+  }
+
   bool enableFilter = false;
   bool enableServer = true;
   bool enableAutoDownload = false;
   bool clipboardShare = true;
   bool vibrate = true;
   String savePath = '/sdcard/SpeedShare';
+
+  void initConfig() {
+    clipboardShare = 'clipboardShare'.get ?? true;
+    vibrate = 'vibrate'.get ?? true;
+    enableAutoDownload = 'enableAutoDownload'.get ?? true;
+  }
 
   @override
   void onInit() {
@@ -24,16 +34,19 @@ class SettingController extends GetxController {
 
   void clipChange(bool value) {
     clipboardShare = value;
+    'clipboardShare'.set = clipboardShare;
     update();
   }
 
   void vibrateChange(bool value) {
     vibrate = value;
+    'vibrate'.set = vibrate;
     update();
   }
 
   void enableAutoChange(bool value) {
     enableAutoDownload = value;
+    'enableAutoDownload'.set = enableAutoDownload;
     update();
   }
 
