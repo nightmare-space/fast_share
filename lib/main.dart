@@ -39,13 +39,13 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     if (!GetPlatform.isWeb) {
       await windowManager.ensureInitialized();
-      windowManager.waitUntilReadyToShow().then((_) async {
-        // Hide window title bar
-        // await windowManager.setTitleBarStyle('hidden');
-        await windowManager.setSize(SizeConfig.defaultSize);
-        await windowManager.show();
-        // await windowManager.setSkipTaskbar(false);
-      });
+      // windowManager.waitUntilReadyToShow().then((_) async {
+      //   // Hide window title bar
+      //   // await windowManager.setTitleBarStyle('hidden');
+      //   await windowManager.setSize(SizeConfig.defaultSize);
+      //   await windowManager.show();
+      //   // await windowManager.setSkipTaskbar(false);
+      // });
     }
   }
   StatusBarUtil.transparent();
