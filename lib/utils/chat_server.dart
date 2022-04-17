@@ -72,12 +72,13 @@ class SocketPage extends GetView {
           // 这个发了，加入的才能收到
           socket.send(msg);
         }
-        if (msgs.isNotEmpty) {
-          socket.send(json.encode({
-            'msgType': 'tip',
-            'content': '以上是历史消息',
-          }));
-        }
+        // todo
+        // if (msgs.isNotEmpty) {
+        //   socket.send(json.encode({
+        //     'msgType': 'tip',
+        //     'content': '以上是历史消息',
+        //   }));
+        // }
         return;
       default:
         // 保存到历史

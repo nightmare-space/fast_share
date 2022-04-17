@@ -2,11 +2,9 @@
 
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/themes/color_extension.dart';
 
-import 'app_colors.dart';
 import 'lib_color_schemes.g.dart';
 
 class DefaultThemeData {

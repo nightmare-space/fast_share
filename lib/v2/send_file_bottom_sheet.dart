@@ -28,8 +28,8 @@ class _SendFilePageState extends State<SendFilePage>
       duration: const Duration(milliseconds: 200),
     );
     color = ColorTween(
-      begin: Color(0xff6A6DED),
-      end: Color(0xff424242),
+      begin: const Color(0xff6A6DED),
+      end: const Color(0xff424242),
     ).animate(controller);
     controller.forward();
     controller.addListener(() {

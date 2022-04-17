@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +14,7 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/scan_util.dart';
-import 'package:speed_share/widgets/circle_animation.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:window_manager/window_manager.dart';
 import 'dialog/join_chat.dart';
 import 'online_list.dart';
 
@@ -335,7 +332,7 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.all(16.w),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color(0xfff5f5f8).withOpacity(0.4),
+                        color: const Color(0xfff5f5f8).withOpacity(0.4),
                         borderRadius: BorderRadius.circular(16.w),
                       ),
                       child: Column(
@@ -385,7 +382,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 80.w),
-              child: OnlineList(),
+              child: const OnlineList(),
             ),
             Align(
               alignment: Alignment.topCenter,

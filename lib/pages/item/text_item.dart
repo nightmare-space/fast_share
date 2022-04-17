@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/global/global.dart';
 import 'package:speed_share/pages/model/model.dart';
-import 'package:speed_share/themes/app_colors.dart';
 
-import 'package:speed_share/themes/theme.dart';
 
 class TextMessageItem extends StatelessWidget {
   final MessageTextInfo info;
@@ -27,10 +24,10 @@ class TextMessageItem extends StatelessWidget {
             if (info.sendFrom != null)
               Container(
                 decoration: BoxDecoration(
-                  color: Color(0xffED796A).withOpacity(0.15),
+                  color: const Color(0xffED796A).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 8,
                   vertical: 4,
                 ),
@@ -40,7 +37,7 @@ class TextMessageItem extends StatelessWidget {
                     style: TextStyle(
                       height: 1,
                       fontSize: 12.w,
-                      color: Color(0xffED796A),
+                      color: const Color(0xffED796A),
                     ),
                   ),
                 ),

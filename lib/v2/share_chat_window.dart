@@ -2,19 +2,19 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
-import 'package:speed_share/config/size.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:window_manager/window_manager.dart';
+
+import 'show_qr_page.dart';
 
 class ShareChatV2 extends StatefulWidget {
   const ShareChatV2({
@@ -91,49 +91,7 @@ class _ShareChatV2State extends State<ShareChatV2>
         },
         child: Stack(
           children: [
-            Scaffold(
-              backgroundColor: Colors.white,
-              body: Stack(
-                alignment: Alignment.center,
-                // fit: StackFit.passthrough,
-                children: [
-                  Column(
-                    children: [
-                      if (GetPlatform.isAndroid) appbar(context),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            if (GetPlatform.isAndroid) leftNav(),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: chatList(context),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Material(
-                                      color: Colors.white,
-                                      child: ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                          minHeight: 60.w,
-                                          maxHeight: 240.w,
-                                        ),
-                                        child: sendMsgContainer(context),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            body(context),
             if (dropping)
               BackdropFilter(
                 filter: ImageFilter.blur(
@@ -153,6 +111,60 @@ class _ShareChatV2State extends State<ShareChatV2>
                   ),
                 ),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Scaffold body(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.center,
+          // fit: StackFit.passthrough,
+          children: [
+            Column(
+              children: [
+                if (ResponsiveWrapper.of(context).isMobile)
+                  appbar(context)
+                else
+                  SizedBox(
+                    height: 10.w,
+                  ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      if (ResponsiveWrapper.of(context).isMobile) leftNav(),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0.w),
+                          child: Column(
+                            children: [
+                              Expanded(child: chatList(context)),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Material(
+                                  color: Colors.white,
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      minHeight: 60.w,
+                                      maxHeight: 240.w,
+                                    ),
+                                    child: sendMsgContainer(context),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -211,20 +223,45 @@ class _ShareChatV2State extends State<ShareChatV2>
     return Material(
       color: Colors.white,
       child: SizedBox(
-        height: 84.w,
-        child: AppBar(
-          systemOverlayStyle: OverlayStyle.dark,
-          centerTitle: false,
-          title: Text(
-            '全部设备',
-            style: Theme.of(context).textTheme.bodyText2.copyWith(
-                  color: AppColors.fontColor,
-                  fontWeight: bold,
-                  fontSize: 16.w,
-                ),
-          ),
-          leading: const PopButton(),
+        height: 48.w,
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (ResponsiveWrapper.of(context).isMobile) const PopButton(),
+            SizedBox(width: 12.w),
+            Text(
+              '全部设备',
+              style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: AppColors.fontColor,
+                    fontWeight: bold,
+                    fontSize: 16.w,
+                  ),
+            ),
+          ],
         ),
+        // child: AppBar(
+        //   systemOverlayStyle: OverlayStyle.dark,
+        //   centerTitle: false,
+        //   title: Text(
+        //     '全部设备',
+        //     style: Theme.of(context).textTheme.bodyText2.copyWith(
+        //           color: AppColors.fontColor,
+        //           fontWeight: bold,
+        //           fontSize: 16.w,
+        //         ),
+        //   ),
+        //   leading: const PopButton(),
+        //   actions: [
+        //     NiIconButton(
+        //       onTap: () {
+        //         Get.dialog(ShowQRPage(
+        //           port: controller.chatBindPort,
+        //         ));
+        //       },
+        //       child: Image.asset('assets/icon/qr.png'),
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }
@@ -484,7 +521,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 100,
       ),
     );

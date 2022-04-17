@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'widget/xliv-switch.dart';
 
@@ -24,35 +26,32 @@ class _SettingPageState extends State<SettingPage> {
       fontSize: 16.w,
     );
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: OverlayStyle.dark,
-        centerTitle: false,
-        titleSpacing: 0,
-        title: Text(
-          '设置',
-          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                fontWeight: bold,
-                fontSize: 18.w,
-              ),
-        ),
-        leading: const PopButton(),
-      ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: GetBuilder<SettingController>(builder: (_) {
-            return Column(
+        child: GetBuilder<SettingController>(builder: (_) {
+          return SingleChildScrollView(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    '设置功能还在开发中，暂无实际作用',
-                    style: title,
+                if (ResponsiveWrapper.of(context).isMobile)
+                  SizedBox(
+                    height: 40.w,
+                    child: Row(
+                      children: [
+                        ResponsiveWrapper.of(context).isMobile
+                            ? const PopButton()
+                            : SizedBox(width: 12.w),
+                        Text(
+                          '设置',
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                fontWeight: bold,
+                                fontSize: 18.w,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
                     '常规',
                     style: title,
@@ -66,7 +65,7 @@ class _SettingPageState extends State<SettingPage> {
                       Text(
                         '下载路径',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       Text(
@@ -93,7 +92,7 @@ class _SettingPageState extends State<SettingPage> {
                       Text(
                         '自动下载',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       AquaSwitch(
@@ -113,7 +112,7 @@ class _SettingPageState extends State<SettingPage> {
                       Text(
                         '剪切板共享',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       AquaSwitch(
@@ -133,7 +132,7 @@ class _SettingPageState extends State<SettingPage> {
                       Text(
                         '收到消息时振动提醒',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       AquaSwitch(
@@ -147,7 +146,7 @@ class _SettingPageState extends State<SettingPage> {
                 // Text('消息和通知'),
                 // Text('快捷键'),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
                     '关于速享',
                     style: title,
@@ -160,13 +159,13 @@ class _SettingPageState extends State<SettingPage> {
                       Text(
                         '当前版本',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       Text(
                         'v2.0',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context)
                               .textTheme
@@ -179,13 +178,19 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
                 SettingItem(
+                  onTap: () async {
+                    String url = 'https://github.com/nightmare-space/speed_share';
+                    await canLaunch(url)
+                        ? await launch(url)
+                        : throw 'Could not launch $url';
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         '开源地址',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       Icon(
@@ -196,6 +201,13 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
                 SettingItem(
+                  onTap: () async {
+                    String url =
+                        'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
+                    await canLaunch(url)
+                        ? await launch(url)
+                        : throw 'Could not launch $url';
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -206,13 +218,13 @@ class _SettingPageState extends State<SettingPage> {
                           Text(
                             '其他版本下载',
                             style: TextStyle(
-                              fontSize: 20.w,
+                              fontSize: 18.w,
                             ),
                           ),
                           Text(
                             '速享还支持Windows、macOS、Linux',
                             style: TextStyle(
-                              fontSize: 16.w,
+                              fontSize: 14.w,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -232,13 +244,13 @@ class _SettingPageState extends State<SettingPage> {
                       Text(
                         '开发者',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       Text(
                         '梦魇兽',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context)
                               .textTheme
@@ -257,13 +269,13 @@ class _SettingPageState extends State<SettingPage> {
                       Text(
                         'UI设计师',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                         ),
                       ),
                       Text(
                         '柚凛',
                         style: TextStyle(
-                          fontSize: 20.w,
+                          fontSize: 18.w,
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context)
                               .textTheme
@@ -276,9 +288,9 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
               ],
-            );
-          }),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }
@@ -298,11 +310,14 @@ class SettingItem extends StatelessWidget {
       onTap: () {
         onTap?.call();
       },
-      child: SizedBox(
-        height: 64.w,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: child,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: SizedBox(
+          height: 56.w,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: child,
+          ),
         ),
       ),
     );

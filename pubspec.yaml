@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   window_manager: 0.1.6
+  animations: ^2.0.2
   desktop_drop: ^0.3.3
   dio_range_download: ^1.0.1
   # 文件选择自实现方案
@@ -55,11 +56,14 @@ dependencies:
   # 网络请求
   dio: ^4.0.0
   # 局域网设备发现
+  responsive_framework: ^0.1.7
   multicast:
     git: https://github.com/nightmare-space/multicast
   app_manager:
     git: https://github.com/nightmare-space/app_manager
   image_picker: ^0.8.5
+  settings:
+    git: https://github.com/nightmare-space/settings
 
 dev_dependencies:
   flutter_test:
@@ -72,10 +76,14 @@ flutter:
     - assets/
     - assets/icon/
 
-dependency_overrides:
-  # app_manager:
-  #   path: ../app_manager
-  # applib_util:
-  #   path: ../applib/applib_util
-  # global_repository:
-  #   path: ../global_repository
+# dependency_overrides:
+#   app_manager:
+#     path: ../app_manager
+#   applib_util:
+#     path: ../applib/applib_util
+#   global_repository:
+#     path: ../global_repository
+#   file_manager_view:
+#     path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
+#   file_selector_nightmare:
+#     path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng

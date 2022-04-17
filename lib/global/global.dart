@@ -25,11 +25,9 @@ class Global {
   Multicast multicast = Multicast();
   String localClipdata = '';
   String remoteClipdata = '';
-  String deviceId='';
+  String deviceId = '';
 
   bool isInit = false;
-
-
 
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, String address) async {
@@ -116,6 +114,7 @@ class Global {
       // 这个 if 就不会走到，如果是被其他的项目依赖，RuntimeEnvir.packageName就会是对应的主仓库的包名
       Config.flutterPackage = 'packages/speed_share/';
     }
+    deviceId = await UniqueUtil.getDevicesId();
     if (GetPlatform.isWeb || GetPlatform.isIOS) {
       // web udp 和部署都不支持
       return;
@@ -123,7 +122,6 @@ class Global {
     if (isInit) {
       return;
     }
-    deviceId=await UniqueUtil.getDevicesId();
     isInit = true;
     multicast.addListener(_receiveUdpMessage);
     if (GetPlatform.isAndroid || GetPlatform.isDesktop) {

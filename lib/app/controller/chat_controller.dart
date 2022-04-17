@@ -6,12 +6,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
-import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:global_repository/global_repository.dart';
-import 'package:shelf_router/shelf_router.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
+import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
@@ -26,14 +25,23 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:speed_share/utils/unique_util.dart';
-import 'package:speed_share/v2/show_qr_page.dart';
 
 import 'server_util.dart';
 
 void Function(Null arg) serverFileFunc;
 
 class ChatController extends GetxController {
-  ChatController() {}
+  ChatController() {
+    controller.addListener(() {
+      // 这个监听主要是为了改变发送按钮为+号按钮
+      if (controller.text.isNotEmpty) {
+        hasInput = true;
+      } else {
+        hasInput = false;
+      }
+      update();
+    });
+  }
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
   // 输入框控制器
@@ -53,6 +61,7 @@ class ChatController extends GetxController {
   bool hasInput = false;
   Completer initLock = Completer();
   DeviceController deviceController = Get.find();
+  SettingController settingController = Get.find();
 
   Future<void> createChatRoom() async {
     chatBindPort = await createChatServer();
@@ -62,18 +71,10 @@ class ChatController extends GetxController {
     udpData += ',$chatBindPort';
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
     Global().startSendBoardcast(udpData);
-    chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
-    await sendAddressAndQrCode();
-
-    controller.addListener(() {
-      // 这个监听主要是为了改变发送按钮为+号按钮
-      if (controller.text.isNotEmpty) {
-        hasInput = true;
-      } else {
-        hasInput = false;
-      }
-      update();
-    });
+    chatRoomUrl = 'http://127.0.0.1:$chatBindPort'; // 保存本地的IP地址列表
+    if (!GetPlatform.isWeb) {
+      addreses = await PlatformUtil.localAddress();
+    }
     initChat(chatRoomUrl);
   }
 
@@ -91,10 +92,7 @@ class ChatController extends GetxController {
       return;
     }
     this.chatServerAddress = chatServerAddress;
-    // 保存本地的IP地址列表
-    if (!GetPlatform.isWeb) {
-      addreses = await PlatformUtil.localAddress();
-    }
+
     socket = GetSocket((chatServerAddress ?? chatRoomUrl) + '/chat');
     children.clear();
     Completer conLock = Completer();
@@ -145,13 +143,6 @@ class ChatController extends GetxController {
     //   ));
     //   update();
     // }
-    if (GetPlatform.isAndroid) {
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTipInfo(content: '下载路径在 /sdcard/SpeedShare'),
-        false,
-      ));
-      update();
-    }
     // 监听消息
     listenMessage();
     sendJoinEvent();
@@ -499,31 +490,6 @@ class ChatController extends GetxController {
     update();
   }
 
-  Future<void> sendAddressAndQrCode() async {
-    // 这个if的内容是创建房间的设备，会得到本机ip的消息
-    fixedChildren.add(
-      GestureDetector(
-        onTap: () {
-          Get.dialog(ShowQRPage(
-            port: chatBindPort,
-          ));
-        },
-        child: Container(
-          padding: EdgeInsets.all(10.w),
-          margin: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.w),
-          ),
-          child: const Text('点击查看连接二维码'),
-        ),
-      ),
-    );
-
-    update();
-    scroll();
-  }
-
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
 
@@ -616,6 +582,9 @@ class ChatController extends GetxController {
   }
 
   Future<void> vibrate() async {
+    if (!settingController.vibrate) {
+      return;
+    }
     // 这个用来触发移动端的振动
     for (int i = 0; i < 3; i++) {
       Feedback.forLongPress(Get.context);

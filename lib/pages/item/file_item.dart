@@ -1,20 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:open_file/open_file.dart';
-import 'package:speed_share/global/global.dart';
-import 'package:speed_share/themes/theme.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_range_download/dio_range_download.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
-import 'package:speed_share/config/config.dart';
+import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/pages/model/model.dart';
-import 'package:speed_share/pages/video.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:speed_share/utils/path_util.dart';
@@ -39,6 +34,7 @@ class FileItem extends StatefulWidget {
 
 class _FileItemState extends State<FileItem> {
   ChatController chatController = Get.find();
+  SettingController settingController = Get.find();
   MessageFileInfo info;
   final Dio dio = Dio();
   CancelToken cancelToken = CancelToken();
@@ -111,6 +107,10 @@ class _FileItemState extends State<FileItem> {
   void initState() {
     super.initState();
     info = widget.info;
+    // 开启自动下载，且是来自其他设备的消息
+    if (settingController.enableAutoDownload && !widget.sendByUser) {
+      downloadFile(url, '/sdcard/SpeedShare');
+    }
   }
 
   @override
@@ -120,8 +120,7 @@ class _FileItemState extends State<FileItem> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  String get url {
     String url;
     if (widget.sendByUser) {
       url = 'http://127.0.0.1:${chatController.shelfBindPort}' +
@@ -129,11 +128,12 @@ class _FileItemState extends State<FileItem> {
     } else {
       url = widget.info.url + widget.info.filePath;
     }
+    return url;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // Log.e('fileitem url -> $url');
-    Color background = scheme.primary.withOpacity(0.05);
-    if (widget.sendByUser) {
-      background = AppColors.sendByUser;
-    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -144,26 +144,27 @@ class _FileItemState extends State<FileItem> {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.start,
           children: [
-            if (info.sendFrom != null)Container(
-              decoration: BoxDecoration(
-                color: Color(0xffED796A).withOpacity(0.15),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 4,
-              ),
-              child: Center(
-                child: Text(
-                  info.sendFrom,
-                  style: TextStyle(
-                    height: 1,
-                    fontSize: 12.w,
-                    color: Color(0xffED796A),
+            if (info.sendFrom != null)
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xffED796A).withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                child: Center(
+                  child: Text(
+                    info.sendFrom,
+                    style: TextStyle(
+                      height: 1,
+                      fontSize: 12.w,
+                      color: const Color(0xffED796A),
+                    ),
                   ),
                 ),
               ),
-            ),
             SizedBox(
               height: 4.w,
             ),

@@ -4,7 +4,7 @@ extension Ext on String {
   }
 
   bool get isVideo {
-    return endsWith('.mp4') || endsWith('.mkv');
+    return endsWith('.mp4') || endsWith('.mkv') || endsWith('.mov');
   }
 
   bool get isApk {
@@ -15,7 +15,8 @@ extension Ext on String {
     return endsWith('.gif') ||
         endsWith('.jpg') ||
         endsWith('.jpeg') ||
-        endsWith('.png');
+        endsWith('.png') ||
+        endsWith('.webp');
   }
 
   bool get isDoc {

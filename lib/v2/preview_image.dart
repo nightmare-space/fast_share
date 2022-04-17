@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 
 // 预览图片的组件
 class PreviewImage extends StatefulWidget {
-  const PreviewImage({Key key, this.path}) : super(key: key);
+  const PreviewImage({Key key, this.path, this.tag}) : super(key: key);
   final String path;
+  // hero
+  final String tag;
   @override
   State<PreviewImage> createState() => _PreviewImageState();
 }
@@ -19,7 +21,7 @@ class _PreviewImageState extends State<PreviewImage> {
         alignment: Alignment.center,
         children: [
           Hero(
-            tag: widget.path,
+            tag: widget.tag,
             child: GestureDetector(
               onTap: () {
                 Get.back();

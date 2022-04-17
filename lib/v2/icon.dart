@@ -45,17 +45,26 @@ Widget getIconByExt(String path) {
       tag: path,
       child: GestureDetector(
         onTap: () {
-          Get.to(PreviewImage(path: path));
+          Get.to(PreviewImage(
+            path: path,
+            tag: path,
+          ));
         },
         child: path.startsWith('http')
-            ? Image.network(
-                path,
+            ? Image(
                 width: 36.w,
                 height: 36.w,
                 fit: BoxFit.cover,
+                image: ResizeImage(
+                  NetworkImage(path),
+                  width: 100,
+                ),
               )
-            : Image.file(
-                File(path),
+            : Image(
+                image: ResizeImage(
+                  FileImage(File(path)),
+                  width: 100,
+                ),
                 width: 36.w,
                 height: 36.w,
                 fit: BoxFit.cover,
