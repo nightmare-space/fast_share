@@ -55,8 +55,8 @@ dependencies:
   mime_type: ^1.0.0
   # 网络请求
   dio: ^4.0.0
-  # 局域网设备发现
   responsive_framework: ^0.1.7
+  # 局域网设备发现
   multicast:
     git: https://github.com/nightmare-space/multicast
   app_manager:

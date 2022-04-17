@@ -29,7 +29,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "93c9b805ef8581cca2c75f114d3c732aa63c2e97"
+      resolved-ref: b5af0899a4142c162450550daef9855248cc526a
       url: "https://github.com/nightmare-space/app_manager"
     source: git
     version: "1.0.0+1"
@@ -173,7 +173,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5e3b566c7b3640a09359a1534b7eee9e22d08965"
+      resolved-ref: f6d3f7e717df0c205755b13dd5c9aa885a3e10ae
       url: "https://github.com/nightmare-space/file_manager_view.git"
     source: git
     version: "1.0.0+1"
@@ -297,7 +297,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8003dc1c4a93731f1a1179719342002f052e5d50"
+      resolved-ref: "5a1f3d90c0d1abff1065b593154de2f15dafaa64"
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"
@@ -597,11 +597,9 @@ packages:
   signale:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "330855a5d6859066006f2ec415bc4f3cbb3828e5"
-      url: "https://github.com/nightmare-space/signale"
-    source: git
+      name: signale
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "0.0.7"
   simple_animations:
     dependency: "direct main"
