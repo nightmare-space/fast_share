@@ -27,20 +27,16 @@ packages:
   app_manager:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b5af0899a4142c162450550daef9855248cc526a
-      url: "https://github.com/nightmare-space/app_manager"
-    source: git
+      path: "../app_manager"
+      relative: true
+    source: path
     version: "1.0.0+1"
   applib_util:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: applib_util
-      ref: HEAD
-      resolved-ref: b2a0e42e465d80c68353a927902ab2b0105a8216
-      url: "https://github.com/nightmare-space/applib"
-    source: git
+      path: "../applib/applib_util"
+      relative: true
+    source: path
     version: "0.0.1"
   archive:
     dependency: "direct main"
@@ -63,6 +59,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  better_player:
+    dependency: transitive
+    description:
+      name: better_player
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.81"
   boolean_selector:
     dependency: transitive
     description:
@@ -119,6 +122,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.17.1"
   cupertino_icons:
     dependency: transitive
     description:
@@ -168,14 +178,19 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.2"
-  file_manager_view:
+  file:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: f6d3f7e717df0c205755b13dd5c9aa885a3e10ae
-      url: "https://github.com/nightmare-space/file_manager_view.git"
-    source: git
+      name: file
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "6.1.2"
+  file_manager_view:
+    dependency: "direct overridden"
+    description:
+      path: "/Users/nightmare/Desktop/nightmare-space/file_manager_view"
+      relative: false
+    source: path
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
@@ -208,11 +223,9 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e9271b8b199cc484a078f1dfdd0b89e3dc03cdcf
-      url: "https://github.com/nightmare-space/file_selector_meng"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/file_selector_meng"
+      relative: false
+    source: path
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -278,6 +291,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_widget_from_html_core:
+    dependency: transitive
+    description:
+      name: flutter_widget_from_html_core
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.8.5+1"
+  fwfh_text_style:
+    dependency: transitive
+    description:
+      name: fwfh_text_style
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.7.3+1"
   get:
     dependency: "direct main"
     description:
@@ -295,11 +322,9 @@ packages:
   global_repository:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "5a1f3d90c0d1abff1065b593154de2f15dafaa64"
-      url: "https://github.com/nightmare-space/global_repository"
-    source: git
+      path: "../global_repository"
+      relative: true
+    source: path
     version: "0.0.1"
   hive:
     dependency: transitive
@@ -308,6 +333,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.15.0"
   http:
     dependency: transitive
     description:
@@ -466,6 +498,55 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.1"
+  path_provider:
+    dependency: transitive
+    description:
+      name: path_provider
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.9"
+  path_provider_android:
+    dependency: transitive
+    description:
+      name: path_provider_android
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.12"
+  path_provider_ios:
+    dependency: transitive
+    description:
+      name: path_provider_ios
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.8"
+  path_provider_linux:
+    dependency: transitive
+    description:
+      name: path_provider_linux
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.5"
+  path_provider_macos:
+    dependency: transitive
+    description:
+      name: path_provider_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.5"
+  path_provider_platform_interface:
+    dependency: transitive
+    description:
+      name: path_provider_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.3"
+  path_provider_windows:
+    dependency: transitive
+    description:
+      name: path_provider_windows
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.5"
   pedantic:
     dependency: transitive
     description:
@@ -508,6 +589,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.2"
+  process:
+    dependency: transitive
+    description:
+      name: process
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.2.4"
   qr:
     dependency: transitive
     description:
@@ -755,6 +843,55 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.1"
+  visibility_detector:
+    dependency: transitive
+    description:
+      name: visibility_detector
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.2"
+  wakelock:
+    dependency: transitive
+    description:
+      name: wakelock
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.6"
+  wakelock_macos:
+    dependency: transitive
+    description:
+      name: wakelock_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
+  wakelock_platform_interface:
+    dependency: transitive
+    description:
+      name: wakelock_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.0"
+  wakelock_web:
+    dependency: transitive
+    description:
+      name: wakelock_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
+  wakelock_windows:
+    dependency: transitive
+    description:
+      name: wakelock_windows
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
+  win32:
+    dependency: transitive
+    description:
+      name: win32
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.5.1"
   window_manager:
     dependency: "direct main"
     description:
@@ -762,6 +899,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.6"
+  xdg_directories:
+    dependency: transitive
+    description:
+      name: xdg_directories
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0+1"
   xml:
     dependency: transitive
     description:

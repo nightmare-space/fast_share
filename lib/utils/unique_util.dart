@@ -7,7 +7,7 @@ class UniqueUtil {
   UniqueUtil._();
   static Future<String> getDevicesId() async {
     if (GetPlatform.isWeb) {
-      return 'WBE';
+      return 'web';
     }
     if (PlatformUtil.isDesktop()) {
       return Platform.operatingSystem;

@@ -149,7 +149,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                                   color: Colors.white,
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
-                                      minHeight: 60.w,
+                                      minHeight: 64.w,
                                       maxHeight: 240.w,
                                     ),
                                     child: sendMsgContainer(context),
@@ -424,34 +424,43 @@ class _ShareChatV2State extends State<ShareChatV2>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: TextField(
-                      focusNode: controller.focusNode,
-                      controller: controller.controller,
-                      autofocus: false,
-                      maxLines: 8,
-                      minLines: 1,
-                      decoration: InputDecoration(
-                        fillColor: Theme.of(context).backgroundColor,
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.w,
-                          horizontal: 8.w,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        // color: Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(12.w),
+                      ),
+                      width: double.infinity,
+                      // height: 40.w,
+                      child: Center(
+                        child: TextField(
+                          focusNode: controller.focusNode,
+                          controller: controller.controller,
+                          autofocus: false,
+                          maxLines: 8,
+                          minLines: 1,
+                          decoration: InputDecoration(
+                            fillColor: Theme.of(context).backgroundColor,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: GetPlatform.isWeb ? 16.w : 10.w,
+                              horizontal: 12.w,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            textBaseline: TextBaseline.ideographic,
+                          ),
+                          onSubmitted: (_) {
+                            controller.sendTextMsg();
+                            Future.delayed(const Duration(milliseconds: 100),
+                                () {
+                              controller.focusNode.requestFocus();
+                            });
+                          },
                         ),
                       ),
-                      style: const TextStyle(
-                        textBaseline: TextBaseline.ideographic,
-                      ),
-                      onSubmitted: (_) {
-                        controller.sendTextMsg();
-                        Future.delayed(const Duration(milliseconds: 100), () {
-                          controller.focusNode.requestFocus();
-                        });
-                      },
                     ),
                   ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
+                  SizedBox(width: 8.w),
                   GestureWithScale(
                     onTap: () {
                       if (controller.hasInput) {

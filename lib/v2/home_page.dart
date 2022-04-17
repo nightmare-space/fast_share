@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
               color: Theme.of(context).colorScheme.onBackground,
             ),
           ),
-          SizedBox(height: 8.w),
+          SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
             height: 1,
@@ -248,6 +248,11 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   SizedBox(height: 4.w),
+                                  Container(
+                                    color: const Color(0xffE0C4C4)
+                                        .withOpacity(0.2),
+                                    height: 1,
+                                  ),
                                   GetBuilder<FileController>(
                                       builder: (context) {
                                     File file = fileController.getRecentImage();
@@ -269,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                                           child: Image.file(
                                             file,
                                             width: double.infinity,
-                                            height: 200.w,
+                                            height: 120.w,
                                           ),
                                         ),
                                       ),
@@ -312,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                                     height: 1,
                                   ),
                                   SizedBox(
-                                    height: 10.w,
+                                    height: 4.w,
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -376,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                                         height: 1,
                                       ),
                                       SizedBox(
-                                        height: 10.w,
+                                        height: 4.w,
                                       ),
                                       Text(
                                         '如果有新的设备链接，会在下方添加新的设备版块，在首页手指向上滑动，可以拖动。',
@@ -447,7 +452,7 @@ class _HomePageState extends State<HomePage> {
                 height: 1,
               ),
               SizedBox(
-                height: 10.w,
+                height: 4.w,
               ),
               chatController.children.isEmpty
                   ? Text(
