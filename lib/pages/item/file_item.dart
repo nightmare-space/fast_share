@@ -107,7 +107,8 @@ class _FileItemState extends State<FileItem> {
   void initState() {
     super.initState();
     info = widget.info;
-    if (settingController.enableAutoDownload) {
+    // 开启自动下载，且是来自其他设备的消息
+    if (settingController.enableAutoDownload && !widget.sendByUser) {
       downloadFile(url, '/sdcard/SpeedShare');
     }
   }

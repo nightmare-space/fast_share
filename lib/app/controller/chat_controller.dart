@@ -143,13 +143,6 @@ class ChatController extends GetxController {
     //   ));
     //   update();
     // }
-    if (GetPlatform.isAndroid) {
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTipInfo(content: '下载路径在 /sdcard/SpeedShare'),
-        false,
-      ));
-      update();
-    }
     // 监听消息
     listenMessage();
     sendJoinEvent();

@@ -56,6 +56,7 @@ dependencies:
   # 网络请求
   dio: ^4.0.0
   # 局域网设备发现
+  responsive_framework: ^0.1.7
   multicast:
     git: https://github.com/nightmare-space/multicast
   app_manager:
@@ -75,14 +76,14 @@ flutter:
     - assets/
     - assets/icon/
 
-dependency_overrides:
-  app_manager:
-    path: ../app_manager
-  applib_util:
-    path: ../applib/applib_util
-  global_repository:
-    path: ../global_repository
-  file_manager_view:
-    path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
-  file_selector_nightmare:
-    path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+# dependency_overrides:
+#   app_manager:
+#     path: ../app_manager
+#   applib_util:
+#     path: ../applib/applib_util
+#   global_repository:
+#     path: ../global_repository
+#   file_manager_view:
+#     path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
+#   file_selector_nightmare:
+#     path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng

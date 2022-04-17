@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:settings/settings.dart';
+import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/config/size.dart';
 import 'package:speed_share/pages/home_page.dart';
 import 'package:window_manager/window_manager.dart';
@@ -27,8 +29,11 @@ Future<void> main() async {
       Log.d(text, tag: 'GetX');
     },
   );
-  await initSetting();
+  if (!GetPlatform.isWeb) {
+    await initSetting();
+  }
   Get.put(DeviceController());
+  Get.put(SettingController());
   runApp(const SpeedShare());
   if (GetPlatform.isDesktop) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -77,6 +82,20 @@ class SpeedShare extends StatelessWidget {
                   Theme.of(context).brightness == Brightness.dark;
               final ThemeData theme =
                   isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+              return ResponsiveWrapper.builder(
+                Theme(
+                  data: theme,
+                  child: child,
+                ),
+                // maxWidth: 1200,
+                minWidth: 480,
+                defaultScale: false,
+                breakpoints: [
+                  ResponsiveBreakpoint.resize(300, name: MOBILE),
+                  ResponsiveBreakpoint.autoScale(600, name: TABLET),
+                  ResponsiveBreakpoint.resize(600, name: DESKTOP),
+                ],
+              );
               return Responsive(
                 builder: (_, __) {
                   return Theme(

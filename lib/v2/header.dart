@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:logger_view/logger_view.dart';
+import 'package:speed_share/pages/dialog/join_chat.dart';
 import 'package:speed_share/utils/scan_util.dart';
 
 import 'setting_page.dart';
 
 class Header extends StatelessWidget {
-  const Header({ Key key }) : super(key: key);
+  const Header({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class Header extends StatelessWidget {
         Row(
           children: [
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Get.to(const SettingPage());
               },
               child: ClipRRect(
@@ -41,11 +43,39 @@ class Header extends StatelessWidget {
             ),
           ],
         ),
-        Row(
-          children: [
-            Transform(
-              transform: Matrix4.identity()..translate(12.w),
-              child: NiIconButton(
+        Transform(
+          transform: Matrix4.identity()..translate(12.w),
+          child: Row(
+            children: [
+              NiIconButton(
+                child: Icon(
+                  Icons.info,
+                  color: Colors.black,
+                  size: 24.w,
+                ),
+                onTap: () async {
+                  Get.to(Responsive(
+                    builder: (context, screenType) {
+                      return const Material(
+                        child: SafeArea(
+                          child: LoggerView(),
+                        ),
+                      );
+                    },
+                  ));
+                },
+              ),
+              NiIconButton(
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                  size: 24.w,
+                ),
+                onTap: () async {
+                  Get.dialog(const JoinChat());
+                },
+              ),
+              NiIconButton(
                 child: SvgPicture.asset(
                   GlobalAssets.qrCode,
                   color: Colors.black,
@@ -55,8 +85,8 @@ class Header extends StatelessWidget {
                   ScanUtil.parseScan();
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

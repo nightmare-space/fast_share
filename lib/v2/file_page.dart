@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 
@@ -57,7 +58,7 @@ class _FilePageState extends State<FilePage> {
                 children: [
                   const Header(),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.w),
+                    padding: EdgeInsets.symmetric(horizontal: 140.w),
                     child: NiIconButton(
                       onTap: () {
                         pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
@@ -82,41 +83,7 @@ class _FilePageState extends State<FilePage> {
                     );
                   },
                   child: [
-                    Material(
-                      color: Theme.of(context).backgroundColor,
-                      child: Column(
-                        children: [
-                          SizedBox(height: 12.w),
-                          dir(context),
-                          SizedBox(height: 12.w),
-                          onknownFile(context),
-                          SizedBox(height: 12.w),
-                          Row(
-                            children: [
-                              zipFile(context),
-                              SizedBox(width: 12.w),
-                              docFile(context),
-                            ],
-                          ),
-                          SizedBox(height: 10.w),
-                          Row(
-                            children: [
-                              audio(context),
-                              SizedBox(width: 10.w),
-                              video(context),
-                            ],
-                          ),
-                          SizedBox(height: 10.w),
-                          Row(
-                            children: [
-                              imgFile(context),
-                              SizedBox(width: 10.w),
-                              apkFile(context),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    fileList(context),
                     fm.HomePage(
                       drawer: false,
                       path: '/sdcard/SpeedShare',
@@ -131,78 +98,96 @@ class _FilePageState extends State<FilePage> {
     );
   }
 
-  Expanded video(BuildContext context) {
-    return Expanded(
-      child: CardWrapper(
+  double get width {
+    return MediaQuery.of(context).size.width / 4 - 64.w;
+  }
+
+  Material fileList(BuildContext context) {
+    if (ResponsiveWrapper.of(context).isDesktop) {
+      return Material(
+        color: Theme.of(context).backgroundColor,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            title('视频'),
             SizedBox(
-              height: 4.w,
+              height: 20.w,
             ),
-            Container(
-              color: const Color(0xffE0C4C4).withOpacity(0.2),
-              height: 1,
+            Wrap(
+              runSpacing: 12.w,
+              spacing: 12.w,
+              alignment: WrapAlignment.start,
+              runAlignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              children: [
+                SizedBox(
+                  width: width,
+                  child: dir(context),
+                ),
+                SizedBox(
+                  width: width,
+                  child: onknownFile(context),
+                ),
+                SizedBox(
+                  width: width,
+                  child: zipFile(context),
+                ),
+                SizedBox(
+                  width: width,
+                  child: docFile(context),
+                ),
+                SizedBox(
+                  width: width,
+                  child: audio(context),
+                ),
+                SizedBox(
+                  width: width,
+                  child: video(context),
+                ),
+                SizedBox(
+                  width: width,
+                  child: imgFile(context),
+                ),
+                SizedBox(
+                  width: width,
+                  child: imgFile(context),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 4.w,
+          ],
+        ),
+      );
+    }
+    return Material(
+      color: Theme.of(context).backgroundColor,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 12.w),
+            dir(context),
+            SizedBox(height: 12.w),
+            onknownFile(context),
+            SizedBox(height: 12.w),
+            Row(
+              children: [
+                Expanded(child: zipFile(context)),
+                SizedBox(width: 12.w),
+                Expanded(child: docFile(context)),
+              ],
             ),
-            Expanded(
-              child: GetBuilder<FileController>(
-                builder: (ctl) {
-                  List<Widget> children = [];
-                  for (FileSystemEntity name in ctl.videoFiles) {
-                    children.add(
-                      SizedBox(
-                        width: 60.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            getIconByExt(name.path),
-                            SizedBox(height: 8.w),
-                            SizedBox(
-                              height: 20.w,
-                              child: Text(
-                                path.basename(name.path),
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 8.w,
-                                  color: Colors.black,
-                                  height: 1.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                    children.add(
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                    );
-                  }
-                  if (children.isEmpty) {
-                    return Center(
-                      child: Text(
-                        '空',
-                        style: TextStyle(
-                          fontSize: 16.w,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    );
-                  }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: children,
-                    ),
-                  );
-                },
-              ),
+            SizedBox(height: 10.w),
+            Row(
+              children: [
+                Expanded(child: audio(context)),
+                SizedBox(width: 10.w),
+                Expanded(child: video(context)),
+              ],
+            ),
+            SizedBox(height: 10.w),
+            Row(
+              children: [
+                Expanded(child: imgFile(context)),
+                SizedBox(width: 10.w),
+                Expanded(child: apkFile(context)),
+              ],
             ),
           ],
         ),
@@ -210,43 +195,54 @@ class _FilePageState extends State<FilePage> {
     );
   }
 
-  Expanded audio(BuildContext context) {
-    return Expanded(
-      child: CardWrapper(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            title('音乐'),
-            SizedBox(height: 4.w),
-            Container(
-              color: const Color(0xffE0C4C4).withOpacity(0.2),
-              height: 1,
-            ),
-            SizedBox(height: 10.w),
-            GetBuilder<FileController>(
+  CardWrapper video(BuildContext context) {
+    return CardWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          title('视频'),
+          SizedBox(
+            height: 4.w,
+          ),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(
+            height: 4.w,
+          ),
+          Expanded(
+            child: GetBuilder<FileController>(
               builder: (ctl) {
                 List<Widget> children = [];
-                for (FileSystemEntity file in ctl.audioFiles) {
+                for (FileSystemEntity name in ctl.videoFiles) {
                   children.add(
-                    Column(
-                      children: [
-                        getIconByExt(file.path),
-                        SizedBox(
-                          height: 4.w,
-                        ),
-                        Text(
-                          path.basename(file.path),
-                          style: TextStyle(
-                            fontSize: 10.w,
-                            color: Colors.black,
+                    SizedBox(
+                      width: 60.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getIconByExt(name.path),
+                          SizedBox(height: 8.w),
+                          SizedBox(
+                            height: 20.w,
+                            child: Text(
+                              path.basename(name.path),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 8.w,
+                                color: Colors.black,
+                                height: 1.0,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                   children.add(
                     SizedBox(
-                      width: 20.w,
+                      width: 8.w,
                     ),
                   );
                 }
@@ -264,13 +260,77 @@ class _FilePageState extends State<FilePage> {
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: children,
                   ),
                 );
               },
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  CardWrapper audio(BuildContext context) {
+    return CardWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          title('音乐'),
+          SizedBox(height: 4.w),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(height: 10.w),
+          GetBuilder<FileController>(
+            builder: (ctl) {
+              List<Widget> children = [];
+              for (FileSystemEntity file in ctl.audioFiles) {
+                children.add(
+                  Column(
+                    children: [
+                      getIconByExt(file.path),
+                      SizedBox(
+                        height: 4.w,
+                      ),
+                      Text(
+                        path.basename(file.path),
+                        style: TextStyle(
+                          fontSize: 10.w,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+                children.add(
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                );
+              }
+              if (children.isEmpty) {
+                return Center(
+                  child: Text(
+                    '空',
+                    style: TextStyle(
+                      fontSize: 16.w,
+                      color: Colors.black54,
+                    ),
+                  ),
+                );
+              }
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: children,
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -357,328 +417,320 @@ class _FilePageState extends State<FilePage> {
     );
   }
 
-  Expanded imgFile(BuildContext context) {
-    return Expanded(
-      child: CardWrapper(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            title('图片'),
-            SizedBox(height: 4.w),
-            Container(
-              color: const Color(0xffE0C4C4).withOpacity(0.2),
-              height: 1,
-            ),
-            SizedBox(height: 4.w),
-            Expanded(
-              child: GetBuilder<FileController>(
-                builder: (ctl) {
-                  List<Widget> children = [];
-                  for (FileSystemEntity name in ctl.imgFiles) {
-                    children.add(
-                      SizedBox(
-                        width: 60.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            getIconByExt(name.path),
-                            SizedBox(height: 8.w),
-                            SizedBox(
-                              height: 20.w,
-                              child: Text(
-                                path.basename(name.path),
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 8.w,
-                                  color: Colors.black,
-                                  height: 1.0,
-                                ),
+  CardWrapper imgFile(BuildContext context) {
+    return CardWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          title('图片'),
+          SizedBox(height: 4.w),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(height: 4.w),
+          Expanded(
+            child: GetBuilder<FileController>(
+              builder: (ctl) {
+                List<Widget> children = [];
+                for (FileSystemEntity name in ctl.imgFiles) {
+                  children.add(
+                    SizedBox(
+                      width: 60.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getIconByExt(name.path),
+                          SizedBox(height: 8.w),
+                          SizedBox(
+                            height: 20.w,
+                            child: Text(
+                              path.basename(name.path),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 8.w,
+                                color: Colors.black,
+                                height: 1.0,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                    children.add(
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                    );
-                  }
-                  if (children.isEmpty) {
-                    return Center(
-                      child: Text(
-                        '空',
-                        style: TextStyle(
-                          fontSize: 16.w,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    );
-                  }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: children,
                     ),
                   );
-                },
-              ),
+                  children.add(
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: children,
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Expanded apkFile(BuildContext context) {
-    return Expanded(
-      child: CardWrapper(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            title('安装包'),
-            SizedBox(
-              height: 4.w,
-            ),
-            Container(
-              color: const Color(0xffE0C4C4).withOpacity(0.2),
-              height: 1,
-            ),
-            SizedBox(
-              height: 4.w,
-            ),
-            Expanded(
-              child: GetBuilder<FileController>(
-                builder: (ctl) {
-                  if (GetPlatform.isDesktop) {
-                    return const SizedBox();
-                  }
-                  List<Widget> children = [];
-                  for (FileSystemEntity name in ctl.apkFiles) {
-                    children.add(
-                      SizedBox(
-                        width: 40.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                OpenFile.open(name.path);
+  CardWrapper apkFile(BuildContext context) {
+    return CardWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          title('安装包'),
+          SizedBox(
+            height: 4.w,
+          ),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(
+            height: 4.w,
+          ),
+          Expanded(
+            child: GetBuilder<FileController>(
+              builder: (ctl) {
+                if (GetPlatform.isDesktop) {
+                  return const SizedBox();
+                }
+                List<Widget> children = [];
+                for (FileSystemEntity name in ctl.apkFiles) {
+                  children.add(
+                    SizedBox(
+                      width: 40.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              OpenFile.open(name.path);
+                            },
+                            child: Image.network(
+                              'http://127.0.0.1:${(Global().appChannel as LocalAppChannel).getPort()}/icon?path=${name.path}',
+                              gaplessPlayback: true,
+                              width: 40.w,
+                              height: 40.w,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) {
+                                return const SizedBox();
                               },
-                              child: Image.network(
-                                'http://127.0.0.1:${(Global().appChannel as LocalAppChannel).getPort()}/icon?path=${name.path}',
-                                gaplessPlayback: true,
-                                width: 40.w,
-                                height: 40.w,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) {
-                                  return const SizedBox();
-                                },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8.w,
+                          ),
+                          SizedBox(
+                            height: 20.w,
+                            child: Text(
+                              path.basename(name.path),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 8.w,
+                                color: Colors.black,
+                                height: 1.0,
                               ),
                             ),
-                            SizedBox(
-                              height: 8.w,
-                            ),
-                            SizedBox(
-                              height: 20.w,
-                              child: Text(
-                                path.basename(name.path),
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 8.w,
-                                  color: Colors.black,
-                                  height: 1.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                    children.add(
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                    );
-                  }
-                  if (children.isEmpty) {
-                    return Center(
-                      child: Text(
-                        '空',
-                        style: TextStyle(
-                          fontSize: 16.w,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    );
-                  }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: children,
                     ),
                   );
-                },
-              ),
+                  children.add(
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Expanded docFile(BuildContext context) {
-    return Expanded(
-      child: CardWrapper(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            title('文档'),
-            SizedBox(height: 4.w),
-            Container(
-              color: const Color(0xffE0C4C4).withOpacity(0.2),
-              height: 1,
-            ),
-            SizedBox(height: 4.w),
-            Expanded(
-              child: GetBuilder<FileController>(
-                builder: (ctl) {
-                  List<Widget> children = [];
-                  for (FileSystemEntity file in ctl.docFiles) {
-                    children.add(
-                      SizedBox(
-                        // color: Colors.red,
-                        width: 64.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            getIconByExt(file.path),
-                            SizedBox(height: 8.w),
-                            SizedBox(
-                              height: 20.w,
-                              child: Text(
-                                path.basename(file.path),
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 8.w,
-                                  height: 1.0,
-                                  color: Colors.black,
-                                  textBaseline: TextBaseline.ideographic,
-                                ),
+  CardWrapper docFile(BuildContext context) {
+    return CardWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          title('文档'),
+          SizedBox(height: 4.w),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(height: 4.w),
+          Expanded(
+            child: GetBuilder<FileController>(
+              builder: (ctl) {
+                List<Widget> children = [];
+                for (FileSystemEntity file in ctl.docFiles) {
+                  children.add(
+                    SizedBox(
+                      // color: Colors.red,
+                      width: 64.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getIconByExt(file.path),
+                          SizedBox(height: 8.w),
+                          SizedBox(
+                            height: 20.w,
+                            child: Text(
+                              path.basename(file.path),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 8.w,
+                                height: 1.0,
+                                color: Colors.black,
+                                textBaseline: TextBaseline.ideographic,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                    children.add(
-                      SizedBox(
-                        width: 4.w,
-                      ),
-                    );
-                  }
-                  if (children.isEmpty) {
-                    return Center(
-                      child: Text(
-                        '空',
-                        style: TextStyle(
-                          fontSize: 16.w,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    );
-                  }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: children,
                     ),
                   );
-                },
-              ),
+                  children.add(
+                    SizedBox(
+                      width: 4.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: children,
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Expanded zipFile(BuildContext context) {
-    return Expanded(
-      child: CardWrapper(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            title('压缩包'),
-            SizedBox(height: 4.w),
-            Container(
-              color: const Color(0xffE0C4C4).withOpacity(0.2),
-              height: 1,
-            ),
-            SizedBox(height: 4.w),
-            Expanded(
-              child: GetBuilder<FileController>(
-                builder: (ctl) {
-                  List<Widget> children = [];
-                  for (FileSystemEntity file in ctl.zipFiles) {
-                    children.add(
-                      SizedBox(
-                        // color: Colors.red,
-                        width: 64.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            getIconByExt(file.path),
-                            SizedBox(height: 8.w),
-                            SizedBox(
-                              height: 20.w,
-                              child: Text(
-                                path.basename(file.path),
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 8.w,
-                                  color: Colors.black,
-                                  height: 1.0,
-                                ),
+  CardWrapper zipFile(BuildContext context) {
+    return CardWrapper(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          title('压缩包'),
+          SizedBox(height: 4.w),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(height: 4.w),
+          Expanded(
+            child: GetBuilder<FileController>(
+              builder: (ctl) {
+                List<Widget> children = [];
+                for (FileSystemEntity file in ctl.zipFiles) {
+                  children.add(
+                    SizedBox(
+                      // color: Colors.red,
+                      width: 64.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          getIconByExt(file.path),
+                          SizedBox(height: 8.w),
+                          SizedBox(
+                            height: 20.w,
+                            child: Text(
+                              path.basename(file.path),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 8.w,
+                                color: Colors.black,
+                                height: 1.0,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                    children.add(
-                      SizedBox(
-                        width: 4.w,
-                      ),
-                    );
-                  }
-                  if (children.isEmpty) {
-                    return Center(
-                      child: Text(
-                        '空',
-                        style: TextStyle(
-                          fontSize: 16.w,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    );
-                  }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: children,
                     ),
                   );
-                },
-              ),
+                  children.add(
+                    SizedBox(
+                      width: 4.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

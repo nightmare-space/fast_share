@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
@@ -12,6 +14,7 @@ import 'package:speed_share/pages/online_list.dart';
 import 'package:speed_share/v2/desktop_drawer.dart';
 import 'package:speed_share/v2/file_page.dart';
 import 'package:speed_share/v2/preview_image.dart';
+import 'package:speed_share/v2/setting_page.dart';
 
 import 'header.dart';
 import 'icon.dart';
@@ -39,14 +42,13 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   int page = 0;
   @override
   Widget build(BuildContext context) {
-    ScreenType screenType = Responsive.of(context).screenType;
-    if (screenType == ScreenType.desktop || screenType == ScreenType.tablet) {
+    if (ResponsiveWrapper.of(context).isDesktop) {
       return Scaffold(
         body: SafeArea(
           child: Column(
             children: [
               Container(
-                height: 2.w,
+                height: 1.w,
                 color: Theme.of(context).primaryColor,
               ),
               Expanded(
@@ -61,10 +63,13 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                     ),
                     Expanded(
                       child: [
-                        const HomePage(),
+                        HomePage(onMessageWindowTap: () {
+                          page = 1;
+                          setState(() {});
+                        }),
                         const ShareChatV2(),
                         const FilePage(),
-                        const HomePage(),
+                        const SettingPage(),
                       ][page],
                     ),
                   ],
@@ -99,7 +104,11 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({
+    Key key,
+    this.onMessageWindowTap,
+  }) : super(key: key);
+  final void Function() onMessageWindowTap;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -224,37 +233,50 @@ class _HomePageState extends State<HomePage> {
                               vertical: 8.w,
                               horizontal: 8.w,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '最近图片',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                  ),
-                                ),
-                                SizedBox(height: 4.w),
-                                GetBuilder<FileController>(builder: (context) {
-                                  File file = fileController.getRecentImage();
-                                  if (file == null) {
-                                    return const SizedBox();
-                                  }
-                                  return GestureWithScale(
-                                    onTap: () {
-                                      Get.to(PreviewImage(
-                                        path: file.path,
-                                      ));
-                                    },
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.file(file),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '最近图片',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
                                     ),
-                                  );
-                                }),
-                              ],
+                                  ),
+                                  SizedBox(height: 4.w),
+                                  GetBuilder<FileController>(
+                                      builder: (context) {
+                                    File file = fileController.getRecentImage();
+                                    if (file == null) {
+                                      return const SizedBox();
+                                    }
+                                    String unique = shortHash(() {});
+                                    return GestureWithScale(
+                                      onTap: () {
+                                        Get.to(PreviewImage(
+                                          path: file.path,
+                                          tag: unique,
+                                        ));
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Hero(
+                                          tag: unique,
+                                          child: Image.file(
+                                            file,
+                                            width: double.infinity,
+                                            height: 200.w,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(height: 10.w),
@@ -393,6 +415,10 @@ class _HomePageState extends State<HomePage> {
   GestureDetector allDevice(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (ResponsiveWrapper.of(context).isDesktop) {
+          widget.onMessageWindowTap?.call();
+          return;
+        }
         Get.put(ChatController());
         Get.to(const ShareChatV2());
       },

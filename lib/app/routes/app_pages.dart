@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/bindings/chat_binding.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
 import 'package:speed_share/themes/theme.dart';
@@ -25,8 +27,11 @@ class SpeedPages {
     ),
     GetPage(
       name: Routes.home,
-      page: () => const ThemeWrapper(
-        child: AdaptiveEntryPoint(),
+      page: () => ThemeWrapper(
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: OverlayStyle.dark,
+          child: AdaptiveEntryPoint(),
+        ),
       ),
       binding: HomeBinding(),
     ),

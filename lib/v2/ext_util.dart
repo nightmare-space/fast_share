@@ -15,7 +15,8 @@ extension Ext on String {
     return endsWith('.gif') ||
         endsWith('.jpg') ||
         endsWith('.jpeg') ||
-        endsWith('.png');
+        endsWith('.png') ||
+        endsWith('.webp');
   }
 
   bool get isDoc {

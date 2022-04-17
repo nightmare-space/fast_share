@@ -27,16 +27,20 @@ packages:
   app_manager:
     dependency: "direct main"
     description:
-      path: "../app_manager"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: b5af0899a4142c162450550daef9855248cc526a
+      url: "https://github.com/nightmare-space/app_manager"
+    source: git
     version: "1.0.0+1"
   applib_util:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../applib/applib_util"
-      relative: true
-    source: path
+      path: applib_util
+      ref: HEAD
+      resolved-ref: b2a0e42e465d80c68353a927902ab2b0105a8216
+      url: "https://github.com/nightmare-space/applib"
+    source: git
     version: "0.0.1"
   archive:
     dependency: "direct main"
@@ -165,11 +169,13 @@ packages:
     source: hosted
     version: "1.1.2"
   file_manager_view:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/file_manager_view"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: f6d3f7e717df0c205755b13dd5c9aa885a3e10ae
+      url: "https://github.com/nightmare-space/file_manager_view.git"
+    source: git
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
@@ -202,9 +208,11 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/file_selector_meng"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: e402a3831c4b87f27113b9837bc876b6144a8af7
+      url: "https://github.com/nightmare-space/file_selector_meng"
+    source: git
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -287,9 +295,11 @@ packages:
   global_repository:
     dependency: "direct main"
     description:
-      path: "../global_repository"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "5a1f3d90c0d1abff1065b593154de2f15dafaa64"
+      url: "https://github.com/nightmare-space/global_repository"
+    source: git
     version: "0.0.1"
   hive:
     dependency: transitive
@@ -526,6 +536,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1+1"
+  responsive_framework:
+    dependency: "direct main"
+    description:
+      name: responsive_framework
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.7"
   sa_v1_migration:
     dependency: transitive
     description:

@@ -16,7 +16,7 @@ const apkKey = '安装包';
 
 class FileController extends GetxController {
   FileController() {
-    if (GetPlatform.isWindows) {
+    if (GetPlatform.isWindows || GetPlatform.isMacOS) {
       prefix = FileSystemEntity.parentOf(Platform.resolvedExecutable) +
           '/SpeedShare';
     }

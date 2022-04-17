@@ -16,7 +16,6 @@ class DesktopDrawer extends StatefulWidget {
 }
 
 class _DesktopDrawerState extends State<DesktopDrawer> {
-  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -30,70 +29,102 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                 Column(
                   children: [
                     DrawerItem(
-                      groupValue: index,
+                      groupValue: widget.value,
                       value: 0,
                       onChange: (v) {
-                        index = v;
                         setState(() {});
                         widget.onChange?.call(v);
                       },
                       builder: (_) {
-                        return Text(
-                          '首页',
-                          style: TextStyle(
-                            color: Theme.of(_).textTheme.bodyText2.color,
-                          ),
+                        return Row(
+                          children: [
+                            Image.asset(
+                              'assets/icon/home.png',
+                              width: 16.w,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              '首页',
+                              style: TextStyle(
+                                color: Theme.of(_).textTheme.bodyText2.color,
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
                     DrawerItem(
-                      groupValue: index,
+                      groupValue: widget.value,
                       value: 1,
                       onChange: (v) {
-                        index = v;
                         setState(() {});
                         widget.onChange?.call(v);
                       },
                       builder: (_) {
-                        return Text(
-                          '全部设备',
-                          style: TextStyle(
-                            color: Theme.of(_).textTheme.bodyText2.color,
-                          ),
+                        return Row(
+                          children: [
+                            Image.asset(
+                              'assets/icon/all.png',
+                              width: 16.w,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              '全部设备',
+                              style: TextStyle(
+                                color: Theme.of(_).textTheme.bodyText2.color,
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
                     DrawerItem(
-                      groupValue: index,
+                      groupValue: widget.value,
                       value: 2,
                       onChange: (v) {
-                        index = v;
                         setState(() {});
                         widget.onChange?.call(v);
                       },
                       builder: (_) {
-                        return Text(
-                          '文件管理',
-                          style: TextStyle(
-                            color: Theme.of(_).textTheme.bodyText2.color,
-                          ),
+                        return Row(
+                          children: [
+                            Image.asset(
+                              'assets/icon/file.png',
+                              width: 16.w,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              '文件管理',
+                              style: TextStyle(
+                                color: Theme.of(_).textTheme.bodyText2.color,
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
                     DrawerItem(
-                      groupValue: index,
+                      groupValue: widget.value,
                       value: 3,
                       onChange: (v) {
-                        index = v;
                         setState(() {});
                         widget.onChange?.call(v);
                       },
                       builder: (_) {
-                        return Text(
-                          '设置',
-                          style: TextStyle(
-                            color: Theme.of(_).textTheme.bodyText2.color,
-                          ),
+                        return Row(
+                          children: [
+                            Image.asset(
+                              'assets/icon/setting.png',
+                              width: 16.w,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              '设置',
+                              style: TextStyle(
+                                color: Theme.of(_).textTheme.bodyText2.color,
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
@@ -133,10 +164,10 @@ class DrawerItem extends StatelessWidget {
         onChange?.call(value);
       },
       child: Container(
-        width: 100.w,
+        width: 160.w,
         padding: EdgeInsets.symmetric(
-          horizontal: 8.w,
-          vertical: 8.w,
+          horizontal: 12.w,
+          vertical: 12.w,
         ),
         decoration: BoxDecoration(
           color:

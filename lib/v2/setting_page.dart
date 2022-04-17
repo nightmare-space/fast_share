@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/theme.dart';
@@ -25,263 +26,269 @@ class _SettingPageState extends State<SettingPage> {
       fontSize: 16.w,
     );
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: OverlayStyle.dark,
-        centerTitle: false,
-        titleSpacing: 0,
-        title: Text(
-          '设置',
-          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                fontWeight: bold,
-                fontSize: 18.w,
-              ),
-        ),
-        leading: const PopButton(),
-      ),
       body: SafeArea(
         child: GetBuilder<SettingController>(builder: (_) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
-                child: Text(
-                  '常规',
-                  style: title,
-                ),
-              ),
-              SettingItem(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '下载路径',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                      ),
-                    ),
-                    Text(
-                      _.savePath,
-                      style: TextStyle(
-                        fontSize: 16.w,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .color
-                            .withOpacity(0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SettingItem(
-                onTap: () {
-                  controller.enableAutoChange(!controller.enableAutoDownload);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '自动下载',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                      ),
-                    ),
-                    AquaSwitch(
-                      value: controller.enableAutoDownload,
-                      onChanged: controller.enableAutoChange,
-                    ),
-                  ],
-                ),
-              ),
-              SettingItem(
-                onTap: () {
-                  controller.clipChange(!controller.clipboardShare);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '剪切板共享',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                      ),
-                    ),
-                    AquaSwitch(
-                      value: controller.clipboardShare,
-                      onChanged: controller.clipChange,
-                    ),
-                  ],
-                ),
-              ),
-              SettingItem(
-                onTap: () {
-                  controller.vibrateChange(!controller.vibrate);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '收到消息时振动提醒',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                      ),
-                    ),
-                    AquaSwitch(
-                      value: controller.vibrate,
-                      onChanged: controller.vibrateChange,
-                    ),
-                  ],
-                ),
-              ),
-              // Text('隐私和安全'),
-              // Text('消息和通知'),
-              // Text('快捷键'),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
-                child: Text(
-                  '关于速享',
-                  style: title,
-                ),
-              ),
-              SettingItem(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '当前版本',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                      ),
-                    ),
-                    Text(
-                      'v2.0',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                        fontWeight: FontWeight.normal,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .color
-                            .withOpacity(0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SettingItem(
-                onTap: () async {
-                  String url = 'https://github.com/nightmare-space/speed_share';
-                  await canLaunch(url)
-                      ? await launch(url)
-                      : throw 'Could not launch $url';
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '开源地址',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16.w,
-                    ),
-                  ],
-                ),
-              ),
-              SettingItem(
-                onTap: () async {
-                  String url =
-                      'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
-                  await canLaunch(url)
-                      ? await launch(url)
-                      : throw 'Could not launch $url';
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (ResponsiveWrapper.of(context).isMobile)
+                  SizedBox(
+                    height: 40.w,
+                    child: Row(
                       children: [
+                        ResponsiveWrapper.of(context).isMobile
+                            ? const PopButton()
+                            : SizedBox(width: 12.w),
                         Text(
-                          '其他版本下载',
-                          style: TextStyle(
-                            fontSize: 18.w,
-                          ),
-                        ),
-                        Text(
-                          '速享还支持Windows、macOS、Linux',
-                          style: TextStyle(
-                            fontSize: 16.w,
-                            fontWeight: FontWeight.normal,
-                          ),
+                          '设置',
+                          style: Theme.of(context).textTheme.bodyText2.copyWith(
+                                fontWeight: bold,
+                                fontSize: 18.w,
+                              ),
                         ),
                       ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16.w,
-                    ),
-                  ],
+                  ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  child: Text(
+                    '常规',
+                    style: title,
+                  ),
                 ),
-              ),
-              SettingItem(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '开发者',
-                      style: TextStyle(
-                        fontSize: 18.w,
+                SettingItem(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '下载路径',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '梦魇兽',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                        fontWeight: FontWeight.normal,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .color
-                            .withOpacity(0.4),
+                      Text(
+                        _.savePath,
+                        style: TextStyle(
+                          fontSize: 16.w,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.6),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SettingItem(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'UI设计师',
-                      style: TextStyle(
-                        fontSize: 18.w,
+                SettingItem(
+                  onTap: () {
+                    controller.enableAutoChange(!controller.enableAutoDownload);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '自动下载',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '柚凛',
-                      style: TextStyle(
-                        fontSize: 18.w,
-                        fontWeight: FontWeight.normal,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            .color
-                            .withOpacity(0.4),
+                      AquaSwitch(
+                        value: controller.enableAutoDownload,
+                        onChanged: controller.enableAutoChange,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SettingItem(
+                  onTap: () {
+                    controller.clipChange(!controller.clipboardShare);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '剪切板共享',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      AquaSwitch(
+                        value: controller.clipboardShare,
+                        onChanged: controller.clipChange,
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  onTap: () {
+                    controller.vibrateChange(!controller.vibrate);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '收到消息时振动提醒',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      AquaSwitch(
+                        value: controller.vibrate,
+                        onChanged: controller.vibrateChange,
+                      ),
+                    ],
+                  ),
+                ),
+                // Text('隐私和安全'),
+                // Text('消息和通知'),
+                // Text('快捷键'),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  child: Text(
+                    '关于速享',
+                    style: title,
+                  ),
+                ),
+                SettingItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '当前版本',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      Text(
+                        'v2.0',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  onTap: () async {
+                    String url = 'https://github.com/nightmare-space/speed_share';
+                    await canLaunch(url)
+                        ? await launch(url)
+                        : throw 'Could not launch $url';
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '开源地址',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16.w,
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  onTap: () async {
+                    String url =
+                        'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
+                    await canLaunch(url)
+                        ? await launch(url)
+                        : throw 'Could not launch $url';
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '其他版本下载',
+                            style: TextStyle(
+                              fontSize: 18.w,
+                            ),
+                          ),
+                          Text(
+                            '速享还支持Windows、macOS、Linux',
+                            style: TextStyle(
+                              fontSize: 14.w,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16.w,
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '开发者',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      Text(
+                        '梦魇兽',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.4),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'UI设计师',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      Text(
+                        '柚凛',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.4),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         }),
       ),

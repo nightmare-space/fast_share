@@ -1,10 +1,13 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/utils.dart';
 import 'package:signale/signale.dart';
 import 'package:settings/settings.dart';
 
 class SettingController extends GetxController {
   SettingController() {
-    initConfig();
+    if (!GetPlatform.isWeb) {
+      initConfig();
+    }
   }
 
   bool enableFilter = false;
