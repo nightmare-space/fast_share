@@ -4,7 +4,14 @@ extension Ext on String {
   }
 
   bool get isVideo {
-    return endsWith('.mp4') || endsWith('.mkv') || endsWith('.mov');
+    return endsWith('.mp4') ||
+        endsWith('.mkv') ||
+        endsWith('.mov') ||
+        endsWith(".avi") ||
+        endsWith(".wmv") ||
+        endsWith(".rmvb") ||
+        endsWith(".mpg") ||
+        endsWith(".3gp");
   }
 
   bool get isApk {

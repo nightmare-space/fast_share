@@ -328,10 +328,10 @@
         </menu>
         <window title="APP_NAME" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="MainFlutterWindow" customModule="速享" customModuleProvider="target">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" />
-            <rect key="contentRect" x="335" y="390" width="400" height="200" />
+            <rect key="contentRect" x="335" y="390" width="1000" height="750" />
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025" />
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="500" height="300" />
+                <rect key="frame" x="0.0" y="0.0" width="1000" height="750" />
                 <autoresizingMask key="autoresizingMask" />
             </view>
             <point key="canvasLocation" x="115" y="-755" />

@@ -67,7 +67,13 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                           page = 1;
                           setState(() {});
                         }),
-                        const ShareChatV2(),
+                        Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                            child: const ShareChatV2(),
+                          ),
+                        ),
                         const FilePage(),
                         const SettingPage(),
                       ][page],
@@ -118,11 +124,51 @@ class _HomePageState extends State<HomePage> {
   ChatController chatController = Get.put(ChatController());
   FileController fileController = Get.find();
   int index = 0;
+  bool serverOpend = true;
+  // ChatController controller = Get.find();
+  bool dropping = false;
 
   @override
   void initState() {
     super.initState();
+    request();
+    handleSendFile();
   }
+
+  Future<void> request() async {
+    if (GetPlatform.isAndroid) {
+      PermissionUtil.requestStorage();
+    }
+  }
+
+  // 处理其他软件过来的分享
+  // TODO 冷启动分享
+  Future<void> handleSendFile() async {
+    if (GetPlatform.isAndroid) {
+      MethodChannel channel = const MethodChannel('send_channel');
+      channel.setMethodCallHandler((call) async {
+        if (call.method == 'send_file') {
+          // File file = File.fromUri(Uri.parse(call.arguments));
+          // print(file.path);
+          Log.d('call -> ${call.arguments}');
+          String realPath = call.arguments.toString().replaceAll('file://', '');
+          realPath = realPath.replaceAll(
+            'content://com.miui.home.fileprovider/data_app',
+            '/data/app',
+          );
+          realPath = realPath.replaceAll(
+            'content://com.nightmare.appmanager.fileprovider/root',
+            '',
+          );
+          Log.d('send_file response realPath => $realPath');
+          ChatController controller = Get.find();
+          controller.sendFileFromPath(realPath);
+        }
+      });
+    }
+  }
+
+  double size = 100;
 
   CardWrapper onknownFile(BuildContext context) {
     return CardWrapper(
@@ -444,16 +490,12 @@ class _HomePageState extends State<HomePage> {
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),
-              SizedBox(
-                height: 4.w,
-              ),
+              SizedBox(height: 4.w),
               Container(
                 color: const Color(0xffE0C4C4).withOpacity(0.2),
                 height: 1,
               ),
-              SizedBox(
-                height: 4.w,
-              ),
+              SizedBox(height: 4.w),
               chatController.children.isEmpty
                   ? Text(
                       '当前没有任何消息，点击查看连接二维码',
@@ -468,6 +510,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       height: 100.w,
                       child: ListView.builder(
+                        // controller: chatController.scrollController,
                         itemCount: chatController.children.length,
                         itemBuilder: (c, i) {
                           return chatController.children[i];

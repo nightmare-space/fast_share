@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
-import 'package:speed_share/v2/ext_util.dart';
+import 'package:speed_share/utils/ext_util.dart';
+import 'package:speed_share/utils/file_util.dart';
 
 import 'preview_image.dart';
 
@@ -45,10 +46,7 @@ Widget getIconByExt(String path) {
       tag: path,
       child: GestureDetector(
         onTap: () {
-          Get.to(PreviewImage(
-            path: path,
-            tag: path,
-          ));
+          FileUtil.openFile(path);
         },
         child: path.startsWith('http')
             ? Image(
@@ -80,7 +78,7 @@ Widget getIconByExt(String path) {
   );
   return GestureDetector(
     onTap: () {
-      OpenFile.open(path);
+      FileUtil.openFile(path);
     },
     child: child,
   );

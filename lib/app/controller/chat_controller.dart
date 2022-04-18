@@ -148,6 +148,13 @@ class ChatController extends GetxController {
     sendJoinEvent();
     await Future.delayed(const Duration(milliseconds: 100));
     getHistoryMsg();
+    await getSuccessBindPort();
+    if (!initLock.isCompleted) {
+      initLock.complete();
+    }
+  }
+
+  Future<void> getSuccessBindPort() async {
     if (!GetPlatform.isWeb) {
       shelfBindPort = await getSafePort(
         Config.shelfPortRangeStart,
@@ -161,9 +168,6 @@ class ChatController extends GetxController {
       );
       startFileServer(fileServerPort);
       Log.i('file server started with $fileServerPort port');
-    }
-    if (!initLock.isCompleted) {
-      initLock.complete();
     }
   }
 
@@ -458,6 +462,7 @@ class ChatController extends GetxController {
 
   // 基于一个文件路径发送消息
   Future<void> sendFileFromPath(String filePath) async {
+    await getSuccessBindPort();
     ServerUtil.serveFile(filePath, shelfBindPort);
     // 替换windows的路径分隔符
     filePath = filePath.replaceAll('\\', '/');
@@ -492,6 +497,7 @@ class ChatController extends GetxController {
 
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
+  List<Map<String, dynamic>> cache = [];
 
   /// 这个里面的处理相对复杂一点
   void listenMessage() {
@@ -504,81 +510,87 @@ class ChatController extends GetxController {
       Map<String, dynamic> map;
       try {
         map = jsonDecode(message);
+        cache.add(map);
+        MessageBaseInfo info = MessageInfoFactory.fromJson(map);
+        dispatch(info, children);
       } catch (e) {
         return;
       }
-      MessageBaseInfo messageInfo = MessageInfoFactory.fromJson(map);
-      if (messageInfo is JoinMessage) {
-        if (messageInfo.deviceId != await UniqueUtil.getDevicesId()) {
-          deviceController.onDeviceConnect(messageInfo.deviceId);
-          update();
-        }
-      } else if (messageInfo is MessageDirInfo) {
-        // 保存文件夹消息所在的index
-        // dirItemMap[messageInfo.dirName] = children.length;
-        // dirMsgMap[messageInfo.dirName] = messageInfo;
-        // messageInfo.urlPrifix = await getCorrectUrl(messageInfo.urlPrifix);
-        // Log.w('dirItemMap -> $dirItemMap');
-      } else if (messageInfo is MessageDirPartInfo) {
-        if (messageInfo.stat == 'complete') {
-          Log.e('完成发送');
-          dirMsgMap[messageInfo.partOf].canDownload = true;
-          children[dirItemMap[messageInfo.partOf]] =
-              MessageItemFactory.getMessageItem(
-            dirMsgMap[messageInfo.partOf],
-            false,
-          );
+    });
+  }
 
-          update();
-        } else {
-          dirMsgMap[messageInfo.partOf].fullSize += messageInfo.size ?? 0;
-          dirMsgMap[messageInfo.partOf].paths.add(messageInfo.path);
-          children[dirItemMap[messageInfo.partOf]] =
-              MessageItemFactory.getMessageItem(
-            dirMsgMap[messageInfo.partOf],
-            false,
-          );
+  Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
+    if (info is JoinMessage) {
+      if (info.deviceId != await UniqueUtil.getDevicesId()) {
+        deviceController.onDeviceConnect(
+          info.deviceId,
+          info.deviceType,
+        );
+        update();
+      }
+    } else if (info is MessageDirInfo) {
+      // 保存文件夹消息所在的index
+      // dirItemMap[messageInfo.dirName] = children.length;
+      // dirMsgMap[messageInfo.dirName] = messageInfo;
+      // messageInfo.urlPrifix = await getCorrectUrl(messageInfo.urlPrifix);
+      // Log.w('dirItemMap -> $dirItemMap');
+    } else if (info is MessageDirPartInfo) {
+      if (info.stat == 'complete') {
+        Log.e('完成发送');
+        dirMsgMap[info.partOf].canDownload = true;
+        children[dirItemMap[info.partOf]] = MessageItemFactory.getMessageItem(
+          dirMsgMap[info.partOf],
+          false,
+        );
 
-          update();
-        }
-        return;
-      } else if (messageInfo is NotifyMessage) {
-        if (GetPlatform.isWeb) {
-          if (webFileSendCache.containsKey(messageInfo.hash)) {
-            Log.e(messageInfo);
-            String url = await getCorrectUrlWithAddressAndPort(
-              messageInfo.addrs,
-              messageInfo.port,
-            );
-            Log.d('uploadFileForWeb url -> $url');
-            if (url != null) {
-              uploadFileForWeb(webFileSendCache[messageInfo.hash], url);
-            } else {
-              showToast('未检测到可上传IP');
-            }
+        update();
+      } else {
+        dirMsgMap[info.partOf].fullSize += info.size ?? 0;
+        dirMsgMap[info.partOf].paths.add(info.path);
+        children[dirItemMap[info.partOf]] = MessageItemFactory.getMessageItem(
+          dirMsgMap[info.partOf],
+          false,
+        );
+
+        update();
+      }
+      return;
+    } else if (info is NotifyMessage) {
+      if (GetPlatform.isWeb) {
+        if (webFileSendCache.containsKey(info.hash)) {
+          Log.e(info);
+          String url = await getCorrectUrlWithAddressAndPort(
+            info.addrs,
+            info.port,
+          );
+          Log.d('uploadFileForWeb url -> $url');
+          if (url != null) {
+            uploadFileForWeb(webFileSendCache[info.hash], url);
+          } else {
+            showToast('未检测到可上传IP');
           }
         }
-        return;
-      } else if (messageInfo is MessageFileInfo) {
-        String url = await getCorrectUrlWithAddressAndPort(
-          messageInfo.addrs,
-          messageInfo.port,
-        );
-        messageInfo.url = url;
-        // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
-        // C加入A的房间，自然是不能再拿到这个文件的信息了
-        messageInfo.url ??= '';
       }
-      // 往聊天列表中添加一条消息
-      children.add(MessageItemFactory.getMessageItem(
-        messageInfo,
-        false,
-      ));
-      // 自动滑动，振动，更新UI
-      scroll();
-      vibrate();
-      update();
-    });
+      return;
+    } else if (info is MessageFileInfo) {
+      String url = await getCorrectUrlWithAddressAndPort(
+        info.addrs,
+        info.port,
+      );
+      info.url = url;
+      // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
+      // C加入A的房间，自然是不能再拿到这个文件的信息了
+      info.url ??= '';
+    }
+    // 往聊天列表中添加一条消息
+    children.add(MessageItemFactory.getMessageItem(
+      info,
+      false,
+    ));
+    // 自动滑动，振动，更新UI
+    scroll();
+    vibrate();
+    update();
   }
 
   Future<void> vibrate() async {
@@ -598,6 +610,7 @@ class ChatController extends GetxController {
     socket.send(jsonEncode({
       'type': "join",
       'name': GetPlatform.isWeb ? "WEB" : await UniqueUtil.getDevicesId(),
+      'deviceType': type,
     }));
   }
 
@@ -621,13 +634,29 @@ class ChatController extends GetxController {
     }
   }
 
+  int get type {
+    if (GetPlatform.isAndroid) {
+      return 0;
+    } else if (GetPlatform.isWeb) {
+      return 2;
+    } else if (GetPlatform.isDesktop) {
+      return 1;
+    }
+    return 3;
+  }
+
+  void sendMessage(MessageTextInfo info) {
+    info.deviceType = type;
+    socket.send(info.toString());
+  }
+
   void sendTextMsg() {
     // 发送文本消息
     MessageTextInfo info = MessageTextInfo(
       content: controller.text,
       sendFrom: Global().deviceId,
     );
-    socket.send(info.toString());
+    sendMessage(info);
     children.add(MessageItemFactory.getMessageItem(
       info,
       true,
@@ -635,5 +664,28 @@ class ChatController extends GetxController {
     update();
     controller.clear();
     scroll();
+  }
+
+  List<Widget> backup = [];
+  void restoreList() {
+    backup.clear();
+    update();
+  }
+
+  void changeListToDevice(int device) {
+    // if (backup.isNotEmpty) {
+    //   children = backup;
+    // }
+    backup.clear();
+    for (Map map in cache) {
+      MessageBaseInfo info = MessageInfoFactory.fromJson(map);
+      if (info is JoinMessage) {
+        continue;
+      }
+      if (info.deviceType == device) {
+        dispatch(info, backup);
+      }
+    }
+    // children.removeWhere((element) => element.!=device);
   }
 }

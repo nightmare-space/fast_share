@@ -64,7 +64,7 @@ class _FilePageState extends State<FilePage> {
                         pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
                         setState(() {});
                       },
-                      child: const Icon(Icons.sync_alt_rounded),
+                      child: const Icon(Icons.swap_horiz),
                     ),
                   ),
                 ],
@@ -93,10 +93,10 @@ class _FilePageState extends State<FilePage> {
                   },
                   child: [
                     fileList(context),
-                    const fm.HomePage(
+                    fm.HomePage(
                       drawer: false,
                       path: '/sdcard/SpeedShare',
-                      padding: EdgeInsets.zero,
+                      padding: EdgeInsets.only(bottom: 8.w),
                     ),
                   ][pageIndex],
                 ),

@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.0.0-dev+26
+version: 2.0.0-dev+27
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -38,6 +38,7 @@ dependencies:
   # 文件部署
   shelf_static: ^1.0.0
   shelf_router: ^1.0.0
+  better_player: ^0.0.81
   # 聊天服务器
   get_server: ^1.1.0
   # 安卓端文件选择

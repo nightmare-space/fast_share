@@ -4,6 +4,7 @@ import 'package:global_repository/global_repository.dart';
 class Device {
   Device(this.id);
   String id;
+  int deviceType;
   @override
   int get hashCode => id.hashCode;
 
@@ -29,8 +30,8 @@ class DeviceController extends GetxController {
     Log.w('$this onReady');
   }
 
-  void onDeviceConnect(String id) {
-    connectDevice.add(Device(id));
+  void onDeviceConnect(String id, int type) {
+    connectDevice.add(Device(id)..deviceType = type);
     update();
   }
 

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:multicast/multicast.dart';
 import 'package:speed_share/app/controller/online_controller.dart';
+import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/utils/unique_util.dart';
@@ -41,12 +42,15 @@ class Global {
       return;
     }
     if (id.startsWith('clip')) {
-      String data = id.replaceFirst(RegExp('^clip'), '');
-      if (data != remoteClipdata && data != await getLocalClip()) {
-        showToast('已复制剪切板');
-        Log.i('已复制剪切板 ClipboardData ： $data');
-        remoteClipdata = data;
-        Clipboard.setData(ClipboardData(text: data));
+      SettingController settingController = Get.find();
+      if (settingController.clipboardShare) {
+        String data = id.replaceFirst(RegExp('^clip'), '');
+        if (data != remoteClipdata && data != await getLocalClip()) {
+          showToast('已复制剪切板');
+          Log.i('已复制剪切板 ClipboardData ： $data');
+          remoteClipdata = data;
+          Clipboard.setData(ClipboardData(text: data));
+        }
       }
     } else if (id.trim() != await UniqueUtil.getDevicesId()) {
       OnlineController onlineController = Get.find();
@@ -79,6 +83,10 @@ class Global {
 
   void getclipboard() {
     Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      SettingController settingController = Get.find();
+      if (!settingController.clipboardShare) {
+        return;
+      }
       ClipboardData clip = await Clipboard.getData(Clipboard.kTextPlain);
       if (clip != null && clip.text != localClipdata) {
         localClipdata = clip.text;

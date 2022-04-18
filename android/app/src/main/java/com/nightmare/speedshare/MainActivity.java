@@ -37,6 +37,25 @@ public class MainActivity extends FlutterActivity {
             window.setStatusBarColor(0x00000000);
             window.getDecorView().setSystemUiVisibility(PlatformPlugin.DEFAULT_SYSTEM_UI);
         }
+        Intent intent = getIntent();
+        Uri data_uri;
+        data_uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (data_uri == null) {
+            Log.d("NightmareTAG", "sendFile: no data in intent");
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(() -> channel.invokeMethod("send_file", getRealPath(data_uri)));
+            }
+        }).start();
+        Log.d("NightmareTAG", data_uri.toString());
     }
 
     @Override

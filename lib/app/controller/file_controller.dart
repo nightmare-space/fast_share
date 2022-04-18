@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
-import 'package:speed_share/v2/ext_util.dart';
+import 'package:speed_share/utils/ext_util.dart';
 
 const onknownKey = '未知';
 const zipKey = '压缩包';

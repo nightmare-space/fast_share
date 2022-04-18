@@ -41,7 +41,7 @@ class SpeedPages {
       page: () {
         Uri uri;
         uri = GetPlatform.isWeb
-            ? Uri.parse(kDebugMode ? 'http://192.168.184.102:12000/' : url)
+            ? Uri.parse(kDebugMode ? 'http://127.0.0.1:12000/' : url)
             : Uri.parse(Get.parameters['chatServerAddress']);
         if (GetPlatform.isWeb) {
           return WebSpeedShareEntry(uri: uri);
@@ -145,7 +145,7 @@ class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
                 setState(() {});
               },
               icon: Icon(
-                Icons.sync_alt_rounded,
+                Icons.swap_horiz,
                 size: 28.w,
               ),
             ),
