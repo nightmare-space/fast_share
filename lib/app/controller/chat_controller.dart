@@ -71,9 +71,11 @@ class ChatController extends GetxController {
     udpData += ',$chatBindPort';
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
     Global().startSendBoardcast(udpData);
-    chatRoomUrl = 'http://127.0.0.1:$chatBindPort'; // 保存本地的IP地址列表
+    // 保存本地的IP地址列表
+    chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
     if (!GetPlatform.isWeb) {
       addreses = await PlatformUtil.localAddress();
+      update();
     }
     initChat(chatRoomUrl);
   }
@@ -88,7 +90,7 @@ class ChatController extends GetxController {
     // if (chatServerAddress != null) {
     //   Global().stopSendBoardcast();
     // }
-    if (chatServerAddress == this.chatServerAddress) {
+    if (chatServerAddress == this.chatServerAddress && socket != null) {
       return;
     }
     this.chatServerAddress = chatServerAddress;
@@ -511,6 +513,13 @@ class ChatController extends GetxController {
       try {
         map = jsonDecode(message);
         cache.add(map);
+        if (map['msgType'] == 'exit') {
+          deviceController.onDeviceClose(
+            map['deviceId'],
+          );
+          update();
+          return;
+        }
         MessageBaseInfo info = MessageInfoFactory.fromJson(map);
         dispatch(info, children);
       } catch (e) {
@@ -521,12 +530,14 @@ class ChatController extends GetxController {
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
     if (info is JoinMessage) {
-      if (info.deviceId != await UniqueUtil.getDevicesId()) {
+      if (info.deviceName != await UniqueUtil.getDevicesId()) {
         deviceController.onDeviceConnect(
           info.deviceId,
+          info.deviceName,
           info.deviceType,
         );
         update();
+        return;
       }
     } else if (info is MessageDirInfo) {
       // 保存文件夹消息所在的index
@@ -583,14 +594,17 @@ class ChatController extends GetxController {
       info.url ??= '';
     }
     // 往聊天列表中添加一条消息
-    children.add(MessageItemFactory.getMessageItem(
+    Widget item = MessageItemFactory.getMessageItem(
       info,
       false,
-    ));
-    // 自动滑动，振动，更新UI
-    scroll();
-    vibrate();
-    update();
+    );
+    if (item != null) {
+      children.add(item);
+      // 自动滑动，振动，更新UI
+      scroll();
+      vibrate();
+      update();
+    }
   }
 
   Future<void> vibrate() async {
@@ -607,11 +621,9 @@ class ChatController extends GetxController {
   Future<void> sendJoinEvent() async {
     // 这个消息来告诉聊天服务器，自己连接上来了
     // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID
-    socket.send(jsonEncode({
-      'type': "join",
-      'name': GetPlatform.isWeb ? "WEB" : await UniqueUtil.getDevicesId(),
-      'deviceType': type,
-    }));
+    JoinMessage message = JoinMessage();
+    message.deviceName = Global().deviceId;
+    sendMessage(message);
   }
 
   void getHistoryMsg() {
@@ -635,18 +647,21 @@ class ChatController extends GetxController {
   }
 
   int get type {
-    if (GetPlatform.isAndroid) {
-      return 0;
-    } else if (GetPlatform.isWeb) {
+    if (GetPlatform.isWeb) {
       return 2;
+    } else if (GetPlatform.isAndroid) {
+      return 0;
     } else if (GetPlatform.isDesktop) {
       return 1;
     }
     return 3;
   }
 
-  void sendMessage(MessageTextInfo info) {
+  UniqueKey uniqueKey = UniqueKey();
+
+  void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
+    info.deviceId = uniqueKey.toString();
     socket.send(info.toString());
   }
 

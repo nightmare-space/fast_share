@@ -146,7 +146,7 @@ class _FileItemState extends State<FileItem> {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.start,
           children: [
-            if (info.sendFrom != null)
+            if (info.deviceName != null)
               Container(
                 decoration: BoxDecoration(
                   color: const Color(0xffED796A).withOpacity(0.15),
@@ -158,7 +158,7 @@ class _FileItemState extends State<FileItem> {
                 ),
                 child: Center(
                   child: Text(
-                    info.sendFrom,
+                    info.deviceName,
                     style: TextStyle(
                       height: 1,
                       fontSize: 12.w,

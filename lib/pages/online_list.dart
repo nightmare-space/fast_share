@@ -6,7 +6,11 @@ import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 class OnlineList extends StatelessWidget {
-  const OnlineList({Key key}) : super(key: key);
+  const OnlineList({
+    Key key,
+    this.onJoin,
+  }) : super(key: key);
+  final void Function(String address) onJoin;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +81,12 @@ class OnlineList extends StatelessWidget {
                                   color: Colors.transparent,
                                   child: NiIconButton(
                                     onTap: () {
+                                      if (onJoin != null) {
+                                        onJoin(
+                                          'http://${device.address}:${device.port}',
+                                        );
+                                        return;
+                                      }
                                       Get.toNamed(
                                         '${Routes.chat}?chatServerAddress=http://${device.address}:${device.port}',
                                       );

@@ -62,7 +62,7 @@ class MessageItemFactory {
       );
     }
     if (child == null) {
-      return const SizedBox();
+      return null;
     }
     return Align(
       alignment: sendByUser ? Alignment.centerRight : Alignment.centerLeft,
@@ -73,7 +73,7 @@ class MessageItemFactory {
         ),
         child: Column(
           children: [
-            if (info.sendFrom != null)
+            if (info.deviceName != null)
               Row(
                 mainAxisAlignment: sendByUser
                     ? MainAxisAlignment.end
@@ -90,7 +90,7 @@ class MessageItemFactory {
                     ),
                     child: Center(
                       child: Text(
-                        info.sendFrom ?? '',
+                        info.deviceName ?? '',
                         style: TextStyle(
                           height: 1,
                           fontSize: 12.w,

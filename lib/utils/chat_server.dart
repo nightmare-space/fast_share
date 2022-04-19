@@ -49,21 +49,6 @@ class SocketPage extends GetView {
     String type = jsonMap['type'];
     switch (type) {
       case 'join':
-        // 有A B C设备
-        // B加入房间，就是用的B的ws进行的广播，A C会收到消息，B自己不会收到消息，
-        String name = jsonMap['name'];
-        // todo 这一步可以干掉
-        deviceNameStore[socket.id] = name;
-        msgs.add(json.encode({
-          'msgType': 'join',
-          'device_id': name,
-          'deviceType': jsonMap['deviceType'],
-        }));
-        socket.broadcast(json.encode({
-          'msgType': 'join',
-          'device_id': name,
-          'deviceType': jsonMap['deviceType'],
-        }));
         return;
       case 'getHistory':
         // 说明是请求历史消息，把历史消息单独发给这个客户端
@@ -84,6 +69,14 @@ class SocketPage extends GetView {
         // }
         return;
       default:
+        String msgType = jsonMap['msgType'];
+        if (msgType == 'join') {
+          // 有A B C设备
+          // B加入房间，就是用的B的ws进行的广播，A C会收到消息，B自己不会收到消息，
+          String sendId = jsonMap['deviceId'];
+          // todo 这一步可以干掉
+          deviceNameStore[socket.id] = sendId;
+        }
         // 保存到历史
         msgs.add(jsonEncode(jsonMap));
         // 广播到其他设备
@@ -123,7 +116,8 @@ class SocketPage extends GetView {
             String name = deviceNameStore.remove(socket.id);
             for (GetSocket socket in sockets) {
               socket.send(json.encode({
-                'msgType': 'tip',
+                'msgType': 'exit',
+                'deviceId': name,
                 'content': '$name 退出房间',
               }));
             }

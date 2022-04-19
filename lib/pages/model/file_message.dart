@@ -21,7 +21,7 @@ class MessageFileInfo extends MessageBaseInfo {
   }) : super(
           type: type,
           msgType: msgType,
-          sendFrom: sendFrom,
+          deviceName: sendFrom,
         );
 
   MessageFileInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {

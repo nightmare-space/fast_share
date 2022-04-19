@@ -13,7 +13,7 @@ class MessageTextInfo extends MessageBaseInfo {
           data: data,
           type: type,
           msgType: msgType,
-          sendFrom: sendFrom,
+          deviceName: sendFrom,
         );
 
   MessageTextInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {

@@ -4,27 +4,27 @@ class MessageBaseInfo {
   String type;
   String data;
   String msgType;
-  String sendFrom;
+  String deviceName;
   // 用来做发送设备的位移标识
-  String sendId;
+  String deviceId;
   int deviceType;
 
   MessageBaseInfo({
     this.type,
     this.data,
     this.msgType,
-    this.sendFrom = '',
+    this.deviceName = '',
     this.deviceType,
-    this.sendId,
+    this.deviceId,
   });
 
   MessageBaseInfo.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     data = json['data'];
     msgType = json['msgType'];
-    sendFrom = json['sendFrom'];
+    deviceName = json['deviceName'];
     deviceType = json['deviceType'];
-    sendId = json['sendId'];
+    deviceId = json['deviceId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,9 +32,9 @@ class MessageBaseInfo {
     map['type'] = type;
     map['data'] = data;
     map['msgType'] = msgType;
-    map['sendFrom'] = sendFrom;
+    map['deviceName'] = deviceName;
     map['deviceType'] = deviceType;
-    map['sendId'] = sendId;
+    map['deviceId'] = deviceId;
     return map;
   }
 

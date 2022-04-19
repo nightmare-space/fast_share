@@ -31,6 +31,7 @@ class AdaptiveEntryPoint extends StatefulWidget {
 
 class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   ChatController chatController = Get.put(ChatController());
+  String address;
   @override
   void initState() {
     super.initState();
@@ -63,15 +64,24 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                     ),
                     Expanded(
                       child: [
-                        HomePage(onMessageWindowTap: () {
-                          page = 1;
-                          setState(() {});
-                        }),
+                        HomePage(
+                          onMessageWindowTap: () {
+                            page = 1;
+                            setState(() {});
+                          },
+                          onJoinRoom: (value) {
+                            address = value;
+                            page = 1;
+                            setState(() {});
+                          },
+                        ),
                         Container(
                           color: Colors.white,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.w),
-                            child: const ShareChatV2(),
+                            child: ShareChatV2(
+                              chatServerAddress: address,
+                            ),
                           ),
                         ),
                         const FilePage(),
@@ -113,8 +123,10 @@ class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
     this.onMessageWindowTap,
+    this.onJoinRoom,
   }) : super(key: key);
   final void Function() onMessageWindowTap;
+  final void Function(String address) onJoinRoom;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -170,86 +182,6 @@ class _HomePageState extends State<HomePage> {
 
   double size = 100;
 
-  CardWrapper onknownFile(BuildContext context) {
-    return CardWrapper(
-      padding: EdgeInsets.all(8.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '最近文件',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-          ),
-          SizedBox(height: 4.w),
-          Container(
-            color: const Color(0xffE0C4C4).withOpacity(0.2),
-            height: 1,
-          ),
-          SizedBox(height: 4.w),
-          Expanded(
-            child: GetBuilder<FileController>(
-              builder: (ctl) {
-                List<Widget> children = [];
-                for (FileSystemEntity file in ctl.getRecent()) {
-                  children.add(
-                    SizedBox(
-                      width: 60.w,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          getIconByExt(file.path),
-                          SizedBox(height: 8.w),
-                          SizedBox(
-                            height: 20.w,
-                            child: Text(
-                              basename(file.path),
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 8.w,
-                                color: Colors.black,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                  children.add(
-                    SizedBox(
-                      width: 4.w,
-                    ),
-                  );
-                }
-                if (children.isEmpty) {
-                  return Center(
-                    child: Text(
-                      '空',
-                      style: TextStyle(
-                        fontSize: 16.w,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  );
-                }
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: children,
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -268,7 +200,9 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           buildHead(context),
                           SizedBox(height: 12.w),
-                          const OnlineList(),
+                          OnlineList(
+                            onJoin: widget.onJoinRoom,
+                          ),
                           SizedBox(height: 4.w),
                           Container(
                             decoration: BoxDecoration(
@@ -403,14 +337,14 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  height: 126,
+                                  height: 126.w,
                                   padding: EdgeInsets.all(10.w),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        device.id.toString(),
+                                        device.deviceName.toString(),
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Theme.of(context)
@@ -463,6 +397,86 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  CardWrapper onknownFile(BuildContext context) {
+    return CardWrapper(
+      padding: EdgeInsets.all(8.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '最近文件',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+          SizedBox(height: 4.w),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(height: 4.w),
+          Expanded(
+            child: GetBuilder<FileController>(
+              builder: (ctl) {
+                List<Widget> children = [];
+                for (FileSystemEntity file in ctl.getRecent()) {
+                  children.add(
+                    SizedBox(
+                      width: 60.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          getIconByExt(file.path),
+                          SizedBox(height: 8.w),
+                          SizedBox(
+                            height: 20.w,
+                            child: Text(
+                              basename(file.path),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 8.w,
+                                color: Colors.black,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                  children.add(
+                    SizedBox(
+                      width: 4.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   GestureDetector allDevice(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -496,27 +510,36 @@ class _HomePageState extends State<HomePage> {
                 height: 1,
               ),
               SizedBox(height: 4.w),
-              chatController.children.isEmpty
-                  ? Text(
-                      '当前没有任何消息，点击查看连接二维码',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      height: 100.w,
-                      child: ListView.builder(
-                        // controller: chatController.scrollController,
-                        itemCount: chatController.children.length,
-                        itemBuilder: (c, i) {
-                          return chatController.children[i];
-                        },
-                      ),
-                    ),
+              Builder(builder: (context) {
+                // Log.i(chatController.children..last);
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  height: 100.w,
+                  width: double.infinity,
+                  child: Builder(builder: (context) {
+                    if (chatController.children.isEmpty) {
+                      return Center(
+                        child: Text(
+                          '当前没有任何消息，点击进入到消息列表',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      // controller: chatController.scrollController,
+                      itemCount: chatController.children.length,
+                      itemBuilder: (c, i) {
+                        return chatController.children[i];
+                      },
+                    );
+                  }),
+                );
+              }),
             ],
           );
         }),

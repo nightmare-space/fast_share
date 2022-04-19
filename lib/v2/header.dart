@@ -68,16 +68,17 @@ class Header extends StatelessWidget {
                   ));
                 },
               ),
-              NiIconButton(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                  size: 24.w,
+              if (GetPlatform.isAndroid)
+                NiIconButton(
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.black,
+                    size: 24.w,
+                  ),
+                  onTap: () async {
+                    Get.dialog(const JoinChat());
+                  },
                 ),
-                onTap: () async {
-                  Get.dialog(const JoinChat());
-                },
-              ),
               NiIconButton(
                 child: SvgPicture.asset(
                   GlobalAssets.qrCode,
