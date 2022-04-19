@@ -194,7 +194,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: f6d3f7e717df0c205755b13dd5c9aa885a3e10ae
+      resolved-ref: b62ca02033809821b626d8ecd60b08044ee55059
       url: "https://github.com/nightmare-space/file_manager_view.git"
     source: git
     version: "1.0.0+1"
