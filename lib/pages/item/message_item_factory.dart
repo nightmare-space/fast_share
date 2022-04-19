@@ -7,6 +7,22 @@ import 'dir_item.dart';
 import 'file_item.dart';
 import 'qr_item.dart';
 
+Color getColor(int type) {
+  switch (type) {
+    case 0:
+      return Color(0xffED796A);
+      break;
+    case 1:
+      return Color(0xff6A6DED);
+      break;
+    case 2:
+      return Color(0xff317DEE);
+      break;
+    default:
+      return Colors.indigo;
+  }
+}
+
 class MessageItemFactory {
   static Widget getMessageItem(MessageBaseInfo info, bool sendByUser) {
     Widget child;
@@ -45,7 +61,9 @@ class MessageItemFactory {
         sendByUser: sendByUser,
       );
     }
-    child ?? const Text('不支持的消息类型');
+    if (child == null) {
+      return null;
+    }
     return Align(
       alignment: sendByUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Padding(
@@ -53,7 +71,42 @@ class MessageItemFactory {
           horizontal: 10.w,
           vertical: 8.w,
         ),
-        child: child,
+        child: Column(
+          children: [
+            if (info.deviceName != null)
+              Row(
+                mainAxisAlignment: sendByUser
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: getColor(info.deviceType).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    child: Center(
+                      child: Text(
+                        info.deviceName ?? '',
+                        style: TextStyle(
+                          height: 1,
+                          fontSize: 12.w,
+                          color: getColor(info.deviceType),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            SizedBox(
+              height: 4.w,
+            ),
+            child,
+          ],
+        ),
       ),
     );
   }

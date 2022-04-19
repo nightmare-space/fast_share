@@ -51,7 +51,8 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
                     '常规',
                     style: title,
@@ -146,7 +147,8 @@ class _SettingPageState extends State<SettingPage> {
                 // Text('消息和通知'),
                 // Text('快捷键'),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
                     '关于速享',
                     style: title,
@@ -179,7 +181,8 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () async {
-                    String url = 'https://github.com/nightmare-space/speed_share';
+                    String url =
+                        'https://github.com/nightmare-space/speed_share';
                     await canLaunch(url)
                         ? await launch(url)
                         : throw 'Could not launch $url';
@@ -226,6 +229,11 @@ class _SettingPageState extends State<SettingPage> {
                             style: TextStyle(
                               fontSize: 14.w,
                               fontWeight: FontWeight.normal,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .color
+                                  .withOpacity(0.6),
                             ),
                           ),
                         ],

@@ -9,6 +9,7 @@ import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
+import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
@@ -149,7 +150,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                                   color: Colors.white,
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
-                                      minHeight: 60.w,
+                                      minHeight: 64.w,
                                       maxHeight: 240.w,
                                     ),
                                     child: sendMsgContainer(context),
@@ -181,6 +182,12 @@ class _ShareChatV2State extends State<ShareChatV2>
         color: Theme.of(context).backgroundColor,
         clipBehavior: Clip.antiAlias,
         child: GetBuilder<ChatController>(builder: (context) {
+          List<Widget> children = [];
+          if (controller.backup.isNotEmpty) {
+            children = controller.backup;
+          } else {
+            children = controller.children;
+          }
           return ListView.builder(
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.fromLTRB(
@@ -190,11 +197,10 @@ class _ShareChatV2State extends State<ShareChatV2>
               80.w,
             ),
             controller: controller.scrollController,
-            itemCount:
-                controller.fixedChildren.length + controller.children.length,
+            itemCount: children.length,
             cacheExtent: 99999,
             itemBuilder: (c, i) {
-              return (controller.fixedChildren + controller.children)[i];
+              return (children)[i];
             },
           );
         }),
@@ -424,34 +430,43 @@ class _ShareChatV2State extends State<ShareChatV2>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: TextField(
-                      focusNode: controller.focusNode,
-                      controller: controller.controller,
-                      autofocus: false,
-                      maxLines: 8,
-                      minLines: 1,
-                      decoration: InputDecoration(
-                        fillColor: Theme.of(context).backgroundColor,
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.w,
-                          horizontal: 8.w,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        // color: Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(12.w),
+                      ),
+                      width: double.infinity,
+                      // height: 40.w,
+                      child: Center(
+                        child: TextField(
+                          focusNode: controller.focusNode,
+                          controller: controller.controller,
+                          autofocus: false,
+                          maxLines: 8,
+                          minLines: 1,
+                          decoration: InputDecoration(
+                            fillColor: Theme.of(context).backgroundColor,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: GetPlatform.isWeb ? 16.w : 10.w,
+                              horizontal: 12.w,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            textBaseline: TextBaseline.ideographic,
+                          ),
+                          onSubmitted: (_) {
+                            controller.sendTextMsg();
+                            Future.delayed(const Duration(milliseconds: 100),
+                                () {
+                              controller.focusNode.requestFocus();
+                            });
+                          },
                         ),
                       ),
-                      style: const TextStyle(
-                        textBaseline: TextBaseline.ideographic,
-                      ),
-                      onSubmitted: (_) {
-                        controller.sendTextMsg();
-                        Future.delayed(const Duration(milliseconds: 100), () {
-                          controller.focusNode.requestFocus();
-                        });
-                      },
                     ),
                   ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
+                  SizedBox(width: 8.w),
                   GestureWithScale(
                     onTap: () {
                       if (controller.hasInput) {
@@ -513,9 +528,12 @@ class LeftNav extends StatefulWidget {
 }
 
 class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
+  DeviceController deviceController = Get.find();
+  ChatController chatController = Get.find();
   AnimationController controller;
   Animation offset;
   int index;
+
   @override
   void initState() {
     super.initState();
@@ -533,6 +551,22 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  String getIcon(int type) {
+    switch (type) {
+      case 0:
+        return 'assets/icon/phone.png';
+        break;
+      case 1:
+        return 'assets/icon/computer.png';
+        break;
+      case 2:
+        return 'assets/icon/broswer.png';
+        break;
+      default:
+        return 'assets/icon/computer.png';
+    }
   }
 
   @override
@@ -614,39 +648,52 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
             MenuButton(
               value: 0,
               enable: index == 0,
+              child: Image.asset(
+                'assets/icon/all.png',
+                width: 24.w,
+                height: 24.w,
+              ),
               onChange: (value) {
                 index = value;
                 offset = Tween<double>(begin: offset.value, end: 0.w)
                     .animate(controller);
+                chatController.restoreList();
                 controller.reset();
                 controller.forward();
                 setState(() {});
               },
             ),
-            MenuButton(
-              value: 1,
-              enable: index == 1,
-              onChange: (value) {
-                index = value;
-                setState(() {});
-                offset = Tween<double>(begin: offset.value, end: 60.w)
-                    .animate(controller);
-                controller.reset();
-                controller.forward();
-              },
-            ),
-            MenuButton(
-              value: 2,
-              enable: index == 2,
-              onChange: (value) {
-                index = value;
-                setState(() {});
-                offset = Tween<double>(begin: offset.value, end: 120.w)
-                    .animate(controller);
-                controller.reset();
-                controller.forward();
-              },
-            ),
+            GetBuilder<DeviceController>(builder: (_) {
+              return Column(
+                children: [
+                  for (int i = 0;
+                      i < deviceController.connectDevice.length;
+                      i++)
+                    MenuButton(
+                      value: i + 1,
+                      enable: index == i + 1,
+                      child: Image.asset(
+                        getIcon(deviceController.connectDevice[i].deviceType),
+                        width: 32.w,
+                        height: 32.w,
+                      ),
+                      onChange: (value) {
+                        index = value;
+                        offset = Tween<double>(
+                          begin: offset.value,
+                          end: (i + 1) * 60.w,
+                        ).animate(controller);
+                        controller.reset();
+                        controller.forward();
+                        chatController.changeListToDevice(
+                          deviceController.connectDevice[i].deviceType,
+                        );
+                        setState(() {});
+                      },
+                    ),
+                ],
+              );
+            })
           ],
         ),
       ],
@@ -660,10 +707,12 @@ class MenuButton extends StatelessWidget {
     this.enable = true,
     this.value,
     this.onChange,
+    this.child,
   }) : super(key: key);
   final bool enable;
   final int value;
   final void Function(int index) onChange;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -694,11 +743,7 @@ class MenuButton extends StatelessWidget {
                       width: 48.w,
                       height: 48.w,
                       child: Center(
-                        child: Image.asset(
-                          'assets/icon/computer.png',
-                          width: 32.w,
-                          height: 32.w,
-                        ),
+                        child: child,
                       ),
                     ),
                   ],

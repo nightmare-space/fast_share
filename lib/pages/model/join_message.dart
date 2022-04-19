@@ -1,11 +1,8 @@
 import 'base_message.dart';
 
 class JoinMessage extends MessageBaseInfo {
-  String deviceId;
-
   JoinMessage({
-    this.deviceId,
-    String msgType,
+    String msgType = 'join',
     String type,
     String data,
   }) : super(
@@ -14,14 +11,11 @@ class JoinMessage extends MessageBaseInfo {
           msgType: msgType,
         );
 
-  JoinMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    deviceId = json['device_id'];
-  }
+  JoinMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {}
 
   @override
   Map<String, dynamic> toJson() {
     final data = super.toJson();
-    data['devic_id'] = deviceId;
     return data;
   }
 }

@@ -31,6 +31,7 @@ class AdaptiveEntryPoint extends StatefulWidget {
 
 class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   ChatController chatController = Get.put(ChatController());
+  String address;
   @override
   void initState() {
     super.initState();
@@ -63,11 +64,26 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                     ),
                     Expanded(
                       child: [
-                        HomePage(onMessageWindowTap: () {
-                          page = 1;
-                          setState(() {});
-                        }),
-                        const ShareChatV2(),
+                        HomePage(
+                          onMessageWindowTap: () {
+                            page = 1;
+                            setState(() {});
+                          },
+                          onJoinRoom: (value) {
+                            address = value;
+                            page = 1;
+                            setState(() {});
+                          },
+                        ),
+                        Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                            child: ShareChatV2(
+                              chatServerAddress: address,
+                            ),
+                          ),
+                        ),
                         const FilePage(),
                         const SettingPage(),
                       ][page],
@@ -107,8 +123,10 @@ class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
     this.onMessageWindowTap,
+    this.onJoinRoom,
   }) : super(key: key);
   final void Function() onMessageWindowTap;
+  final void Function(String address) onJoinRoom;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -118,10 +136,265 @@ class _HomePageState extends State<HomePage> {
   ChatController chatController = Get.put(ChatController());
   FileController fileController = Get.find();
   int index = 0;
+  bool serverOpend = true;
+  // ChatController controller = Get.find();
+  bool dropping = false;
 
   @override
   void initState() {
     super.initState();
+    request();
+    handleSendFile();
+  }
+
+  Future<void> request() async {
+    if (GetPlatform.isAndroid) {
+      PermissionUtil.requestStorage();
+    }
+  }
+
+  // 处理其他软件过来的分享
+  // TODO 冷启动分享
+  Future<void> handleSendFile() async {
+    if (GetPlatform.isAndroid) {
+      MethodChannel channel = const MethodChannel('send_channel');
+      channel.setMethodCallHandler((call) async {
+        if (call.method == 'send_file') {
+          // File file = File.fromUri(Uri.parse(call.arguments));
+          // print(file.path);
+          Log.d('call -> ${call.arguments}');
+          String realPath = call.arguments.toString().replaceAll('file://', '');
+          realPath = realPath.replaceAll(
+            'content://com.miui.home.fileprovider/data_app',
+            '/data/app',
+          );
+          realPath = realPath.replaceAll(
+            'content://com.nightmare.appmanager.fileprovider/root',
+            '',
+          );
+          Log.d('send_file response realPath => $realPath');
+          ChatController controller = Get.find();
+          controller.sendFileFromPath(realPath);
+        }
+      });
+    }
+  }
+
+  double size = 100;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: OverlayStyle.dark,
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          buildHead(context),
+                          SizedBox(height: 12.w),
+                          OnlineList(
+                            onJoin: widget.onJoinRoom,
+                          ),
+                          SizedBox(height: 4.w),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8.w,
+                              horizontal: 8.w,
+                            ),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '最近图片',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.w),
+                                  Container(
+                                    color: const Color(0xffE0C4C4)
+                                        .withOpacity(0.2),
+                                    height: 1,
+                                  ),
+                                  GetBuilder<FileController>(
+                                      builder: (context) {
+                                    File file = fileController.getRecentImage();
+                                    if (file == null) {
+                                      return const SizedBox();
+                                    }
+                                    String unique = shortHash(() {});
+                                    return GestureWithScale(
+                                      onTap: () {
+                                        Get.to(PreviewImage(
+                                          path: file.path,
+                                          tag: unique,
+                                        ));
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Hero(
+                                          tag: unique,
+                                          child: Image.file(
+                                            file,
+                                            width: double.infinity,
+                                            height: 120.w,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10.w),
+                          onknownFile(context),
+                          SizedBox(height: 10.w),
+                          allDevice(context),
+                          SizedBox(height: 10.w),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.all(10.w),
+                            child: GetBuilder<ChatController>(builder: (_) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '远程访问',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  Container(
+                                    color: const Color(0xffE0C4C4)
+                                        .withOpacity(0.2),
+                                    height: 1,
+                                  ),
+                                  SizedBox(
+                                    height: 4.w,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).backgroundColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    height: 100.w,
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(8.w),
+                                    child: ListView.builder(
+                                      itemCount: chatController.addreses.length,
+                                      itemBuilder: (context, index) {
+                                        return SelectableText(
+                                          'http://${chatController.addreses[index]}:12000/#/file',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
+                          ),
+                          SizedBox(height: 10.w),
+                          GetBuilder<DeviceController>(builder: (_) {
+                            List<Widget> children = [];
+                            DeviceController deviceController = Get.find();
+                            for (Device device
+                                in deviceController.connectDevice) {
+                              children.add(
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  height: 126.w,
+                                  padding: EdgeInsets.all(10.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        device.deviceName.toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 4.w,
+                                      ),
+                                      Container(
+                                        color: const Color(0xffE0C4C4)
+                                            .withOpacity(0.2),
+                                        height: 1,
+                                      ),
+                                      SizedBox(
+                                        height: 4.w,
+                                      ),
+                                      Text(
+                                        '如果有新的设备链接，会在下方添加新的设备版块，在首页手指向上滑动，可以拖动。',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                              children.add(SizedBox(
+                                height: 8.w,
+                              ));
+                            }
+                            return Column(
+                              children: children,
+                            );
+                          }),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const FilePage(),
+                ][index],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   CardWrapper onknownFile(BuildContext context) {
@@ -137,7 +410,7 @@ class _HomePageState extends State<HomePage> {
               color: Theme.of(context).colorScheme.onBackground,
             ),
           ),
-          SizedBox(height: 8.w),
+          SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
             height: 1,
@@ -204,214 +477,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: OverlayStyle.dark,
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          buildHead(context),
-                          SizedBox(height: 12.w),
-                          const OnlineList(),
-                          SizedBox(height: 4.w),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 8.w,
-                              horizontal: 8.w,
-                            ),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '最近图片',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    ),
-                                  ),
-                                  SizedBox(height: 4.w),
-                                  GetBuilder<FileController>(
-                                      builder: (context) {
-                                    File file = fileController.getRecentImage();
-                                    if (file == null) {
-                                      return const SizedBox();
-                                    }
-                                    String unique = shortHash(() {});
-                                    return GestureWithScale(
-                                      onTap: () {
-                                        Get.to(PreviewImage(
-                                          path: file.path,
-                                          tag: unique,
-                                        ));
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Hero(
-                                          tag: unique,
-                                          child: Image.file(
-                                            file,
-                                            width: double.infinity,
-                                            height: 200.w,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.w),
-                          onknownFile(context),
-                          SizedBox(height: 10.w),
-                          allDevice(context),
-                          SizedBox(height: 10.w),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: EdgeInsets.all(10.w),
-                            child: GetBuilder<ChatController>(builder: (_) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '远程访问',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4.w,
-                                  ),
-                                  Container(
-                                    color: const Color(0xffE0C4C4)
-                                        .withOpacity(0.2),
-                                    height: 1,
-                                  ),
-                                  SizedBox(
-                                    height: 10.w,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).backgroundColor,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    height: 100.w,
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(8.w),
-                                    child: ListView.builder(
-                                      itemCount: chatController.addreses.length,
-                                      itemBuilder: (context, index) {
-                                        return SelectableText(
-                                          'http://${chatController.addreses[index]}:12000/#/file',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
-                          ),
-                          SizedBox(height: 10.w),
-                          GetBuilder<DeviceController>(builder: (_) {
-                            List<Widget> children = [];
-                            DeviceController deviceController = Get.find();
-                            for (Device device
-                                in deviceController.connectDevice) {
-                              children.add(
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  height: 126,
-                                  padding: EdgeInsets.all(10.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        device.id.toString(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 4.w,
-                                      ),
-                                      Container(
-                                        color: const Color(0xffE0C4C4)
-                                            .withOpacity(0.2),
-                                        height: 1,
-                                      ),
-                                      SizedBox(
-                                        height: 10.w,
-                                      ),
-                                      Text(
-                                        '如果有新的设备链接，会在下方添加新的设备版块，在首页手指向上滑动，可以拖动。',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                              children.add(SizedBox(
-                                height: 8.w,
-                              ));
-                            }
-                            return Column(
-                              children: children,
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const FilePage(),
-                ][index],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   GestureDetector allDevice(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -439,36 +504,42 @@ class _HomePageState extends State<HomePage> {
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),
-              SizedBox(
-                height: 4.w,
-              ),
+              SizedBox(height: 4.w),
               Container(
                 color: const Color(0xffE0C4C4).withOpacity(0.2),
                 height: 1,
               ),
-              SizedBox(
-                height: 10.w,
-              ),
-              chatController.children.isEmpty
-                  ? Text(
-                      '当前没有任何消息，点击查看连接二维码',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      height: 100.w,
-                      child: ListView.builder(
-                        itemCount: chatController.children.length,
-                        itemBuilder: (c, i) {
-                          return chatController.children[i];
-                        },
-                      ),
-                    ),
+              SizedBox(height: 4.w),
+              Builder(builder: (context) {
+                // Log.i(chatController.children..last);
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  height: 100.w,
+                  width: double.infinity,
+                  child: Builder(builder: (context) {
+                    if (chatController.children.isEmpty) {
+                      return Center(
+                        child: Text(
+                          '当前没有任何消息，点击进入到消息列表',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      // controller: chatController.scrollController,
+                      itemCount: chatController.children.length,
+                      itemBuilder: (c, i) {
+                        return chatController.children[i];
+                      },
+                    );
+                  }),
+                );
+              }),
             ],
           );
         }),

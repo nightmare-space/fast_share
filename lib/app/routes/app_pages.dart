@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +31,7 @@ class SpeedPages {
       page: () => ThemeWrapper(
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: OverlayStyle.dark,
-          child: AdaptiveEntryPoint(),
+          child: const AdaptiveEntryPoint(),
         ),
       ),
       binding: HomeBinding(),
@@ -40,8 +41,11 @@ class SpeedPages {
       page: () {
         Uri uri;
         uri = GetPlatform.isWeb
-            ? Uri.parse(kDebugMode ? 'http://192.168.247.156:12000/' : url)
+            ? Uri.parse(kDebugMode ? 'http://192.168.185.102:12000/' : url)
             : Uri.parse(Get.parameters['chatServerAddress']);
+        if (GetPlatform.isWeb) {
+          return WebSpeedShareEntry(uri: uri);
+        }
         return ThemeWrapper(
           child: ShareChatV2(
             chatServerAddress: 'http://${uri.host}:${uri.port}',
@@ -51,6 +55,105 @@ class SpeedPages {
       binding: ChatBinding(),
     ),
   ];
+}
+
+class WebSpeedShareEntry extends StatefulWidget {
+  const WebSpeedShareEntry({
+    Key key,
+    this.uri,
+  }) : super(key: key);
+  final Uri uri;
+
+  @override
+  State<WebSpeedShareEntry> createState() => _WebSpeedShareEntryState();
+}
+
+class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
+  int pageIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            PageTransitionSwitcher(
+              transitionBuilder: (
+                Widget child,
+                Animation<double> animation,
+                Animation<double> secondaryAnimation,
+              ) {
+                return FadeThroughTransition(
+                  animation: animation,
+                  secondaryAnimation: secondaryAnimation,
+                  child: child,
+                );
+              },
+              duration: const Duration(milliseconds: 800),
+              layoutBuilder: (widgets) {
+                return Material(
+                  color: Colors.white,
+                  child: Stack(
+                    children: widgets,
+                  ),
+                );
+              },
+              child: [
+                ThemeWrapper(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: ShareChatV2(
+                      chatServerAddress:
+                          'http://${widget.uri.host}:${widget.uri.port}',
+                    ),
+                  ),
+                ),
+                const ThemeWrapper(
+                  child: fm.HomePage(),
+                ),
+              ][pageIndex],
+            ),
+            // Align(
+            //   alignment: Alignment.topRight,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: NiIconButton(
+            //       onTap: () {
+            //         pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
+            //         setState(() {});
+            //       },
+            //       child: const Icon(Icons.sync_alt_rounded),
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(100.0),
+          child: Material(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(40),
+            clipBehavior: Clip.antiAlias,
+            child: IconButton(
+              color: Colors.white,
+              iconSize: 48.w,
+              onPressed: () {
+                pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.swap_horiz,
+                size: 28.w,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class ThemeWrapper extends StatelessWidget {

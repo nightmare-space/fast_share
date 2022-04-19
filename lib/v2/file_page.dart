@@ -21,7 +21,7 @@ class NiIconButton extends StatelessWidget {
   final GestureTapCallback onTap;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 48.w,
       height: 48.w,
       child: InkWell(
@@ -58,13 +58,13 @@ class _FilePageState extends State<FilePage> {
                 children: [
                   const Header(),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 140.w),
+                    padding: EdgeInsets.only(right: 180.w),
                     child: NiIconButton(
                       onTap: () {
                         pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
                         setState(() {});
                       },
-                      child: Icon(Icons.refresh),
+                      child: const Icon(Icons.swap_horiz),
                     ),
                   ),
                 ],
@@ -82,11 +82,21 @@ class _FilePageState extends State<FilePage> {
                       child: child,
                     );
                   },
+                  duration: const Duration(milliseconds: 600),
+                  layoutBuilder: (widgets) {
+                    return Material(
+                      color: Theme.of(context).backgroundColor,
+                      child: Stack(
+                        children: widgets,
+                      ),
+                    );
+                  },
                   child: [
                     fileList(context),
                     fm.HomePage(
                       drawer: false,
                       path: '/sdcard/SpeedShare',
+                      padding: EdgeInsets.only(bottom: 8.w),
                     ),
                   ][pageIndex],
                 ),
@@ -159,7 +169,9 @@ class _FilePageState extends State<FilePage> {
     return Material(
       color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
+        padding: EdgeInsets.zero,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 12.w),
             dir(context),

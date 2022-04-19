@@ -12,8 +12,9 @@ import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/path_util.dart';
-import 'package:speed_share/v2/ext_util.dart';
+import 'package:speed_share/utils/ext_util.dart';
 import 'package:speed_share/v2/icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -131,6 +132,7 @@ class _FileItemState extends State<FileItem> {
     return url;
   }
 
+  Offset offset;
   @override
   Widget build(BuildContext context) {
     // Log.e('fileitem url -> $url');
@@ -144,7 +146,7 @@ class _FileItemState extends State<FileItem> {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.start,
           children: [
-            if (info.sendFrom != null)
+            if (info.deviceName != null)
               Container(
                 decoration: BoxDecoration(
                   color: const Color(0xffED796A).withOpacity(0.15),
@@ -156,7 +158,7 @@ class _FileItemState extends State<FileItem> {
                 ),
                 child: Center(
                   child: Text(
-                    info.sendFrom,
+                    info.deviceName,
                     style: TextStyle(
                       height: 1,
                       fontSize: 12.w,
@@ -165,119 +167,26 @@ class _FileItemState extends State<FileItem> {
                   ),
                 ),
               ),
-            SizedBox(
-              height: 4.w,
-            ),
-            Container(
-              padding: EdgeInsets.all(10.w),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.w),
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 200.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Builder(builder: (context) {
-                      void Function() onTap;
-                      if (fileDownratio == 1.0 && !timer.isActive) {
-                        onTap = () {
-                          OpenFile.open(savePath);
-                        };
-                      }
-                      return GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: onTap,
-                        child: buildPreviewWidget(url),
-                      );
-                    }),
-                    // 展示下载进度条
-                    if (!widget.sendByUser && !GetPlatform.isWeb)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            height: 8.w,
-                          ),
-                          ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25.0)),
-                            child: LinearProgressIndicator(
-                              backgroundColor: Colors.black12,
-                              valueColor: AlwaysStoppedAnimation(
-                                fileDownratio == 1.0
-                                    ? Colors.blue
-                                    : Theme.of(context).primaryColor,
-                              ),
-                              value: fileDownratio,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4.w,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Builder(builder: (_) {
-                                if (fileDownratio == 1.0 && timer.isActive) {
-                                  return Text(
-                                    '合并文件中',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 12.w,
-                                    ),
-                                  );
-                                }
-                                if (fileDownratio == 1.0 && !timer.isActive) {
-                                  return Icon(
-                                    Icons.check,
-                                    size: 16.w,
-                                    color: Colors.green,
-                                  );
-                                }
-                                return Text(
-                                  '$speed/s',
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 12.w,
-                                  ),
-                                );
-                              }),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    child: Text(
-                                      FileSizeUtils.getFileSize(count),
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12.w,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    '/',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 12.w,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    child: Text(
-                                      widget.info.fileSize,
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12.w,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                  ],
+            SizedBox(height: 4.w),
+            Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.w),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onLongPress: () {
+                  Get.dialog(
+                    Menu(
+                      offset: offset,
+                    ),
+                    useSafeArea: false,
+                    barrierColor: Colors.black12,
+                  );
+                },
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    offset = details.globalPosition;
+                  },
+                  child: body(context),
                 ),
               ),
             ),
@@ -347,64 +256,185 @@ class _FileItemState extends State<FileItem> {
     );
   }
 
+  Padding body(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(10.w),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 200.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Builder(builder: (context) {
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  if (fileDownratio == 1.0 && !timer.isActive) {
+                    OpenFile.open(savePath);
+                  }
+                },
+                child: buildPreviewWidget(url),
+              );
+            }),
+            // 展示下载进度条
+            if (!widget.sendByUser && !GetPlatform.isWeb)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: 8.w,
+                  ),
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+                    child: LinearProgressIndicator(
+                      backgroundColor: Theme.of(context).colorScheme.surface3,
+                      valueColor: AlwaysStoppedAnimation(
+                        fileDownratio == 1.0
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).primaryColor.withOpacity(0.4),
+                      ),
+                      value: fileDownratio,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4.w,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Builder(builder: (_) {
+                        // timer.isActive说明正在下载，说明文件完整下载了，但是还没有合并
+                        if (fileDownratio == 1.0 && timer.isActive) {
+                          return Text(
+                            '合并文件中',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12.w,
+                            ),
+                          );
+                        }
+                        if (fileDownratio == 1.0 && !timer.isActive) {
+                          return Icon(
+                            Icons.check,
+                            size: 16.w,
+                            color: Colors.green,
+                          );
+                        }
+                        return Text(
+                          '$speed/s',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 12.w,
+                          ),
+                        );
+                      }),
+                      Row(
+                        children: [
+                          SizedBox(
+                            child: Text(
+                              FileSizeUtils.getFileSize(count),
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 12.w,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '/',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12.w,
+                            ),
+                          ),
+                          SizedBox(
+                            child: Text(
+                              widget.info.fileSize,
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 12.w,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
   UniqueKey key = UniqueKey();
   Widget buildPreviewWidget(String url) {
-    MessageFileInfo info = widget.info;
-    // if (info.fileName.isVideoFileName || info.fileName.endsWith('.mkv')) {
-    //   return InkWell(
-    //     onTap: () async {
-    //       if (GetPlatform.isWeb) {
-    //         await canLaunch(url)
-    //             ? await launch(url)
-    //             : throw 'Could not launch $url';
-    //         return;
-    //       }
-    //       NiNavigator.of(Get.context).pushVoid(
-    //         Material(
-    //           child: Hero(
-    //             tag: key,
-    //             child: SerieExample(
-    //               url: url,
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     },
-    //     child: Hero(
-    //       tag: key,
-    //       child: Row(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         children: [
-    //           getIconByExt(info.fileName),
-    //           SizedBox(width: 8.w),
-    //           Expanded(
-    //             child: Text(
-    //               widget.info.fileName,
-    //               style: TextStyle(
-    //                 color: Colors.black,
-    //                 // fontWeight: FontWeight.bold,
-    //                 fontSize: 14.w,
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
-    return Row(
-      children: [
-        getIconByExt(url),
-        SizedBox(width: 8.w),
-        Expanded(
-          child: Text(
-            widget.info.fileName,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 12.w,
+    return InkWell(
+      child: Row(
+        children: [
+          getIconByExt(url),
+          SizedBox(width: 8.w),
+          Expanded(
+            child: Text(
+              widget.info.fileName,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12.w,
+              ),
             ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+class Menu extends StatefulWidget {
+  const Menu({Key key, this.offset}) : super(key: key);
+  final Offset offset;
+
+  @override
+  State<Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          top: widget.offset.dy,
+          left: widget.offset.dx,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Material(
+              color: Colors.white,
+              clipBehavior: Clip.antiAlias,
+              borderRadius: BorderRadius.circular(10.w),
+              child: SizedBox(
+                width: 120.w,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: SizedBox(
+                        height: 40.w,
+                        child: Center(child: Text('分享')),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: SizedBox(
+                        height: 40.w,
+                        child: Center(child: Text('删除')),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
