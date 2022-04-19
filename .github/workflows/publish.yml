@@ -102,6 +102,7 @@ jobs:
 
       - name: Packaging
         run: |
+          .\scripts\patch_executable.bat
           Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath "${{ env.ZIP_NAME }}-windows.zip"
 
       - name: Release
