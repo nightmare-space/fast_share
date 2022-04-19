@@ -10,6 +10,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
+import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/pages/online_list.dart';
 import 'package:speed_share/v2/desktop_drawer.dart';
 import 'package:speed_share/v2/file_page.dart';
@@ -62,32 +63,44 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                         setState(() {});
                       },
                     ),
-                    Expanded(
-                      child: [
-                        HomePage(
-                          onMessageWindowTap: () {
-                            page = 1;
-                            setState(() {});
-                          },
-                          onJoinRoom: (value) {
-                            address = value;
-                            page = 1;
-                            setState(() {});
-                          },
-                        ),
-                        Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w),
-                            child: ShareChatV2(
-                              chatServerAddress: address,
+                    GetBuilder<DeviceController>(builder: (controller) {
+                      return Expanded(
+                        child: [
+                          HomePage(
+                            onMessageWindowTap: () {
+                              page = 1;
+                              setState(() {});
+                            },
+                            onJoinRoom: (value) {
+                              address = value;
+                              page = 1;
+                              setState(() {});
+                            },
+                          ),
+                          Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.w),
+                              child: ShareChatV2(
+                                chatServerAddress: address,
+                              ),
                             ),
                           ),
-                        ),
-                        const FilePage(),
-                        const SettingPage(),
-                      ][page],
-                    ),
+                          for (int i = 0;
+                              i < controller.connectDevice.length;
+                              i++)
+                            Container(
+                              color: Colors.white,
+                              child: WebSpeedShareEntry(
+                                address: address,
+                                fileAddress: address,
+                              ),
+                            ),
+                          const FilePage(),
+                          const SettingPage(),
+                        ][page],
+                      );
+                    }),
                   ],
                 ),
               ),

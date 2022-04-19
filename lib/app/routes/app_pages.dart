@@ -44,7 +44,9 @@ class SpeedPages {
             ? Uri.parse(kDebugMode ? 'http://192.168.185.102:12000/' : url)
             : Uri.parse(Get.parameters['chatServerAddress']);
         if (GetPlatform.isWeb) {
-          return WebSpeedShareEntry(uri: uri);
+          return WebSpeedShareEntry(
+            address: 'http://${uri.host}:${uri.port}',
+          );
         }
         return ThemeWrapper(
           child: ShareChatV2(
@@ -60,9 +62,11 @@ class SpeedPages {
 class WebSpeedShareEntry extends StatefulWidget {
   const WebSpeedShareEntry({
     Key key,
-    this.uri,
+    this.address,
+    this.fileAddress,
   }) : super(key: key);
-  final Uri uri;
+  final String address;
+  final String fileAddress;
 
   @override
   State<WebSpeedShareEntry> createState() => _WebSpeedShareEntryState();
@@ -106,13 +110,14 @@ class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: ShareChatV2(
-                      chatServerAddress:
-                          'http://${widget.uri.host}:${widget.uri.port}',
+                      chatServerAddress: widget.address,
                     ),
                   ),
                 ),
-                const ThemeWrapper(
-                  child: fm.HomePage(),
+                ThemeWrapper(
+                  child: fm.HomePage(
+                    address: widget.fileAddress,
+                  ),
                 ),
               ][pageIndex],
             ),
@@ -132,7 +137,7 @@ class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
           ],
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.all(100.0),
+          padding: EdgeInsets.all(64.w),
           child: Material(
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(40),

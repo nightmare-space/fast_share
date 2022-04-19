@@ -693,7 +693,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                     ),
                 ],
               );
-            })
+            }),
           ],
         ),
       ],
