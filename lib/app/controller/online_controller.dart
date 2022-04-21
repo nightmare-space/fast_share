@@ -26,7 +26,7 @@ class DeviceEntity {
   @override
   int get hashCode => address.hashCode;
 }
-
+// 管理UDP发现的设备
 class OnlineController extends GetxController {
   final list = <DeviceEntity>[].obs;
   final Debouncer _debouncer = Debouncer(

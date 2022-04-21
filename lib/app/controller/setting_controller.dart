@@ -2,21 +2,23 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
 import 'package:signale/signale.dart';
 import 'package:settings/settings.dart';
-
+// 管理设置的controller
 class SettingController extends GetxController {
   SettingController() {
     if (!GetPlatform.isWeb) {
       initConfig();
     }
   }
-
-  bool enableFilter = false;
-  bool enableServer = true;
+  // 开启自动下载
   bool enableAutoDownload = false;
+  // 开启剪切板共享
   bool clipboardShare = true;
+  // 开启消息振动
   bool vibrate = true;
+  // 文件储存路径
   String savePath = '/sdcard/SpeedShare';
 
+  // 初始化配置
   void initConfig() {
     clipboardShare = 'clipboardShare'.get ?? true;
     vibrate = 'vibrate'.get ?? true;
@@ -53,15 +55,6 @@ class SettingController extends GetxController {
     update();
   }
 
-  void filterEnabledChange(bool value) {
-    enableFilter = value;
-    update();
-  }
-
-  void serverEnableChange(bool value) {
-    enableServer = value;
-    update();
-  }
 
   void changeSavepath(String path) {
     savePath = path;

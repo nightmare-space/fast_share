@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/bindings/chat_binding.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
+import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
 import 'package:speed_share/v2/home_page.dart';
@@ -41,13 +42,12 @@ class SpeedPages {
       page: () {
         Uri uri;
         uri = GetPlatform.isWeb
-            ? Uri.parse(kDebugMode ? 'http://192.168.185.102:12000/' : url)
+            ? Uri.parse(kDebugMode ? 'http://192.168.140.102:12000/' : url)
             : Uri.parse(Get.parameters['chatServerAddress']);
-        if (GetPlatform.isWeb) {
-          return WebSpeedShareEntry(
-            address: 'http://${uri.host}:${uri.port}',
-          );
-        }
+        return WebSpeedShareEntry(
+          address: 'http://${uri.host}:${uri.port}',
+        );
+
         return ThemeWrapper(
           child: ShareChatV2(
             chatServerAddress: 'http://${uri.host}:${uri.port}',
@@ -73,89 +73,94 @@ class WebSpeedShareEntry extends StatefulWidget {
 }
 
 class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
+  ChatController chatController = Get.find();
   int pageIndex = 0;
+  String get urlPrefix {
+    Uri uri = Uri.tryParse(url);
+    String perfix = 'http://${uri.host}:20000';
+    if (kIsWeb && kDebugMode) {
+      perfix = 'http://192.168.140.102:20000';
+    }
+    return perfix;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          alignment: Alignment.topLeft,
-          children: [
-            PageTransitionSwitcher(
-              transitionBuilder: (
-                Widget child,
-                Animation<double> animation,
-                Animation<double> secondaryAnimation,
-              ) {
-                return FadeThroughTransition(
-                  animation: animation,
-                  secondaryAnimation: secondaryAnimation,
-                  child: child,
-                );
-              },
-              duration: const Duration(milliseconds: 800),
-              layoutBuilder: (widgets) {
-                return Material(
-                  color: Colors.white,
-                  child: Stack(
-                    children: widgets,
-                  ),
-                );
-              },
-              child: [
-                ThemeWrapper(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: ShareChatV2(
-                      chatServerAddress: widget.address,
+      child: Obx(
+        () {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Stack(
+              alignment: Alignment.topLeft,
+              children: [
+                PageTransitionSwitcher(
+                  transitionBuilder: (
+                    Widget child,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                  ) {
+                    return FadeThroughTransition(
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      child: child,
+                    );
+                  },
+                  duration: const Duration(milliseconds: 800),
+                  layoutBuilder: (widgets) {
+                    return Stack(
+                      children: widgets,
+                    );
+                  },
+                  child: [
+                    Material(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: ShareChatV2(
+                          chatServerAddress: widget.address,
+                        ),
+                      ),
                     ),
-                  ),
+                    ThemeWrapper(
+                      child: fm.HomePage(
+                        usePackage: true,
+                        address: GetPlatform.isWeb
+                            ? urlPrefix
+                            : chatController.fileAddress.value,
+                      ),
+                    ),
+                  ][pageIndex],
                 ),
-                ThemeWrapper(
-                  child: fm.HomePage(
-                    address: widget.fileAddress,
-                  ),
-                ),
-              ][pageIndex],
+              ],
             ),
-            // Align(
-            //   alignment: Alignment.topRight,
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: NiIconButton(
-            //       onTap: () {
-            //         pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
-            //         setState(() {});
-            //       },
-            //       child: const Icon(Icons.sync_alt_rounded),
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
-        floatingActionButton: Padding(
-          padding: EdgeInsets.all(64.w),
-          child: Material(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(40),
-            clipBehavior: Clip.antiAlias,
-            child: IconButton(
-              color: Colors.white,
-              iconSize: 48.w,
-              onPressed: () {
-                pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
-                setState(() {});
-              },
-              icon: Icon(
-                Icons.swap_horiz,
-                size: 28.w,
-              ),
-            ),
-          ),
-        ),
+            resizeToAvoidBottomInset: true,
+            floatingActionButton:
+                chatController.fileAddress.isNotEmpty || GetPlatform.isWeb
+                    ? Padding(
+                        padding: EdgeInsets.all(36.w),
+                        child: Material(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(40),
+                          clipBehavior: Clip.antiAlias,
+                          child: IconButton(
+                            color: Colors.white,
+                            iconSize: 48.w,
+                            onPressed: () {
+                              pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
+                              setState(() {});
+                            },
+                            icon: Icon(
+                              Icons.swap_horiz,
+                              size: 28.w,
+                            ),
+                          ),
+                        ),
+                      )
+                    : null,
+          );
+        },
       ),
     );
   }

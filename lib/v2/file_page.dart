@@ -48,68 +48,68 @@ class _FilePageState extends State<FilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            children: [
-              Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  const Header(),
-                  Padding(
-                    padding: EdgeInsets.only(right: 180.w),
-                    child: NiIconButton(
-                      onTap: () {
-                        pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
-                        setState(() {});
-                      },
-                      child: const Icon(Icons.swap_horiz),
-                    ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                const Header(),
+                Padding(
+                  padding: EdgeInsets.only(right: 180.w),
+                  child: NiIconButton(
+                    onTap: () {
+                      pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
+                      setState(() {});
+                    },
+                    child: const Icon(Icons.swap_horiz),
                   ),
-                ],
-              ),
-              Expanded(
-                child: PageTransitionSwitcher(
-                  transitionBuilder: (
-                    Widget child,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                  ) {
-                    return FadeThroughTransition(
-                      animation: animation,
-                      secondaryAnimation: secondaryAnimation,
-                      child: child,
-                    );
-                  },
-                  duration: const Duration(milliseconds: 600),
-                  layoutBuilder: (widgets) {
-                    return Material(
-                      color: Theme.of(context).backgroundColor,
-                      child: Stack(
-                        children: widgets,
-                      ),
-                    );
-                  },
-                  child: [
-                    fileList(context),
-                    fm.HomePage(
-                      drawer: false,
-                      path: '/sdcard/SpeedShare',
-                      padding: EdgeInsets.only(bottom: 8.w),
-                    ),
-                  ][pageIndex],
                 ),
+              ],
+            ),
+            Expanded(
+              child: PageTransitionSwitcher(
+                transitionBuilder: (
+                  Widget child,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                ) {
+                  return FadeThroughTransition(
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    fillColor: Colors.transparent,
+                    child: child,
+                  );
+                },
+                duration: const Duration(milliseconds: 600),
+                layoutBuilder: (widgets) {
+                  return Material(
+                    color: Colors.transparent,
+                    child: Stack(
+                      children: widgets,
+                    ),
+                  );
+                },
+                child: [
+                  fileList(context),
+                  fm.HomePage(
+                    drawer: false,
+                    path: '/sdcard/SpeedShare',
+                    address: 'http://127.0.0.1:20000',
+                    padding: EdgeInsets.only(bottom: 8.w),
+                  ),
+                ][pageIndex],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  double get width {
-    return MediaQuery.of(context).size.width / 4 - 64.w;
+  double getWidth(double max) {
+    return (max - 36.w) / 4;
   }
 
   Material fileList(BuildContext context) {
@@ -121,47 +121,50 @@ class _FilePageState extends State<FilePage> {
             SizedBox(
               height: 20.w,
             ),
-            Wrap(
-              runSpacing: 12.w,
-              spacing: 12.w,
-              alignment: WrapAlignment.start,
-              runAlignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: [
-                SizedBox(
-                  width: width,
-                  child: dir(context),
-                ),
-                SizedBox(
-                  width: width,
-                  child: onknownFile(context),
-                ),
-                SizedBox(
-                  width: width,
-                  child: zipFile(context),
-                ),
-                SizedBox(
-                  width: width,
-                  child: docFile(context),
-                ),
-                SizedBox(
-                  width: width,
-                  child: audio(context),
-                ),
-                SizedBox(
-                  width: width,
-                  child: video(context),
-                ),
-                SizedBox(
-                  width: width,
-                  child: imgFile(context),
-                ),
-                SizedBox(
-                  width: width,
-                  child: imgFile(context),
-                ),
-              ],
-            ),
+            LayoutBuilder(builder: (context, con) {
+              double width = getWidth(con.maxWidth);
+              return Wrap(
+                runSpacing: 12.w,
+                spacing: 12.w,
+                alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                children: [
+                  SizedBox(
+                    width: width,
+                    child: dir(context),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: onknownFile(context),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: zipFile(context),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: docFile(context),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: audio(context),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: video(context),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: imgFile(context),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: imgFile(context),
+                  ),
+                ],
+              );
+            }),
           ],
         ),
       );

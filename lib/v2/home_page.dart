@@ -33,6 +33,7 @@ class AdaptiveEntryPoint extends StatefulWidget {
 class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   ChatController chatController = Get.put(ChatController());
   String address;
+
   @override
   void initState() {
     super.initState();
@@ -42,11 +43,13 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   }
 
   int page = 0;
+
   @override
   Widget build(BuildContext context) {
     if (ResponsiveWrapper.of(context).isDesktop) {
       return Scaffold(
         body: SafeArea(
+          left: false,
           child: Column(
             children: [
               Container(
@@ -89,13 +92,18 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                           for (int i = 0;
                               i < controller.connectDevice.length;
                               i++)
-                            Container(
-                              color: Colors.white,
-                              child: WebSpeedShareEntry(
-                                address: address,
-                                fileAddress: address,
-                              ),
-                            ),
+                            Builder(builder: (context) {
+                              Uri uri = Uri.tryParse(
+                                  controller.connectDevice[i].address);
+                              String addr = 'http://${uri.host}:20000';
+                              return Container(
+                                color: Colors.white,
+                                child: WebSpeedShareEntry(
+                                  address: address,
+                                  fileAddress: addr,
+                                ),
+                              );
+                            }),
                           const FilePage(),
                           const SettingPage(),
                         ][page],
@@ -110,23 +118,25 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
       );
     }
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: [
-              const HomePage(),
-              const FilePage(),
-              const HomePage(),
-            ][page],
-          ),
-          Nav(
-            value: page,
-            onTap: (value) {
-              page = value;
-              setState(() {});
-            },
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: [
+                const HomePage(),
+                const FilePage(),
+                const HomePage(),
+              ][page],
+            ),
+            Nav(
+              value: page,
+              onTap: (value) {
+                page = value;
+                setState(() {});
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -200,211 +210,207 @@ class _HomePageState extends State<HomePage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: OverlayStyle.dark,
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          buildHead(context),
-                          SizedBox(height: 12.w),
-                          OnlineList(
-                            onJoin: widget.onJoinRoom,
+        body: Column(
+          children: [
+            Expanded(
+              child: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        buildHead(context),
+                        SizedBox(height: 12.w),
+                        OnlineList(
+                          onJoin: widget.onJoinRoom,
+                        ),
+                        SizedBox(height: 4.w),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          SizedBox(height: 4.w),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 8.w,
-                              horizontal: 8.w,
-                            ),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '最近图片',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    ),
-                                  ),
-                                  SizedBox(height: 4.w),
-                                  Container(
-                                    color: const Color(0xffE0C4C4)
-                                        .withOpacity(0.2),
-                                    height: 1,
-                                  ),
-                                  GetBuilder<FileController>(
-                                      builder: (context) {
-                                    File file = fileController.getRecentImage();
-                                    if (file == null) {
-                                      return const SizedBox();
-                                    }
-                                    String unique = shortHash(() {});
-                                    return GestureWithScale(
-                                      onTap: () {
-                                        Get.to(PreviewImage(
-                                          path: file.path,
-                                          tag: unique,
-                                        ));
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Hero(
-                                          tag: unique,
-                                          child: Image.file(
-                                            file,
-                                            width: double.infinity,
-                                            height: 120.w,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                ],
-                              ),
-                            ),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 8.w,
+                            horizontal: 8.w,
                           ),
-                          SizedBox(height: 10.w),
-                          onknownFile(context),
-                          SizedBox(height: 10.w),
-                          allDevice(context),
-                          SizedBox(height: 10.w),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: EdgeInsets.all(10.w),
-                            child: GetBuilder<ChatController>(builder: (_) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '远程访问',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4.w,
-                                  ),
-                                  Container(
-                                    color: const Color(0xffE0C4C4)
-                                        .withOpacity(0.2),
-                                    height: 1,
-                                  ),
-                                  SizedBox(
-                                    height: 4.w,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).backgroundColor,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    height: 100.w,
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(8.w),
-                                    child: ListView.builder(
-                                      itemCount: chatController.addreses.length,
-                                      itemBuilder: (context, index) {
-                                        return SelectableText(
-                                          'http://${chatController.addreses[index]}:12000/#/file',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
-                          ),
-                          SizedBox(height: 10.w),
-                          GetBuilder<DeviceController>(builder: (_) {
-                            List<Widget> children = [];
-                            DeviceController deviceController = Get.find();
-                            for (Device device
-                                in deviceController.connectDevice) {
-                              children.add(
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  height: 126.w,
-                                  padding: EdgeInsets.all(10.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        device.deviceName.toString(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 4.w,
-                                      ),
-                                      Container(
-                                        color: const Color(0xffE0C4C4)
-                                            .withOpacity(0.2),
-                                        height: 1,
-                                      ),
-                                      SizedBox(
-                                        height: 4.w,
-                                      ),
-                                      Text(
-                                        '如果有新的设备链接，会在下方添加新的设备版块，在首页手指向上滑动，可以拖动。',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                        ),
-                                      ),
-                                    ],
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '最近图片',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
-                              );
-                              children.add(SizedBox(
-                                height: 8.w,
-                              ));
-                            }
+                                SizedBox(height: 4.w),
+                                Container(
+                                  color:
+                                      const Color(0xffE0C4C4).withOpacity(0.2),
+                                  height: 1,
+                                ),
+                                GetBuilder<FileController>(builder: (context) {
+                                  File file = fileController.getRecentImage();
+                                  if (file == null) {
+                                    return const SizedBox();
+                                  }
+                                  String unique = shortHash(() {});
+                                  return GestureWithScale(
+                                    onTap: () {
+                                      Get.to(PreviewImage(
+                                        path: file.path,
+                                        tag: unique,
+                                      ));
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Hero(
+                                        tag: unique,
+                                        child: Image.file(
+                                          file,
+                                          width: double.infinity,
+                                          height: 120.w,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10.w),
+                        onknownFile(context),
+                        SizedBox(height: 10.w),
+                        allDevice(context),
+                        SizedBox(height: 10.w),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: EdgeInsets.all(10.w),
+                          child: GetBuilder<ChatController>(builder: (_) {
                             return Column(
-                              children: children,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '远程访问',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 4.w,
+                                ),
+                                Container(
+                                  color:
+                                      const Color(0xffE0C4C4).withOpacity(0.2),
+                                  height: 1,
+                                ),
+                                SizedBox(
+                                  height: 4.w,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).backgroundColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  height: 100.w,
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(8.w),
+                                  child: ListView.builder(
+                                    itemCount: chatController.addrs.length,
+                                    itemBuilder: (context, index) {
+                                      return SelectableText(
+                                        'http://${chatController.addrs[index]}:12000/',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             );
                           }),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 10.w),
+                        GetBuilder<DeviceController>(builder: (_) {
+                          List<Widget> children = [];
+                          DeviceController deviceController = Get.find();
+                          for (Device device
+                              in deviceController.connectDevice) {
+                            children.add(
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                height: 126.w,
+                                padding: EdgeInsets.all(10.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      device.deviceName.toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4.w,
+                                    ),
+                                    Container(
+                                      color: const Color(0xffE0C4C4)
+                                          .withOpacity(0.2),
+                                      height: 1,
+                                    ),
+                                    SizedBox(
+                                      height: 4.w,
+                                    ),
+                                    Text(
+                                      '如果有新的设备链接，会在下方添加新的设备版块，在首页手指向上滑动，可以拖动。',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                            children.add(SizedBox(
+                              height: 8.w,
+                            ));
+                          }
+                          return Column(
+                            children: children,
+                          );
+                        }),
+                      ],
                     ),
                   ),
-                  const FilePage(),
-                ][index],
-              ),
-            ],
-          ),
+                ),
+                const FilePage(),
+              ][index],
+            ),
+          ],
         ),
       ),
     );
@@ -498,7 +504,7 @@ class _HomePageState extends State<HomePage> {
           return;
         }
         Get.put(ChatController());
-        Get.to(const ShareChatV2());
+        Get.to(const WebSpeedShareEntry());
       },
       child: Container(
         decoration: BoxDecoration(

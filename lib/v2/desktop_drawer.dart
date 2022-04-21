@@ -108,8 +108,8 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                                 value: i + 2,
                                 onChange: (v) {
                                   widget.onChange?.call(v);
-                                  chatController.changeListToDevice(
-                                      _.connectDevice[i].deviceType);
+                                  chatController
+                                      .changeListToDevice(_.connectDevice[i]);
                                   setState(() {});
                                 },
                                 builder: (context) {

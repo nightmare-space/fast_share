@@ -122,6 +122,7 @@ class _ShareChatV2State extends State<ShareChatV2>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+        left: false,
         child: Stack(
           alignment: Alignment.center,
           // fit: StackFit.passthrough,
@@ -131,40 +132,42 @@ class _ShareChatV2State extends State<ShareChatV2>
                 if (ResponsiveWrapper.of(context).isMobile)
                   appbar(context)
                 else
-                  SizedBox(
-                    height: 10.w,
-                  ),
+                  SizedBox(height: 10.w),
                 Expanded(
                   child: Row(
                     children: [
                       if (ResponsiveWrapper.of(context).isMobile) leftNav(),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0.w),
-                          child: Column(
-                            children: [
-                              Expanded(child: chatList(context)),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Material(
-                                  color: Colors.white,
-                                  child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      minHeight: 64.w,
-                                      maxHeight: 240.w,
-                                    ),
-                                    child: sendMsgContainer(context),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      chatBody(context),
                     ],
                   ),
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded chatBody(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0.w),
+        child: Column(
+          children: [
+            Expanded(child: chatList(context)),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Material(
+                color: Colors.white,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 64.w,
+                    maxHeight: 240.w,
+                  ),
+                  child: sendMsgContainer(context),
+                ),
+              ),
             ),
           ],
         ),
@@ -686,7 +689,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                         controller.reset();
                         controller.forward();
                         chatController.changeListToDevice(
-                          deviceController.connectDevice[i].deviceType,
+                          deviceController.connectDevice[i],
                         );
                         setState(() {});
                       },

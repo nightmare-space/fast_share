@@ -27,6 +27,7 @@ class _SettingPageState extends State<SettingPage> {
     );
     return Scaffold(
       body: SafeArea(
+        left: false,
         child: GetBuilder<SettingController>(builder: (_) {
           return SingleChildScrollView(
             child: Column(

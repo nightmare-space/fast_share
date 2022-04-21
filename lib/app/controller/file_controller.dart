@@ -13,7 +13,8 @@ const picKey = '图片';
 const dirKey = '文件夹';
 const videoKey = '视频';
 const apkKey = '安装包';
-
+/// 用来管理文件的类，目前主要用来展示文件用
+/// 还有整理文件
 class FileController extends GetxController {
   FileController() {
     if (GetPlatform.isWindows || GetPlatform.isMacOS) {

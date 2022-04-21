@@ -26,7 +26,9 @@ import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:speed_share/utils/unique_util.dart';
 
+import 'file_util.dart';
 import 'server_util.dart';
+import 'token_util.dart';
 
 void Function(Null arg) serverFileFunc;
 
@@ -42,14 +44,14 @@ class ChatController extends GetxController {
       update();
     });
   }
+  final fileAddress = ''.obs;
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
   // 输入框控制器
   TextEditingController controller = TextEditingController();
   GetSocket socket;
-  List<Widget> fixedChildren = [];
   List<Widget> children = [];
-  List<String> addreses = [];
+  List<String> addrs = [];
   ScrollController scrollController = ScrollController();
   bool isConnect = false;
   String chatRoomUrl = '';
@@ -59,10 +61,12 @@ class ChatController extends GetxController {
   int shelfBindPort;
   int fileServerPort;
   bool hasInput = false;
+  // 发送文件需要等套接字初始化
   Completer initLock = Completer();
   DeviceController deviceController = Get.find();
   SettingController settingController = Get.find();
 
+  // 创建聊天房间，调用时机为app启动时
   Future<void> createChatRoom() async {
     chatBindPort = await createChatServer();
     Log.i('聊天服务器端口 : $chatBindPort');
@@ -74,7 +78,7 @@ class ChatController extends GetxController {
     // 保存本地的IP地址列表
     chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
     if (!GetPlatform.isWeb) {
-      addreses = await PlatformUtil.localAddress();
+      addrs = await PlatformUtil.localAddress();
       update();
     }
     initChat(chatRoomUrl);
@@ -108,6 +112,10 @@ class ChatController extends GetxController {
     socket.onClose((p0) {
       socket = null;
       Log.e('socket onClose $p0');
+      // TODO
+
+      // 应该移除所有设备
+      deviceController.clear();
       children.add(MessageItemFactory.getMessageItem(
         MessageTipInfo(content: '所有连接已断开'),
         false,
@@ -147,10 +155,10 @@ class ChatController extends GetxController {
     // }
     // 监听消息
     listenMessage();
-    sendJoinEvent();
     await Future.delayed(const Duration(milliseconds: 100));
     getHistoryMsg();
     await getSuccessBindPort();
+    sendJoinEvent();
     if (!initLock.isCompleted) {
       initLock.complete();
     }
@@ -163,7 +171,7 @@ class ChatController extends GetxController {
         Config.shelfPortRangeEnd,
       );
       Log.i('shelf will server with $shelfBindPort port');
-      handleTokenCheck();
+      handleTokenCheck(shelfBindPort);
       fileServerPort = await getSafePort(
         Config.filePortRangeStart,
         Config.filePortRangeEnd,
@@ -184,66 +192,6 @@ class ChatController extends GetxController {
     controller.dispose();
     scrollController.dispose();
     super.onClose();
-  }
-
-  void handleTokenCheck() {
-    // 用来为其他设备检测网络互通的方案
-    // 其他设备会通过消息中的IP地址对 `/check_token` 发起 get 请求
-    // 如果有响应说明胡互通
-    app.get('/check_token', (shelf.Request request) {
-      return shelf.Response.ok('success');
-    });
-
-    io.serve(
-      app,
-      InternetAddress.anyIPv4,
-      shelfBindPort,
-      shared: true,
-    );
-  }
-
-  // 得到正确的url
-  Future<String> getCorrectUrlWithAddressAndPort(
-    List<String> addresses,
-    int port,
-  ) async {
-    for (String address in addresses) {
-      String token = await getToken('http://$address:$port');
-      if (token != null) {
-        return 'http://$address:$port';
-      }
-    }
-    return null;
-  }
-
-  // 发起http get请求，用来校验网络是否互通
-  // 如果不通，会返回null
-  Future<String> getToken(String url) async {
-    Log.i('$url/check_token');
-    Completer lock = Completer();
-    CancelToken cancelToken = CancelToken();
-    Response response;
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (!lock.isCompleted) {
-        cancelToken.cancel();
-      }
-    });
-    try {
-      response = await httpInstance.get(
-        '$url/check_token',
-        cancelToken: cancelToken,
-      );
-      if (!lock.isCompleted) {
-        lock.complete(response.data);
-      }
-      Log.i('/check_token 响应 ${response.data}');
-    } catch (e) {
-      if (!lock.isCompleted) {
-        lock.complete(null);
-      }
-      Log.w('$url无法访问');
-    }
-    return await lock.future;
   }
 
   //
@@ -414,18 +362,6 @@ class ChatController extends GetxController {
     );
   }
 
-  Future<List<XFile>> getFilesForDesktopAndWeb() async {
-    final typeGroup = XTypeGroup(
-      label: 'images',
-      extensions: GetPlatform.isWeb ? [''] : null,
-    );
-    final files = await openFiles(acceptedTypeGroups: [typeGroup]);
-    if (files.isEmpty) {
-      return null;
-    }
-    return files;
-  }
-
   /// useSystemPicker: 是否使用系统文件选择器
   Future<void> sendFileForAndroid({
     bool useSystemPicker = false,
@@ -482,7 +418,7 @@ class ChatController extends GetxController {
       filePath: filePath,
       fileName: context.basename(filePath),
       fileSize: FileSizeUtils.getFileSize(size),
-      addrs: addreses,
+      addrs: addrs,
       port: shelfBindPort,
       sendFrom: Global().deviceId,
     );
@@ -531,10 +467,15 @@ class ChatController extends GetxController {
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
     if (info is JoinMessage) {
       if (info.deviceName != await UniqueUtil.getDevicesId()) {
+        String address = await getCorrectUrlWithAddressAndPort(
+          info.addrs,
+          info.port,
+        );
         deviceController.onDeviceConnect(
           info.deviceId,
           info.deviceName,
           info.deviceType,
+          address,
         );
         update();
         return;
@@ -620,9 +561,11 @@ class ChatController extends GetxController {
 
   Future<void> sendJoinEvent() async {
     // 这个消息来告诉聊天服务器，自己连接上来了
-    // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID
+    // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID和IP地址列表
     JoinMessage message = JoinMessage();
     message.deviceName = Global().deviceId;
+    message.addrs = addrs;
+    message.port = shelfBindPort;
     sendMessage(message);
   }
 
@@ -682,25 +625,27 @@ class ChatController extends GetxController {
   }
 
   List<Widget> backup = [];
+
+  // 当切换到所有设备时调用的函数
   void restoreList() {
+    fileAddress.value = '';
     backup.clear();
     update();
   }
 
-  void changeListToDevice(int device) {
-    // if (backup.isNotEmpty) {
-    //   children = backup;
-    // }
+  void changeListToDevice(Device device) {
     backup.clear();
+    Uri uri = Uri.tryParse(device.address);
+    String addr = 'http://${uri.host}:20000';
+    fileAddress.value = addr;
     for (Map map in cache) {
       MessageBaseInfo info = MessageInfoFactory.fromJson(map);
       if (info is JoinMessage) {
         continue;
       }
-      if (info.deviceType == device) {
+      if (info.deviceType == device.deviceType) {
         dispatch(info, backup);
       }
     }
-    // children.removeWhere((element) => element.!=device);
   }
 }

@@ -74,7 +74,6 @@ class SocketPage extends GetView {
           // 有A B C设备
           // B加入房间，就是用的B的ws进行的广播，A C会收到消息，B自己不会收到消息，
           String sendId = jsonMap['deviceId'];
-          // todo 这一步可以干掉
           deviceNameStore[socket.id] = sendId;
         }
         // 保存到历史
