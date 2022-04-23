@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/v2/home_page.dart';
 import 'package:file_manager_view/file_manager_view.dart';
@@ -115,6 +116,9 @@ class _RemotePageState extends State<RemotePage> {
                       Uri uri = Uri.tryParse(device.address);
                       page = FileManager(
                         address: 'http://${uri.host}:20000',
+                        usePackage: true,
+                        path:
+                            device.deviceType == desktop ? '/Users' : '/sdcard',
                       );
                       setState(() {});
                     },

@@ -8,143 +8,14 @@ import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
-import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/pages/online_list.dart';
-import 'package:speed_share/v2/desktop_drawer.dart';
 import 'package:speed_share/v2/file_page.dart';
 import 'package:speed_share/v2/preview_image.dart';
-import 'package:speed_share/v2/setting_page.dart';
-import 'package:file_manager_view/file_manager_view.dart';
 
 import 'header.dart';
 import 'icon.dart';
-import 'nav.dart';
-import 'remote_page.dart';
-import 'share_chat_window.dart';
-
-// 响应式布局
-class AdaptiveEntryPoint extends StatefulWidget {
-  const AdaptiveEntryPoint({Key key}) : super(key: key);
-
-  @override
-  State<AdaptiveEntryPoint> createState() => _AdaptiveEntryPointState();
-}
-
-class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
-  ChatController chatController = Get.put(ChatController());
-  String address;
-
-  @override
-  void initState() {
-    super.initState();
-    if (!GetPlatform.isWeb) {
-      chatController.createChatRoom();
-    }
-  }
-
-  int page = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    if (ResponsiveWrapper.of(context).isDesktop) {
-      return Scaffold(
-        body: SafeArea(
-          left: false,
-          child: Column(
-            children: [
-              Container(
-                height: 1.w,
-                color: Theme.of(context).primaryColor,
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    DesktopDrawer(
-                      value: page,
-                      onChange: (value) {
-                        page = value;
-                        setState(() {});
-                      },
-                    ),
-                    GetBuilder<DeviceController>(builder: (controller) {
-                      return Expanded(
-                        child: [
-                          HomePage(
-                            onMessageWindowTap: () {
-                              page = 1;
-                              setState(() {});
-                            },
-                            onJoinRoom: (value) {
-                              address = value;
-                              page = 1;
-                              setState(() {});
-                            },
-                          ),
-                          Container(
-                            color: Colors.white,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: ShareChatV2(
-                                chatServerAddress: address,
-                              ),
-                            ),
-                          ),
-                          for (int i = 0;
-                              i < controller.connectDevice.length;
-                              i++)
-                            Builder(
-                              builder: (context) {
-                                Uri uri = Uri.tryParse(
-                                  controller.connectDevice[i].address,
-                                );
-                                String addr = 'http://${uri.host}:20000';
-                                return FileManager(
-                                  address: addr,
-                                  usePackage: true,
-                                );
-                              },
-                            ),
-                          const FilePage(),
-                          const SettingPage(),
-                        ][page],
-                      );
-                    }),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: [
-                const HomePage(),
-                const RemotePage(),
-                const SizedBox(),
-                const FilePage(),
-                const SettingPage(),
-              ][page],
-            ),
-            Nav(
-              value: page,
-              onTap: (value) {
-                page = value;
-                setState(() {});
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -180,7 +51,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 处理其他软件过来的分享
-  // TODO 冷启动分享
   Future<void> handleSendFile() async {
     if (GetPlatform.isAndroid) {
       MethodChannel channel = const MethodChannel('send_channel');

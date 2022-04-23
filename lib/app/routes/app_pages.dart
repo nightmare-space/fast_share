@@ -9,7 +9,7 @@ import 'package:speed_share/app/bindings/home_binding.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
-import 'package:speed_share/v2/home_page.dart';
+import 'package:speed_share/v2/adapive_entry.dart';
 import 'package:speed_share/v2/share_chat_window.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 

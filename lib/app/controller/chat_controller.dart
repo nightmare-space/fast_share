@@ -12,6 +12,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/pages/model/join_message.dart';
@@ -26,9 +27,9 @@ import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:speed_share/utils/unique_util.dart';
 
-import 'file_util.dart';
-import 'server_util.dart';
-import 'token_util.dart';
+import 'utils/file_util.dart';
+import 'utils/server_util.dart';
+import 'utils/token_util.dart';
 
 void Function(Null arg) serverFileFunc;
 
@@ -592,11 +593,11 @@ class ChatController extends GetxController {
 
   int get type {
     if (GetPlatform.isWeb) {
-      return 2;
+      return web;
     } else if (GetPlatform.isAndroid) {
-      return 0;
+      return phone;
     } else if (GetPlatform.isDesktop) {
-      return 1;
+      return desktop;
     }
     return 3;
   }
