@@ -55,7 +55,7 @@ class Header extends StatelessWidget {
               NiIconButton(
                 onTap: () {
                   Get.dialog(HeaderMenu(
-                    offset: Offset(400, 40),
+                    offset: Offset(MediaQuery.of(context).size.width, 40),
                   ));
                 },
                 child: const Icon(Icons.more_vert),

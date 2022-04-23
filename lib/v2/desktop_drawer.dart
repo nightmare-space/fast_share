@@ -90,7 +90,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                               ),
                               SizedBox(width: 4.w),
                               Text(
-                                '全部设备',
+                                '消息窗口',
                                 style: TextStyle(
                                   color: Theme.of(_).textTheme.bodyText2.color,
                                 ),
@@ -121,7 +121,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                                       ),
                                       SizedBox(width: 4.w),
                                       Text(
-                                        _.connectDevice[i].deviceName,
+                                        '文件管理(${_.connectDevice[i].deviceName})',
                                         style: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
@@ -152,7 +152,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                               ),
                               SizedBox(width: 4.w),
                               Text(
-                                '文件管理',
+                                '文件管理(本地)',
                                 style: TextStyle(
                                   color: Theme.of(_).textTheme.bodyText2.color,
                                 ),

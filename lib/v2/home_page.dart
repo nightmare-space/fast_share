@@ -16,6 +16,7 @@ import 'package:speed_share/v2/desktop_drawer.dart';
 import 'package:speed_share/v2/file_page.dart';
 import 'package:speed_share/v2/preview_image.dart';
 import 'package:speed_share/v2/setting_page.dart';
+import 'package:file_manager_view/file_manager_view.dart';
 
 import 'header.dart';
 import 'icon.dart';
@@ -93,18 +94,18 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                           for (int i = 0;
                               i < controller.connectDevice.length;
                               i++)
-                            Builder(builder: (context) {
-                              Uri uri = Uri.tryParse(
-                                  controller.connectDevice[i].address);
-                              String addr = 'http://${uri.host}:20000';
-                              return Container(
-                                color: Colors.white,
-                                child: WebSpeedShareEntry(
-                                  address: address,
-                                  fileAddress: addr,
-                                ),
-                              );
-                            }),
+                            Builder(
+                              builder: (context) {
+                                Uri uri = Uri.tryParse(
+                                  controller.connectDevice[i].address,
+                                );
+                                String addr = 'http://${uri.host}:20000';
+                                return FileManager(
+                                  address: addr,
+                                  usePackage: true,
+                                );
+                              },
+                            ),
                           const FilePage(),
                           const SettingPage(),
                         ][page],

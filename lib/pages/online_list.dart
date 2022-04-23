@@ -89,6 +89,7 @@ class OnlineList extends StatelessWidget {
                                         );
                                         return;
                                       }
+                                      
                                       Get.toNamed(
                                         '${Routes.chat}?chatServerAddress=http://${device.address}:${device.port}',
                                       );
