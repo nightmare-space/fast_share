@@ -5,8 +5,10 @@ import 'package:global_repository/global_repository.dart';
 import 'package:logger_view/logger_view.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/pages/dialog/join_chat.dart';
+import 'package:speed_share/pages/item/file_item.dart';
 import 'package:speed_share/utils/scan_util.dart';
 
+import 'menu.dart';
 import 'setting_page.dart';
 import 'show_qr_page.dart';
 
@@ -47,55 +49,16 @@ class Header extends StatelessWidget {
           ],
         ),
         Transform(
-          transform: Matrix4.identity()..translate(12.w),
+          transform: Matrix4.identity()..translate(4.w),
           child: Row(
             children: [
               NiIconButton(
-                child: Icon(
-                  Icons.info,
-                  color: Colors.black,
-                  size: 24.w,
-                ),
-                onTap: () async {
-                  Get.to(Responsive(
-                    builder: (context, screenType) {
-                      return const Material(
-                        child: SafeArea(
-                          child: LoggerView(),
-                        ),
-                      );
-                    },
-                  ));
-                },
-              ),
-              if (GetPlatform.isAndroid)
-                NiIconButton(
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.black,
-                    size: 24.w,
-                  ),
-                  onTap: () async {
-                    Get.dialog(const JoinChat());
-                  },
-                ),
-              NiIconButton(
-                child: SvgPicture.asset(
-                  GlobalAssets.qrCode,
-                  color: Colors.black,
-                  width: 24.w,
-                ),
-                onTap: () async {
-                  ScanUtil.parseScan();
-                },
-              ),
-              NiIconButton(
                 onTap: () {
-                  Get.dialog(ShowQRPage(
-                    port: controller.chatBindPort,
+                  Get.dialog(HeaderMenu(
+                    offset: Offset(400, 40),
                   ));
                 },
-                child: Image.asset('assets/icon/qr.png'),
+                child: const Icon(Icons.more_vert),
               ),
             ],
           ),

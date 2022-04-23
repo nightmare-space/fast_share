@@ -5,6 +5,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/theme.dart';
+import 'package:speed_share/v2/header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'widget/xliv-switch.dart';
@@ -33,24 +34,28 @@ class _SettingPageState extends State<SettingPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (ResponsiveWrapper.of(context).isMobile)
-                  SizedBox(
-                    height: 40.w,
-                    child: Row(
-                      children: [
-                        ResponsiveWrapper.of(context).isMobile
-                            ? const PopButton()
-                            : SizedBox(width: 12.w),
-                        Text(
-                          '设置',
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(
-                                fontWeight: bold,
-                                fontSize: 18.w,
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Header(),
+                ),
+                // if (ResponsiveWrapper.of(context).isMobile)
+                //   SizedBox(
+                //     height: 40.w,
+                //     child: Row(
+                //       children: [
+                //         ResponsiveWrapper.of(context).isMobile
+                //             ? const PopButton()
+                //             : SizedBox(width: 12.w),
+                //         Text(
+                //           '设置',
+                //           style: Theme.of(context).textTheme.bodyText2.copyWith(
+                //                 fontWeight: bold,
+                //                 fontSize: 18.w,
+                //               ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),

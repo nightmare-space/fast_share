@@ -478,6 +478,7 @@ class ChatController extends GetxController {
           address,
         );
         update();
+        // Global().stopSendBoardcast();
         return;
       }
     } else if (info is MessageDirInfo) {

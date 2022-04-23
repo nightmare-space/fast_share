@@ -57,7 +57,7 @@ class _FilePageState extends State<FilePage> {
               children: [
                 const Header(),
                 Padding(
-                  padding: EdgeInsets.only(right: 180.w),
+                  padding: EdgeInsets.only(right: 48.w),
                   child: NiIconButton(
                     onTap: () {
                       pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
@@ -68,6 +68,7 @@ class _FilePageState extends State<FilePage> {
                 ),
               ],
             ),
+            SizedBox(height: 0.w),
             Expanded(
               child: PageTransitionSwitcher(
                 transitionBuilder: (
@@ -93,7 +94,7 @@ class _FilePageState extends State<FilePage> {
                 },
                 child: [
                   fileList(context),
-                  fm.HomePage(
+                  fm.FileManager(
                     drawer: false,
                     path: '/sdcard/SpeedShare',
                     address: 'http://127.0.0.1:20000',
@@ -118,9 +119,6 @@ class _FilePageState extends State<FilePage> {
         color: Theme.of(context).backgroundColor,
         child: Column(
           children: [
-            SizedBox(
-              height: 20.w,
-            ),
             LayoutBuilder(builder: (context, con) {
               double width = getWidth(con.maxWidth);
               return Wrap(

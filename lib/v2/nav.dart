@@ -45,7 +45,7 @@ class _NavState extends State<Nav> {
       children: [
         BottomTab(
           onChange: (value) {
-            value = min(value, 1);
+            value = min(value, 4);
             widget.onTap?.call(value);
             setState(() {});
           },
@@ -77,9 +77,32 @@ class _NavState extends State<Nav> {
                 ],
               );
             }),
-            const SizedBox(),
             Builder(builder: (context) {
               bool enable = widget.value == 1;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.swap_horiz,
+                    color: enable ? Theme.of(context).primaryColor : null,
+                    size: 20.w,
+                  ),
+                  SizedBox(height: 2.w),
+                  Text(
+                    '远程',
+                    style: TextStyle(
+                      fontSize: 14.w,
+                      color: enable
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                ],
+              );
+            }),
+            SizedBox(),
+            Builder(builder: (context) {
+              bool enable = widget.value == 3;
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -95,6 +118,33 @@ class _NavState extends State<Nav> {
                   SizedBox(height: 2.w),
                   Text(
                     '文件',
+                    style: TextStyle(
+                      fontSize: 14.w,
+                      color: enable
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                ],
+              );
+            }),
+            Builder(builder: (context) {
+              bool enable = widget.value == 4;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    enable
+                        ? 'assets/icon/setting.png'
+                        : 'assets/icon/setting.png',
+                    width: 20.w,
+                    height: 20.w,
+                    gaplessPlayback: false,
+                    color: enable ? Theme.of(context).primaryColor : null,
+                  ),
+                  SizedBox(height: 2.w),
+                  Text(
+                    '设置',
                     style: TextStyle(
                       fontSize: 14.w,
                       color: enable
