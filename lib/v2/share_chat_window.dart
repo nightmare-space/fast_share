@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,8 +14,7 @@ import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 
-import 'show_qr_page.dart';
-
+// 聊天窗口
 class ShareChatV2 extends StatefulWidget {
   const ShareChatV2({
     Key key,

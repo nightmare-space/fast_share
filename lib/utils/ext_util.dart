@@ -1,3 +1,4 @@
+// 用来快速判断文件的类型
 extension Ext on String {
   bool get isAudio {
     return endsWith('.mp3') || endsWith('.flac');

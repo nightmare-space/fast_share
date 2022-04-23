@@ -1,14 +1,12 @@
-/// 一个接收文件的服务端
-/// Create by Nightmare at 2021/11/21
 import 'dart:io';
-
 import 'package:file_selector/file_selector.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:mime/mime.dart';
-
 import 'path_util.dart';
 
+/// 一个接收文件的服务端
+/// Create by Nightmare at 2021/11/21
 void Function(double pro, int count) progressCall;
 Future<void> startFileServer(int port) async {
   var server = await HttpServer.bind(

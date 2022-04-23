@@ -6,7 +6,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/themes/color_extension.dart';
 
 import 'lib_color_schemes.g.dart';
-
+// 默认的light和dark的主题
 class DefaultThemeData {
   DefaultThemeData._();
 

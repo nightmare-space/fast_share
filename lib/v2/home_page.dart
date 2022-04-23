@@ -348,8 +348,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  GestureDetector allDevice(BuildContext context) {
-    return GestureDetector(
+  Widget allDevice(BuildContext context) {
+    return GestureWithScale(
       onTap: () {
         if (ResponsiveWrapper.of(context).isDesktop) {
           widget.onMessageWindowTap?.call();

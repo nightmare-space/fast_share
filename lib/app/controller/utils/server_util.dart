@@ -10,6 +10,7 @@ void Function(Null arg) serverFileFunc;
 class IsolateArg{
   int port ;
 }
+// 用来部署单个文件
 class ServerUtil {
   // 用shelf部署一个路径的文件
   static serveFile(String path, int port) {

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speed_share/app/controller/controller.dart';
-
+// 主页点击中间的按钮，打开的页面
 class SendFilePage extends StatefulWidget {
   const SendFilePage({Key key, this.child}) : super(key: key);
   final Widget child;

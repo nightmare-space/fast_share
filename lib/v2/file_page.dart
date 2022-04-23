@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:app_manager/app_manager.dart';
 import 'package:app_manager/global/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:open_file/open_file.dart';
@@ -375,10 +376,11 @@ class _FilePageState extends State<FilePage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/icon/dir.png',
-                            width: 36.w,
-                            height: 36.w,
+                          SvgPicture.asset(
+                            '${fm.Config.packagePrefix}assets/icon/dir.svg',
+                            width: 32.w,
+                            height: 32.w,
+                            color: Theme.of(context).primaryColor,
                           ),
                           SizedBox(
                             height: 8.w,

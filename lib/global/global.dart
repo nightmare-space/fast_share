@@ -113,6 +113,7 @@ class Global {
     multicast.stopSendBoardcast();
   }
 
+  // 初始化全局单例
   Future<void> initGlobal() async {
     Log.v('initGlobal');
     if (RuntimeEnvir.packageName != Config.packageName &&
@@ -131,7 +132,6 @@ class Global {
     }
     isInit = true;
     multicast.addListener(_receiveUdpMessage);
-
     getclipboard();
     unpackWebResource();
   }

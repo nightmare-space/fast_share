@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/model/model.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 class TextMessageItem extends StatelessWidget {
   final MessageTextInfo info;
@@ -23,7 +24,7 @@ class TextMessageItem extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: sendByUser ? AppColors.sendByUser : Colors.white,
                 borderRadius: BorderRadius.circular(10.w),
               ),
               child: Stack(

@@ -11,7 +11,7 @@ import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
 import 'package:speed_share/v2/adapive_entry.dart';
 import 'package:speed_share/v2/share_chat_window.dart';
-import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:file_manager_view/file_manager_view.dart';
 
 part 'app_routes.dart';
 
@@ -23,7 +23,7 @@ class SpeedPages {
     GetPage(
       name: '/file',
       page: () => const ThemeWrapper(
-        child: fm.FileManager(),
+        child: FileManager(),
       ),
       binding: HomeBinding(),
     ),
@@ -123,7 +123,7 @@ class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
                       ),
                     ),
                     ThemeWrapper(
-                      child: fm.FileManager(
+                      child: FileManager(
                         usePackage: true,
                         address: GetPlatform.isWeb
                             ? urlPrefix

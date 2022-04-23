@@ -20,18 +20,11 @@ import 'package:speed_share/pages/model/model.dart';
 import 'package:speed_share/pages/model/model_factory.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/file_server.dart';
-import 'package:speed_share/utils/http/http.dart';
-import 'package:shelf/shelf.dart' as shelf;
-import 'package:shelf/shelf_io.dart' as io;
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
-import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:speed_share/utils/unique_util.dart';
-
 import 'utils/file_util.dart';
 import 'utils/server_util.dart';
 import 'utils/token_util.dart';
-
-void Function(Null arg) serverFileFunc;
 
 class ChatController extends GetxController {
   ChatController() {
@@ -45,19 +38,26 @@ class ChatController extends GetxController {
       update();
     });
   }
+  // TODO 用不着了，后面下掉
   final fileAddress = ''.obs;
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
   // 输入框控制器
   TextEditingController controller = TextEditingController();
+  // WebSocket对象
   GetSocket socket;
+  // 列表渲染的widget列表
   List<Widget> children = [];
+  // 本机的ip地址列表
   List<String> addrs = [];
+  // 列表的滑动控制器
   ScrollController scrollController = ScrollController();
+  // 
   bool isConnect = false;
   String chatRoomUrl = '';
-  // 消息服务器成功绑定的端口
+
   int chatBindPort;
+  // 消息服务器成功绑定的端口
   // 文件服务器成功绑定的端口
   int shelfBindPort;
   int fileServerPort;
@@ -86,6 +86,7 @@ class ChatController extends GetxController {
   }
 
   String chatServerAddress;
+  
   Future<void> initChat(
     String chatServerAddress,
   ) async {

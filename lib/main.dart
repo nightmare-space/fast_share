@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
-import 'package:speed_share/config/size.dart';
-import 'package:speed_share/pages/home_page.dart';
 import 'package:window_manager/window_manager.dart';
 import 'app/controller/device_controller.dart';
 import 'app/routes/app_pages.dart';
@@ -15,6 +12,7 @@ import 'global/global.dart';
 import 'themes/default_theme_data.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 
+// 初始化hive的设置
 Future<void> initSetting() async {
   await initSettingStore(RuntimeEnvir.configPath);
 }
@@ -39,15 +37,9 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     if (!GetPlatform.isWeb) {
       await windowManager.ensureInitialized();
-      // windowManager.waitUntilReadyToShow().then((_) async {
-      //   // Hide window title bar
-      //   // await windowManager.setTitleBarStyle('hidden');
-      //   await windowManager.setSize(SizeConfig.defaultSize);
-      //   await windowManager.show();
-      //   // await windowManager.setSkipTaskbar(false);
-      // });
     }
   }
+  // 透明状态栏
   StatusBarUtil.transparent();
   // 物理平台使用的udp设备互相发现
   Global().initGlobal();
@@ -90,38 +82,16 @@ class SpeedShare extends StatelessWidget {
                 // maxWidth: 1200,
                 minWidth: 480,
                 defaultScale: false,
-                breakpoints: [
+                breakpoints: const [
                   ResponsiveBreakpoint.resize(300, name: MOBILE),
                   ResponsiveBreakpoint.autoScale(600, name: TABLET),
                   ResponsiveBreakpoint.resize(600, name: DESKTOP),
                 ],
-              );
-              return Responsive(
-                builder: (_, __) {
-                  return Theme(
-                    data: theme,
-                    child: child,
-                  );
-                },
               );
             },
           );
         },
       ),
     );
-  }
-}
-
-class SpeedShareEntryPoint extends StatefulWidget {
-  const SpeedShareEntryPoint({Key key}) : super(key: key);
-
-  @override
-  _SpeedShareEntryPointState createState() => _SpeedShareEntryPointState();
-}
-
-class _SpeedShareEntryPointState extends State<SpeedShareEntryPoint> {
-  @override
-  Widget build(BuildContext context) {
-    return const HomePage();
   }
 }

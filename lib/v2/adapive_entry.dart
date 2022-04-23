@@ -14,7 +14,7 @@ import 'nav.dart';
 import 'remote_page.dart';
 import 'setting_page.dart';
 import 'share_chat_window.dart';
-
+// 自动响应布局
 class AdaptiveEntryPoint extends StatefulWidget {
   const AdaptiveEntryPoint({Key key}) : super(key: key);
 

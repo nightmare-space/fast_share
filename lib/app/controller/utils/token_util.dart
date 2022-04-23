@@ -8,7 +8,8 @@ import 'package:speed_share/utils/shelf/static_handler.dart';
 
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
-
+/// 用来处理token请求的响应
+/// 主要是为速享提供筛选IP地址的能力
 void handleTokenCheck(int port) {
   // 用来为其他设备检测网络互通的方案
   // 其他设备会通过消息中的IP地址对 `/check_token` 发起 get 请求

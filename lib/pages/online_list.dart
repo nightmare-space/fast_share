@@ -5,7 +5,7 @@ import 'package:speed_share/app/controller/online_controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/themes/app_colors.dart';
-
+// 主页顶部显示局域网文件的组件
 class OnlineList extends StatelessWidget {
   const OnlineList({
     Key key,

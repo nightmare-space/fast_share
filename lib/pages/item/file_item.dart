@@ -146,28 +146,6 @@ class _FileItemState extends State<FileItem> {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.start,
           children: [
-            if (info.deviceName != null)
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xffED796A).withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-                child: Center(
-                  child: Text(
-                    info.deviceName,
-                    style: TextStyle(
-                      height: 1,
-                      fontSize: 12.w,
-                      color: const Color(0xffED796A),
-                    ),
-                  ),
-                ),
-              ),
-            SizedBox(height: 4.w),
             Material(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.w),
