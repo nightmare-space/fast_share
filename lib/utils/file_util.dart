@@ -21,4 +21,10 @@ class FileUtil {
       OpenFile.open(path);
     }
   }
+  // 获得windows的盘符列表
+  // google查下
+  // 尽量用ffi调用win32 api
+  static List<String> getWindowsDrive(){
+    //TODO(ren)
+  }
 }

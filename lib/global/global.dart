@@ -9,7 +9,6 @@ import 'package:multicast/multicast.dart';
 import 'package:speed_share/app/controller/online_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:speed_share/utils/shelf_static.dart';
 import 'package:speed_share/utils/unique_util.dart';
 
 /// 主要用来发现局域网的设备
@@ -132,10 +131,7 @@ class Global {
     }
     isInit = true;
     multicast.addListener(_receiveUdpMessage);
-    if (GetPlatform.isAndroid || GetPlatform.isDesktop) {
-      // 开启静态部署，类似于 nginx 和 tomcat
-      ShelfStatic.start();
-    }
+
     getclipboard();
     unpackWebResource();
   }
