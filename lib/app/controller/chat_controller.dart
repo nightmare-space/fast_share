@@ -114,8 +114,6 @@ class ChatController extends GetxController {
     socket.onClose((p0) {
       socket = null;
       Log.e('socket onClose $p0');
-      // TODO
-
       // 应该移除所有设备
       deviceController.clear();
       children.add(MessageItemFactory.getMessageItem(

@@ -99,8 +99,8 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: EdgeInsets.symmetric(
-                    vertical: 8.w,
-                    horizontal: 8.w,
+                    vertical: 12.w,
+                    horizontal: 12.w,
                   ),
                   child: SizedBox(
                     width: double.infinity,
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: EdgeInsets.all(10.w),
+                  padding: EdgeInsets.all(12.w),
                   child: GetBuilder<ChatController>(builder: (_) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -270,7 +270,7 @@ class _HomePageState extends State<HomePage> {
 
   CardWrapper onknownFile(BuildContext context) {
     return CardWrapper(
-      padding: EdgeInsets.all(8.w),
+      padding: EdgeInsets.all(12.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -365,7 +365,7 @@ class _HomePageState extends State<HomePage> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
-        padding: EdgeInsets.all(10.w),
+        padding: EdgeInsets.all(12.w),
         child: GetBuilder<ChatController>(builder: (_) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

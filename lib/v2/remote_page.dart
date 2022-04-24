@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/global/constant.dart';
+import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/v2/home_page.dart';
 import 'package:file_manager_view/file_manager_view.dart';
@@ -73,7 +74,7 @@ class _RemotePageState extends State<RemotePage> {
                 color: Theme.of(context).colorScheme.surface2,
                 borderRadius: BorderRadius.circular(12.w),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -124,30 +125,34 @@ class _RemotePageState extends State<RemotePage> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface2,
+                        color: getColor(device.deviceType).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12.w),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      padding: EdgeInsets.all(24.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 10.w),
                               Text(
                                 device.deviceName,
                                 style: TextStyle(
                                   fontSize: 20.w,
                                   fontWeight: FontWeight.bold,
+                                  color: getColor(device.deviceType),
                                 ),
                               ),
-                              SizedBox(height: 4.w),
-                              Text('点击即可访问${device.deviceName}的所有文件'),
                               SizedBox(height: 10.w),
+                              Text(
+                                '点击即可访问${device.deviceName}的所有文件',
+                                style: TextStyle(
+                                  color: getColor(device.deviceType),
+                                ),
+                              ),
                             ],
                           ),
-                          Icon(Icons.arrow_forward_ios)
+                          const Icon(Icons.arrow_forward_ios)
                         ],
                       ),
                     ),

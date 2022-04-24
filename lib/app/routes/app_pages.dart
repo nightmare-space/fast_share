@@ -72,7 +72,6 @@ class WebSpeedShareEntry extends StatefulWidget {
 
 class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
   ChatController chatController = Get.find();
-  int pageIndex = 0;
   String get urlPrefix {
     Uri uri = Uri.tryParse(url);
     String perfix = 'http://${uri.host}:20000';
@@ -111,53 +110,43 @@ class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
                       children: widgets,
                     );
                   },
-                  child: [
-                    Material(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: widget.padding ??
-                            EdgeInsets.symmetric(horizontal: 8.w),
-                        child: ShareChatV2(
-                          chatServerAddress: widget.address,
-                        ),
+                  child: Material(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: widget.padding ??
+                          EdgeInsets.symmetric(horizontal: 8.w),
+                      child: ShareChatV2(
+                        chatServerAddress: widget.address,
                       ),
                     ),
-                    ThemeWrapper(
-                      child: FileManager(
-                        usePackage: true,
-                        address: GetPlatform.isWeb
-                            ? urlPrefix
-                            : chatController.fileAddress.value,
-                      ),
-                    ),
-                  ][pageIndex],
+                  ),
                 ),
               ],
             ),
             resizeToAvoidBottomInset: true,
-            floatingActionButton:
-                chatController.fileAddress.isNotEmpty || GetPlatform.isWeb
-                    ? Padding(
-                        padding: EdgeInsets.all(36.w),
-                        child: Material(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(40),
-                          clipBehavior: Clip.antiAlias,
-                          child: IconButton(
-                            color: Colors.white,
-                            iconSize: 48.w,
-                            onPressed: () {
-                              pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
-                              setState(() {});
-                            },
-                            icon: Icon(
-                              Icons.swap_horiz,
-                              size: 28.w,
-                            ),
-                          ),
-                        ),
-                      )
-                    : null,
+            // floatingActionButton:
+            //     chatController.fileAddress.isNotEmpty || GetPlatform.isWeb
+            //         ? Padding(
+            //             padding: EdgeInsets.all(36.w),
+            //             child: Material(
+            //               color: Theme.of(context).primaryColor,
+            //               borderRadius: BorderRadius.circular(40),
+            //               clipBehavior: Clip.antiAlias,
+            //               child: IconButton(
+            //                 color: Colors.white,
+            //                 iconSize: 48.w,
+            //                 onPressed: () {
+            //                   pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
+            //                   setState(() {});
+            //                 },
+            //                 icon: Icon(
+            //                   Icons.swap_horiz,
+            //                   size: 28.w,
+            //                 ),
+            //               ),
+            //             ),
+            //           )
+            //         : null,
           );
         },
       ),

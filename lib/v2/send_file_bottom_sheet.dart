@@ -68,7 +68,7 @@ class _SendFilePageState extends State<SendFilePage>
       ],
     );
     return Material(
-      color: Colors.transparent,
+      color: Colors.black38,
       elevation: 0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,

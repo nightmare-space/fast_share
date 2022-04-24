@@ -100,6 +100,7 @@ class _FilePageState extends State<FilePage> {
                     path: '/sdcard/SpeedShare',
                     address: 'http://127.0.0.1:20000',
                     padding: EdgeInsets.only(bottom: 8.w),
+                    usePackage: true,
                   ),
                 ][pageIndex],
               ),
