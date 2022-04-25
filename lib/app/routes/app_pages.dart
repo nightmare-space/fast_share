@@ -47,6 +47,7 @@ class SpeedPages {
         return ThemeWrapper(
           child: WebSpeedShareEntry(
             address: 'http://${uri.host}:${uri.port}',
+            padding: GetPlatform.isMobile ? EdgeInsets.zero : null,
           ),
         );
       },
@@ -122,29 +123,6 @@ class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
           ],
         ),
         resizeToAvoidBottomInset: true,
-        // floatingActionButton:
-        //     chatController.fileAddress.isNotEmpty || GetPlatform.isWeb
-        //         ? Padding(
-        //             padding: EdgeInsets.all(36.w),
-        //             child: Material(
-        //               color: Theme.of(context).primaryColor,
-        //               borderRadius: BorderRadius.circular(40),
-        //               clipBehavior: Clip.antiAlias,
-        //               child: IconButton(
-        //                 color: Colors.white,
-        //                 iconSize: 48.w,
-        //                 onPressed: () {
-        //                   pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
-        //                   setState(() {});
-        //                 },
-        //                 icon: Icon(
-        //                   Icons.swap_horiz,
-        //                   size: 28.w,
-        //                 ),
-        //               ),
-        //             ),
-        //           )
-        //         : null,
       ),
     );
   }

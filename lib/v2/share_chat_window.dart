@@ -9,10 +9,10 @@ import 'package:global_repository/global_repository.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
-import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
+import 'package:file_manager_view/file_manager_view.dart';
 
 // 聊天窗口
 class ShareChatV2 extends StatefulWidget {
@@ -389,8 +389,9 @@ class _ShareChatV2State extends State<ShareChatV2>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          Assets.dir,
+                          '${Config.flutterPackage}assets/icon/dir.svg',
                           width: 36.w,
+                          height: 36.w,
                           color: Theme.of(context).primaryColor,
                         ),
                         SizedBox(height: 4.w),
@@ -482,7 +483,8 @@ class _ShareChatV2State extends State<ShareChatV2>
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(24.w),
-                      borderOnForeground: true,
+                      // borderOnForeground: true,
+                      color: Theme.of(context).backgroundColor,
                       child: SizedBox(
                         width: 46.w,
                         height: 46.w,
