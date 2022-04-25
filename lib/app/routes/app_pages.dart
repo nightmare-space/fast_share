@@ -85,70 +85,66 @@ class _WebSpeedShareEntryState extends State<WebSpeedShareEntry> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      child: Obx(
-        () {
-          return Scaffold(
-            backgroundColor: Colors.white,
-            body: Stack(
-              alignment: Alignment.topLeft,
-              children: [
-                PageTransitionSwitcher(
-                  transitionBuilder: (
-                    Widget child,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                  ) {
-                    return FadeThroughTransition(
-                      animation: animation,
-                      secondaryAnimation: secondaryAnimation,
-                      child: child,
-                    );
-                  },
-                  duration: const Duration(milliseconds: 800),
-                  layoutBuilder: (widgets) {
-                    return Stack(
-                      children: widgets,
-                    );
-                  },
-                  child: Material(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: widget.padding ??
-                          EdgeInsets.symmetric(horizontal: 8.w),
-                      child: ShareChatV2(
-                        chatServerAddress: widget.address,
-                      ),
-                    ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            PageTransitionSwitcher(
+              transitionBuilder: (
+                Widget child,
+                Animation<double> animation,
+                Animation<double> secondaryAnimation,
+              ) {
+                return FadeThroughTransition(
+                  animation: animation,
+                  secondaryAnimation: secondaryAnimation,
+                  child: child,
+                );
+              },
+              duration: const Duration(milliseconds: 800),
+              layoutBuilder: (widgets) {
+                return Stack(
+                  children: widgets,
+                );
+              },
+              child: Material(
+                color: Colors.white,
+                child: Padding(
+                  padding:
+                      widget.padding ?? EdgeInsets.symmetric(horizontal: 8.w),
+                  child: ShareChatV2(
+                    chatServerAddress: widget.address,
                   ),
                 ),
-              ],
+              ),
             ),
-            resizeToAvoidBottomInset: true,
-            // floatingActionButton:
-            //     chatController.fileAddress.isNotEmpty || GetPlatform.isWeb
-            //         ? Padding(
-            //             padding: EdgeInsets.all(36.w),
-            //             child: Material(
-            //               color: Theme.of(context).primaryColor,
-            //               borderRadius: BorderRadius.circular(40),
-            //               clipBehavior: Clip.antiAlias,
-            //               child: IconButton(
-            //                 color: Colors.white,
-            //                 iconSize: 48.w,
-            //                 onPressed: () {
-            //                   pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
-            //                   setState(() {});
-            //                 },
-            //                 icon: Icon(
-            //                   Icons.swap_horiz,
-            //                   size: 28.w,
-            //                 ),
-            //               ),
-            //             ),
-            //           )
-            //         : null,
-          );
-        },
+          ],
+        ),
+        resizeToAvoidBottomInset: true,
+        // floatingActionButton:
+        //     chatController.fileAddress.isNotEmpty || GetPlatform.isWeb
+        //         ? Padding(
+        //             padding: EdgeInsets.all(36.w),
+        //             child: Material(
+        //               color: Theme.of(context).primaryColor,
+        //               borderRadius: BorderRadius.circular(40),
+        //               clipBehavior: Clip.antiAlias,
+        //               child: IconButton(
+        //                 color: Colors.white,
+        //                 iconSize: 48.w,
+        //                 onPressed: () {
+        //                   pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
+        //                   setState(() {});
+        //                 },
+        //                 icon: Icon(
+        //                   Icons.swap_horiz,
+        //                   size: 28.w,
+        //                 ),
+        //               ),
+        //             ),
+        //           )
+        //         : null,
       ),
     );
   }
