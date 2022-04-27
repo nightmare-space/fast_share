@@ -36,6 +36,7 @@ Language: 中文简体 | [English](README-EN.md)
 - [个人服务器下载地址](http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A)
 
 该项目集成了 Github Action 来提供自动打包的功能，然后使用`transfer.sh`进行包的上传，所以你可以在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
+
 <img src="screenshot/v2/actions.png" width="50%" height="50%" /> 
 
 
@@ -122,6 +123,7 @@ web端不能单独打开速享(从实现来看是可以，但我并不想这么�
 ### 在哪下载Windows
 1.github actions
 在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
+
 <img src="screenshot/v2/actions.png" width="50%" height="50%" /> 
 2.nightmare.fun官网
 
