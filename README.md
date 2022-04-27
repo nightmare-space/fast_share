@@ -62,6 +62,11 @@ Language: 中文简体 | [English](README-EN.md)
 
 点击√即可加入共享房间~
 
+## 浏览器加入
+客户端启动速享后，点击底部导航栏切换到主页，会有一个`远程访问`的卡片，局域网内浏览器打开对应的 url 即可加入共享。
+
+<img src="screenshot/v2/address.jpg" width="50%" height="50%" />
+
 ## 文件共享
 ### 在房间中
 点击右下角`+`按钮，可选择来自系统文件管理器的文件、速享内部文件管理器的文件到共享窗口。
@@ -78,15 +83,17 @@ Language: 中文简体 | [English](README-EN.md)
 
 通过底部导航栏切换至`我的`页面即可看见设置功能。
 
+<img src="screenshot/v2/setting.png" width="50%" height="50%" /> 
+
 ## 本地文件管理
 切换到文件管理页面，会显示速享的接收文件概览，点击右上角切换箭头，即可切换文件管理详情。
 <img src="screenshot/v2/file_manager.png" width="50%" height="50%" /> 
 
-## 远程文件管理
+<!-- ## 远程文件管理
 速享的亮点功能之一，可以远程管理已连接设备的文件，手机端连接到其他设备后，通过底部导航栏可进入远程文件管理器页面。
 
 桌面版视图，点击左边侧栏进入对应的设备聊天窗口，即可远程显示对方设备的文件。
-
+ -->
 
 
 ## 开发者文档
@@ -125,7 +132,7 @@ web端不能单独打开速享(从实现来看是可以，但我并不想这么�
 在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
 
 <img src="screenshot/v2/actions.png" width="50%" height="50%" />
- 
+
 2.nightmare.fun官网
 
 ### iOS会有吗
