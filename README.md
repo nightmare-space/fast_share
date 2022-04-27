@@ -124,7 +124,8 @@ web端不能单独打开速享(从实现来看是可以，但我并不想这么�
 1.github actions
 在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
 
-<img src="screenshot/v2/actions.png" width="50%" height="50%" /> 
+<img src="screenshot/v2/actions.png" width="50%" height="50%" />
+ 
 2.nightmare.fun官网
 
 ### iOS会有吗
