@@ -54,7 +54,8 @@ Language: 中文简体 | [English](README-EN.md)
 
 
 ## 局域网发现
-发现其他设备启动速享后，主页顶部会出现提示，如图。
+发现其他设备启动速享后，主页顶部会出现提示，如图：
+
 <img src="screenshot/v2/broadcast.jpg" width="50%" height="50%" /> 
 点击√即可加入共享房间~
 
