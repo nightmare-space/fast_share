@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
+// 解析二维码的组件
 class QrScan extends StatefulWidget {
   const QrScan({Key key}) : super(key: key);
 

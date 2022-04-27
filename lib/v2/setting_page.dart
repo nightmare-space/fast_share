@@ -9,7 +9,7 @@ import 'package:speed_share/v2/header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'widget/xliv-switch.dart';
-
+// 设置页面
 class SettingPage extends StatefulWidget {
   const SettingPage({Key key}) : super(key: key);
 

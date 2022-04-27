@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.0.0-dev+29
+version: 2.0.0-dev+30
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -77,14 +77,14 @@ flutter:
     - assets/
     - assets/icon/
 
-# dependency_overrides:
-#   app_manager:
-#     path: ../app_manager
-#   applib_util:
-#     path: ../applib/applib_util
-#   global_repository:
-#     path: ../global_repository
-#   file_manager_view:
-#     path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
-#   file_selector_nightmare:
-#     path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+dependency_overrides:
+  app_manager:
+    path: ../app_manager
+  applib_util:
+    path: ../applib/applib_util
+  global_repository:
+    path: ../global_repository
+  file_manager_view:
+    path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
+  file_selector_nightmare:
+    path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng

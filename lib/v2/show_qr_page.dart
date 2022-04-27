@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-
+// 展示二维码的弹窗
 class ShowQRPage extends StatefulWidget {
   const ShowQRPage({Key key, this.port}) : super(key: key);
   final int port;

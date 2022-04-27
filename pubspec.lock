@@ -69,7 +69,7 @@ packages:
       name: better_player
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.81"
+    version: "0.0.82"
   boolean_selector:
     dependency: transitive
     description:
@@ -194,7 +194,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1cf4bd66dad0d87eafbee6684b7fef525243a14b"
+      resolved-ref: a693aedcdeaeab87adece24b09c93b1338b4f72e
       url: "https://github.com/nightmare-space/file_manager_view.git"
     source: git
     version: "1.0.0+1"
@@ -426,7 +426,7 @@ packages:
       name: keframe
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.6"
   lints:
     dependency: transitive
     description:
@@ -528,7 +528,7 @@ packages:
       name: path_provider_android
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.12"
+    version: "2.0.13"
   path_provider_ios:
     dependency: transitive
     description:
@@ -810,7 +810,7 @@ packages:
       name: url_launcher_android
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.15"
+    version: "6.0.16"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -873,7 +873,7 @@ packages:
       name: wakelock
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.5.6"
+    version: "0.6.1+2"
   wakelock_macos:
     dependency: transitive
     description:
@@ -908,7 +908,7 @@ packages:
       name: win32
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.5.1"
+    version: "2.5.2"
   window_manager:
     dependency: "direct main"
     description:

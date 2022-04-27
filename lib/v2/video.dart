@@ -1,7 +1,7 @@
 // import 'package:better_player/better_player.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-
+// 预览视频的组件
 class SerieExample extends StatefulWidget {
   const SerieExample({Key key, this.url}) : super(key: key);
   final String url;

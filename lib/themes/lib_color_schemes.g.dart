@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:speed_share/themes/app_colors.dart';
-
+// material3生成的主题
 const seed = Color(0xff6A6DED);
 
 const lightColorScheme = ColorScheme(

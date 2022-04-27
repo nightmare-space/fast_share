@@ -59,6 +59,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                     children: [
                       InkWell(
                         onTap: () async {
+                          Navigator.of(context).pop();
                           Get.dialog(const JoinChat());
                         },
                         child: SizedBox(
@@ -90,6 +91,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                       InkWell(
                         onTap: () async {
                           ScanUtil.parseScan();
+                          Navigator.of(context).pop();
                         },
                         child: SizedBox(
                           height: 48.w,
@@ -119,6 +121,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                       ),
                       InkWell(
                         onTap: () async {
+                          Navigator.of(context).pop();
                           Get.dialog(ShowQRPage(
                             port: controller.chatBindPort,
                           ));
@@ -150,6 +153,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                       ),
                       InkWell(
                         onTap: () async {
+                          Navigator.of(context).pop();
                           Get.to(Responsive(
                             builder: (context, screenType) {
                               return const Material(

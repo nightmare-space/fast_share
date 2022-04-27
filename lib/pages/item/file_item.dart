@@ -141,56 +141,27 @@ class _FileItemState extends State<FileItem> {
       mainAxisAlignment:
           widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: widget.sendByUser
-              ? CrossAxisAlignment.end
-              : CrossAxisAlignment.start,
-          children: [
-            if (info.deviceName != null)
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xffED796A).withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
+        Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.w),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onLongPress: () {
+              Get.dialog(
+                Menu(
+                  offset: offset,
                 ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-                child: Center(
-                  child: Text(
-                    info.deviceName,
-                    style: TextStyle(
-                      height: 1,
-                      fontSize: 12.w,
-                      color: const Color(0xffED796A),
-                    ),
-                  ),
-                ),
-              ),
-            SizedBox(height: 4.w),
-            Material(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.w),
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                onLongPress: () {
-                  Get.dialog(
-                    Menu(
-                      offset: offset,
-                    ),
-                    useSafeArea: false,
-                    barrierColor: Colors.black12,
-                  );
-                },
-                child: GestureDetector(
-                  onTapDown: (details) {
-                    offset = details.globalPosition;
-                  },
-                  child: body(context),
-                ),
-              ),
+                useSafeArea: false,
+                barrierColor: Colors.black12,
+              );
+            },
+            child: GestureDetector(
+              onTapDown: (details) {
+                offset = details.globalPosition;
+              },
+              child: body(context),
             ),
-          ],
+          ),
         ),
         // 展示下载按钮
         if (!widget.sendByUser)
@@ -201,7 +172,7 @@ class _FileItemState extends State<FileItem> {
                 InkWell(
                   onTap: () async {
                     if (GetPlatform.isWeb) {
-                      Log.e('web download');
+                      Log.e('web download $url');
                       await canLaunch(url)
                           ? await launch(url + '?download=true')
                           : throw 'Could not launch $url';

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
-
+// 获取本机的设备名称
 class UniqueUtil {
   UniqueUtil._();
   static Future<String> getDevicesId() async {

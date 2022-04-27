@@ -11,7 +11,7 @@ import 'package:speed_share/utils/scan_util.dart';
 import 'menu.dart';
 import 'setting_page.dart';
 import 'show_qr_page.dart';
-
+// 主页显示的最上面那个header
 class Header extends StatelessWidget {
   const Header({Key key}) : super(key: key);
 
