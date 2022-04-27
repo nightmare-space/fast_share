@@ -48,31 +48,33 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                 GetBuilder<DeviceController>(builder: (controller) {
                   return Column(
                     children: [
-                      DrawerItem(
-                        groupValue: widget.value,
-                        value: 0,
-                        onChange: (v) {
-                          setState(() {});
-                          widget.onChange?.call(v);
-                        },
-                        builder: (_) {
-                          return Row(
-                            children: [
-                              Image.asset(
-                                'assets/icon/home.png',
-                                width: 16.w,
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                '首页',
-                                style: TextStyle(
-                                  color: Theme.of(_).textTheme.bodyText2.color,
+                      if (!GetPlatform.isWeb)
+                        DrawerItem(
+                          groupValue: widget.value,
+                          value: 0,
+                          onChange: (v) {
+                            setState(() {});
+                            widget.onChange?.call(v);
+                          },
+                          builder: (_) {
+                            return Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icon/homev2.png',
+                                  width: 16.w,
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  '首页',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(_).textTheme.bodyText2.color,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       DrawerItem(
                         groupValue: widget.value,
                         value: 1,
@@ -136,31 +138,33 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                           ],
                         );
                       }),
-                      DrawerItem(
-                        groupValue: widget.value,
-                        value: controller.connectDevice.length + 2,
-                        onChange: (v) {
-                          setState(() {});
-                          widget.onChange?.call(v);
-                        },
-                        builder: (_) {
-                          return Row(
-                            children: [
-                              Image.asset(
-                                'assets/icon/file.png',
-                                width: 16.w,
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                '文件管理(本地)',
-                                style: TextStyle(
-                                  color: Theme.of(_).textTheme.bodyText2.color,
+                      if (!GetPlatform.isWeb)
+                        DrawerItem(
+                          groupValue: widget.value,
+                          value: controller.connectDevice.length + 2,
+                          onChange: (v) {
+                            setState(() {});
+                            widget.onChange?.call(v);
+                          },
+                          builder: (_) {
+                            return Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icon/file.png',
+                                  width: 16.w,
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  '文件管理(本地)',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(_).textTheme.bodyText2.color,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       DrawerItem(
                         groupValue: widget.value,
                         value: controller.connectDevice.length + 3,

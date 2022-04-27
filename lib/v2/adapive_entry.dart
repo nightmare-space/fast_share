@@ -14,9 +14,14 @@ import 'nav.dart';
 import 'remote_page.dart';
 import 'setting_page.dart';
 import 'share_chat_window.dart';
+
 // 自动响应布局
 class AdaptiveEntryPoint extends StatefulWidget {
-  const AdaptiveEntryPoint({Key key}) : super(key: key);
+  const AdaptiveEntryPoint({
+    Key key,
+    this.address,
+  }) : super(key: key);
+  final String address;
 
   @override
   State<AdaptiveEntryPoint> createState() => _AdaptiveEntryPointState();
@@ -34,7 +39,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
     }
   }
 
-  int page = 0;
+  int page = GetPlatform.isWeb ? 1 : 0;
 
   @override
   Widget build(BuildContext context) {
@@ -61,23 +66,26 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                     GetBuilder<DeviceController>(builder: (controller) {
                       return Expanded(
                         child: [
-                          HomePage(
-                            onMessageWindowTap: () {
-                              page = 1;
-                              setState(() {});
-                            },
-                            onJoinRoom: (value) {
-                              address = value;
-                              page = 1;
-                              setState(() {});
-                            },
-                          ),
+                          if (!GetPlatform.isWeb)
+                            HomePage(
+                              onMessageWindowTap: () {
+                                page = 1;
+                                setState(() {});
+                              },
+                              onJoinRoom: (value) {
+                                address = value;
+                                page = 1;
+                                setState(() {});
+                              },
+                            )
+                          else
+                            const SizedBox(),
                           Container(
                             color: Colors.white,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8.w),
                               child: ShareChatV2(
-                                chatServerAddress: address,
+                                chatServerAddress: widget.address ?? address,
                               ),
                             ),
                           ),
@@ -101,8 +109,14 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                                 );
                               },
                             ),
-                          const FilePage(),
-                          const SettingPage(),
+                          if (!GetPlatform.isWeb)
+                            const FilePage()
+                          else
+                            const SizedBox(),
+                          if (!GetPlatform.isWeb)
+                            const SettingPage()
+                          else
+                            const SizedBox(),
                         ][page],
                       );
                     }),

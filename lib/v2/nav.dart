@@ -57,8 +57,8 @@ class _NavState extends State<Nav> {
                 children: [
                   Image.asset(
                     enable
-                        ? 'assets/icon/home_sel.png'
-                        : 'assets/icon/home.png',
+                        ? 'assets/icon/homev2_sel.png'
+                        : 'assets/icon/homev2.png',
                     width: 20.w,
                     height: 20.w,
                     color: enable ? Theme.of(context).primaryColor : null,
@@ -68,7 +68,7 @@ class _NavState extends State<Nav> {
                   Text(
                     '首页',
                     style: TextStyle(
-                      fontSize: 14.w,
+                      fontSize: 12.w,
                       color: enable
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).colorScheme.onBackground,
@@ -82,16 +82,18 @@ class _NavState extends State<Nav> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.swap_horiz,
+                  Image.asset(
+                    'assets/icon/remote_file.png',
+                    width: 20.w,
+                    height: 20.w,
                     color: enable ? Theme.of(context).primaryColor : null,
-                    size: 20.w,
+                    gaplessPlayback: false,
                   ),
                   SizedBox(height: 2.w),
                   Text(
                     '远程',
                     style: TextStyle(
-                      fontSize: 14.w,
+                      fontSize: 12.w,
                       color: enable
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).colorScheme.onBackground,
@@ -108,7 +110,7 @@ class _NavState extends State<Nav> {
                 children: [
                   Image.asset(
                     enable
-                        ? 'assets/icon/file_sel.png'
+                        ? 'assets/icon/file.png'
                         : 'assets/icon/file.png',
                     width: 20.w,
                     height: 20.w,
@@ -119,7 +121,7 @@ class _NavState extends State<Nav> {
                   Text(
                     '文件',
                     style: TextStyle(
-                      fontSize: 14.w,
+                      fontSize: 12.w,
                       color: enable
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).colorScheme.onBackground,
@@ -135,8 +137,8 @@ class _NavState extends State<Nav> {
                 children: [
                   Image.asset(
                     enable
-                        ? 'assets/icon/setting.png'
-                        : 'assets/icon/setting.png',
+                        ? 'assets/icon/person.png'
+                        : 'assets/icon/person.png',
                     width: 20.w,
                     height: 20.w,
                     gaplessPlayback: false,
@@ -144,9 +146,9 @@ class _NavState extends State<Nav> {
                   ),
                   SizedBox(height: 2.w),
                   Text(
-                    '设置',
+                    '我的',
                     style: TextStyle(
-                      fontSize: 14.w,
+                      fontSize: 12.w,
                       color: enable
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).colorScheme.onBackground,

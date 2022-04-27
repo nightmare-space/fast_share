@@ -16,6 +16,7 @@ import 'package:speed_share/v2/preview_image.dart';
 
 import 'header.dart';
 import 'icon.dart';
+import 'share_chat_window.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -356,9 +357,7 @@ class _HomePageState extends State<HomePage> {
           return;
         }
         Get.put(ChatController());
-        Get.to(const WebSpeedShareEntry(
-          padding: EdgeInsets.zero,
-        ));
+        Get.to(const ShareChatV2());
       },
       child: Container(
         decoration: BoxDecoration(

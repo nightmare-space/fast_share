@@ -24,7 +24,7 @@ class TextMessageItem extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: sendByUser ? AppColors.sendByUser : Colors.white,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10.w),
               ),
               child: Stack(

@@ -141,34 +141,27 @@ class _FileItemState extends State<FileItem> {
       mainAxisAlignment:
           widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: widget.sendByUser
-              ? CrossAxisAlignment.end
-              : CrossAxisAlignment.start,
-          children: [
-            Material(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.w),
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                onLongPress: () {
-                  Get.dialog(
-                    Menu(
-                      offset: offset,
-                    ),
-                    useSafeArea: false,
-                    barrierColor: Colors.black12,
-                  );
-                },
-                child: GestureDetector(
-                  onTapDown: (details) {
-                    offset = details.globalPosition;
-                  },
-                  child: body(context),
+        Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.w),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onLongPress: () {
+              Get.dialog(
+                Menu(
+                  offset: offset,
                 ),
-              ),
+                useSafeArea: false,
+                barrierColor: Colors.black12,
+              );
+            },
+            child: GestureDetector(
+              onTapDown: (details) {
+                offset = details.globalPosition;
+              },
+              child: body(context),
             ),
-          ],
+          ),
         ),
         // 展示下载按钮
         if (!widget.sendByUser)
@@ -179,7 +172,7 @@ class _FileItemState extends State<FileItem> {
                 InkWell(
                   onTap: () async {
                     if (GetPlatform.isWeb) {
-                      Log.e('web download');
+                      Log.e('web download $url');
                       await canLaunch(url)
                           ? await launch(url + '?download=true')
                           : throw 'Could not launch $url';
