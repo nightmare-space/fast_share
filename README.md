@@ -3,8 +3,7 @@
 Language: 中文简体 | [English](README-EN.md)
 
 ![release](https://img.shields.io/github/v/release/nightmare-space/speed_share) 
-[![Last Commits](https://img.shields.io/github/last-commit/nightmare-space/speed_share?logo=git&logoColor=white)](https://github.com/nightmare-space/speed_share/commits/master)
-[![Pull Requests](https://img.shields.io/github/issues-pr/nightmare-space/speed_share?logo=github&logoColor=white)](https://github.com/nightmare-space/speed_share/pulls)
+[![Last Commits](https://img.shields.io/github/last-commit/nightmare-space/speed_share?logo=git&logoColor=white)](https://github.com/nightmare-space/speed_share/commits/master)<!-- [![Pull Requests](https://img.shields.io/github/issues-pr/nightmare-space/speed_share?logo=github&logoColor=white)](https://github.com/nightmare-space/speed_share/pulls) -->
 [![Code size](https://img.shields.io/github/languages/code-size/nightmare-space/speed_share?logo=github&logoColor=white)](https://github.com/nightmare-space/speed_share)
 [![License](https://img.shields.io/github/license/nightmare-space/speed_share?logo=open-source-initiative&logoColor=green)](https://github.com/nightmare-space/speed_share/blob/master/LICENSE)
  ![Platform](https://img.shields.io/badge/support%20platform-android%20%7C%20web%20%7C%20windows%20%7C%20macos%20%7C%20linux-orange) ![download time](https://img.shields.io/github/downloads/nightmare-space/speed_share/total) ![open issues](https://img.shields.io/github/issues/nightmare-space/speed_share) ![fork](https://img.shields.io/github/forks/nightmare-space/speed_share?style=social) ![code line](https://img.shields.io/tokei/lines/github/nightmare-space/speed_share) ![build](https://img.shields.io/github/workflow/status/nightmare-space/speed_share/SpeedShare%20Publish%20Actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f969750dc4aa424ead664219ddcf321d)](https://app.codacy.com/gh/nightmare-space/speed_share?utm_source=github.com&utm_medium=referral&utm_content=nightmare-space/speed_share&utm_campaign=Badge_Grade)
@@ -16,10 +15,23 @@ Language: 中文简体 | [English](README-EN.md)
 适用于局域网中的文件互传，解决 QQ，微信等上传文件会经过服务器的问题，或者部分测试手机，没有这类聊天软件。
 
 **这是一个纯个人的开源项目，它虽然不及企业级的一些项目一般完整和强大，但我会耐心的完善以及打磨这个产品。**
-## 注意！！！
+
+**注意！！！**
 
 这个仓库仍在开发维护中，但是由于平时工作缘故，所以不会有太多空闲的时间，相关的截图等都没来得及更新，见谅！！！
 编译不过联系 QQ:906262255，注明来意~
+## 目录
+
+- [帮助开发](#帮助开发)
+- [截图](#截图)
+- [下载](#下载)
+- [功能列表](#功能列表)
+- [局域网发现](#局域网发现)
+- [浏览器加入](#浏览器加入)
+- [本地文件管理](#本地文件管理)
+- [开发者文档](#开发者文档)
+- [Q&A](#qa)
+
 
 ## 帮助开发
 
@@ -29,7 +41,7 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 截图
 
-<img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/easy.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/connect.jpg" width="30%" height="30%" /> <img src="https://raw.githubusercontent.com/nightmare-space/speed_share/main/screenshot/down.jpg" width="30%" height="30%" />
+待补充
 
 ## 下载
 
