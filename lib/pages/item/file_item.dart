@@ -44,24 +44,20 @@ class _FileItemState extends State<FileItem> {
   // 网速
   String speed = '0';
   Timer timer;
-  String savePath;
 
   DateTime startTime;
   bool isStarted = false;
   // 执行下载文件
-  Future<void> downloadFile(String urlPath, String savePath) async {
+  Future<void> downloadFile(String urlPath, String dir) async {
     if (fileDownratio != 0.0) {
       showToast('已经在下载中了哦');
       return;
     }
-    String type = urlPath.getType;
-    this.savePath = savePath = savePath + '/$type/' + basename(urlPath);
-    File saveFile = File(getSafePath(savePath));
-    this.savePath = saveFile.path;
-    Log.d(saveFile.path);
+
+    String savePath = getSavePath(urlPath, dir);
     computeNetSpeed();
     Response res = await RangeDownload.downloadWithChunks(
-      urlPath + '?download=true', saveFile.path,
+      urlPath + '?download=true', savePath,
       // isRangeDownload: false, //Support normal download
       maxChunk: 4,
       // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
@@ -99,7 +95,6 @@ class _FileItemState extends State<FileItem> {
       // Log.e('diff -> $diff');
       // 乘以2是因为半秒测的一次
       speed = FileSizeUtils.getFileSize(diff * 2);
-      // *2 的原因是半秒测的一次
       // Log.e('网速 -> $speed');
     });
   }
@@ -109,7 +104,7 @@ class _FileItemState extends State<FileItem> {
     super.initState();
     info = widget.info;
     // 开启自动下载，且是来自其他设备的消息
-    if (settingController.enableAutoDownload && !widget.sendByUser) {
+    if (canAutoDownload()) {
       downloadFile(url, '/sdcard/SpeedShare');
     }
   }
@@ -119,6 +114,16 @@ class _FileItemState extends State<FileItem> {
     cancelToken.cancel();
     timer?.cancel();
     super.dispose();
+  }
+
+  String getSavePath(String url, String dir) {
+    String type = url.getType;
+    String savePath = dir + '/$type/' + basename(url);
+    return getSafePath(savePath);
+  }
+
+  bool canAutoDownload() {
+    return settingController.enableAutoDownload && !widget.sendByUser;
   }
 
   String get url {
@@ -239,9 +244,9 @@ class _FileItemState extends State<FileItem> {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  if (fileDownratio == 1.0 && !timer.isActive) {
-                    OpenFile.open(savePath);
-                  }
+                  // if (fileDownratio == 1.0 && !timer.isActive) {
+                  //   OpenFile.open(savePath);
+                  // }
                 },
                 child: buildPreviewWidget(url),
               );

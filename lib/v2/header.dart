@@ -41,15 +41,26 @@ class Header extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 12.w,
-            ),
+            SizedBox(width: 12.w),
             Text(
               '梦魇兽',
               style: TextStyle(
                 fontSize: 16.w,
                 color: Theme.of(context).colorScheme.onBackground,
               ),
+            ),
+            SizedBox(width: 4.w),
+            if(!GetPlatform.isWeb)ValueListenableBuilder<bool>(
+              valueListenable: controller.connectState,
+              builder: (_, value, __) {
+                return Container(
+                  width: 10.w,
+                  height: 10.w,
+                  decoration: BoxDecoration(
+                      color: value ? Colors.green : Colors.red,
+                      borderRadius: BorderRadius.circular(16.w)),
+                );
+              },
             ),
           ],
         ),
@@ -59,7 +70,7 @@ class Header extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(width: 24.w),
+                SizedBox(width: 16.w),
                 if (showAddress)
                   Expanded(
                     child: GetBuilder<ChatController>(builder: (context) {

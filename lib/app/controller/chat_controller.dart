@@ -11,6 +11,7 @@ import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
+import 'package:speed_share/app/controller/utils/scroll_extension.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
@@ -25,6 +26,18 @@ import 'package:speed_share/utils/unique_util.dart';
 import 'utils/file_util.dart';
 import 'utils/server_util.dart';
 import 'utils/token_util.dart';
+import 'utils/vibrate.dart';
+
+int get type {
+  if (GetPlatform.isWeb) {
+    return web;
+  } else if (GetPlatform.isAndroid) {
+    return phone;
+  } else if (GetPlatform.isDesktop) {
+    return desktop;
+  }
+  return 3;
+}
 
 class ChatController extends GetxController {
   ChatController() {
@@ -38,10 +51,9 @@ class ChatController extends GetxController {
       update();
     });
   }
-  // TODO 用不着了，后面下掉
-  final fileAddress = ''.obs;
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
+  List<Widget> backup = [];
   // 输入框控制器
   TextEditingController controller = TextEditingController();
   // WebSocket对象
@@ -52,10 +64,13 @@ class ChatController extends GetxController {
   List<String> addrs = [];
   // 列表的滑动控制器
   ScrollController scrollController = ScrollController();
-  // 
+  //
   bool isConnect = false;
   String chatRoomUrl = '';
 
+  Map<String, int> dirItemMap = {};
+  Map<String, MessageDirInfo> dirMsgMap = {};
+  List<Map<String, dynamic>> cache = [];
   int chatBindPort;
   // 消息服务器成功绑定的端口
   // 文件服务器成功绑定的端口
@@ -66,6 +81,11 @@ class ChatController extends GetxController {
   Completer initLock = Completer();
   DeviceController deviceController = Get.find();
   SettingController settingController = Get.find();
+  UniqueKey uniqueKey = UniqueKey();
+  Map<String, XFile> webFileSendCache = {};
+
+  String chatServerAddress;
+  ValueNotifier<bool> connectState = ValueNotifier(false);
 
   // 创建聊天房间，调用时机为app启动时
   Future<void> createChatRoom() async {
@@ -85,8 +105,6 @@ class ChatController extends GetxController {
     initChat(chatRoomUrl);
   }
 
-  String chatServerAddress;
-  
   Future<void> initChat(
     String chatServerAddress,
   ) async {
@@ -107,19 +125,18 @@ class ChatController extends GetxController {
     socket.onOpen(() {
       Log.d('chat连接成功');
       isConnect = true;
+      connectState.value = true;
       if (!conLock.isCompleted) {
         conLock.complete();
       }
     });
     socket.onClose((p0) {
       socket = null;
-      Log.e('socket onClose $p0');
+      Log.e('Socket onClose $p0');
       // 应该移除所有设备
       deviceController.clear();
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTipInfo(content: '所有连接已断开'),
-        false,
-      ));
+      connectState.value = false;
+      showToast('连接已断开');
       update();
     });
     try {
@@ -136,7 +153,6 @@ class ChatController extends GetxController {
     }
     await conLock.future;
     if (!isConnect) {
-      // 如果连接失败并且不是 web 平台
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '加入失败!'),
         false,
@@ -179,19 +195,6 @@ class ChatController extends GetxController {
       startFileServer(fileServerPort);
       Log.i('file server started with $fileServerPort port');
     }
-  }
-
-  @override
-  void onClose() {
-    if (isConnect) {
-      Log.e('socket.close()');
-      socket.close();
-    }
-    Log.e('dispose');
-    focusNode.dispose();
-    controller.dispose();
-    scrollController.dispose();
-    super.onClose();
   }
 
   //
@@ -300,7 +303,7 @@ class ChatController extends GetxController {
           sendFileInfo,
           true,
         ));
-        scroll();
+        scrollController.scrollToEnd();
         update();
       }
     } else if (GetPlatform.isDesktop) {
@@ -316,7 +319,6 @@ class ChatController extends GetxController {
   }
 
   // 选择文件后并没有第一时间发送，只是发送了一条普通消息
-  Map<String, XFile> webFileSendCache = {};
   Future<void> sendFileForBroswerAndDesktop() async {
     List<XFile> files = await getFilesForDesktopAndWeb();
     if (files == null) {
@@ -429,13 +431,9 @@ class ChatController extends GetxController {
       sendFileInfo,
       true,
     ));
-    scroll();
+    scrollController.scrollToEnd();
     update();
   }
-
-  Map<String, int> dirItemMap = {};
-  Map<String, MessageDirInfo> dirMsgMap = {};
-  List<Map<String, dynamic>> cache = [];
 
   /// 这个里面的处理相对复杂一点
   void listenMessage() {
@@ -543,20 +541,9 @@ class ChatController extends GetxController {
     if (item != null) {
       children.add(item);
       // 自动滑动，振动，更新UI
-      scroll();
+      scrollController.scrollToEnd();
       vibrate();
       update();
-    }
-  }
-
-  Future<void> vibrate() async {
-    if (!settingController.vibrate) {
-      return;
-    }
-    // 这个用来触发移动端的振动
-    for (int i = 0; i < 3; i++) {
-      Feedback.forLongPress(Get.context);
-      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 
@@ -578,31 +565,6 @@ class ChatController extends GetxController {
     }));
   }
 
-  Future<void> scroll() async {
-    // 让listview滚动到底部
-    await Future.delayed(const Duration(milliseconds: 100));
-    if (scrollController.hasClients) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.ease,
-      );
-    }
-  }
-
-  int get type {
-    if (GetPlatform.isWeb) {
-      return web;
-    } else if (GetPlatform.isAndroid) {
-      return phone;
-    } else if (GetPlatform.isDesktop) {
-      return desktop;
-    }
-    return 3;
-  }
-
-  UniqueKey uniqueKey = UniqueKey();
-
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
     info.deviceId = uniqueKey.toString();
@@ -622,23 +584,17 @@ class ChatController extends GetxController {
     ));
     update();
     controller.clear();
-    scroll();
+    scrollController.scrollToEnd();
   }
-
-  List<Widget> backup = [];
 
   // 当切换到所有设备时调用的函数
   void restoreList() {
-    fileAddress.value = '';
     backup.clear();
     update();
   }
 
   void changeListToDevice(Device device) {
     backup.clear();
-    Uri uri = Uri.tryParse(device.address);
-    String addr = 'http://${uri.host}:20000';
-    fileAddress.value = addr;
     for (Map map in cache) {
       MessageBaseInfo info = MessageInfoFactory.fromJson(map);
       if (info is JoinMessage) {
@@ -648,5 +604,18 @@ class ChatController extends GetxController {
         dispatch(info, backup);
       }
     }
+  }
+
+  @override
+  void onClose() {
+    if (isConnect) {
+      Log.e('socket.close()');
+      socket.close();
+    }
+    Log.e('dispose');
+    focusNode.dispose();
+    controller.dispose();
+    scrollController.dispose();
+    super.onClose();
   }
 }

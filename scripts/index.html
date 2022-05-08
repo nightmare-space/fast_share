@@ -26,11 +26,15 @@
 
   <title>速享</title>
   <link rel="manifest" href="manifest.json">
+  <script>
+    document.oncontextmenu = function (event) {
+      console.log('打断菜单！')
+      event.preventDefault();
+    };
+  </script>
   <!-- <script src="https://cdn.bootcss.com/vConsole/3.2.2/vconsole.min.js"></script>
   <script>  var vConsole = new VConsole();  </script> -->
 </head>
-
-<body oncontextmenu="return false;"></body>
 
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to

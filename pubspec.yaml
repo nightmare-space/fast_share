@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.0.0-dev+31
+version: 2.0.0-dev+32
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -86,5 +86,5 @@ dependency_overrides:
   #   path: ../global_repository
   # file_manager_view:
   #   path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
-  # file_selector_nightmare:
-  #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+  file_selector_nightmare:
+    path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng

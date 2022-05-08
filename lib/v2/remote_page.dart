@@ -110,7 +110,9 @@ class _RemotePageState extends State<RemotePage> {
               itemBuilder: (c, i) {
                 Device device = controller.connectDevice[i];
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                  ),
                   child: GestureWithScale(
                     onTap: () {
                       Log.i(device);
@@ -129,6 +131,7 @@ class _RemotePageState extends State<RemotePage> {
                         borderRadius: BorderRadius.circular(12.w),
                       ),
                       padding: EdgeInsets.all(24.w),
+                      margin: EdgeInsets.symmetric(vertical: 10.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

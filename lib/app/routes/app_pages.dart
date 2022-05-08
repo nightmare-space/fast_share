@@ -42,19 +42,11 @@ class SpeedPages {
       page: () {
         Uri uri;
         uri = GetPlatform.isWeb
-            ? Uri.parse(kDebugMode ? 'http://192.168.12.102:12000/' : url)
+            ? Uri.parse(kDebugMode ? 'http://192.168.208.102:12000/' : url)
             : Uri.parse(Get.parameters['chatServerAddress']);
-
-        if (GetPlatform.isWeb) {
-          return ThemeWrapper(
-            child: AdaptiveEntryPoint(
-              address: 'http://${uri.host}:${uri.port}',
-            ),
-          );
-        }
         return ThemeWrapper(
-          child: ShareChatV2(
-            chatServerAddress: 'http://${uri.host}:${uri.port}',
+          child: AdaptiveEntryPoint(
+            address: 'http://${uri.host}:${uri.port}',
           ),
         );
       },
