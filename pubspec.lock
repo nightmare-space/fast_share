@@ -229,9 +229,11 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "/Users/nightmare/Desktop/nightmare-space/file_selector_meng"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: ee3a80844f7914ecb0cf6d646751966f383b0940
+      url: "https://github.com/nightmare-space/file_selector_meng"
+    source: git
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive

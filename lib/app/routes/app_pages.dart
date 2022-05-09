@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/bindings/chat_binding.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
@@ -14,6 +15,9 @@ import 'package:speed_share/v2/share_chat_window.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
 part 'app_routes.dart';
+
+Debouncer debouncer = Debouncer(delay: Duration(seconds: 1));
+int time = 0;
 
 class SpeedPages {
   SpeedPages._();
@@ -29,10 +33,24 @@ class SpeedPages {
     ),
     GetPage(
       name: Routes.home,
-      page: () => ThemeWrapper(
-        child: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: OverlayStyle.dark,
-          child: const AdaptiveEntryPoint(),
+      page: () => WillPopScope(
+        onWillPop: () async {
+          if (time == 0) {
+            time++;
+            showToast('再次返回退出APP~');
+          } else {
+            SystemNavigator.pop();
+          }
+          debouncer.call(() {
+            time = 0;
+          });
+          return false;
+        },
+        child: ThemeWrapper(
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: OverlayStyle.dark,
+            child: const AdaptiveEntryPoint(),
+          ),
         ),
       ),
       binding: HomeBinding(),

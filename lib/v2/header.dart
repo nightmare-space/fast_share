@@ -28,17 +28,12 @@ class Header extends StatelessWidget {
       children: [
         Row(
           children: [
-            GestureDetector(
-              onTap: () {
-                Get.to(const SettingPage());
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Image.network(
-                  'http://nightmare.fun/YanTool/image/hong.jpg',
-                  width: 30.w,
-                  height: 30.w,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: Image.network(
+                'http://nightmare.fun/YanTool/image/hong.jpg',
+                width: 30.w,
+                height: 30.w,
               ),
             ),
             SizedBox(width: 12.w),
@@ -50,18 +45,19 @@ class Header extends StatelessWidget {
               ),
             ),
             SizedBox(width: 4.w),
-            if(!GetPlatform.isWeb)ValueListenableBuilder<bool>(
-              valueListenable: controller.connectState,
-              builder: (_, value, __) {
-                return Container(
-                  width: 10.w,
-                  height: 10.w,
-                  decoration: BoxDecoration(
-                      color: value ? Colors.green : Colors.red,
-                      borderRadius: BorderRadius.circular(16.w)),
-                );
-              },
-            ),
+            if (!GetPlatform.isWeb)
+              ValueListenableBuilder<bool>(
+                valueListenable: controller.connectState,
+                builder: (_, value, __) {
+                  return Container(
+                    width: 10.w,
+                    height: 10.w,
+                    decoration: BoxDecoration(
+                        color: value ? Colors.green : Colors.red,
+                        borderRadius: BorderRadius.circular(16.w)),
+                  );
+                },
+              ),
           ],
         ),
         Expanded(

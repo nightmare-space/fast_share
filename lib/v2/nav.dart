@@ -25,13 +25,13 @@ class _NavState extends State<Nav> {
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(14.w),
             color: const Color(0xff6A6DED),
           ),
           transformAlignment: Alignment.center,
           transform: Matrix4.identity()..rotateZ(pi / 4),
-          width: 42.w,
-          height: 42.w,
+          width: 36.w,
+          height: 36.w,
         ),
         Center(
           child: Icon(
@@ -43,7 +43,7 @@ class _NavState extends State<Nav> {
       ],
     );
     return SizedBox(
-      // height: 60.w,
+      height: 56.w,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -63,22 +63,22 @@ class _NavState extends State<Nav> {
                       enable
                           ? 'assets/icon/homev2_sel.png'
                           : 'assets/icon/homev2.png',
-                      width: 20.w,
-                      height: 20.w,
+                      width: 24.w,
+                      height: 24.w,
                       color: enable ? Theme.of(context).primaryColor : null,
                       package: Config.package,
                       gaplessPlayback: false,
                     ),
-                    SizedBox(height: 2.w),
-                    Text(
-                      '首页',
-                      style: TextStyle(
-                        fontSize: 12.w,
-                        color: enable
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).colorScheme.onBackground,
-                      ),
-                    ),
+                    // SizedBox(height: 2.w),
+                    // Text(
+                    //   '首页',
+                    //   style: TextStyle(
+                    //     fontSize: 12.w,
+                    //     color: enable
+                    //         ? Theme.of(context).primaryColor
+                    //         : Theme.of(context).colorScheme.onBackground,
+                    //   ),
+                    // ),
                   ],
                 );
               }),
@@ -90,22 +90,22 @@ class _NavState extends State<Nav> {
                   children: [
                     Image.asset(
                       'assets/icon/remote_file.png',
-                      width: 20.w,
-                      height: 20.w,
+                      width: 24.w,
+                      height: 24.w,
                       color: enable ? Theme.of(context).primaryColor : null,
                       gaplessPlayback: false,
                       package: Config.package,
                     ),
-                    SizedBox(height: 2.w),
-                    Text(
-                      '远程',
-                      style: TextStyle(
-                        fontSize: 12.w,
-                        color: enable
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).colorScheme.onBackground,
-                      ),
-                    ),
+                    // SizedBox(height: 2.w),
+                    // Text(
+                    //   '远程',
+                    //   style: TextStyle(
+                    //     fontSize: 12.w,
+                    //     color: enable
+                    //         ? Theme.of(context).primaryColor
+                    //         : Theme.of(context).colorScheme.onBackground,
+                    //   ),
+                    // ),
                   ],
                 );
               }),
@@ -117,23 +117,25 @@ class _NavState extends State<Nav> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        enable ? 'assets/icon/file.png' : 'assets/icon/file.png',
-                        width: 20.w,
-                        height: 20.w,
+                        enable
+                            ? 'assets/icon/file.png'
+                            : 'assets/icon/file.png',
+                        width: 24.w,
+                        height: 24.w,
                         gaplessPlayback: false,
                         color: enable ? Theme.of(context).primaryColor : null,
                         package: Config.package,
                       ),
-                      SizedBox(height: 2.w),
-                      Text(
-                        '文件',
-                        style: TextStyle(
-                          fontSize: 12.w,
-                          color: enable
-                              ? Theme.of(context).primaryColor
-                              : Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
+                      // SizedBox(height: 2.w),
+                      // Text(
+                      //   '文件',
+                      //   style: TextStyle(
+                      //     fontSize: 12.w,
+                      //     color: enable
+                      //         ? Theme.of(context).primaryColor
+                      //         : Theme.of(context).colorScheme.onBackground,
+                      //   ),
+                      // ),
                     ],
                   );
                 }),
@@ -147,22 +149,22 @@ class _NavState extends State<Nav> {
                         enable
                             ? 'assets/icon/person.png'
                             : 'assets/icon/person.png',
-                        width: 20.w,
-                        height: 20.w,
+                        width: 24.w,
+                        height: 24.w,
                         gaplessPlayback: false,
                         color: enable ? Theme.of(context).primaryColor : null,
                         package: Config.package,
                       ),
-                      SizedBox(height: 2.w),
-                      Text(
-                        '我的',
-                        style: TextStyle(
-                          fontSize: 12.w,
-                          color: enable
-                              ? Theme.of(context).primaryColor
-                              : Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
+                      // SizedBox(height: 2.w),
+                      // Text(
+                      //   '我的',
+                      //   style: TextStyle(
+                      //     fontSize: 12.w,
+                      //     color: enable
+                      //         ? Theme.of(context).primaryColor
+                      //         : Theme.of(context).colorScheme.onBackground,
+                      //   ),
+                      // ),
                     ],
                   );
                 }),

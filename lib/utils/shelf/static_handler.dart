@@ -179,7 +179,6 @@ Handler createFileHandler(
   final mimeType = contentType ?? _defaultMimeTypeResolver.lookup(path);
   url ??= p.toUri(p.basename(path)).toString();
   // Log.d('createFileHandler -> $url');
-
   app.get('/$url', (Request request) {
     return _handleFile(request, file, () => mimeType);
   });

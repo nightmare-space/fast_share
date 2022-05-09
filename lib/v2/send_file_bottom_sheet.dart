@@ -51,13 +51,13 @@ class _SendFilePageState extends State<SendFilePage>
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(14.w),
             color: color.value,
           ),
           transformAlignment: Alignment.center,
           transform: Matrix4.identity()..rotateZ(pi / 4),
-          width: 42.w,
-          height: 42.w,
+          width: 36.w,
+          height: 36.w,
         ),
         Center(
           child: Icon(
@@ -183,7 +183,7 @@ class _SendFilePageState extends State<SendFilePage>
                   SizedBox(height: 24.w),
                   Container(
                     color: Colors.white,
-                    height: 66.w,
+                    height: 54.w,
                     child: GestureWithScale(
                       onTap: () async {
                         await controller.reverse();
