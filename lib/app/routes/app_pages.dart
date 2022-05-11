@@ -39,7 +39,7 @@ class SpeedPages {
             time++;
             showToast('再次返回退出APP~');
           } else {
-            SystemNavigator.pop();
+            return true;
           }
           debouncer.call(() {
             time = 0;

@@ -100,8 +100,9 @@ class SpeedShare extends StatelessWidget {
               return Container(
                 height: 2.w,
                 decoration: BoxDecoration(
-                    color: value ? Colors.green : Colors.red,
-                    borderRadius: BorderRadius.circular(16.w)),
+                  color: value ? Colors.green : Colors.red,
+                  borderRadius: BorderRadius.circular(16.w),
+                ),
               );
             },
           ),
