@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/online_controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/global/global.dart';
@@ -89,10 +90,8 @@ class OnlineList extends StatelessWidget {
                                         );
                                         return;
                                       }
-                                      
-                                      Get.toNamed(
-                                        '${Routes.chat}?chatServerAddress=http://${device.address}:${device.port}',
-                                      );
+                                      ChatController chatController=Get.find();
+                                      chatController.initChat('http://${device.address}:${device.port}');
                                     },
                                     child: const Icon(Icons.check),
                                   ),

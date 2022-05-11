@@ -51,13 +51,13 @@ class _SendFilePageState extends State<SendFilePage>
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(14.w),
             color: color.value,
           ),
           transformAlignment: Alignment.center,
           transform: Matrix4.identity()..rotateZ(pi / 4),
-          width: 42.w,
-          height: 42.w,
+          width: 36.w,
+          height: 36.w,
         ),
         Center(
           child: Icon(
@@ -79,7 +79,6 @@ class _SendFilePageState extends State<SendFilePage>
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-              height: 92.w,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -87,115 +86,124 @@ class _SendFilePageState extends State<SendFilePage>
                   topRight: Radius.circular(16.w),
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () async {
-                      Navigator.of(context).pop();
-                      final ImagePicker _picker = ImagePicker();
-                      final List<XFile> images = await _picker.pickMultiImage();
-                      if (images != null) {
-                        for (var element in images) {
-                          chatController.sendFileFromPath(element.path);
-                        }
-                      }
-                    },
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 24.w,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          final ImagePicker _picker = ImagePicker();
+                          final List<XFile> images =
+                              await _picker.pickMultiImage();
+                          if (images != null) {
+                            for (var element in images) {
+                              chatController.sendFileFromPath(element.path);
+                            }
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 24.w,
+                            ),
+                            Image.asset(
+                              'assets/icon/gallery.png',
+                              width: 32.w,
+                              height: 32.w,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            Text(
+                              '上传图片',
+                              style: TextStyle(
+                                  fontSize: 14.w, color: Colors.black),
+                            ),
+                          ],
                         ),
-                        Image.asset(
-                          'assets/icon/gallery.png',
-                          width: 32.w,
-                          height: 32.w,
-                          color: Theme.of(context).primaryColor,
+                      ),
+                      GestureWithScale(
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          final ImagePicker _picker = ImagePicker();
+                          final XFile photo = await _picker.pickImage(
+                            source: ImageSource.camera,
+                          );
+                          if (photo != null) {
+                            chatController.sendFileFromPath(photo.path);
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                            Image.asset(
+                              'assets/icon/camera.png',
+                              width: 32.w,
+                              height: 32.w,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            Text(
+                              '拍照',
+                              style: TextStyle(
+                                  fontSize: 14.w, color: Colors.black),
+                            ),
+                          ],
                         ),
-                        Text(
-                          '上传图片',
-                          style: TextStyle(fontSize: 14.w, color: Colors.black),
+                      ),
+                      GestureWithScale(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          chatController.sendFileForAndroid(
+                            useSystemPicker: false,
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 24.w,
+                            ),
+                            Image.asset(
+                              'assets/icon/upload.png',
+                              width: 32.w,
+                              height: 32.w,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            Text(
+                              '上传文件',
+                              style: TextStyle(
+                                  fontSize: 14.w, color: Colors.black),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  GestureWithScale(
-                    onTap: () async {
-                      Navigator.of(context).pop();
-                      final ImagePicker _picker = ImagePicker();
-                      final XFile photo = await _picker.pickImage(
-                        source: ImageSource.camera,
-                      );
-                      if (photo != null) {
-                        chatController.sendFileFromPath(photo.path);
-                      }
-                    },
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 8.w,
-                        ),
-                        Image.asset(
-                          'assets/icon/camera.png',
-                          width: 32.w,
-                          height: 32.w,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        Text(
-                          '拍照',
-                          style: TextStyle(fontSize: 14.w, color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureWithScale(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      chatController.sendFileForAndroid(
-                        useSystemPicker: false,
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 24.w,
-                        ),
-                        Image.asset(
-                          'assets/icon/upload.png',
-                          width: 32.w,
-                          height: 32.w,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        Text(
-                          '上传文件',
-                          style: TextStyle(fontSize: 14.w, color: Colors.black),
-                        ),
-                      ],
+                  SizedBox(height: 24.w),
+                  Container(
+                    color: Colors.white,
+                    height: 54.w,
+                    child: GestureWithScale(
+                      onTap: () async {
+                        await controller.reverse();
+                        Navigator.of(context).pop();
+                      },
+                      child: AnimatedBuilder(
+                        animation: controller,
+                        builder: (context, child) {
+                          return Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()
+                              ..rotateZ(controller.value * pi / 4),
+                            child: child,
+                          );
+                        },
+                        child: center,
+                      ),
                     ),
                   ),
                 ],
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              height: 66.w,
-              child: GestureWithScale(
-                onTap: () async {
-                  await controller.reverse();
-                  Navigator.of(context).pop();
-                },
-                child: AnimatedBuilder(
-                  animation: controller,
-                  builder: (context, child) {
-                    return Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()
-                        ..rotateZ(controller.value * pi / 4),
-                      child: child,
-                    );
-                  },
-                  child: center,
-                ),
               ),
             ),
           ],

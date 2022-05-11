@@ -27,20 +27,16 @@ packages:
   app_manager:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b5af0899a4142c162450550daef9855248cc526a
-      url: "https://github.com/nightmare-space/app_manager"
-    source: git
+      path: "../app_manager"
+      relative: true
+    source: path
     version: "1.0.0+1"
   applib_util:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: applib_util
-      ref: HEAD
-      resolved-ref: b2a0e42e465d80c68353a927902ab2b0105a8216
-      url: "https://github.com/nightmare-space/applib"
-    source: git
+      path: "../applib/applib_util"
+      relative: true
+    source: path
     version: "0.0.1"
   archive:
     dependency: "direct main"
@@ -190,13 +186,11 @@ packages:
     source: hosted
     version: "6.1.2"
   file_manager_view:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: a693aedcdeaeab87adece24b09c93b1338b4f72e
-      url: "https://github.com/nightmare-space/file_manager_view.git"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/file_manager_view"
+      relative: false
+    source: path
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
@@ -229,11 +223,9 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e9271b8b199cc484a078f1dfdd0b89e3dc03cdcf
-      url: "https://github.com/nightmare-space/file_selector_meng"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/file_selector_meng"
+      relative: false
+    source: path
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -330,11 +322,9 @@ packages:
   global_repository:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b46407d0627768b9883265536de87826beb389e6
-      url: "https://github.com/nightmare-space/global_repository"
-    source: git
+      path: "../global_repository"
+      relative: true
+    source: path
     version: "0.0.1"
   hive:
     dependency: transitive

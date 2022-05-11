@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/routes/page_route_builder.dart';
 
 import 'send_file_bottom_sheet.dart';
@@ -23,13 +25,13 @@ class _NavState extends State<Nav> {
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(14.w),
             color: const Color(0xff6A6DED),
           ),
           transformAlignment: Alignment.center,
           transform: Matrix4.identity()..rotateZ(pi / 4),
-          width: 42.w,
-          height: 42.w,
+          width: 36.w,
+          height: 36.w,
         ),
         Center(
           child: Icon(
@@ -40,136 +42,146 @@ class _NavState extends State<Nav> {
         ),
       ],
     );
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        BottomTab(
-          onChange: (value) {
-            value = min(value, 4);
-            widget.onTap?.call(value);
-            setState(() {});
-          },
-          children: [
-            Builder(builder: (context) {
-              bool enable = widget.value == 0;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    enable
-                        ? 'assets/icon/homev2_sel.png'
-                        : 'assets/icon/homev2.png',
-                    width: 20.w,
-                    height: 20.w,
-                    color: enable ? Theme.of(context).primaryColor : null,
-                    gaplessPlayback: false,
-                  ),
-                  SizedBox(height: 2.w),
-                  Text(
-                    '首页',
-                    style: TextStyle(
-                      fontSize: 12.w,
-                      color: enable
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
+    return SizedBox(
+      height: 56.w,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          BottomTab(
+            onChange: (value) {
+              value = min(value, 4);
+              widget.onTap?.call(value);
+              setState(() {});
+            },
+            children: [
+              Builder(builder: (context) {
+                bool enable = widget.value == 0;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      enable
+                          ? 'assets/icon/homev2_sel.png'
+                          : 'assets/icon/homev2.png',
+                      width: 24.w,
+                      height: 24.w,
+                      color: enable ? Theme.of(context).primaryColor : null,
+                      package: Config.package,
+                      gaplessPlayback: false,
                     ),
-                  ),
-                ],
-              );
-            }),
-            Builder(builder: (context) {
-              bool enable = widget.value == 1;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/icon/remote_file.png',
-                    width: 20.w,
-                    height: 20.w,
-                    color: enable ? Theme.of(context).primaryColor : null,
-                    gaplessPlayback: false,
-                  ),
-                  SizedBox(height: 2.w),
-                  Text(
-                    '远程',
-                    style: TextStyle(
-                      fontSize: 12.w,
-                      color: enable
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
+                    // SizedBox(height: 2.w),
+                    // Text(
+                    //   '首页',
+                    //   style: TextStyle(
+                    //     fontSize: 12.w,
+                    //     color: enable
+                    //         ? Theme.of(context).primaryColor
+                    //         : Theme.of(context).colorScheme.onBackground,
+                    //   ),
+                    // ),
+                  ],
+                );
+              }),
+              if (GetPlatform.isWeb) const SizedBox(),
+              Builder(builder: (context) {
+                bool enable = widget.value == 1;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/icon/remote_file.png',
+                      width: 24.w,
+                      height: 24.w,
+                      color: enable ? Theme.of(context).primaryColor : null,
+                      gaplessPlayback: false,
+                      package: Config.package,
                     ),
-                  ),
-                ],
-              );
-            }),
-            SizedBox(),
-            Builder(builder: (context) {
-              bool enable = widget.value == 3;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    enable
-                        ? 'assets/icon/file.png'
-                        : 'assets/icon/file.png',
-                    width: 20.w,
-                    height: 20.w,
-                    gaplessPlayback: false,
-                    color: enable ? Theme.of(context).primaryColor : null,
-                  ),
-                  SizedBox(height: 2.w),
-                  Text(
-                    '文件',
-                    style: TextStyle(
-                      fontSize: 12.w,
-                      color: enable
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                ],
-              );
-            }),
-            Builder(builder: (context) {
-              bool enable = widget.value == 4;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    enable
-                        ? 'assets/icon/person.png'
-                        : 'assets/icon/person.png',
-                    width: 20.w,
-                    height: 20.w,
-                    gaplessPlayback: false,
-                    color: enable ? Theme.of(context).primaryColor : null,
-                  ),
-                  SizedBox(height: 2.w),
-                  Text(
-                    '我的',
-                    style: TextStyle(
-                      fontSize: 12.w,
-                      color: enable
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                ],
-              );
-            }),
-          ],
-        ),
-        GestureWithScale(
-          onTap: () {
-            Navigator.of(context).push(CustomRoute(
-              SendFilePage(
-                child: center,
-              ),
-            ));
-          },
-          child: center,
-        ),
-      ],
+                    // SizedBox(height: 2.w),
+                    // Text(
+                    //   '远程',
+                    //   style: TextStyle(
+                    //     fontSize: 12.w,
+                    //     color: enable
+                    //         ? Theme.of(context).primaryColor
+                    //         : Theme.of(context).colorScheme.onBackground,
+                    //   ),
+                    // ),
+                  ],
+                );
+              }),
+              if (!GetPlatform.isWeb) const SizedBox(),
+              if (!GetPlatform.isWeb)
+                Builder(builder: (context) {
+                  bool enable = widget.value == 3;
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        enable
+                            ? 'assets/icon/file.png'
+                            : 'assets/icon/file.png',
+                        width: 24.w,
+                        height: 24.w,
+                        gaplessPlayback: false,
+                        color: enable ? Theme.of(context).primaryColor : null,
+                        package: Config.package,
+                      ),
+                      // SizedBox(height: 2.w),
+                      // Text(
+                      //   '文件',
+                      //   style: TextStyle(
+                      //     fontSize: 12.w,
+                      //     color: enable
+                      //         ? Theme.of(context).primaryColor
+                      //         : Theme.of(context).colorScheme.onBackground,
+                      //   ),
+                      // ),
+                    ],
+                  );
+                }),
+              if (!GetPlatform.isWeb)
+                Builder(builder: (context) {
+                  bool enable = widget.value == 4;
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        enable
+                            ? 'assets/icon/person.png'
+                            : 'assets/icon/person.png',
+                        width: 24.w,
+                        height: 24.w,
+                        gaplessPlayback: false,
+                        color: enable ? Theme.of(context).primaryColor : null,
+                        package: Config.package,
+                      ),
+                      // SizedBox(height: 2.w),
+                      // Text(
+                      //   '我的',
+                      //   style: TextStyle(
+                      //     fontSize: 12.w,
+                      //     color: enable
+                      //         ? Theme.of(context).primaryColor
+                      //         : Theme.of(context).colorScheme.onBackground,
+                      //   ),
+                      // ),
+                    ],
+                  );
+                }),
+            ],
+          ),
+          GestureWithScale(
+            onTap: () {
+              Navigator.of(context).push(CustomRoute(
+                SendFilePage(
+                  child: center,
+                ),
+              ));
+            },
+            child: center,
+          ),
+        ],
+      ),
     );
   }
 }

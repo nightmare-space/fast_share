@@ -56,7 +56,9 @@ class _FilePageState extends State<FilePage> {
             Stack(
               alignment: Alignment.centerRight,
               children: [
-                const Header(),
+                const Header(
+                  showAddress: false,
+                ),
                 Padding(
                   padding: EdgeInsets.only(right: 48.w),
                   child: NiIconButton(

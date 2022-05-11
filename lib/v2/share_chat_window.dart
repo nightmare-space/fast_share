@@ -244,6 +244,19 @@ class _ShareChatV2State extends State<ShareChatV2>
                     fontSize: 16.w,
                   ),
             ),
+            SizedBox(width: 4.w),
+            ValueListenableBuilder<bool>(
+              valueListenable: controller.connectState,
+              builder: (_, value, __) {
+                return Container(
+                  width: 10.w,
+                  height: 10.w,
+                  decoration: BoxDecoration(
+                      color: value ? Colors.green : Colors.red,
+                      borderRadius: BorderRadius.circular(16.w)),
+                );
+              },
+            ),
           ],
         ),
         // child: AppBar(

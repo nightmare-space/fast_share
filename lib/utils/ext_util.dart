@@ -50,7 +50,7 @@ extension Ext on String {
       return '视频';
     } else if (isImg) {
       return '图片';
-    } else if (isPdf) {
+    } else if (isPdf || isDoc) {
       return '文档';
     } else if (isZip) {
       return '压缩包';

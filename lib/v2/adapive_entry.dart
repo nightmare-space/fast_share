@@ -36,6 +36,8 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
     super.initState();
     if (!GetPlatform.isWeb) {
       chatController.createChatRoom();
+    } else {
+      chatController.initChat(widget.address);
     }
   }
 
@@ -129,27 +131,48 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
       );
     }
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: [
-                const HomePage(),
-                const RemotePage(),
-                const SizedBox(),
-                const FilePage(),
-                const SettingPage(),
-              ][page],
+      body: Column(
+        children: [
+          Expanded(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: [
+                      if (GetPlatform.isWeb)
+                        Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                            child: ShareChatV2(
+                              chatServerAddress: widget.address ?? address,
+                            ),
+                          ),
+                        )
+                      else
+                        const HomePage(),
+                      if (GetPlatform.isWeb) const SizedBox(),
+                      const RemotePage(),
+                      const SizedBox(),
+                      const FilePage(),
+                      if (!GetPlatform.isWeb)
+                        const SettingPage()
+                      else
+                        const SizedBox(),
+                    ][page],
+                  ),
+                  Nav(
+                    value: page,
+                    onTap: (value) {
+                      page = value;
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
             ),
-            Nav(
-              value: page,
-              onTap: (value) {
-                page = value;
-                setState(() {});
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

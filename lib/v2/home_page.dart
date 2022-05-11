@@ -94,6 +94,10 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 12.w),
                 OnlineList(onJoin: widget.onJoinRoom),
                 SizedBox(height: 4.w),
+                chatRoom(context),
+                SizedBox(height: 10.w),
+                recentFile(context),
+                SizedBox(height: 10.w),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -151,116 +155,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 10.w),
-                onknownFile(context),
-                SizedBox(height: 10.w),
-                allDevice(context),
-                SizedBox(height: 10.w),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.all(12.w),
-                  child: GetBuilder<ChatController>(builder: (_) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '远程访问',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onBackground,
-                          ),
-                        ),
-                        SizedBox(height: 4.w),
-                        Container(
-                          color: const Color(0xffE0C4C4).withOpacity(0.2),
-                          height: 1,
-                        ),
-                        SizedBox(height: 4.w),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          height: 100.w,
-                          width: double.infinity,
-                          padding: EdgeInsets.all(8.w),
-                          child: ListView.builder(
-                            itemCount: chatController.addrs.length,
-                            itemBuilder: (context, index) {
-                              return SelectableText(
-                                'http://${chatController.addrs[index]}:12000/',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
-                ),
-                // SizedBox(height: 10.w),
-                // GetBuilder<DeviceController>(builder: (_) {
-                //   List<Widget> children = [];
-                //   DeviceController deviceController = Get.find();
-                //   for (Device device
-                //       in deviceController.connectDevice) {
-                //     children.add(
-                //       Container(
-                //         decoration: BoxDecoration(
-                //           color: Colors.white,
-                //           borderRadius: BorderRadius.circular(12),
-                //         ),
-                //         height: 126.w,
-                //         padding: EdgeInsets.all(10.w),
-                //         child: Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Text(
-                //               device.deviceName.toString(),
-                //               style: TextStyle(
-                //                 fontWeight: FontWeight.bold,
-                //                 color: Theme.of(context)
-                //                     .colorScheme
-                //                     .onBackground,
-                //               ),
-                //             ),
-                //             SizedBox(
-                //               height: 4.w,
-                //             ),
-                //             Container(
-                //               color: const Color(0xffE0C4C4)
-                //                   .withOpacity(0.2),
-                //               height: 1,
-                //             ),
-                //             SizedBox(
-                //               height: 4.w,
-                //             ),
-                //             Text(
-                //               '如果有新的设备链接，会在下方添加新的设备版块，在首页手指向上滑动，可以拖动。',
-                //               style: TextStyle(
-                //                 color: Theme.of(context)
-                //                     .colorScheme
-                //                     .onBackground,
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     );
-                //     children.add(SizedBox(
-                //       height: 8.w,
-                //     ));
-                //   }
-                //   return Column(
-                //     children: children,
-                //   );
-                // }),
               ],
             ),
           ),
@@ -269,7 +163,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  CardWrapper onknownFile(BuildContext context) {
+  CardWrapper recentFile(BuildContext context) {
     return CardWrapper(
       padding: EdgeInsets.all(12.w),
       child: Column(
@@ -349,7 +243,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget allDevice(BuildContext context) {
+  Widget chatRoom(BuildContext context) {
     return GestureWithScale(
       onTap: () {
         if (ResponsiveWrapper.of(context).isDesktop) {
@@ -389,7 +283,7 @@ class _HomePageState extends State<HomePage> {
                     color: Theme.of(context).backgroundColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  height: 100.w,
+                  height: 240.w,
                   width: double.infinity,
                   child: Builder(builder: (context) {
                     if (chatController.children.isEmpty) {

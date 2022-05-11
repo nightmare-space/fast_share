@@ -82,7 +82,7 @@ class Global {
 
   void getclipboard() {
     Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      SettingController settingController = Get.find();
+      SettingController settingController = Get.put(SettingController());
       if (!settingController.clipboardShare) {
         return;
       }
@@ -121,6 +121,7 @@ class Global {
       // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
       // 这个 if 就不会走到，如果是被其他的项目依赖，RuntimeEnvir.packageName就会是对应的主仓库的包名
       Config.flutterPackage = 'packages/speed_share/';
+      Config.package = 'speed_share';
     }
     deviceId = await UniqueUtil.getDevicesId();
     if (GetPlatform.isWeb || GetPlatform.isIOS) {
