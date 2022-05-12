@@ -6,6 +6,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/themes/color_extension.dart';
 
 import 'lib_color_schemes.g.dart';
+
 // 默认的light和dark的主题
 class DefaultThemeData {
   DefaultThemeData._();
@@ -119,8 +120,8 @@ class DefaultThemeData {
   static ThemeData light({
     Color primary,
   }) {
-    final lightThemeData = ThemeData.light();
-    ColorScheme colorScheme = lightColorScheme;
+    final lightThemeData = ThemeData.light().copyWith(useMaterial3: true);
+    ColorScheme colorScheme = lightColorScheme.copyWith();
     return lightThemeData.copyWith(
       primaryColor: colorScheme.primary,
       colorScheme: colorScheme,

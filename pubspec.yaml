@@ -21,7 +21,7 @@ dependencies:
   file_selector_linux: 0.0.2+1
   file_selector_macos: ^0.0.4+1
   file_selector_windows: ^0.0.2+1
-  get: ^4.1.4
+  get: ^4.1.3
   # 公共库
   global_repository:
     git: https://github.com/nightmare-space/global_repository
@@ -34,7 +34,7 @@ dependencies:
   qr_flutter: ^3.1.0
   open_file: ^3.2.1
   # 二维码扫描
-  qr_code_scanner: ^0.5.1
+  # qr_code_scanner: ^0.5.1
   # 文件部署
   shelf_static: ^1.0.0
   shelf_router: ^1.0.0
@@ -78,13 +78,17 @@ flutter:
     - assets/icon/
 
 dependency_overrides:
-  # app_manager:
-  #   path: ../app_manager
+  app_manager:
+    path: ../app_manager
   # applib_util:
   #   path: ../applib/applib_util
-  # global_repository:
-  #   path: ../global_repository
+  global_repository:
+    path: ../global_repository
   # file_manager_view:
   #   path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
   # file_selector_nightmare:
   #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+  qr_code_scanner:
+    git:
+      url: https://github.com/xeinebiu/qr_code_scanner.git
+      ref: fix_break_changes_platform
