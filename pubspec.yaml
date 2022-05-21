@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  window_manager: 0.1.6
+  window_manager: ^0.2.3
   animations: ^2.0.2
   desktop_drop: ^0.3.3
   dio_range_download: ^1.0.1

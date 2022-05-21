@@ -464,6 +464,7 @@ class ChatController extends GetxController {
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
     if (info is JoinMessage) {
+      // TODO(nightmare):每个文件就没必要再计算一次了!!!好像还是要计算
       if (info.deviceName != await UniqueUtil.getDevicesId()) {
         String address = await getCorrectUrlWithAddressAndPort(
           info.addrs,
