@@ -210,6 +210,7 @@ class DefaultThemeData {
           fontSize: 14.w,
           fontWeight: FontWeight.w500,
           color: colorScheme.onPrimary,
+          fontFamily: 'MiSans'
         ),
       ),
     );

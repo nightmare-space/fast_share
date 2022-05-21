@@ -119,7 +119,7 @@ class ChatController extends GetxController {
     }
     this.chatServerAddress = chatServerAddress;
 
-    socket = GetSocket((chatServerAddress ?? chatRoomUrl) + '/chat');
+    socket = GetSocket('${chatServerAddress ?? chatRoomUrl}/chat');
     children.clear();
     Completer conLock = Completer();
     socket.onOpen(() {

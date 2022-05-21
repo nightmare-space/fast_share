@@ -56,7 +56,7 @@ dependencies:
   mime_type: ^1.0.0
   # 网络请求
   dio: ^4.0.0
-  responsive_framework: ^0.1.7
+  responsive_framework: ^0.2.0
   # 局域网设备发现
   multicast:
     git: https://github.com/nightmare-space/multicast
@@ -69,21 +69,27 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.0
   
 flutter:
+  fonts:
+    - family: MiSans
+      fonts:
+        - asset: assets/fonts/MiSans-Medium.ttf
+        - asset: assets/fonts/MiSans-Bold.ttf
+          weight: 700
   uses-material-design: true
   assets:
     - assets/
     - assets/icon/
 
 dependency_overrides:
-  app_manager:
-    path: ../app_manager
+  # app_manager:
+  #   path: ../app_manager
   # applib_util:
   #   path: ../applib/applib_util
-  global_repository:
-    path: ../global_repository
+  # global_repository:
+  #   path: ../global_repository
   # file_manager_view:
   #   path: /Users/nightmare/Desktop/nightmare-space/file_manager_view
   # file_selector_nightmare:

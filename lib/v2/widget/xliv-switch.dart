@@ -35,7 +35,7 @@ class XlivSwitch extends StatefulWidget {
   final Color thumbColor;
 
   @override
-  _XlivSwitchState createState() => _XlivSwitchState();
+  State createState() => _XlivSwitchState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

@@ -28,7 +28,7 @@ extension Ext on String {
   }
 
   bool get isDoc {
-    return endsWith('.doc') ||
+    return toLowerCase().endsWith('.doc') ||
         endsWith('.docx') ||
         endsWith('.ppt') ||
         endsWith('.pptx') ||

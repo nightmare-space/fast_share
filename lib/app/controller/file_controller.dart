@@ -13,13 +13,14 @@ const picKey = '图片';
 const dirKey = '文件夹';
 const videoKey = '视频';
 const apkKey = '安装包';
+
 /// 用来管理文件的类，目前主要用来展示文件用
 /// 还有整理文件
 class FileController extends GetxController {
   FileController() {
     if (GetPlatform.isWindows || GetPlatform.isMacOS) {
-      prefix = FileSystemEntity.parentOf(Platform.resolvedExecutable) +
-          '/SpeedShare';
+      prefix =
+          '${FileSystemEntity.parentOf(Platform.resolvedExecutable)}/SpeedShare';
     }
   }
   List<FileSystemEntity> onknown = [];
@@ -51,7 +52,7 @@ class FileController extends GetxController {
 
   void checkIfNotExist() {
     for (var key in keys) {
-      Directory dir = Directory(prefix + '/' + key);
+      Directory dir = Directory('$prefix/$key');
       if (!dir.existsSync()) {
         dir.createSync(recursive: true);
       }
@@ -152,22 +153,20 @@ class FileController extends GetxController {
       String path = element.path;
       if (element is File) {
         if (path.isVideo) {
-          moveFileSafe(
-              element, prefix + '/$videoKey/' + basename(element.path));
+          moveFileSafe(element, '$prefix/$videoKey/${basename(element.path)}');
         } else if (path.isDoc) {
-          moveFileSafe(element, prefix + '/$docKey/' + basename(element.path));
+          moveFileSafe(element, '$prefix/$docKey/${basename(element.path)}');
         } else if (path.isAudio) {
-          moveFileSafe(
-              element, prefix + '/$audioKey/' + basename(element.path));
+          moveFileSafe(element, '$prefix/$audioKey/${basename(element.path)}');
         } else if (path.isApk) {
-          moveFileSafe(element, prefix + '/$apkKey/' + basename(element.path));
+          moveFileSafe(element, '$prefix/$apkKey/${basename(element.path)}');
         } else if (path.isImg) {
-          moveFileSafe(element, prefix + '/$picKey/' + basename(element.path));
+          moveFileSafe(element, '$prefix/$picKey/${basename(element.path)}');
         } else if (path.isZip) {
-          moveFileSafe(element, prefix + '/$zipKey/' + basename(element.path));
+          moveFileSafe(element, '$prefix/$zipKey/${basename(element.path)}');
         } else {
           moveFileSafe(
-              element, prefix + '/$onknownKey/' + basename(element.path));
+              element, '$prefix/$onknownKey/${basename(element.path)}');
         }
       }
     }
