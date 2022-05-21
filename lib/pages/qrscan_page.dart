@@ -9,7 +9,7 @@ class QrScan extends StatefulWidget {
   const QrScan({Key key}) : super(key: key);
 
   @override
-  _QrScanState createState() => _QrScanState();
+  State createState() => _QrScanState();
 }
 
 class _QrScanState extends State<QrScan> {

@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:get/get.dart';
-import 'package:open_file/open_file.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:speed_share/utils/file_util.dart';
 
-import 'preview_image.dart';
 
 Widget getIconByExt(String path) {
   Widget child;

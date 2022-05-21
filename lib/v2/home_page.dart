@@ -9,7 +9,6 @@ import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
-import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/pages/online_list.dart';
 import 'package:speed_share/v2/file_page.dart';
 import 'package:speed_share/v2/preview_image.dart';

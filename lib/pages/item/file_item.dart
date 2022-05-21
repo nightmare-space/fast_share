@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:open_file/open_file.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_range_download/dio_range_download.dart';
-import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
@@ -16,7 +15,7 @@ import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/path_util.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:speed_share/v2/icon.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class FileItem extends StatefulWidget {
   final MessageFileInfo info;
@@ -30,7 +29,7 @@ class FileItem extends StatefulWidget {
     this.roomUrl,
   }) : super(key: key);
   @override
-  _FileItemState createState() => _FileItemState();
+  State createState() => _FileItemState();
 }
 
 class _FileItemState extends State<FileItem> {
@@ -129,7 +128,8 @@ class _FileItemState extends State<FileItem> {
   String get url {
     String url;
     if (widget.sendByUser) {
-      url = 'http://127.0.0.1:${chatController.shelfBindPort}${widget.info.filePath}';
+      url =
+          'http://127.0.0.1:${chatController.shelfBindPort}${widget.info.filePath}';
     } else {
       url = widget.info.url + widget.info.filePath;
     }
@@ -177,15 +177,14 @@ class _FileItemState extends State<FileItem> {
                   onTap: () async {
                     if (GetPlatform.isWeb) {
                       Log.e('web download $url');
-                      await canLaunch(url)
-                          ? await launch('$url?download=true')
+                      await canLaunchUrlString(url)
+                          ? await launchUrlString('$url?download=true')
                           : throw 'Could not launch $url';
                       return;
                     }
                     if (GetPlatform.isDesktop) {
                       const confirmButtonText = 'Choose';
-                      final dir =
-                          await FileSelectorPlatform.instance.getDirectoryPath(
+                      final dir = await getDirectoryPath(
                         confirmButtonText: confirmButtonText,
                       );
                       if (dir == null) {
@@ -394,14 +393,14 @@ class _MenuState extends State<Menu> {
                       onTap: () {},
                       child: SizedBox(
                         height: 40.w,
-                        child: Center(child: Text('分享')),
+                        child: const Center(child: Text('分享')),
                       ),
                     ),
                     InkWell(
                       onTap: () {},
                       child: SizedBox(
                         height: 40.w,
-                        child: Center(child: Text('删除')),
+                        child: const Center(child: Text('删除')),
                       ),
                     ),
                   ],

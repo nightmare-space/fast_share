@@ -23,7 +23,7 @@ class ShareChatV2 extends StatefulWidget {
 
   final String chatServerAddress;
   @override
-  _ShareChatV2State createState() => _ShareChatV2State();
+  State createState() => _ShareChatV2State();
 }
 
 class _ShareChatV2State extends State<ShareChatV2>

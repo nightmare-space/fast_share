@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:logger_view/logger_view.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/pages/dialog/join_chat.dart';
-import 'package:speed_share/pages/item/file_item.dart';
-import 'package:speed_share/utils/scan_util.dart';
 
 import 'menu.dart';
-import 'setting_page.dart';
-import 'show_qr_page.dart';
 
 // 主页显示的最上面那个header
 class Header extends StatelessWidget {

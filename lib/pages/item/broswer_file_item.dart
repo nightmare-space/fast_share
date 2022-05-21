@@ -19,7 +19,7 @@ class BroswerFileItem extends StatefulWidget {
   final BroswerFileMessage info;
 
   @override
-  _BroswerFileItemState createState() => _BroswerFileItemState();
+  State createState() => _BroswerFileItemState();
 }
 
 class _BroswerFileItemState extends State<BroswerFileItem> {

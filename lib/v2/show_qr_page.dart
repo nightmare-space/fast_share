@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
 // 展示二维码的弹窗
 class ShowQRPage extends StatefulWidget {
   const ShowQRPage({Key key, this.port}) : super(key: key);
@@ -42,19 +42,13 @@ class _ShowQRPageState extends State<ShowQRPage> {
                   child: PageView.builder(
                     itemCount: address.length,
                     itemBuilder: (c, i) {
-                      Log.i('http://' +
-                          address[i] +
-                          ':' +
-                          widget.port.toString());
+                      Log.i('http://${address[i]}:${widget.port}');
                       return Column(
                         children: [
                           Container(
                             padding: EdgeInsets.all(10.w),
                             child: QrImage(
-                              data: 'http://' +
-                                  address[i] +
-                                  ':' +
-                                  widget.port.toString(),
+                              data: 'http://${address[i]}:${widget.port}',
                               version: QrVersions.auto,
                               size: 280.w,
                               foregroundColor:
@@ -62,10 +56,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
                             ),
                           ),
                           Text(
-                            'http://' +
-                                address[i] +
-                                ':' +
-                                widget.port.toString(),
+                            'http://${address[i]}:${widget.port}',
                           ),
                         ],
                       );

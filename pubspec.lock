@@ -190,7 +190,7 @@ packages:
     source: hosted
     version: "6.1.2"
   file_manager_view:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "."
       ref: HEAD
@@ -660,7 +660,7 @@ packages:
     source: git
     version: "0.0.1"
   shelf:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shelf
       url: "https://pub.flutter-io.cn"
@@ -695,7 +695,7 @@ packages:
     source: hosted
     version: "0.0.1"
   signale:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: signale
       url: "https://pub.flutter-io.cn"

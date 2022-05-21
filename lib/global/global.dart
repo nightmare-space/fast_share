@@ -91,10 +91,10 @@ class Global {
         localClipdata = clip.text;
         Log.i('ClipboardData ： ${clip.text}');
         stopSendBoardcast();
-        startSendBoardcast('clip' + clip.text);
+        startSendBoardcast('clip${clip.text}');
         Future.delayed(const Duration(seconds: 3), () {
           stopSendBoardcast();
-          boardcasdMessage.remove('clip' + clip.text);
+          boardcasdMessage.remove('clip${clip.text}');
           multicast.startSendBoardcast(boardcasdMessage);
         });
       }
@@ -150,11 +150,11 @@ class Global {
       final filename = file.name;
       if (file.isFile) {
         final data = file.content as List<int>;
-        File wfile = File(RuntimeEnvir.filesPath + '/' + filename);
+        File wfile = File('${RuntimeEnvir.filesPath}/$filename');
         await wfile.create(recursive: true);
         await wfile.writeAsBytes(data);
       } else {
-        await Directory(RuntimeEnvir.filesPath + '/' + filename).create(
+        await Directory('${RuntimeEnvir.filesPath}/$filename').create(
           recursive: true,
         );
       }

@@ -7,7 +7,7 @@ class SerieExample extends StatefulWidget {
   final String url;
 
   @override
-  _SerieExampleState createState() => _SerieExampleState();
+  State createState() => _SerieExampleState();
 }
 
 class _SerieExampleState extends State<SerieExample> {
@@ -25,7 +25,7 @@ class _SerieExampleState extends State<SerieExample> {
           child: widget.url.startsWith('http')
               ? BetterPlayer.network(
                   widget.url,
-                  betterPlayerConfiguration: BetterPlayerConfiguration(
+                  betterPlayerConfiguration: const BetterPlayerConfiguration(
                     // aspectRatio: 9 / 16,
                     fullScreenByDefault: false,
                     autoPlay: true,
@@ -34,7 +34,7 @@ class _SerieExampleState extends State<SerieExample> {
                 )
               : BetterPlayer.file(
                   widget.url,
-                  betterPlayerConfiguration: BetterPlayerConfiguration(
+                  betterPlayerConfiguration: const BetterPlayerConfiguration(
                     // aspectRatio: 9 / 16,
                     fullScreenByDefault: false,
                     autoPlay: true,
