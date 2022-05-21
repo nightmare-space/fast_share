@@ -31,11 +31,11 @@ Future<void> main() async {
   if (!GetPlatform.isWeb) {
     await initSetting();
   }
+  WidgetsFlutterBinding.ensureInitialized();
   Get.put(DeviceController());
   Get.put(SettingController());
   runApp(const SpeedShare());
   if (GetPlatform.isDesktop) {
-    WidgetsFlutterBinding.ensureInitialized();
     if (!GetPlatform.isWeb) {
       await windowManager.ensureInitialized();
     }

@@ -57,7 +57,7 @@ class _FileItemState extends State<FileItem> {
     String savePath = getSavePath(urlPath, dir);
     computeNetSpeed();
     Response res = await RangeDownload.downloadWithChunks(
-      urlPath + '?download=true', savePath,
+      '$urlPath?download=true', savePath,
       // isRangeDownload: false, //Support normal download
       maxChunk: 4,
       // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
@@ -118,7 +118,7 @@ class _FileItemState extends State<FileItem> {
 
   String getSavePath(String url, String dir) {
     String type = url.getType;
-    String savePath = dir + '/$type/' + basename(url);
+    String savePath = '$dir/$type/${basename(url)}';
     return getSafePath(savePath);
   }
 
@@ -129,8 +129,7 @@ class _FileItemState extends State<FileItem> {
   String get url {
     String url;
     if (widget.sendByUser) {
-      url = 'http://127.0.0.1:${chatController.shelfBindPort}' +
-          widget.info.filePath;
+      url = 'http://127.0.0.1:${chatController.shelfBindPort}${widget.info.filePath}';
     } else {
       url = widget.info.url + widget.info.filePath;
     }
@@ -179,7 +178,7 @@ class _FileItemState extends State<FileItem> {
                     if (GetPlatform.isWeb) {
                       Log.e('web download $url');
                       await canLaunch(url)
-                          ? await launch(url + '?download=true')
+                          ? await launch('$url?download=true')
                           : throw 'Could not launch $url';
                       return;
                     }
