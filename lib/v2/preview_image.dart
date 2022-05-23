@@ -17,34 +17,36 @@ class _PreviewImageState extends State<PreviewImage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Hero(
-            tag: widget.tag,
-            child: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: widget.path.startsWith('http')
-                  ? Image.network(widget.path)
-                  : Image.file(
-                      File(widget.path),
-                    ),
-            ),
-          ),
-          SafeArea(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                onPressed: () {
+      child: InteractiveViewer(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Hero(
+              tag: widget.tag,
+              child: GestureDetector(
+                onTap: () {
                   Get.back();
                 },
-                icon: const Icon(Icons.clear),
+                child: widget.path.startsWith('http')
+                    ? Image.network(widget.path)
+                    : Image.file(
+                        File(widget.path),
+                      ),
               ),
             ),
-          )
-        ],
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: const Icon(Icons.clear),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
