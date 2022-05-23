@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
+import 'package:speed_share/app/controller/download_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/pages/model/model.dart';
 import 'package:path/path.dart';
@@ -18,15 +19,16 @@ import 'package:speed_share/v2/icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class FileItem extends StatefulWidget {
+  /// 消息model
   final MessageFileInfo info;
+
+  /// 是否是本机发送的消息
   final bool sendByUser;
-  final String roomUrl;
 
   const FileItem({
     Key key,
     this.info,
     this.sendByUser,
-    this.roomUrl,
   }) : super(key: key);
   @override
   State createState() => _FileItemState();
@@ -35,68 +37,12 @@ class FileItem extends StatefulWidget {
 class _FileItemState extends State<FileItem> {
   ChatController chatController = Get.find();
   SettingController settingController = Get.find();
+  DownloadController downloadController = Get.find();
   MessageFileInfo info;
-  final Dio dio = Dio();
-  CancelToken cancelToken = CancelToken();
-  int count = 0;
-  double fileDownratio = 0.0;
-  // 网速
-  String speed = '0';
-  Timer timer;
 
   DateTime startTime;
   bool isStarted = false;
   // 执行下载文件
-  Future<void> downloadFile(String urlPath, String dir) async {
-    if (fileDownratio != 0.0) {
-      showToast('已经在下载中了哦');
-      return;
-    }
-
-    String savePath = getSavePath(urlPath, dir);
-    computeNetSpeed();
-    Response res = await RangeDownload.downloadWithChunks(
-      '$urlPath?download=true', savePath,
-      // isRangeDownload: false, //Support normal download
-      maxChunk: 4,
-      // dio: Dio(),//Optional parameters "dio".Convenient to customize request settings.
-      // cancelToken: cancelToken,
-      onReceiveProgress: (received, total) {
-        count = received;
-        fileDownratio = received / total;
-        setState(() {});
-        if (!isStarted) {
-          startTime = DateTime.now();
-          isStarted = true;
-        }
-      },
-    );
-    // await dio.download(
-    //   urlPath + '?download=true',
-    //   saveFile.path,
-    //   cancelToken: cancelToken,
-    //   onReceiveProgress: (count, total) {
-    //     this.count = count;
-    //     fileDownratio = count / total;
-    //     setState(() {});
-    //   },
-    // );
-    timer?.cancel();
-    setState(() {});
-  }
-
-  // 计算网速
-  Future<void> computeNetSpeed() async {
-    int tmpCount = 0;
-    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      int diff = count - tmpCount;
-      tmpCount = count;
-      // Log.e('diff -> $diff');
-      // 乘以2是因为半秒测的一次
-      speed = FileSizeUtils.getFileSize(diff * 2);
-      // Log.e('网速 -> $speed');
-    });
-  }
 
   @override
   void initState() {
@@ -104,25 +50,28 @@ class _FileItemState extends State<FileItem> {
     info = widget.info;
     // 开启自动下载，且是来自其他设备的消息
     if (canAutoDownload()) {
-      downloadFile(url, '/sdcard/SpeedShare');
+      downloadController.downloadFile(url, '/sdcard/SpeedShare');
     }
   }
 
-  @override
-  void dispose() {
-    cancelToken.cancel();
-    timer?.cancel();
-    super.dispose();
-  }
-
-  String getSavePath(String url, String dir) {
-    String type = url.getType;
-    String savePath = '$dir/$type/${basename(url)}';
-    return getSafePath(savePath);
-  }
-
   bool canAutoDownload() {
-    return settingController.enableAutoDownload && !widget.sendByUser;
+    if (downloadController.progress.containsKey(url) &&
+        downloadController.progress[url].progress != 0.0) {
+      return false;
+    }
+    if (!settingController.enableAutoDownload) return false;
+    String type = url.getType;
+    String savePath = '/sdcard/SpeedShare' '/$type/${basename(url)}';
+    File file = File(savePath);
+    if (!file.existsSync()) {
+      return true;
+    }
+    int len = file.lengthSync();
+    if (file.existsSync()) {
+      if (widget.info.fileSize != FileSizeUtils.getFileSize(len)) return true;
+      if (widget.info.fileSize == FileSizeUtils.getFileSize(len)) return false;
+    }
+    return true;
   }
 
   String get url {
@@ -139,7 +88,6 @@ class _FileItemState extends State<FileItem> {
   Offset offset;
   @override
   Widget build(BuildContext context) {
-    // Log.e('fileitem url -> $url');
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment:
@@ -191,13 +139,14 @@ class _FileItemState extends State<FileItem> {
                         return;
                       }
                       Log.e(' -> $url');
-                      downloadFile(url, dir);
+                      downloadController.downloadFile(url, dir);
                     } else {
                       Directory dataDir = Directory('/sdcard/SpeedShare');
                       if (!dataDir.existsSync()) {
                         dataDir.createSync();
                       }
-                      downloadFile(url, '/sdcard/SpeedShare');
+                      downloadController.downloadFile(
+                          url, '/sdcard/SpeedShare');
                     }
                   },
                   borderRadius: BorderRadius.circular(12),
@@ -231,6 +180,7 @@ class _FileItemState extends State<FileItem> {
   }
 
   Padding body(BuildContext context) {
+    DownloadInfo info = downloadController.getInfo(url);
     return Padding(
       padding: EdgeInsets.all(10.w),
       child: ConstrainedBox(
@@ -251,89 +201,99 @@ class _FileItemState extends State<FileItem> {
             }),
             // 展示下载进度条
             if (!widget.sendByUser && !GetPlatform.isWeb)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    height: 8.w,
-                  ),
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-                    child: LinearProgressIndicator(
-                      backgroundColor: Theme.of(context).colorScheme.surface3,
-                      valueColor: AlwaysStoppedAnimation(
-                        fileDownratio == 1.0
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).primaryColor.withOpacity(0.4),
-                      ),
-                      value: fileDownratio,
+              GetBuilder<DownloadController>(builder: (context) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 8.w,
                     ),
-                  ),
-                  SizedBox(
-                    height: 4.w,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Builder(builder: (_) {
-                        // timer.isActive说明正在下载，说明文件完整下载了，但是还没有合并
-                        if (fileDownratio == 1.0 && timer.isActive) {
-                          return Text(
-                            '合并文件中',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 12.w,
-                            ),
-                          );
-                        }
-                        if (fileDownratio == 1.0 && !timer.isActive) {
-                          return Icon(
-                            Icons.check,
-                            size: 16.w,
-                            color: Colors.green,
-                          );
-                        }
-                        return Text(
-                          '$speed/s',
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 12.w,
+                    ClipRRect(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(25.0)),
+                      child: Builder(builder: (context) {
+                        double pro = downloadController.getProgress(url);
+                        return LinearProgressIndicator(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface3,
+                          valueColor: AlwaysStoppedAnimation(
+                            pro == 1.0
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.4),
                           ),
+                          value: pro,
                         );
                       }),
-                      Row(
-                        children: [
-                          SizedBox(
-                            child: Text(
-                              FileSizeUtils.getFileSize(count),
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 12.w,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '/',
+                    ),
+                    SizedBox(
+                      height: 4.w,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Builder(builder: (_) {
+                          double pro = downloadController.getProgress(url);
+                          // timer.isActive说明正在下载，说明文件完整下载了，但是还没有合并
+                          // if (pro == 1.0 && timer.isActive) {
+                          //   return Text(
+                          //     '合并文件中',
+                          //     style: TextStyle(
+                          //       color: Colors.black54,
+                          //       fontSize: 12.w,
+                          //     ),
+                          //   );
+                          // }
+                          if (pro == 1.0) {
+                            return Icon(
+                              Icons.check,
+                              size: 16.w,
+                              color: Colors.green,
+                            );
+                          }
+                          return Text(
+                            '${info.speed}/s',
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 12.w,
                             ),
-                          ),
-                          SizedBox(
-                            child: Text(
-                              widget.info.fileSize,
+                          );
+                        }),
+                        Row(
+                          children: [
+                            SizedBox(
+                              child: Text(
+                                FileSizeUtils.getFileSize(info.count),
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 12.w,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '/',
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 12.w,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                            SizedBox(
+                              child: Text(
+                                widget.info.fileSize,
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 12.w,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }),
           ],
         ),
       ),
