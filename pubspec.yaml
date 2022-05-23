@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.0.0-dev+32
+version: 2.0.1-dev+33
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
