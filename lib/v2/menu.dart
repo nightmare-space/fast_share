@@ -151,15 +151,17 @@ class _HeaderMenuState extends State<HeaderMenu> {
                       InkWell(
                         onTap: () async {
                           Navigator.of(context).pop();
-                          Get.to(Responsive(
-                            builder: (context, screenType) {
-                              return const Material(
-                                child: SafeArea(
-                                  child: LoggerView(),
-                                ),
-                              );
-                            },
-                          ));
+                          Get.to(
+                            () => Responsive(
+                              builder: (context, screenType) {
+                                return const Material(
+                                  child: SafeArea(
+                                    child: LoggerView(),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
                         },
                         child: SizedBox(
                           height: 48.w,

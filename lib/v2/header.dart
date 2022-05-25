@@ -21,22 +21,6 @@ class Header extends StatelessWidget {
       children: [
         Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Image.network(
-                'http://nightmare.fun/YanTool/image/hong.jpg',
-                width: 30.w,
-                height: 30.w,
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Text(
-              '梦魇兽',
-              style: TextStyle(
-                fontSize: 16.w,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-            ),
             SizedBox(width: 4.w),
             if (!GetPlatform.isWeb)
               ValueListenableBuilder<bool>(
@@ -51,6 +35,34 @@ class Header extends StatelessWidget {
                   );
                 },
               ),
+            SizedBox(width: 4.w),
+            Text(
+              '当前房间：',
+              style: TextStyle(
+                fontSize: 16.w,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ),
+            GetBuilder<ChatController>(builder: (_) {
+              return SizedBox(
+                height: 32.w,
+                child: Material(
+                  borderRadius: BorderRadius.circular(8.w),
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6.w),
+                    child: Center(
+                      child: SelectableText(
+                        controller.chatServerAddress,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
           ],
         ),
         Expanded(
@@ -60,33 +72,6 @@ class Header extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(width: 16.w),
-                if (showAddress)
-                  Expanded(
-                    child: GetBuilder<ChatController>(builder: (context) {
-                      return SizedBox(
-                        height: 32.w,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(12.w),
-                          color: Colors.white,
-                          child: PageView.builder(
-                            itemCount: controller.addrs.length,
-                            itemBuilder: (context, index) {
-                              return Center(
-                                child: SelectableText(
-                                  'http://${controller.addrs[index]}:12000/',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
                 NiIconButton(
                   onTap: () {
                     Get.dialog(HeaderMenu(

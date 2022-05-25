@@ -34,13 +34,11 @@ class DeviceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Log.w('$this init');
   }
 
   @override
   void onReady() {
     super.onReady();
-    Log.w('$this onReady');
   }
 
   void onDeviceConnect(

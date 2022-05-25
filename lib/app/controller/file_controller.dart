@@ -46,7 +46,6 @@ class FileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Log.w('$this init');
     initFile();
   }
 
@@ -176,6 +175,5 @@ class FileController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    Log.w('$this onReady');
   }
 }

@@ -7,13 +7,15 @@ import 'package:speed_share/v2/video.dart';
 class FileUtil {
   static void openFile(String path) {
     if (path.isImg) {
-      Get.to(PreviewImage(
-        path: path,
-        tag: path,
-      ));
+      Get.to(
+        () => PreviewImage(
+          path: path,
+          tag: path,
+        ),
+      );
     } else if (path.isVideo) {
       Get.to(
-        SerieExample(
+        () => SerieExample(
           url: path,
         ),
       );
@@ -21,10 +23,11 @@ class FileUtil {
       OpenFile.open(path);
     }
   }
+
   // 获得windows的盘符列表
   // google查下
   // 尽量用ffi调用win32 api
-  static List<String> getWindowsDrive(){
+  static List<String> getWindowsDrive() {
     //TODO(ren)
   }
 }

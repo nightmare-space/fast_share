@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
+import 'package:signale/signale.dart';
+import 'package:speed_share/app/controller/chat_controller.dart';
 
 class DeviceEntity {
   DeviceEntity(this.unique, this.address, this.port);
@@ -26,9 +28,10 @@ class DeviceEntity {
   @override
   int get hashCode => address.hashCode;
 }
+
 // 管理UDP发现的设备
 class OnlineController extends GetxController {
-  final list = <DeviceEntity>[].obs;
+  final list = <DeviceEntity>[];
   final Debouncer _debouncer = Debouncer(
     delay: const Duration(
       seconds: 2,
@@ -65,5 +68,21 @@ class OnlineController extends GetxController {
     list.remove(devices);
     update();
     // Log.w('removeOnlineItem -> $list');
+  }
+  // TODO可能出问题，当前连接断开后，就没办法显示在线设备了
+  List<DeviceEntity> avallist() {
+    ChatController chatController = Get.find();
+    if(chatController.chatServerAddress == null){
+      return list;
+    }
+    List<DeviceEntity> tmp = [];
+    Uri uri = Uri.parse(chatController.chatServerAddress);
+    // Log.i(uri.host);
+    for (var element in list) {
+      if (!element.address.startsWith(uri.host)) {
+        tmp.add(element);
+      }
+    }
+    return tmp;
   }
 }
