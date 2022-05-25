@@ -6,7 +6,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "77a0e1b7150422a3a472fe88c3beb5bca6a71612"
+      resolved-ref: "4fcd79238d399bd790a7af16df1e4332871d14b7"
       url: "https://github.com/nightmare-space/adbutil"
     source: git
     version: "0.0.1"
@@ -23,7 +23,7 @@ packages:
       name: animations
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   app_manager:
     dependency: "direct main"
     description:
@@ -118,7 +118,7 @@ packages:
       name: cross_file
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.3"
+    version: "0.3.3+1"
   crypto:
     dependency: transitive
     description:
@@ -312,7 +312,7 @@ packages:
       name: get
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.6.3"
+    version: "4.6.5"
   get_server:
     dependency: "direct main"
     description:
