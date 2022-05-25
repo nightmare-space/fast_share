@@ -6,7 +6,6 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:speed_share/v2/home_page.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
 import 'header.dart';
@@ -63,7 +62,7 @@ class _RemotePageState extends State<RemotePage> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Header(),
+            child: const Header(),
           ),
           SizedBox(height: 10.w),
           Padding(

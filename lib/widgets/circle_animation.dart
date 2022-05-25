@@ -11,7 +11,7 @@ class WaterRipple extends StatefulWidget {
 
   final int count;
   @override
-  _WaterRippleState createState() => _WaterRippleState();
+  State createState() => _WaterRippleState();
 }
 
 class _WaterRippleState extends State<WaterRipple>
@@ -125,24 +125,24 @@ class WaterRipplePainter extends CustomPainter {
         // 越外面的圈越透明
         opacity = 0.5 - 0.1 * i;
       }
-      double _radius = radius;
+      double drawRadius = radius;
       if (i == 0) {
-        _radius = radius + addWidth * (i + 1) * progress;
+        drawRadius = radius + addWidth * (i + 1) * progress;
       }
       if (i > 0) {
         if (progress > 0.4) {
-          _radius = radius + addWidth * (i + 1) * progress;
+          drawRadius = radius + addWidth * (i + 1) * progress;
         } else {
-          _radius = radius + addWidth * (i + 1) * progress;
+          drawRadius = radius + addWidth * (i + 1) * progress;
           opacity = opacity * progress / 0.4;
         }
       }
-      final Color _color = color.withOpacity(opacity);
-      _paint.color = _color;
+      final Color drawColor = color.withOpacity(opacity);
+      _paint.color = drawColor;
       // print(_radius);
       canvas.drawCircle(
         Offset(size.width / 2, size.height / 2),
-        _radius,
+        drawRadius,
         _paint,
       );
     }

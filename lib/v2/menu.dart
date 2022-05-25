@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import 'package:file_manager_view/core/io/document/document.dart';
 import 'package:file_manager_view/core/io/interface/file_entity.dart';
-import 'package:file_manager_view/v2/dialog/rename.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -12,7 +10,6 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/pages/dialog/join_chat.dart';
 import 'package:speed_share/utils/scan_util.dart';
 import 'package:speed_share/v2/show_qr_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HeaderMenu extends StatefulWidget {
   const HeaderMenu({
@@ -154,15 +151,17 @@ class _HeaderMenuState extends State<HeaderMenu> {
                       InkWell(
                         onTap: () async {
                           Navigator.of(context).pop();
-                          Get.to(Responsive(
-                            builder: (context, screenType) {
-                              return const Material(
-                                child: SafeArea(
-                                  child: LoggerView(),
-                                ),
-                              );
-                            },
-                          ));
+                          Get.to(
+                            () => Responsive(
+                              builder: (context, screenType) {
+                                return const Material(
+                                  child: SafeArea(
+                                    child: LoggerView(),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
                         },
                         child: SizedBox(
                           height: 48.w,

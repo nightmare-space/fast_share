@@ -10,13 +10,13 @@ import 'qr_item.dart';
 Color getColor(int type) {
   switch (type) {
     case 0:
-      return Color(0xffED796A);
+      return const Color(0xffED796A);
       break;
     case 1:
-      return Color(0xff6A6DED);
+      return const Color(0xff6A6DED);
       break;
     case 2:
-      return Color(0xff317DEE);
+      return const Color(0xff317DEE);
       break;
     default:
       return Colors.indigo;

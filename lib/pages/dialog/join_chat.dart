@@ -9,7 +9,7 @@ class JoinChat extends StatefulWidget {
   const JoinChat({Key key}) : super(key: key);
 
   @override
-  _JoinChatState createState() => _JoinChatState();
+  State createState() => _JoinChatState();
 }
 
 class _JoinChatState extends State<JoinChat> {
@@ -97,10 +97,10 @@ class _JoinChatState extends State<JoinChat> {
     }
     String url = controller.text;
     if (!url.startsWith('http://')) {
-      url = 'http://' + url;
+      url = 'http://$url';
     }
     if (!url.endsWith(':${Config.chatPortRangeStart}')) {
-      url = url + ':${Config.chatPortRangeStart}';
+      url = '$url:${Config.chatPortRangeStart}';
     }
     Get.back();
     Get.toNamed(

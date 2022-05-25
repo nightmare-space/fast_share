@@ -9,7 +9,6 @@ import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
-import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/pages/online_list.dart';
 import 'package:speed_share/v2/file_page.dart';
 import 'package:speed_share/v2/preview_image.dart';
@@ -124,6 +123,7 @@ class _HomePageState extends State<HomePage> {
                           color: const Color(0xffE0C4C4).withOpacity(0.2),
                           height: 1,
                         ),
+                        SizedBox(height: 4.w),
                         GetBuilder<FileController>(builder: (context) {
                           File file = fileController.getRecentImage();
                           if (file == null) {
@@ -132,19 +132,25 @@ class _HomePageState extends State<HomePage> {
                           String unique = shortHash(() {});
                           return GestureWithScale(
                             onTap: () {
-                              Get.to(PreviewImage(
-                                path: file.path,
-                                tag: unique,
-                              ));
+                              Get.to(
+                                () => PreviewImage(
+                                  path: file.path,
+                                  tag: unique,
+                                ),
+                              );
                             },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
+                            child: Center(
                               child: Hero(
                                 tag: unique,
-                                child: Image.file(
-                                  file,
-                                  width: double.infinity,
-                                  height: 120.w,
+                                child: Material(
+                                  clipBehavior: Clip.antiAlias,
+                                  borderRadius: BorderRadius.circular(12.w),
+                                  child: Image.file(
+                                    file,
+                                    width: double.infinity,
+                                    height: 160.w,
+                                    fit: BoxFit.fitWidth,
+                                  ),
                                 ),
                               ),
                             ),
@@ -251,7 +257,7 @@ class _HomePageState extends State<HomePage> {
           return;
         }
         Get.put(ChatController());
-        Get.to(const ShareChatV2());
+        Get.to(() => const ShareChatV2());
       },
       child: Container(
         decoration: BoxDecoration(

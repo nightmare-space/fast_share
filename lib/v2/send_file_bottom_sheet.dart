@@ -94,9 +94,9 @@ class _SendFilePageState extends State<SendFilePage>
                       GestureDetector(
                         onTap: () async {
                           Navigator.of(context).pop();
-                          final ImagePicker _picker = ImagePicker();
+                          final ImagePicker picker = ImagePicker();
                           final List<XFile> images =
-                              await _picker.pickMultiImage();
+                              await picker.pickMultiImage();
                           if (images != null) {
                             for (var element in images) {
                               chatController.sendFileFromPath(element.path);
@@ -125,8 +125,8 @@ class _SendFilePageState extends State<SendFilePage>
                       GestureWithScale(
                         onTap: () async {
                           Navigator.of(context).pop();
-                          final ImagePicker _picker = ImagePicker();
-                          final XFile photo = await _picker.pickImage(
+                          final ImagePicker picker = ImagePicker();
+                          final XFile photo = await picker.pickImage(
                             source: ImageSource.camera,
                           );
                           if (photo != null) {

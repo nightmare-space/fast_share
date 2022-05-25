@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
@@ -20,7 +21,12 @@ Future<void> initSetting() async {
 
 Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
-    RuntimeEnvir.initEnvirWithPackageName(Config.packageName);
+    WidgetsFlutterBinding.ensureInitialized();
+    final dir = (await getApplicationSupportDirectory()).path;
+    RuntimeEnvir.initEnvirWithPackageName(
+      Config.packageName,
+      appSupportDirectory: dir,
+    );
     fm.Server.start();
   }
   Get.config(

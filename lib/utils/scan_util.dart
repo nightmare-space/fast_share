@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/pages/qrscan_page.dart';
+
 // 解析二维码
 class ScanUtil {
   static Future<void> parseScan() async {
     await PermissionUtil.requestCamera();
     final String cameraScanResult = await Get.to(
-      const QrScan(),
+      () => const QRScanPage(),
       preventDuplicates: false,
       fullscreenDialog: true,
     );
@@ -17,8 +19,7 @@ class ScanUtil {
     Log.v('cameraScanResult -> $cameraScanResult');
     final List<String> localAddress = await PlatformUtil.localAddress();
     Log.v(localAddress);
-    Get.toNamed(
-      '${Routes.chat}?chatServerAddress=$cameraScanResult',
-    );
+    ChatController chatController = Get.find();
+    chatController.initChat(cameraScanResult);
   }
 }

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/global/widget/pop_button.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/v2/header.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'widget/xliv-switch.dart';
 // 设置页面
@@ -36,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Header(),
+                  child: const Header(),
                 ),
                 // if (ResponsiveWrapper.of(context).isMobile)
                 //   SizedBox(
@@ -189,8 +187,8 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () async {
                     String url =
                         'https://github.com/nightmare-space/speed_share';
-                    await canLaunch(url)
-                        ? await launch(url)
+                    await canLaunchUrlString(url)
+                        ? await launchUrlString(url)
                         : throw 'Could not launch $url';
                   },
                   child: Row(
@@ -213,8 +211,8 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () async {
                     String url =
                         'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
-                    await canLaunch(url)
-                        ? await launch(url)
+                    await canLaunchUrlString(url)
+                        ? await launchUrlString(url)
                         : throw 'Could not launch $url';
                   },
                   child: Row(

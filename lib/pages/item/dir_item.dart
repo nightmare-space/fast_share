@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:speed_share/themes/theme.dart';
 import 'package:dio/dio.dart';
-import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' hide Response;
@@ -11,6 +10,7 @@ import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
 import 'package:speed_share/pages/model/dir_message.dart';
 import 'package:speed_share/themes/app_colors.dart';
+import 'package:file_selector/file_selector.dart';
 
 class DirMessageItem extends StatefulWidget {
   const DirMessageItem({
@@ -22,7 +22,7 @@ class DirMessageItem extends StatefulWidget {
   final MessageDirInfo info;
 
   @override
-  _DirMessageItemState createState() => _DirMessageItemState();
+  State createState() => _DirMessageItemState();
 }
 
 class _DirMessageItemState extends State<DirMessageItem> {
@@ -58,12 +58,11 @@ class _DirMessageItemState extends State<DirMessageItem> {
       // Log.e(relativePath);
       if (path.endsWith('/')) {
       } else {
-        String tmpSavePath =
-            savePath + '/' + widget.info.dirName + '/' + relativePath;
+        String tmpSavePath = '$savePath/${widget.info.dirName}/$relativePath';
         // print(savePath);
         // Log.e(urlPath + '$path' + '?download=true');
         await dio.download(
-          urlPath + path + '?download=true',
+          '$urlPath$path?download=true',
           tmpSavePath,
           cancelToken: cancelToken,
           onReceiveProgress: (count, total) {
@@ -217,7 +216,8 @@ class _DirMessageItemState extends State<DirMessageItem> {
                               ),
                               Builder(builder: (context) {
                                 return Text(
-                                  FileSizeUtils.getFileSize(widget.info.fullSize),
+                                  FileSizeUtils.getFileSize(
+                                      widget.info.fullSize),
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12.w,
@@ -250,8 +250,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     // }
                     if (GetPlatform.isDesktop) {
                       const confirmButtonText = 'Choose';
-                      final dir =
-                          await FileSelectorPlatform.instance.getDirectoryPath(
+                      final dir = await getDirectoryPath(
                         confirmButtonText: confirmButtonText,
                       );
                       if (dir == null) {

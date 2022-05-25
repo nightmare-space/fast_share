@@ -35,7 +35,7 @@ void handleTokenCheck(int port) {
 // 发起http get请求，用来校验网络是否互通
 // 如果不通，会返回null
 Future<String> getToken(String url) async {
-  Log.i('$url/check_token');
+  Log.i('访问 $url/check_token 以检测网络是否互通');
   Completer lock = Completer();
   CancelToken cancelToken = CancelToken();
   Response response;
@@ -57,7 +57,6 @@ Future<String> getToken(String url) async {
     if (!lock.isCompleted) {
       lock.complete(null);
     }
-    Log.w('$url无法访问');
   }
   return await lock.future;
 } // 得到正确的url

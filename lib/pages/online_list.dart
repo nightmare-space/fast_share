@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/online_controller.dart';
-import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/themes/app_colors.dart';
+
 // 主页顶部显示局域网文件的组件
 class OnlineList extends StatelessWidget {
   const OnlineList({
@@ -21,7 +21,7 @@ class OnlineList extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (ctl.list.isNotEmpty)
+            if (ctl.list.isNotEmpty && ctl.avallist().isNotEmpty)
               Padding(
                 padding: EdgeInsets.only(bottom: 4.w, left: 8.w),
                 child: const Text(
@@ -35,7 +35,7 @@ class OnlineList extends StatelessWidget {
             Builder(
               builder: (context) {
                 List<Widget> children = [];
-                for (DeviceEntity device in ctl.list) {
+                for (DeviceEntity device in ctl.avallist()) {
                   children.add(
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 4.w),
@@ -90,8 +90,10 @@ class OnlineList extends StatelessWidget {
                                         );
                                         return;
                                       }
-                                      ChatController chatController=Get.find();
-                                      chatController.initChat('http://${device.address}:${device.port}');
+                                      ChatController chatController =
+                                          Get.find();
+                                      chatController.initChat(
+                                          'http://${device.address}:${device.port}');
                                     },
                                     child: const Icon(Icons.check),
                                   ),
