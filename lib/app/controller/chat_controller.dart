@@ -99,10 +99,15 @@ class ChatController extends GetxController {
     // 保存本地的IP地址列表
     chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
     if (!GetPlatform.isWeb) {
-      addrs = await PlatformUtil.localAddress();
+      await refreshLocalAddress();
       update();
     }
     initChat(chatRoomUrl);
+  }
+
+  /// 刷新本地ip地址列表
+  Future<void> refreshLocalAddress() async {
+    addrs = await PlatformUtil.localAddress();
   }
 
   Future<void> initChat(
@@ -464,7 +469,7 @@ class ChatController extends GetxController {
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
     if (info is JoinMessage) {
-      // TODO(nightmare):每个文件就没必要再计算一次了!!!好像还是要计算
+      // 当连接设备不是本机的时候
       if (info.deviceName != await UniqueUtil.getDevicesId()) {
         String address = await getCorrectUrlWithAddressAndPort(
           info.addrs,
