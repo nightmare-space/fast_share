@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:speed_share/v2/header.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'header.dart';
 import 'widget/xliv-switch.dart';
 // 设置页面
 class SettingPage extends StatefulWidget {

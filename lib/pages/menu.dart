@@ -9,7 +9,8 @@ import 'package:logger_view/logger_view.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/pages/dialog/join_chat.dart';
 import 'package:speed_share/utils/scan_util.dart';
-import 'package:speed_share/v2/show_qr_page.dart';
+
+import 'show_qr_page.dart';
 
 class HeaderMenu extends StatefulWidget {
   const HeaderMenu({

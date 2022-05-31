@@ -1,7 +1,4 @@
-import 'dart:async';
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:dio_range_download/dio_range_download.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,13 +6,12 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/download_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
-import 'package:speed_share/pages/model/model.dart';
+import 'package:speed_share/model/model.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:speed_share/pages/icon.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:speed_share/utils/path_util.dart';
 import 'package:speed_share/utils/ext_util.dart';
-import 'package:speed_share/v2/icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class FileItem extends StatefulWidget {

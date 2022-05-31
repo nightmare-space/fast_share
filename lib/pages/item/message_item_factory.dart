@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/pages/item/text_item.dart';
-import 'package:speed_share/pages/model/model.dart';
+import 'package:speed_share/model/model.dart';
 import 'broswer_file_item.dart';
 import 'dir_item.dart';
 import 'file_item.dart';

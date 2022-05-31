@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:speed_share/routes/page_route_builder.dart';
+import 'package:speed_share/app/routes/page_route_builder.dart';
 
 import 'send_file_bottom_sheet.dart';
 
@@ -26,7 +26,7 @@ class _NavState extends State<Nav> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14.w),
-            color: const Color(0xff6A6DED),
+            color: Theme.of(context).primaryColor,
           ),
           transformAlignment: Alignment.center,
           transform: Matrix4.identity()..rotateZ(pi / 4),

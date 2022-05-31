@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:path_provider/path_provider.dart';
@@ -72,6 +73,13 @@ class SpeedShare extends StatelessWidget {
             getPages: SpeedPages.routes,
             defaultTransition: Transition.fadeIn,
             debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              // S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            // supportedLocales: S.delegate.supportedLocales,
             builder: (context, child) {
               final bool isDark =
                   Theme.of(context).brightness == Brightness.dark;

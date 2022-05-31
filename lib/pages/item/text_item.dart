@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/pages/model/model.dart';
+import 'package:speed_share/model/model.dart';
 
 class TextMessageItem extends StatelessWidget {
   final MessageTextInfo info;

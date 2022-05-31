@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/global/global.dart';
 
 import 'menu.dart';
 
@@ -39,6 +40,11 @@ class Header extends StatelessWidget {
                   },
                 ),
               SizedBox(width: 4.w),
+              if (Global().header != null)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  child: ClipOval(child: Global().header),
+                ),
               const HeaderSwiper(),
             ],
           ),

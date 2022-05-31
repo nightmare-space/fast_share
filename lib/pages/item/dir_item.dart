@@ -8,7 +8,7 @@ import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/assets.dart';
-import 'package:speed_share/pages/model/dir_message.dart';
+import 'package:speed_share/model/model.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:file_selector/file_selector.dart';
 

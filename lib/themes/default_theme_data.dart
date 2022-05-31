@@ -209,7 +209,7 @@ class DefaultThemeData {
         bodyText2: lightThemeData.textTheme.bodyText2.copyWith(
           fontSize: 14.w,
           fontWeight: FontWeight.w500,
-          color: colorScheme.onPrimary,
+          color: colorScheme.onBackground,
           fontFamily: 'MiSans'
         ),
       ),

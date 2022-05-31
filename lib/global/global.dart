@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:archive/archive.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -27,7 +28,9 @@ class Global {
   String remoteClipdata = '';
   String deviceId = '';
 
+  /// 是否已经初始化
   bool isInit = false;
+  Widget header;
 
   // /// 接收广播消息
   Future<void> _receiveUdpMessage(String message, String address) async {
@@ -61,18 +64,6 @@ class Global {
         ),
       );
     }
-    // if (_showDialog && !hasShowDialogId.contains(id)) {
-    //   // 需要将已经展示弹窗的id缓存，不然会一直弹窗
-    //   hasShowDialogId.add(id);
-    //   showDialog(
-    //     context: Get.context,
-    //     builder: (_) {
-    //       return JoinChatByUdp(
-    //         addr: address,
-    //       );
-    //     },
-    //   );
-    // }
   }
 
   Future<String> getLocalClip() async {

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:speed_share/pages/model/broswer_file_message.dart';
+import 'package:speed_share/model/model.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/utils/file_server.dart';
 import 'package:speed_share/themes/theme.dart';

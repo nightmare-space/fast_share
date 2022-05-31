@@ -9,12 +9,12 @@ import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
-import 'package:speed_share/pages/online_list.dart';
-import 'package:speed_share/v2/file_page.dart';
-import 'package:speed_share/v2/preview_image.dart';
+import 'package:speed_share/pages/online_list_header.dart';
 
+import 'file_page.dart';
 import 'header.dart';
 import 'icon.dart';
+import 'preview_image.dart';
 import 'share_chat_window.dart';
 
 class HomePage extends StatefulWidget {
@@ -126,8 +126,17 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(height: 4.w),
                         GetBuilder<FileController>(builder: (context) {
                           File file = fileController.getRecentImage();
+
                           if (file == null) {
-                            return const SizedBox();
+                            return Center(
+                              child: Text(
+                                '空',
+                                style: TextStyle(
+                                  fontSize: 16.w,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            );
                           }
                           String unique = shortHash(() {});
                           return GestureWithScale(

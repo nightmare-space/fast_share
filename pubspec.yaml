@@ -10,6 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
   window_manager: ^0.2.3
   animations: ^2.0.2
   desktop_drop: ^0.3.3
@@ -70,8 +74,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  
+
 flutter:
+  generate: true
   # fonts:
   #   - family: MiSans
   #     fonts:
@@ -96,3 +101,5 @@ dependency_overrides:
     path: ../file_manager_view
   # file_selector_nightmare:
   #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+flutter_intl:
+  enabled: true

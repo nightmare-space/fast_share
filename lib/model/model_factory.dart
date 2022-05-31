@@ -1,5 +1,3 @@
-import 'package:speed_share/pages/model/join_message.dart';
-
 import 'model.dart';
 
 class MessageInfoFactory {

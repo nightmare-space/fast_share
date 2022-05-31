@@ -9,7 +9,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
-import 'package:speed_share/global/widget/pop_button.dart';
+import 'package:speed_share/global/widgets/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:file_manager_view/file_manager_view.dart';
