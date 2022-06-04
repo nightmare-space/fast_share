@@ -8,11 +8,11 @@ import 'package:file_manager_view/file_manager_view.dart';
 import 'package:speed_share/global/constant.dart';
 
 import 'desktop_drawer.dart';
-import 'file_page.dart';
-import 'home_page.dart';
-import 'nav.dart';
+import 'file/file_page.dart';
+import 'home/home_page.dart';
+import 'home/nav.dart';
 import 'remote_page.dart';
-import 'setting_page.dart';
+import 'setting/setting_page.dart';
 import 'share_chat_window.dart';
 
 // 自动响应布局

@@ -9,10 +9,11 @@ import 'package:global_repository/global_repository.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/widgets/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:file_manager_view/file_manager_view.dart';
+import 'package:file_manager_view/file_manager_view.dart' as fm;
 
 // 聊天窗口
 class ShareChatV2 extends StatefulWidget {
@@ -402,7 +403,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          '${Config.flutterPackage}assets/icon/dir.svg',
+                          '${fm.Config.packagePrefix}assets/icon/dir.svg',
                           width: 36.w,
                           height: 36.w,
                           color: Theme.of(context).primaryColor,
@@ -668,6 +669,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                 'assets/icon/all.png',
                 width: 24.w,
                 height: 24.w,
+                package: Config.package,
               ),
               onChange: (value) {
                 index = value;
@@ -692,6 +694,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                         getIcon(deviceController.connectDevice[i].deviceType),
                         width: 32.w,
                         height: 32.w,
+                        package: Config.package,
                       ),
                       onChange: (value) {
                         index = value;

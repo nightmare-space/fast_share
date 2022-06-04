@@ -1,13 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
-import 'package:signale/signale.dart';
 import 'package:settings/settings.dart';
+
+Map<String, Locale> languageMap = {
+  "English": const Locale('en', ''),
+  "中文": const Locale('zh', 'CN'),
+};
+
 // 管理设置的controller
 class SettingController extends GetxController {
   SettingController() {
     if (!GetPlatform.isWeb) {
       initConfig();
     }
+    currentLocale = languageMap[currentLocaleKey];
   }
   // 开启自动下载
   bool enableAutoDownload = false;
@@ -17,6 +24,15 @@ class SettingController extends GetxController {
   bool vibrate = true;
   // 文件储存路径
   String savePath = '/sdcard/SpeedShare';
+
+  Locale currentLocale;
+  String currentLocaleKey = '中文';
+
+  void switchLanguage(String key) {
+    currentLocaleKey = key;
+    currentLocale = languageMap[key];
+    update();
+  }
 
   // 初始化配置
   void initConfig() {
@@ -52,7 +68,6 @@ class SettingController extends GetxController {
     'enableAutoDownload'.set = enableAutoDownload;
     update();
   }
-
 
   void changeSavepath(String path) {
     savePath = path;

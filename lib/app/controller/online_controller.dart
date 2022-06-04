@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
-import 'package:signale/signale.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 
 class DeviceEntity {

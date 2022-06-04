@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'header.dart';
-import 'widget/xliv-switch.dart';
+import '../widget/header.dart';
+import '../widget/xliv-switch.dart';
+import 'dialog/select_language.dart';
+
 // 设置页面
 class SettingPage extends StatefulWidget {
   const SettingPage({Key key}) : super(key: key);
@@ -24,6 +27,7 @@ class _SettingPageState extends State<SettingPage> {
       color: Theme.of(context).primaryColor,
       fontSize: 16.w,
     );
+    final S s = S.of(context);
     return Scaffold(
       body: SafeArea(
         left: false,
@@ -36,29 +40,11 @@ class _SettingPageState extends State<SettingPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: const Header(),
                 ),
-                // if (ResponsiveWrapper.of(context).isMobile)
-                //   SizedBox(
-                //     height: 40.w,
-                //     child: Row(
-                //       children: [
-                //         ResponsiveWrapper.of(context).isMobile
-                //             ? const PopButton()
-                //             : SizedBox(width: 12.w),
-                //         Text(
-                //           '设置',
-                //           style: Theme.of(context).textTheme.bodyText2.copyWith(
-                //                 fontWeight: bold,
-                //                 fontSize: 18.w,
-                //               ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
-                    '常规',
+                    s.common,
                     style: title,
                   ),
                 ),
@@ -68,7 +54,7 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '下载路径',
+                        s.downlaodPath,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),
@@ -89,13 +75,41 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () {
+                    Get.dialog(SelectLang());
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        s.lang,
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      Text(
+                        _.currentLocale.toLanguageTag(),
+                        style: TextStyle(
+                          fontSize: 16.w,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  onTap: () {
                     controller.enableAutoChange(!controller.enableAutoDownload);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '自动下载',
+                        s.autoDownload,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),
@@ -107,6 +121,7 @@ class _SettingPageState extends State<SettingPage> {
                     ],
                   ),
                 ),
+
                 SettingItem(
                   onTap: () {
                     controller.clipChange(!controller.clipboardShare);
@@ -115,7 +130,7 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '剪切板共享',
+                        s.clipboardshare,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),
@@ -135,7 +150,7 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '收到消息时振动提醒',
+                        s.messageNote,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),
@@ -154,7 +169,7 @@ class _SettingPageState extends State<SettingPage> {
                   padding:
                       EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
-                    '关于速享',
+                    s.aboutSpeedShare,
                     style: title,
                   ),
                 ),
@@ -163,7 +178,7 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '当前版本',
+                        s.currenVersion,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),
@@ -195,7 +210,7 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '开源地址',
+                        s.openSource,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),
@@ -223,7 +238,7 @@ class _SettingPageState extends State<SettingPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '其他版本下载',
+                            s.otherVersion,
                             style: TextStyle(
                               fontSize: 18.w,
                             ),
@@ -254,7 +269,7 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '开发者',
+                        s.developer,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),
@@ -279,7 +294,7 @@ class _SettingPageState extends State<SettingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'UI设计师',
+                        s.ui,
                         style: TextStyle(
                           fontSize: 18.w,
                         ),

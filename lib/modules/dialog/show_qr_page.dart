@@ -30,7 +30,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            height: 340.w,
+            height: 360.w,
             width: 300.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.w),
@@ -55,7 +55,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
                                   Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
-                          Text(
+                          SelectableText(
                             'http://${address[i]}:${widget.port}',
                           ),
                         ],

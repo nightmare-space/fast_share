@@ -12,9 +12,10 @@ import 'package:path/path.dart' as path;
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:speed_share/generated/l10n.dart';
 
-import 'header.dart';
-import 'icon.dart';
+import '../widget/header.dart';
+import '../widget/icon.dart';
 
 class NiIconButton extends StatelessWidget {
   const NiIconButton({Key key, this.child, this.onTap}) : super(key: key);
@@ -60,7 +61,7 @@ class _FilePageState extends State<FilePage> {
                   showAddress: false,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 48.w),
+                  padding: EdgeInsets.only(right: 96.w),
                   child: NiIconButton(
                     onTap: () {
                       pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;
@@ -217,7 +218,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title('视频'),
+          title(S.of(context).video),
           SizedBox(
             height: 4.w,
           ),
@@ -294,7 +295,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title('音乐'),
+          title(S.of(context).music),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -357,7 +358,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title('文件夹'),
+          title(S.of(context).directory),
           SizedBox(
             height: 4.w,
           ),
@@ -440,7 +441,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          title('图片'),
+          title(S.of(context).image),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -512,7 +513,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          title('安装包'),
+          title(S.of(context).apk),
           SizedBox(
             height: 4.w,
           ),
@@ -608,7 +609,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title('文档'),
+          title(S.of(context).doc),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -683,7 +684,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title('压缩包'),
+          title(S.of(context).zip),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -771,7 +772,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title('未知格式'),
+          title(S.of(context).unknownFile),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),

@@ -6,7 +6,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/app/routes/page_route_builder.dart';
 
-import 'send_file_bottom_sheet.dart';
+import '../send_file_bottom_sheet.dart';
 
 class Nav extends StatefulWidget {
   const Nav({Key key, this.value, this.onTap}) : super(key: key);

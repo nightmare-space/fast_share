@@ -2,15 +2,15 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 // 预览视频的组件
-class SerieExample extends StatefulWidget {
-  const SerieExample({Key key, this.url}) : super(key: key);
+class VideoPreview extends StatefulWidget {
+  const VideoPreview({Key key, this.url}) : super(key: key);
   final String url;
 
   @override
-  State createState() => _SerieExampleState();
+  State createState() => _VideoPreviewState();
 }
 
-class _SerieExampleState extends State<SerieExample> {
+class _VideoPreviewState extends State<VideoPreview> {
   @override
   void initState() {
     super.initState();

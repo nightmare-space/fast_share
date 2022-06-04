@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:logger_view/logger_view.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/pages/dialog/join_chat.dart';
 import 'package:speed_share/utils/scan_util.dart';
 
-import 'show_qr_page.dart';
+import '../dialog/join_chat.dart';
+
 
 class HeaderMenu extends StatefulWidget {
   const HeaderMenu({
@@ -107,38 +107,6 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                   SizedBox(width: 12.w),
                                   const Text(
                                     '扫码',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          Navigator.of(context).pop();
-                          Get.dialog(ShowQRPage(
-                            port: controller.chatBindPort,
-                          ));
-                        },
-                        child: SizedBox(
-                          height: 48.w,
-                          child: Align(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12.w),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Image.asset(
-                                    'assets/icon/qr.png',
-                                    width: 20.w,
-                                  ),
-                                  SizedBox(width: 12.w),
-                                  const Text(
-                                    '二维码',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),

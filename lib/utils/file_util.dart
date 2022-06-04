@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
-import 'package:speed_share/pages/preview_image.dart';
-import 'package:speed_share/pages/video.dart';
+import 'package:speed_share/modules/preview/image_preview.dart';
+import 'package:speed_share/modules/preview/video_preview.dart';
 import 'package:speed_share/utils/ext_util.dart';
 
 class FileUtil {
@@ -15,7 +15,7 @@ class FileUtil {
       );
     } else if (path.isVideo) {
       Get.to(
-        () => SerieExample(
+        () => VideoPreview(
           url: path,
         ),
       );

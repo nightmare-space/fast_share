@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/config/config.dart';
 
 // 主页点击中间的按钮，打开的页面
 class SendFilePage extends StatefulWidget {
@@ -112,6 +113,7 @@ class _SendFilePageState extends State<SendFilePage>
                               'assets/icon/gallery.png',
                               width: 32.w,
                               height: 32.w,
+                              package: Config.package,
                               color: Theme.of(context).primaryColor,
                             ),
                             Text(
@@ -142,6 +144,7 @@ class _SendFilePageState extends State<SendFilePage>
                               'assets/icon/camera.png',
                               width: 32.w,
                               height: 32.w,
+                              package: Config.package,
                               color: Theme.of(context).primaryColor,
                             ),
                             Text(
@@ -168,6 +171,7 @@ class _SendFilePageState extends State<SendFilePage>
                               'assets/icon/upload.png',
                               width: 32.w,
                               height: 32.w,
+                              package: Config.package,
                               color: Theme.of(context).primaryColor,
                             ),
                             Text(

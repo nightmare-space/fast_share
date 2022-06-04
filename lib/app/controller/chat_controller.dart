@@ -17,7 +17,7 @@ import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/model/model_factory.dart';
-import 'package:speed_share/pages/item/message_item_factory.dart';
+import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/file_server.dart';
 import 'package:file_selector_nightmare/file_selector_nightmare.dart';
@@ -38,7 +38,7 @@ int get type {
   return 3;
 }
 
-class ChatController extends GetxController {
+class ChatController extends GetxController with WidgetsBindingObserver {
   ChatController() {
     controller.addListener(() {
       // 这个监听主要是为了改变发送按钮为+号按钮
@@ -49,6 +49,7 @@ class ChatController extends GetxController {
       }
       update();
     });
+    WidgetsBinding.instance.addObserver(this);
   }
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
@@ -124,6 +125,7 @@ class ChatController extends GetxController {
     this.chatServerAddress = chatServerAddress;
 
     socket = GetSocket('${chatServerAddress ?? chatRoomUrl}/chat');
+    // 清除消息列表
     children.clear();
     Completer conLock = Completer();
     socket.onOpen(() {
@@ -186,13 +188,13 @@ class ChatController extends GetxController {
 
   Future<void> getSuccessBindPort() async {
     if (!GetPlatform.isWeb) {
-      shelfBindPort = await getSafePort(
+      shelfBindPort ??= await getSafePort(
         Config.shelfPortRangeStart,
         Config.shelfPortRangeEnd,
       );
       Log.i('shelf will server with $shelfBindPort port');
       handleTokenCheck(shelfBindPort);
-      fileServerPort = await getSafePort(
+      fileServerPort ??= await getSafePort(
         Config.filePortRangeStart,
         Config.filePortRangeEnd,
       );
@@ -333,25 +335,6 @@ class ChatController extends GetxController {
 
   // web 端速享上传文件调用的方法
   Future<void> uploadFileForWeb(XFile xFile, String urlPrefix) async {
-    // var formData = FormData.fromMap({
-    //   'file': MultipartFile(
-    //     xFile.openRead(),
-    //     await xFile.length(),
-    //     filename: xFile.name,
-    //   ),
-    //   'files': [
-    //     MultipartFile(
-    //       xFile.openRead(),
-    //       await xFile.length(),
-    //       filename: xFile.name,
-    //     ),
-    //     MultipartFile(
-    //       xFile.openRead(),
-    //       await xFile.length(),
-    //       filename: xFile.name,
-    //     ),
-    //   ],
-    // });
     await Dio().post(
       '$urlPrefix/file',
       data: xFile.openRead(),
@@ -614,13 +597,26 @@ class ChatController extends GetxController {
   @override
   void onClose() {
     if (isConnect) {
-      Log.e('socket.close()');
+      Log.i('close socket.');
       socket.close();
     }
-    Log.e('dispose');
+    Log.e('chat controller dispose');
     focusNode.dispose();
     controller.dispose();
     scrollController.dispose();
+
+    WidgetsBinding.instance.removeObserver(this);
     super.onClose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        refreshLocalAddress();
+        break;
+      default:
+    }
+    Log.v('didChangeAppLifecycleState : $state');
   }
 }

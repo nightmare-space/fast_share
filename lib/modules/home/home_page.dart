@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,13 +8,14 @@ import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
-import 'package:speed_share/pages/online_list_header.dart';
+import 'package:speed_share/generated/l10n.dart';
+import 'package:speed_share/modules/file/file_page.dart';
+import 'package:speed_share/modules/widget/header.dart';
+import 'package:speed_share/modules/widget/icon.dart';
+import 'package:speed_share/modules/preview/image_preview.dart';
+import 'package:speed_share/modules/share_chat_window.dart';
 
-import 'file_page.dart';
-import 'header.dart';
-import 'icon.dart';
-import 'preview_image.dart';
-import 'share_chat_window.dart';
+import 'online_list_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '最近图片',
+                          S.of(context).recentImg,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onBackground,
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '最近文件',
+            S.of(context).recentFile,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onBackground,

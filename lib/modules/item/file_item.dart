@@ -1,18 +1,26 @@
 import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/download_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
+import 'package:speed_share/app/controller/utils/server_util.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:speed_share/pages/icon.dart';
+import 'package:speed_share/modules/dialog/show_qr_page.dart';
+import 'package:speed_share/modules/widget/icon.dart';
+import 'package:speed_share/speed_share.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:shelf/shelf_io.dart' as io;
 
 class FileItem extends StatefulWidget {
   /// 消息model
@@ -51,6 +59,9 @@ class _FileItemState extends State<FileItem> {
   }
 
   bool canAutoDownload() {
+    if (widget.sendByUser) {
+      return false;
+    }
     if (downloadController.progress.containsKey(url) &&
         downloadController.progress[url].progress != 0.0) {
       return false;
@@ -98,6 +109,7 @@ class _FileItemState extends State<FileItem> {
               Get.dialog(
                 Menu(
                   offset: offset,
+                  info: widget.info,
                 ),
                 useSafeArea: false,
                 barrierColor: Colors.black12,
@@ -319,21 +331,63 @@ class _FileItemState extends State<FileItem> {
 }
 
 class Menu extends StatefulWidget {
-  const Menu({Key key, this.offset}) : super(key: key);
+  const Menu({Key key, this.offset, this.info}) : super(key: key);
   final Offset offset;
+
+  /// 消息model
+  final MessageFileInfo info;
 
   @override
   State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
+  Future<int> server(String path) async {
+    final app = Router();
+    int singlePort = Random().nextInt(10000) + 10000;
+    Log.i(singlePort);
+    int port = Get.find<ChatController>().shelfBindPort;
+    app.get('/', (Request request) {
+      corsHeader[HttpHeaders.contentTypeHeader] = ContentType.html.toString();
+      return Response.ok(
+        singleFileDownloadHtml
+            .replaceAll('placeholder3', ":$port$path")
+            .replaceAll(
+              'placeholder2',
+              FileSizeUtils.getFileSize(File(path).lengthSync()),
+            )
+            .replaceAll('placeholder1', basename(path)),
+        headers: corsHeader,
+      );
+    });
+    app.get('/icon.png', (Request request) async {
+      corsHeader[HttpHeaders.contentTypeHeader] = 'image/png';
+      final ByteData byteData = await rootBundle.load(
+        '${Config.flutterPackage}assets/icon/${getIconFromPath(path)}.png',
+      );
+      final Uint8List picBytes = byteData.buffer.asUint8List();
+      return Response.ok(
+        picBytes,
+        headers: corsHeader,
+      );
+    });
+    io.serve(
+      app,
+      InternetAddress.anyIPv4,
+      singlePort,
+      shared: true,
+    );
+    return singlePort;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned.fill(
           top: widget.offset.dy,
-          left: widget.offset.dx,
+          left:
+              min(widget.offset.dx, MediaQuery.of(context).size.width - 120.w),
           child: Align(
             alignment: Alignment.topCenter,
             child: Material(
@@ -350,6 +404,19 @@ class _MenuState extends State<Menu> {
                       child: SizedBox(
                         height: 40.w,
                         child: const Center(child: Text('分享')),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        int port = await server(widget.info.filePath);
+                        Get.back();
+                        Get.dialog(ShowQRPage(
+                          port: port,
+                        ));
+                      },
+                      child: SizedBox(
+                        height: 40.w,
+                        child: const Center(child: Text('下载二维码')),
                       ),
                     ),
                     InkWell(

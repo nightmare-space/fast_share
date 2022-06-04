@@ -35,7 +35,255 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Common`
+  String get common {
+    return Intl.message(
+      'Common',
+      name: 'common',
+      desc: '',
+      args: [],
+    );
+  }
 
+  /// `Download Path`
+  String get downlaodPath {
+    return Intl.message(
+      'Download Path',
+      name: 'downlaodPath',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auto Download`
+  String get autoDownload {
+    return Intl.message(
+      'Auto Download',
+      name: 'autoDownload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clipboard Share`
+  String get clipboardshare {
+    return Intl.message(
+      'Clipboard Share',
+      name: 'clipboardshare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vibrate When Receive Message`
+  String get messageNote {
+    return Intl.message(
+      'Vibrate When Receive Message',
+      name: 'messageNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Speed Share`
+  String get aboutSpeedShare {
+    return Intl.message(
+      'About Speed Share',
+      name: 'aboutSpeedShare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Version`
+  String get currenVersion {
+    return Intl.message(
+      'Current Version',
+      name: 'currenVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download The Other Version`
+  String get otherVersion {
+    return Intl.message(
+      'Download The Other Version',
+      name: 'otherVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get lang {
+    return Intl.message(
+      'Language',
+      name: 'lang',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Developer`
+  String get developer {
+    return Intl.message(
+      'Developer',
+      name: 'developer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Source`
+  String get openSource {
+    return Intl.message(
+      'Open Source',
+      name: 'openSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UI Designer`
+  String get ui {
+    return Intl.message(
+      'UI Designer',
+      name: 'ui',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recent File`
+  String get recentFile {
+    return Intl.message(
+      'Recent File',
+      name: 'recentFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recent Image`
+  String get recentImg {
+    return Intl.message(
+      'Recent Image',
+      name: 'recentImg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chat Room`
+  String get currentRoom {
+    return Intl.message(
+      'Chat Room',
+      name: 'currentRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remote Access Local File`
+  String get remoteAccessFile {
+    return Intl.message(
+      'Remote Access Local File',
+      name: 'remoteAccessFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use broswer open this url can manager file.`
+  String get remoteAccessDes {
+    return Intl.message(
+      'Use broswer open this url can manager file.',
+      name: 'remoteAccessDes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Directory`
+  String get directory {
+    return Intl.message(
+      'Directory',
+      name: 'directory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown File`
+  String get unknownFile {
+    return Intl.message(
+      'Unknown File',
+      name: 'unknownFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zip`
+  String get zip {
+    return Intl.message(
+      'Zip',
+      name: 'zip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Document`
+  String get doc {
+    return Intl.message(
+      'Document',
+      name: 'doc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Music`
+  String get music {
+    return Intl.message(
+      'Music',
+      name: 'music',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Video`
+  String get video {
+    return Intl.message(
+      'Video',
+      name: 'video',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image`
+  String get image {
+    return Intl.message(
+      'Image',
+      name: 'image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apk`
+  String get apk {
+    return Intl.message(
+      'Apk',
+      name: 'apk',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
-import 'package:speed_share/pages/item/message_item_factory.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
-import 'header.dart';
+import 'widget/header.dart';
+import 'item/message_item_factory.dart';
 
 class RemotePage extends StatefulWidget {
   const RemotePage({Key key}) : super(key: key);
@@ -57,6 +58,7 @@ class _RemotePageState extends State<RemotePage> {
   }
 
   GetBuilder<DeviceController> remoteList(BuildContext context) {
+    S s = S.of(context);
     return GetBuilder<DeviceController>(builder: (controller) {
       return Column(
         children: [
@@ -78,13 +80,13 @@ class _RemotePageState extends State<RemotePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '远程访问本机',
+                    s.remoteAccessFile,
                     style: TextStyle(
                       fontSize: 18.w,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text('在浏览器打开以下IP地址，即可远程管理本机文件'),
+                  Text(s.remoteAccessDes),
                   SizedBox(
                     height: chatController.addrs.length * 18.w,
                     child: ListView.builder(

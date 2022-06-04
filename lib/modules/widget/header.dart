@@ -1,10 +1,14 @@
 import 'dart:async';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/config/config.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/global.dart';
+import 'package:speed_share/modules/dialog/show_qr_page.dart';
 
 import 'menu.dart';
 
@@ -31,8 +35,8 @@ class Header extends StatelessWidget {
                   valueListenable: controller.connectState,
                   builder: (_, value, __) {
                     return Container(
-                      width: 10.w,
-                      height: 10.w,
+                      width: 4.w,
+                      height: 30.w,
                       decoration: BoxDecoration(
                           color: value ? Colors.green : Colors.red,
                           borderRadius: BorderRadius.circular(16.w)),
@@ -54,7 +58,18 @@ class Header extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(width: 16.w),
+              NiIconButton(
+                onTap: () {
+                  Get.dialog(ShowQRPage(
+                    port: controller.chatBindPort,
+                  ));
+                },
+                child: Image.asset(
+                  'assets/icon/qr.png',
+                  width: 20.w,
+                  package: Config.package,
+                ),
+              ),
               NiIconButton(
                 onTap: () {
                   Get.dialog(HeaderMenu(
@@ -81,25 +96,21 @@ class HeaderSwiper extends StatefulWidget {
 class _HeaderSwiperState extends State<HeaderSwiper> {
   ChatController controller = Get.find();
   DeviceController deviceController = Get.find();
-  PageController pageController = PageController();
   Timer timer;
+  int page = 0;
 
   @override
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 3), (_) {
-      int next = (pageController.page + 1).toInt();
-      pageController.animateToPage(
-        next,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
-      );
+      page += 1;
+      page = page % 2;
+      setState(() {});
     });
   }
 
   @override
   void dispose() {
-    pageController.dispose();
     timer.cancel();
     super.dispose();
   }
@@ -107,59 +118,62 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox(
-        height: 48.w,
-        child: PageView.builder(
-          scrollDirection: Axis.horizontal,
-          controller: pageController,
-          itemBuilder: (c, i) {
-            if (i % 2 == 0) {
-              return Align(
-                alignment: Alignment.centerLeft,
-                child: GetBuilder<DeviceController>(builder: (_) {
-                  return Text(
-                    '当前有${deviceController.connectDevice.length}个设备连接',
-                    style: TextStyle(
-                      fontSize: 16.w,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  );
-                }),
-              );
-            }
-            return Row(
-              children: [
-                Text(
-                  '当前房间：',
-                  style: TextStyle(
-                    fontSize: 16.w,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
+      child: PageTransitionSwitcher(
+        transitionBuilder: (
+          Widget child,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+        ) {
+          return FadeThroughTransition(
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            fillColor: Colors.transparent,
+            child: child,
+          );
+        },
+        duration: const Duration(milliseconds: 600),
+        child: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: GetBuilder<DeviceController>(builder: (_) {
+              return Text(
+                '当前有${deviceController.connectDevice.length}个设备连接',
+                style: TextStyle(
+                  fontSize: 16.w,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
-                GetBuilder<ChatController>(builder: (_) {
-                  return SizedBox(
-                    height: 32.w,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(8.w),
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6.w),
-                        child: Center(
-                          child: SelectableText(
-                            controller.chatServerAddress,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
-                            ),
-                          ),
+              );
+            }),
+          ),
+          Row(
+            children: [
+              Text(
+                '${S.of(context).currentRoom}:',
+                style: TextStyle(
+                  fontSize: 16.w,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+              ),
+              GetBuilder<ChatController>(builder: (_) {
+                return SizedBox(
+                  height: 32.w,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(8.w),
+                    color: Colors.transparent,
+                    child: Center(
+                      child: SelectableText(
+                        controller.chatServerAddress,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                     ),
-                  );
-                }),
-              ],
-            );
-          },
-        ),
+                  ),
+                );
+              }),
+            ],
+          ),
+        ][page],
       ),
     );
   }
