@@ -11,6 +11,7 @@ import 'desktop_drawer.dart';
 import 'file/file_page.dart';
 import 'home/home_page.dart';
 import 'home/nav.dart';
+import 'personal/personal.dart';
 import 'remote_page.dart';
 import 'setting/setting_page.dart';
 import 'share_chat_window.dart';
@@ -156,7 +157,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                       const SizedBox(),
                       const FilePage(),
                       if (!GetPlatform.isWeb)
-                        const SettingPage()
+                        const PersonalPage()
                       else
                         const SizedBox(),
                     ][page],

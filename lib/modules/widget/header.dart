@@ -36,10 +36,11 @@ class Header extends StatelessWidget {
                   builder: (_, value, __) {
                     return Container(
                       width: 4.w,
-                      height: 30.w,
+                      height: 16.w,
                       decoration: BoxDecoration(
-                          color: value ? Colors.green : Colors.red,
-                          borderRadius: BorderRadius.circular(16.w)),
+                        color: value ? Colors.green : Colors.red,
+                        borderRadius: BorderRadius.circular(16.w),
+                      ),
                     );
                   },
                 ),

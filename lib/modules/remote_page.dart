@@ -5,6 +5,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
@@ -72,7 +73,7 @@ class _RemotePageState extends State<RemotePage> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface2,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(12.w),
               ),
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.w),

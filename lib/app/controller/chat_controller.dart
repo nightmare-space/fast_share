@@ -12,6 +12,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/app/controller/utils/scroll_extension.dart';
+import 'package:speed_share/app/controller/utils/socket_util.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
@@ -49,7 +50,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       }
       update();
     });
-    WidgetsBinding.instance.addObserver(this);
   }
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
@@ -71,8 +71,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
   List<Map<String, dynamic>> cache = [];
-  int chatBindPort;
   // 消息服务器成功绑定的端口
+  int chatBindPort;
   // 文件服务器成功绑定的端口
   int shelfBindPort;
   int fileServerPort;
@@ -89,6 +89,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
 
   // 创建聊天房间，调用时机为app启动时
   Future<void> createChatRoom() async {
+    WidgetsBinding.instance.addObserver(this);
     chatBindPort = await createChatServer();
     Log.i('聊天服务器端口 : $chatBindPort');
     String udpData = '';
@@ -128,36 +129,20 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     // 清除消息列表
     children.clear();
     Completer conLock = Completer();
-    socket.onOpen(() {
-      Log.d('chat连接成功');
-      isConnect = true;
-      connectState.value = true;
-      if (!conLock.isCompleted) {
-        conLock.complete();
-      }
-    });
+
     socket.onClose((p0) {
-      socket = null;
       Log.e('Socket onClose $p0');
-      // 应该移除所有设备
+      socket = null;
+      // 移除所有设备
+      // remove all device
       deviceController.clear();
+      // 这个会让顶部的竖线变红，以提示用户
+      // this can lat header container color change
       connectState.value = false;
       showToast('连接已断开');
       update();
     });
-    try {
-      socket.connect();
-      Future.delayed(const Duration(seconds: 2), () {
-        // 可能onopen标记完成了
-        if (!conLock.isCompleted) {
-          conLock.complete();
-        }
-      });
-    } catch (e) {
-      conLock.complete();
-      isConnect = false;
-    }
-    await conLock.future;
+    isConnect = await SocketUtil.connect(socket);
     if (!isConnect) {
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '加入失败!'),
@@ -166,15 +151,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       update();
       return;
     }
-    // if (needCreateChatServer) {
-    //   await sendAddressAndQrCode();
-    // } else {
-    //   children.add(MessageItemFactory.getMessageItem(
-    //     MessageTextInfo(content: '已加入$chatRoomUrl'),
-    //     false,
-    //   ));
-    //   update();
-    // }
+    //
+    connectState.value = true;
     // 监听消息
     listenMessage();
     await Future.delayed(const Duration(milliseconds: 100));
@@ -357,25 +335,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     BuildContext context,
   }) async {
     // 选择文件路径
-    List<String> filePaths = [];
-    if (!useSystemPicker) {
-      filePaths = await FileSelector.pick(
-        context ?? Get.context,
-      );
-    } else {
-      FilePickerResult result = await FilePicker.platform.pickFiles(
-        allowCompression: false,
-        allowMultiple: true,
-      );
-      if (result != null) {
-        for (PlatformFile file in result.files) {
-          filePaths.add(file.path);
-        }
-      } else {
-        // User canceled the picker
-      }
-    }
-    if (filePaths == null) {
+    List<String> filePaths = await getFilesPathsForAndroid(useSystemPicker);
+    if (filePaths.isEmpty) {
       return;
     }
     for (String filePath in filePaths) {
@@ -614,6 +575,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         refreshLocalAddress();
+        initChat(chatServerAddress);
         break;
       default:
     }

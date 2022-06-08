@@ -29,6 +29,10 @@ class _SettingPageState extends State<SettingPage> {
     );
     final S s = S.of(context);
     return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: OverlayStyle.dark,
+        title: const Text('设置'),
+      ),
       body: SafeArea(
         left: false,
         child: GetBuilder<SettingController>(builder: (_) {
@@ -36,10 +40,6 @@ class _SettingPageState extends State<SettingPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: const Header(),
-                ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
