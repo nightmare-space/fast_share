@@ -67,78 +67,61 @@ class SpeedShare extends StatelessWidget {
       initRoute = Routes.chat;
     }
     return ToastApp(
-      child: Stack(
-        children: [
-          GetBuilder<SettingController>(builder: (context) {
-            Log.i('GetMaterialApp build');
-            return GetMaterialApp(
-              locale: settingController.currentLocale,
-              title: '速享',
-              initialRoute: initRoute,
-              getPages: SpeedPages.routes,
-              defaultTransition: Transition.fadeIn,
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
+      child: GetBuilder<SettingController>(builder: (context) {
+        Log.i('GetMaterialApp build');
+        return GetMaterialApp(
+          locale: settingController.currentLocale,
+          title: '速享',
+          initialRoute: initRoute,
+          getPages: SpeedPages.routes,
+          defaultTransition: Transition.fadeIn,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          builder: (context, child) {
+            final bool isDark = Theme.of(context).brightness == Brightness.dark;
+            final ThemeData theme =
+                isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+            return ResponsiveWrapper.builder(
+              Builder(builder: (context) {
+                if (ResponsiveWrapper.of(context).isDesktop) {
+                  ScreenAdapter.init(896);
+                } else {
+                  ScreenAdapter.init(414);
+                }
+                return GetBuilder<SettingController>(builder: (context) {
+                  return Localizations(
+                    locale: context.currentLocale,
+                    delegates: const [
+                      S.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    child: Theme(
+                      data: theme,
+                      child: child,
+                    ),
+                  );
+                });
+              }),
+              // maxWidth: 1200,
+              minWidth: 480,
+              defaultScale: false,
+              breakpoints: const [
+                ResponsiveBreakpoint.resize(300, name: MOBILE),
+                ResponsiveBreakpoint.autoScale(600, name: TABLET),
+                ResponsiveBreakpoint.resize(600, name: DESKTOP),
               ],
-              supportedLocales: S.delegate.supportedLocales,
-              builder: (context, child) {
-                final bool isDark =
-                    Theme.of(context).brightness == Brightness.dark;
-                final ThemeData theme =
-                    isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
-                return ResponsiveWrapper.builder(
-                  Builder(builder: (context) {
-                    if (ResponsiveWrapper.of(context).isDesktop) {
-                      ScreenAdapter.init(896);
-                    } else {
-                      ScreenAdapter.init(414);
-                    }
-                    return GetBuilder<SettingController>(builder: (context) {
-                      return Localizations(
-                        locale: context.currentLocale,
-                        delegates: const [
-                          S.delegate,
-                          GlobalMaterialLocalizations.delegate,
-                          GlobalWidgetsLocalizations.delegate,
-                          GlobalCupertinoLocalizations.delegate,
-                        ],
-                        child: Theme(
-                          data: theme,
-                          child: child,
-                        ),
-                      );
-                    });
-                  }),
-                  // maxWidth: 1200,
-                  minWidth: 480,
-                  defaultScale: false,
-                  breakpoints: const [
-                    ResponsiveBreakpoint.resize(300, name: MOBILE),
-                    ResponsiveBreakpoint.autoScale(600, name: TABLET),
-                    ResponsiveBreakpoint.resize(600, name: DESKTOP),
-                  ],
-                );
-              },
             );
-          }),
-          ValueListenableBuilder<bool>(
-            valueListenable: controller.connectState,
-            builder: (_, value, __) {
-              return Container(
-                height: 2.w,
-                decoration: BoxDecoration(
-                  color: value ? Colors.green : Colors.red,
-                  borderRadius: BorderRadius.circular(16.w),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+          },
+        );
+      }),
     );
   }
 }

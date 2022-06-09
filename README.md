@@ -44,7 +44,11 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 截图
 
-待补充
+<img src="screenshot/v2/home.png" width="33%" height="33%" /> <img src="screenshot/v2/remote_file.png" width="33%" height="33%" /> <img src="screenshot/v2/file_manager.png" width="33%" height="33%" /> 
+
+<img src="screenshot/v2/file_manager2.png" width="33%" height="33%" />  <img src="screenshot/v2/personal.png" width="33%" height="33%" /> <img src="screenshot/v2/setting.png" width="33%" height="33%" /> 
+
+<img src="screenshot/v2/chat_window.png" width="33%" height="33%" />
 
 ## 下载
 
@@ -115,74 +119,3 @@ Language: 中文简体 | [English](README-EN.md)
 
 详见 [DEVELOP.md](DEVELOP.md)
 
-## Q&A
-### WEB端如何使用?
-web端不能单独打开速享(从实现来看是可以，但我并不想这么做)，打开物理客户端后，主页会提示远程访问的地址，使用浏览器打开即可。
-点击浮动按钮，即可在浏览器上远程管理对应设备的文件
-
-### 希望能自定义开发路径
-设置预留了，还在开发中
-
-### 没有以前简洁了，交互上有很大问题，首次使用界面全是空白，我不去点一下那“全部设备”都不知道原来的传输界面在哪
-你使用的是预发布版本
-
-### 规范一下目录把，要么自定义要么放Download去
-设置预留了
-
-### pc端UI会同步更改吗？
-肯定会的，时间没那么多
-
-### UI和操作感觉没有以前简洁明了，现在搞的稍微有点麻烦
-1.你用的是测试版
-2.我不可能满足所有用户，只能在实用与简介之间找到一个平衡
-
-###请问上个版本是稳定的吗
-每个版本都不稳定
-
-### 电脑端是浏览器输入什么链接后才能连手机端，原来能看见，更新2.0后没了
-你用的是测试版
-
-### 在哪下载Windows
-1.github actions
-在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
-
-<img src="screenshot/v2/actions.png" width="50%" height="50%" />
-
-2.nightmare.fun官网
-
-### iOS会有吗
-目前买不上iOS证书，后续有计划，近一年别想
-
-### TV端安装不了，老机型报错
-去官网找arm版本
-
-### 速度慢，不及MIUI+
-你可以去用MIUI+，其次MIUI+会使用隐性的热点，也就是说你用热点靠近点互传可能就没这个问题。
-
-### UI及交互问题
-你用的是测试版
-
-### 读剪切板过分了吧？
-剪切板功能是其它N个人的建议，卸载解决
-
-### 浏览器往物理设备传文件的问题
-这个实现很复杂，尽量用多个客户端
-
-### 后台断连
-可算BUG，但是目前没精力分析问题在哪，后面解决
-
-### 内置文件管理器空白
-估计是魅族魔改底层导致的，先用系统文件管理器选文件
-
-### 系统文件管理器和内置文件管理器选文件有差别吗
-有，系统文件管理器无论选择任何文件，都会拷贝一份到内置目录，所以选大文件会卡，而内置文件管理器不会
-
-### 系统分享文件到速享，不会自动发送
-BUG，后面有精力再解决
-
-不得不说有的人三明治说话法学得挺好啊
-如:
-“*的这软件跟屎一样
-ok卸载了
-哦对了红红头像好评”
-？？？
