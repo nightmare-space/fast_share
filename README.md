@@ -44,11 +44,11 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 截图
 
-<img src="screenshot/v2/home.png" width="33%" height="33%" /> <img src="screenshot/v2/remote_file.png" width="33%" height="33%" /> <img src="screenshot/v2/file_manager.png" width="33%" height="33%" /> 
+<img src="screenshot/v2/home.png" width="32%" height="32%" /> <img src="screenshot/v2/remote_file.png" width="32%" height="32%" /> <img src="screenshot/v2/file_manager.png" width="32%" height="32%" /> 
 
-<img src="screenshot/v2/file_manager2.png" width="33%" height="33%" />  <img src="screenshot/v2/personal.png" width="33%" height="33%" /> <img src="screenshot/v2/setting.png" width="33%" height="33%" /> 
+<img src="screenshot/v2/file_manager2.png" width="32%" height="32%" />  <img src="screenshot/v2/personal.png" width="32%" height="32%" /> <img src="screenshot/v2/setting.png" width="32%" height="32%" /> 
 
-<img src="screenshot/v2/chat_window.png" width="33%" height="33%" />
+<img src="screenshot/v2/chat_window.png" width="32%" height="32%" />
 
 ## 下载
 
