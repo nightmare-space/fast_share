@@ -8,6 +8,8 @@ Language: 中文简体 | [English](README-EN.md)
 [![License](https://img.shields.io/github/license/nightmare-space/speed_share?logo=open-source-initiative&logoColor=green)](https://github.com/nightmare-space/speed_share/blob/master/LICENSE)
  ![Platform](https://img.shields.io/badge/support%20platform-android%20%7C%20web%20%7C%20windows%20%7C%20macos%20%7C%20linux-orange) ![download time](https://img.shields.io/github/downloads/nightmare-space/speed_share/total) ![open issues](https://img.shields.io/github/issues/nightmare-space/speed_share) ![fork](https://img.shields.io/github/forks/nightmare-space/speed_share?style=social) ![code line](https://img.shields.io/tokei/lines/github/nightmare-space/speed_share) ![build](https://img.shields.io/github/workflow/status/nightmare-space/speed_share/SpeedShare%20Publish%20Actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f969750dc4aa424ead664219ddcf321d)](https://app.codacy.com/gh/nightmare-space/speed_share?utm_source=github.com&utm_medium=referral&utm_content=nightmare-space/speed_share&utm_campaign=Badge_Grade)
 
+<img src="header.png" width="100%" height="100%" /> 
+
 这是一款完全基于局域网的文件互传终端，速享不使用任何服务器，不使用您的移动流量，不收集任何用户数据，完全的点对点传输。
 
 可以快速共享文本消息，图片或其他文件，文件夹。
@@ -41,7 +43,11 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 截图
 
-待补充
+<img src="screenshot/v2/home.png" width="32%" height="32%" /> <img src="screenshot/v2/remote_file.png" width="32%" height="32%" /> <img src="screenshot/v2/file_manager.png" width="32%" height="32%" /> 
+
+<img src="screenshot/v2/file_manager2.png" width="32%" height="32%" />  <img src="screenshot/v2/personal.png" width="32%" height="32%" /> <img src="screenshot/v2/setting.png" width="32%" height="32%" /> 
+
+<img src="screenshot/v2/chat_window.png" width="32%" height="32%" />
 
 ## 下载
 
@@ -50,7 +56,6 @@ Language: 中文简体 | [English](README-EN.md)
 该项目集成了 Github Action 来提供自动打包的功能，然后使用`transfer.sh`进行包的上传，所以你可以在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
 
 <img src="screenshot/v2/actions.png" width="50%" height="50%" /> 
-
 
 ## 功能列表
 
@@ -66,8 +71,8 @@ Language: 中文简体 | [English](README-EN.md)
 - 浏览器快速加入共享
 - 历史消息获取
 
-
 ## 局域网发现
+
 发现其他设备启动速享后，主页顶部会出现提示，如图：
 
 <img src="screenshot/v2/broadcast.jpg" width="50%" height="50%" />
@@ -75,6 +80,7 @@ Language: 中文简体 | [English](README-EN.md)
 点击√即可加入共享房间~
 
 ## 浏览器加入
+
 客户端启动速享后，点击底部导航栏切换到主页，会有一个`远程访问`的卡片，局域网内浏览器打开对应的 url 即可加入共享。
 
 <img src="screenshot/v2/address.jpg" width="50%" height="50%" />
@@ -87,6 +93,7 @@ Language: 中文简体 | [English](README-EN.md)
 点击主页`+`号按钮，也可实现如上分享逻辑。
 
 ## 设置
+
 速享开放了一些用户设置，目前有以下设置
 - 自动下载
 - 剪切板共享
@@ -98,6 +105,7 @@ Language: 中文简体 | [English](README-EN.md)
 <img src="screenshot/v2/setting.png" width="50%" height="50%" /> 
 
 ## 本地文件管理
+
 切换到文件管理页面，会显示速享的接收文件概览，点击右上角切换箭头，即可切换文件管理详情。
 <img src="screenshot/v2/file_manager.png" width="50%" height="50%" /> 
 
@@ -112,74 +120,3 @@ Language: 中文简体 | [English](README-EN.md)
 
 详见 [DEVELOP.md](DEVELOP.md)
 
-## Q&A
-### WEB端如何使用?
-web端不能单独打开速享(从实现来看是可以，但我并不想这么做)，打开物理客户端后，主页会提示远程访问的地址，使用浏览器打开即可。
-点击浮动按钮，即可在浏览器上远程管理对应设备的文件
-
-### 希望能自定义开发路径
-设置预留了，还在开发中
-
-### 没有以前简洁了，交互上有很大问题，首次使用界面全是空白，我不去点一下那“全部设备”都不知道原来的传输界面在哪
-你使用的是预发布版本
-
-### 规范一下目录把，要么自定义要么放Download去
-设置预留了
-
-### pc端UI会同步更改吗？
-肯定会的，时间没那么多
-
-### UI和操作感觉没有以前简洁明了，现在搞的稍微有点麻烦
-1.你用的是测试版
-2.我不可能满足所有用户，只能在实用与简介之间找到一个平衡
-
-###请问上个版本是稳定的吗
-每个版本都不稳定
-
-### 电脑端是浏览器输入什么链接后才能连手机端，原来能看见，更新2.0后没了
-你用的是测试版
-
-### 在哪下载Windows
-1.github actions
-在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
-
-<img src="screenshot/v2/actions.png" width="50%" height="50%" />
-
-2.nightmare.fun官网
-
-### iOS会有吗
-目前买不上iOS证书，后续有计划，近一年别想
-
-### TV端安装不了，老机型报错
-去官网找arm版本
-
-### 速度慢，不及MIUI+
-你可以去用MIUI+，其次MIUI+会使用隐性的热点，也就是说你用热点靠近点互传可能就没这个问题。
-
-### UI及交互问题
-你用的是测试版
-
-### 读剪切板过分了吧？
-剪切板功能是其它N个人的建议，卸载解决
-
-### 浏览器往物理设备传文件的问题
-这个实现很复杂，尽量用多个客户端
-
-### 后台断连
-可算BUG，但是目前没精力分析问题在哪，后面解决
-
-### 内置文件管理器空白
-估计是魅族魔改底层导致的，先用系统文件管理器选文件
-
-### 系统文件管理器和内置文件管理器选文件有差别吗
-有，系统文件管理器无论选择任何文件，都会拷贝一份到内置目录，所以选大文件会卡，而内置文件管理器不会
-
-### 系统分享文件到速享，不会自动发送
-BUG，后面有精力再解决
-
-不得不说有的人三明治说话法学得挺好啊
-如:
-“*的这软件跟屎一样
-ok卸载了
-哦对了红红头像好评”
-？？？

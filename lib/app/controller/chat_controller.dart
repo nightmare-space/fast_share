@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
@@ -12,16 +11,15 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/app/controller/utils/scroll_extension.dart';
+import 'package:speed_share/app/controller/utils/socket_util.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
-import 'package:speed_share/pages/item/message_item_factory.dart';
-import 'package:speed_share/pages/model/join_message.dart';
-import 'package:speed_share/pages/model/model.dart';
-import 'package:speed_share/pages/model/model_factory.dart';
+import 'package:speed_share/model/model.dart';
+import 'package:speed_share/model/model_factory.dart';
+import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/file_server.dart';
-import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'utils/file_util.dart';
 import 'utils/server_util.dart';
@@ -39,7 +37,7 @@ int get type {
   return 3;
 }
 
-class ChatController extends GetxController {
+class ChatController extends GetxController with WidgetsBindingObserver {
   ChatController() {
     controller.addListener(() {
       // 这个监听主要是为了改变发送按钮为+号按钮
@@ -71,8 +69,8 @@ class ChatController extends GetxController {
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
   List<Map<String, dynamic>> cache = [];
-  int chatBindPort;
   // 消息服务器成功绑定的端口
+  int chatBindPort;
   // 文件服务器成功绑定的端口
   int shelfBindPort;
   int fileServerPort;
@@ -89,6 +87,7 @@ class ChatController extends GetxController {
 
   // 创建聊天房间，调用时机为app启动时
   Future<void> createChatRoom() async {
+    WidgetsBinding.instance.addObserver(this);
     chatBindPort = await createChatServer();
     Log.i('聊天服务器端口 : $chatBindPort');
     String udpData = '';
@@ -99,10 +98,15 @@ class ChatController extends GetxController {
     // 保存本地的IP地址列表
     chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
     if (!GetPlatform.isWeb) {
-      addrs = await PlatformUtil.localAddress();
+      await refreshLocalAddress();
       update();
     }
     initChat(chatRoomUrl);
+  }
+
+  /// 刷新本地ip地址列表
+  Future<void> refreshLocalAddress() async {
+    addrs = await PlatformUtil.localAddress();
   }
 
   Future<void> initChat(
@@ -120,38 +124,21 @@ class ChatController extends GetxController {
     this.chatServerAddress = chatServerAddress;
 
     socket = GetSocket('${chatServerAddress ?? chatRoomUrl}/chat');
+    // 清除消息列表
     children.clear();
-    Completer conLock = Completer();
-    socket.onOpen(() {
-      Log.d('chat连接成功');
-      isConnect = true;
-      connectState.value = true;
-      if (!conLock.isCompleted) {
-        conLock.complete();
-      }
-    });
     socket.onClose((p0) {
-      socket = null;
       Log.e('Socket onClose $p0');
-      // 应该移除所有设备
+      socket = null;
+      // 移除所有设备
+      // remove all device
       deviceController.clear();
+      // 这个会让顶部的竖线变红，以提示用户
+      // this can lat header container color change
       connectState.value = false;
       showToast('连接已断开');
       update();
     });
-    try {
-      socket.connect();
-      Future.delayed(const Duration(seconds: 2), () {
-        // 可能onopen标记完成了
-        if (!conLock.isCompleted) {
-          conLock.complete();
-        }
-      });
-    } catch (e) {
-      conLock.complete();
-      isConnect = false;
-    }
-    await conLock.future;
+    isConnect = await SocketUtil.connect(socket);
     if (!isConnect) {
       children.add(MessageItemFactory.getMessageItem(
         MessageTextInfo(content: '加入失败!'),
@@ -160,15 +147,8 @@ class ChatController extends GetxController {
       update();
       return;
     }
-    // if (needCreateChatServer) {
-    //   await sendAddressAndQrCode();
-    // } else {
-    //   children.add(MessageItemFactory.getMessageItem(
-    //     MessageTextInfo(content: '已加入$chatRoomUrl'),
-    //     false,
-    //   ));
-    //   update();
-    // }
+    //
+    connectState.value = true;
     // 监听消息
     listenMessage();
     await Future.delayed(const Duration(milliseconds: 100));
@@ -182,13 +162,13 @@ class ChatController extends GetxController {
 
   Future<void> getSuccessBindPort() async {
     if (!GetPlatform.isWeb) {
-      shelfBindPort = await getSafePort(
+      shelfBindPort ??= await getSafePort(
         Config.shelfPortRangeStart,
         Config.shelfPortRangeEnd,
       );
       Log.i('shelf will server with $shelfBindPort port');
       handleTokenCheck(shelfBindPort);
-      fileServerPort = await getSafePort(
+      fileServerPort ??= await getSafePort(
         Config.filePortRangeStart,
         Config.filePortRangeEnd,
       );
@@ -329,25 +309,6 @@ class ChatController extends GetxController {
 
   // web 端速享上传文件调用的方法
   Future<void> uploadFileForWeb(XFile xFile, String urlPrefix) async {
-    // var formData = FormData.fromMap({
-    //   'file': MultipartFile(
-    //     xFile.openRead(),
-    //     await xFile.length(),
-    //     filename: xFile.name,
-    //   ),
-    //   'files': [
-    //     MultipartFile(
-    //       xFile.openRead(),
-    //       await xFile.length(),
-    //       filename: xFile.name,
-    //     ),
-    //     MultipartFile(
-    //       xFile.openRead(),
-    //       await xFile.length(),
-    //       filename: xFile.name,
-    //     ),
-    //   ],
-    // });
     await Dio().post(
       '$urlPrefix/file',
       data: xFile.openRead(),
@@ -370,25 +331,8 @@ class ChatController extends GetxController {
     BuildContext context,
   }) async {
     // 选择文件路径
-    List<String> filePaths = [];
-    if (!useSystemPicker) {
-      filePaths = await FileSelector.pick(
-        context ?? Get.context,
-      );
-    } else {
-      FilePickerResult result = await FilePicker.platform.pickFiles(
-        allowCompression: false,
-        allowMultiple: true,
-      );
-      if (result != null) {
-        for (PlatformFile file in result.files) {
-          filePaths.add(file.path);
-        }
-      } else {
-        // User canceled the picker
-      }
-    }
-    if (filePaths == null) {
+    List<String> filePaths = await getFilesPathsForAndroid(useSystemPicker);
+    if (filePaths.isEmpty) {
       return;
     }
     for (String filePath in filePaths) {
@@ -464,7 +408,7 @@ class ChatController extends GetxController {
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
     if (info is JoinMessage) {
-      // TODO(nightmare):每个文件就没必要再计算一次了!!!好像还是要计算
+      // 当连接设备不是本机的时候
       if (info.deviceName != await UniqueUtil.getDevicesId()) {
         String address = await getCorrectUrlWithAddressAndPort(
           info.addrs,
@@ -610,13 +554,27 @@ class ChatController extends GetxController {
   @override
   void onClose() {
     if (isConnect) {
-      Log.e('socket.close()');
+      Log.i('close socket.');
       socket.close();
     }
-    Log.e('dispose');
+    Log.e('chat controller dispose');
     focusNode.dispose();
     controller.dispose();
     scrollController.dispose();
+
+    WidgetsBinding.instance.removeObserver(this);
     super.onClose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        refreshLocalAddress();
+        initChat(chatServerAddress);
+        break;
+      default:
+    }
+    Log.v('didChangeAppLifecycleState : $state');
   }
 }

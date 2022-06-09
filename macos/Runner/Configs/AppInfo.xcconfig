@@ -11,4 +11,4 @@ PRODUCT_NAME = speed_share
 PRODUCT_BUNDLE_IDENTIFIER = com.nightmare.speedShare
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2021 com.nightmare. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 com.nightmare. All rights reserved.

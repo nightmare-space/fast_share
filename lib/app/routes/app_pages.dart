@@ -6,9 +6,9 @@ import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/bindings/chat_binding.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
+import 'package:speed_share/modules/adapive_entry.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/document/document.dart';
-import 'package:speed_share/v2/adapive_entry.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
 part 'app_routes.dart';

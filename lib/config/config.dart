@@ -13,6 +13,8 @@ class Config {
   static String packageName = 'com.nightmare.speedshare';
   // flutter package名，因为这个会影响assets的路径
   static String flutterPackage = '';
-  
+
   static String package;
+
+  static String packageConst = 'packages/speed_share/';
 }

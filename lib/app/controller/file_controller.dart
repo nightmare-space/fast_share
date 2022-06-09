@@ -88,6 +88,7 @@ class FileController extends GetxController {
     return all;
   }
 
+  // TODO 生命周期变化触发刷新
   Future<void> initFile() async {
     checkIfNotExist();
     moveFile();

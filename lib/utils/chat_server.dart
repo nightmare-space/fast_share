@@ -17,6 +17,7 @@ Future<int> createChatServer() async {
     Config.chatPortRangeStart,
     Config.chatPortRangeEnd,
   );
+  
   GetServerApp serverApp = GetServerApp(
     useLog: false,
     port: port,

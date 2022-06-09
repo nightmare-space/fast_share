@@ -35,6 +35,10 @@ extension Ext on String {
         endsWith('.pdf');
   }
 
+  bool get isText {
+    return toLowerCase().endsWith('.txt') || endsWith('.md');
+  }
+
   bool get isPdf {
     return endsWith('.pdf');
   }
