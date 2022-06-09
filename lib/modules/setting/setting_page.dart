@@ -6,7 +6,6 @@ import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../widget/header.dart';
 import '../widget/xliv-switch.dart';
 import 'dialog/select_language.dart';
 
@@ -75,7 +74,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () {
-                    Get.dialog(SelectLang());
+                    Get.dialog(const SelectLang());
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

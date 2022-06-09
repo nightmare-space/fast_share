@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
@@ -21,7 +20,6 @@ import 'package:speed_share/model/model_factory.dart';
 import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server.dart';
 import 'package:speed_share/utils/file_server.dart';
-import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'utils/file_util.dart';
 import 'utils/server_util.dart';
@@ -128,8 +126,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     socket = GetSocket('${chatServerAddress ?? chatRoomUrl}/chat');
     // 清除消息列表
     children.clear();
-    Completer conLock = Completer();
-
     socket.onClose((p0) {
       Log.e('Socket onClose $p0');
       socket = null;

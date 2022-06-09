@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/config/config.dart';
 import 'package:speed_share/modules/setting/setting_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/speed_share.dart';
@@ -23,7 +20,7 @@ class _PersonalPageState extends State<PersonalPage> {
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Column(
         children: [
-          Header(),
+          const Header(),
           if (personHeader != null) personHeader,
           SizedBox(height: 12.w),
           personalItem(

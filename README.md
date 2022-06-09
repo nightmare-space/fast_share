@@ -8,7 +8,6 @@ Language: 中文简体 | [English](README-EN.md)
 [![License](https://img.shields.io/github/license/nightmare-space/speed_share?logo=open-source-initiative&logoColor=green)](https://github.com/nightmare-space/speed_share/blob/master/LICENSE)
  ![Platform](https://img.shields.io/badge/support%20platform-android%20%7C%20web%20%7C%20windows%20%7C%20macos%20%7C%20linux-orange) ![download time](https://img.shields.io/github/downloads/nightmare-space/speed_share/total) ![open issues](https://img.shields.io/github/issues/nightmare-space/speed_share) ![fork](https://img.shields.io/github/forks/nightmare-space/speed_share?style=social) ![code line](https://img.shields.io/tokei/lines/github/nightmare-space/speed_share) ![build](https://img.shields.io/github/workflow/status/nightmare-space/speed_share/SpeedShare%20Publish%20Actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f969750dc4aa424ead664219ddcf321d)](https://app.codacy.com/gh/nightmare-space/speed_share?utm_source=github.com&utm_medium=referral&utm_content=nightmare-space/speed_share&utm_campaign=Badge_Grade)
 
-
 <img src="header.png" width="100%" height="100%" /> 
 
 这是一款完全基于局域网的文件互传终端，速享不使用任何服务器，不使用您的移动流量，不收集任何用户数据，完全的点对点传输。
@@ -58,7 +57,6 @@ Language: 中文简体 | [English](README-EN.md)
 
 <img src="screenshot/v2/actions.png" width="50%" height="50%" /> 
 
-
 ## 功能列表
 
 - 接收文件分类
@@ -73,8 +71,8 @@ Language: 中文简体 | [English](README-EN.md)
 - 浏览器快速加入共享
 - 历史消息获取
 
-
 ## 局域网发现
+
 发现其他设备启动速享后，主页顶部会出现提示，如图：
 
 <img src="screenshot/v2/broadcast.jpg" width="50%" height="50%" />
@@ -82,6 +80,7 @@ Language: 中文简体 | [English](README-EN.md)
 点击√即可加入共享房间~
 
 ## 浏览器加入
+
 客户端启动速享后，点击底部导航栏切换到主页，会有一个`远程访问`的卡片，局域网内浏览器打开对应的 url 即可加入共享。
 
 <img src="screenshot/v2/address.jpg" width="50%" height="50%" />
@@ -94,6 +93,7 @@ Language: 中文简体 | [English](README-EN.md)
 点击主页`+`号按钮，也可实现如上分享逻辑。
 
 ## 设置
+
 速享开放了一些用户设置，目前有以下设置
 - 自动下载
 - 剪切板共享
@@ -105,6 +105,7 @@ Language: 中文简体 | [English](README-EN.md)
 <img src="screenshot/v2/setting.png" width="50%" height="50%" /> 
 
 ## 本地文件管理
+
 切换到文件管理页面，会显示速享的接收文件概览，点击右上角切换箭头，即可切换文件管理详情。
 <img src="screenshot/v2/file_manager.png" width="50%" height="50%" /> 
 

@@ -5,8 +5,6 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
-import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/themes/theme.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
 import 'widget/header.dart';
