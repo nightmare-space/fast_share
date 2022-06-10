@@ -31,7 +31,6 @@ dependencies:
     git: https://github.com/nightmare-space/global_repository
   #动画组件
   simple_animations: ^2.4.0
-  shelf_proxy: ^1.0.0
   logger_view:
     git: https://github.com/nightmare-space/logger_view
   # 二维码生成
@@ -41,6 +40,11 @@ dependencies:
   # 文件部署
   shelf: ^1.3.0
   shelf_router: ^1.0.0
+  shelf_proxy: ^1.0.0
+  shelf_static:
+    git:
+      url: https://github.com/nightmare-space/shelf
+      path: pkgs/shelf_static
   better_player: ^0.0.81
   # 聊天服务器
   get_server: ^1.1.0
@@ -95,10 +99,8 @@ dependency_overrides:
   #   path: ../applib/applib_util
   # global_repository:
   #   path: ../global_repository
-  shelf_static:
-    path: /Users/nightmare/Desktop/nightmare-space/shelf/pkgs/shelf_static
-  file_manager_view:
-    path: ../file_manager_view
+  # file_manager_view:
+  #   path: ../file_manager_view
   # file_selector_nightmare:
   #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
 flutter_intl:
