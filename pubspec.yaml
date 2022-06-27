@@ -36,7 +36,8 @@ dependencies:
   # 二维码生成
   qr_flutter: ^4.0.0
   open_file: ^3.2.1
-  mobile_scanner: ^1.1.1
+  # scan qr code
+  mobile_scanner: ^2.0.0
   # 文件部署
   shelf: ^1.3.0
   shelf_router: ^1.0.0
@@ -45,7 +46,8 @@ dependencies:
     git:
       url: https://github.com/nightmare-space/shelf
       path: pkgs/shelf_static
-  better_player: ^0.0.81
+  # video preview
+  better_player: ^0.0.83
   # 聊天服务器
   get_server: ^1.1.0
   # 安卓端文件选择
@@ -54,8 +56,6 @@ dependencies:
   flutter_svg: ^0.22.0
   # 跳转网页
   url_launcher: ^6.0.4
-  # 视频预览
-  # better_player: 0.0.68
   # 压缩插件
   archive: ^3.1.2
   path: ^1.8.0
@@ -93,6 +93,7 @@ flutter:
     - assets/icon/
 
 dependency_overrides:
+  flutter_svg: ^1.1.0
   # app_manager:
   #   path: ../app_manager
   # applib_util:

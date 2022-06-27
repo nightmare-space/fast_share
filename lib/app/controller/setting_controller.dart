@@ -6,6 +6,7 @@ import 'package:settings/settings.dart';
 Map<String, Locale> languageMap = {
   "English": const Locale('en', ''),
   "中文": const Locale('zh', 'CN'),
+  "Spanish": const Locale('es', ''),
 };
 
 // 管理设置的controller
