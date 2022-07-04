@@ -98,7 +98,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
   ChatController controller = Get.find();
   DeviceController deviceController = Get.find();
   Timer timer;
-  int page = 0;
+  int page = 1;
 
   @override
   void initState() {
@@ -138,7 +138,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
             alignment: Alignment.centerLeft,
             child: GetBuilder<DeviceController>(builder: (_) {
               return Text(
-                '当前有${deviceController.connectDevice.length}个设备连接',
+                '当前有${deviceController.connectDevice.length}个设备会收到消息',
                 style: TextStyle(
                   fontSize: 16.w,
                   color: Theme.of(context).colorScheme.onBackground,
@@ -148,30 +148,33 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
           ),
           Row(
             children: [
-              Text(
-                '${S.of(context).currentRoom}:',
-                style: TextStyle(
-                  fontSize: 16.w,
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-              ),
-              GetBuilder<ChatController>(builder: (_) {
-                return SizedBox(
-                  height: 32.w,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(8.w),
-                    color: Colors.transparent,
-                    child: Center(
-                      child: SelectableText(
-                        controller.chatServerAddress,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
+              GetBuilder<DeviceController>(
+                builder: (controller) {
+                  List<Widget> children = [];
+                  for (Device device in controller.connectDevice) {
+                    children.add(
+                      Material(
+                        color: device.deviceColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8.w),
+                        child: SizedBox(
+                          height: 32.w,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                            child: Center(
+                              child: Text(device.deviceName),
+                            ),
+                          ),
                         ),
                       ),
+                    );
+                  }
+                  return SizedBox(
+                    child: Row(
+                      children: children,
                     ),
-                  ),
-                );
-              }),
+                  );
+                },
+              ),
             ],
           ),
         ][page],

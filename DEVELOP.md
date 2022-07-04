@@ -311,10 +311,8 @@ web 不支持部署某个文件，所以只支持上传一个 blob 代表的文�
 
 1. 普通消息
 ```json
-{
-    "msgType":"text",
-    "content":"消息内容"
-}
+{"type":null,"data":null,"msgType":"text","deviceName":"Xiaomi Pad 5 Pro","deviceType":null,"deviceId":null,"content":"hlo"}
+
 ```
 2. 二维码消息
 ```json

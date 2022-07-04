@@ -43,9 +43,6 @@ class _ShareChatV2State extends State<ShareChatV2>
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
-    controller.initChat(
-      widget.chatServerAddress,
-    );
     // if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
     //   windowManager.setSize(SizeConfig.chatSize);
     // }

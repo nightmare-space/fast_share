@@ -16,9 +16,7 @@ class ScanUtil {
       return;
     }
     Log.v('cameraScanResult -> $cameraScanResult');
-    final List<String> localAddress = await PlatformUtil.localAddress();
-    Log.v(localAddress);
     ChatController chatController = Get.find();
-    chatController.initChat(cameraScanResult);
+    chatController.sendJoinEvent(cameraScanResult);
   }
 }
