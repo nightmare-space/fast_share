@@ -13,6 +13,6 @@ if [ -f "$PROJECT_DIR/dist/${APP_NAME}_Windows.zip" ]; then
     rsync -v "$PROJECT_DIR/dist/${APP_NAME}_Windows.zip" "$TARGET_PATH/$target_name"
 fi
 
-# rsync -v $PROJECT_DIR/dist/app-arm64-v8a-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_arm64.apk
-# rsync -v $PROJECT_DIR/dist/app-armeabi-v7a-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_arm_v7a.apk
-# rsync -v $PROJECT_DIR/dist/app-x86_64-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_x86_64.apk
+rsync -v $PROJECT_DIR/dist/app-arm64-v8a-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_arm64.apk
+rsync -v $PROJECT_DIR/dist/app-armeabi-v7a-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_arm_v7a.apk
+rsync -v $PROJECT_DIR/dist/app-x86_64-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_x86_64.apk

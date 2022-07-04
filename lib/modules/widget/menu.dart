@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:logger_view/logger_view.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/utils/scan_util.dart';
 
 import '../dialog/join_chat.dart';
-
 
 class HeaderMenu extends StatefulWidget {
   const HeaderMenu({
@@ -39,12 +39,12 @@ class _HeaderMenuState extends State<HeaderMenu> {
           ),
           left: min(
             widget.offset.dx,
-            MediaQuery.of(context).size.width - 170.w,
+            MediaQuery.of(context).size.width - 190.w,
           ),
           child: Align(
             alignment: Alignment.topLeft,
             child: SizedBox(
-              width: 160.w,
+              width: 180.w,
               child: Material(
                 borderRadius: BorderRadius.circular(12.w),
                 clipBehavior: Clip.antiAlias,
@@ -74,9 +74,9 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     size: 24.w,
                                   ),
                                   SizedBox(width: 12.w),
-                                  const Text(
-                                    '输入连接',
-                                    style: TextStyle(
+                                  Text(
+                                    S.of(context).inputConnect,
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -105,9 +105,9 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     width: 24.w,
                                   ),
                                   SizedBox(width: 12.w),
-                                  const Text(
-                                    '扫码',
-                                    style: TextStyle(
+                                  Text(
+                                    S.of(context).scan,
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -146,9 +146,9 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     size: 24.w,
                                   ),
                                   SizedBox(width: 12.w),
-                                  const Text(
-                                    '日志',
-                                    style: TextStyle(
+                                  Text(
+                                    S.of(context).log,
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

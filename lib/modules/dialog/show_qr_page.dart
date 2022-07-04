@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:speed_share/generated/l10n.dart';
 
 // 展示二维码的弹窗
 class ShowQRPage extends StatefulWidget {
@@ -63,8 +64,11 @@ class _ShowQRPageState extends State<ShowQRPage> {
                     },
                   ),
                 ),
-                const Text(
-                  '左右滑动切换网卡',
+                Text(
+                  S.of(context).qrTips,
+                ),
+                SizedBox(
+                  height: 10.w,
                 ),
               ],
             ),

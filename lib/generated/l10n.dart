@@ -45,6 +45,16 @@ class S {
     );
   }
 
+  /// `Settings`
+  String get setting {
+    return Intl.message(
+      'Settings',
+      name: 'setting',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Download Path`
   String get downlaodPath {
     return Intl.message(
@@ -115,11 +125,31 @@ class S {
     );
   }
 
+  /// `SpeedShare also support Windows、macOS、Linux`
+  String get downloadTip {
+    return Intl.message(
+      'SpeedShare also support Windows、macOS、Linux',
+      name: 'downloadTip',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Language`
   String get lang {
     return Intl.message(
       'Language',
       name: 'lang',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chat Window`
+  String get chatWindow {
+    return Intl.message(
+      'Chat Window',
+      name: 'chatWindow',
       desc: '',
       args: [],
     );
@@ -140,6 +170,76 @@ class S {
     return Intl.message(
       'Open Source',
       name: 'openSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currently there are no messages, click to enter the message list`
+  String get noMessageTip {
+    return Intl.message(
+      'Currently there are no messages, click to enter the message list',
+      name: 'noMessageTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Input Connect`
+  String get inputConnect {
+    return Intl.message(
+      'Input Connect',
+      name: 'inputConnect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan QR Code`
+  String get scan {
+    return Intl.message(
+      'Scan QR Code',
+      name: 'scan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log`
+  String get log {
+    return Intl.message(
+      'Log',
+      name: 'log',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Terms Of Service`
+  String get theTermsOfService {
+    return Intl.message(
+      'The Terms Of Service',
+      name: 'theTermsOfService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy Agreement`
+  String get privacyAgreement {
+    return Intl.message(
+      'Privacy Agreement',
+      name: 'privacyAgreement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slide left or right to switch IP addresses`
+  String get qrTips {
+    return Intl.message(
+      'Slide left or right to switch IP addresses',
+      name: 'qrTips',
       desc: '',
       args: [],
     );

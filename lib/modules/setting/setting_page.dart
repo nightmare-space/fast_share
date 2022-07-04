@@ -243,7 +243,7 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                           ),
                           Text(
-                            '速享还支持Windows、macOS、Linux',
+                            S.of(context).downloadTip,
                             style: TextStyle(
                               fontSize: 14.w,
                               fontWeight: FontWeight.normal,

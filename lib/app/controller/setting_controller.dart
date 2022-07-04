@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
 import 'package:settings/settings.dart';
-
+/// 支持切换的语言列表
 Map<String, Locale> languageMap = {
   "English": const Locale('en', ''),
   "中文": const Locale('zh', 'CN'),

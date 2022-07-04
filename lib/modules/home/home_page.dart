@@ -279,7 +279,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '消息窗口(以前点那个+号打开的页面)',
+                S.of(context).chatWindow,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,
