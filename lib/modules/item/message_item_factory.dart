@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/modules/item/text_item.dart';
 import 'broswer_file_item.dart';
 import 'dir_item.dart';
 import 'file_item.dart';
 import 'qr_item.dart';
-
-Color getColor(int type) {
-  switch (type) {
-    case 0:
-      return const Color(0xffED796A);
-      break;
-    case 1:
-      return const Color(0xff6A6DED);
-      break;
-    case 2:
-      return const Color(0xff317DEE);
-      break;
-    default:
-      return Colors.indigo;
-  }
-}
 
 class MessageItemFactory {
   static Widget getMessageItem(MessageBaseInfo info, bool sendByUser) {
@@ -81,8 +66,8 @@ class MessageItemFactory {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: getColor(info.deviceType).withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
+                      color: Device.getColor(info.deviceType).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
@@ -92,9 +77,8 @@ class MessageItemFactory {
                       child: Text(
                         info.deviceName ?? '',
                         style: TextStyle(
-                          height: 1,
                           fontSize: 12.w,
-                          color: getColor(info.deviceType),
+                          color: Device.getColor(info.deviceType),
                         ),
                       ),
                     ),

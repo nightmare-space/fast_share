@@ -127,7 +127,7 @@ class _RemotePageState extends State<RemotePage> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: getColor(device.deviceType).withOpacity(0.1),
+                        color: device.deviceColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12.w),
                       ),
                       padding: EdgeInsets.all(24.w),
@@ -143,14 +143,14 @@ class _RemotePageState extends State<RemotePage> {
                                 style: TextStyle(
                                   fontSize: 20.w,
                                   fontWeight: FontWeight.bold,
-                                  color: getColor(device.deviceType),
+                                  color: device.deviceColor,
                                 ),
                               ),
                               SizedBox(height: 10.w),
                               Text(
                                 '点击即可访问${device.deviceName}的所有文件',
                                 style: TextStyle(
-                                  color: getColor(device.deviceType),
+                                  color: device.deviceColor,
                                 ),
                               ),
                             ],

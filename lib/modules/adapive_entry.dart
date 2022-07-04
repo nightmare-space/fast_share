@@ -38,7 +38,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
     if (!GetPlatform.isWeb) {
       chatController.createChatRoom();
     } else {
-      chatController.initChat(widget.address);
+      chatController.initChat();
     }
   }
 

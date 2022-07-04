@@ -15,8 +15,6 @@ import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/modules/preview/image_preview.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
 
-import 'online_list_header.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
@@ -89,9 +87,8 @@ class _HomePageState extends State<HomePage> {
             physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
-                buildHead(context),
+                const Header(),
                 SizedBox(height: 12.w),
-                OnlineList(onJoin: widget.onJoinRoom),
                 SizedBox(height: 4.w),
                 chatRoom(context),
                 SizedBox(height: 10.w),
@@ -326,9 +323,5 @@ class _HomePageState extends State<HomePage> {
         }),
       ),
     );
-  }
-
-  Widget buildHead(BuildContext context) {
-    return const Header();
   }
 }

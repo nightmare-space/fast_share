@@ -13,7 +13,8 @@ class JoinMessage extends MessageBaseInfo {
         );
 
   List<String> addrs;
-  int port;
+  int messagePort;
+  int filePort;
 
   JoinMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     final List<String> addrs = json['addrs'] is List ? <String>[] : null;
@@ -25,14 +26,16 @@ class JoinMessage extends MessageBaseInfo {
       }
     }
     this.addrs = addrs;
-    port = asT<int>(json['port']);
+    messagePort = asT<int>(json['message_port']);
+    filePort = asT<int>(json['file_port']);
   }
 
   @override
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['addrs'] = addrs;
-    data['port'] = port;
+    data['message_port'] = messagePort;
+    data['file_port'] = filePort;
     return data;
   }
 }

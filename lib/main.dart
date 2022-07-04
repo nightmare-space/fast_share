@@ -16,6 +16,8 @@ import 'global/global.dart';
 import 'themes/default_theme_data.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 
+import 'utils/chat_server_v2.dart';
+
 // 初始化hive的设置
 Future<void> initSetting() async {
   await initSettingStore(RuntimeEnvir.configPath);
@@ -25,6 +27,7 @@ Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
     WidgetsFlutterBinding.ensureInitialized();
     // 拿到应用程序路径
+    // get app directory
     final dir = (await getApplicationSupportDirectory()).path;
     RuntimeEnvir.initEnvirWithPackageName(
       Config.packageName,
@@ -50,8 +53,8 @@ Future<void> main() async {
     }
   }
   // 透明状态栏
+  // transparent the appbar
   StatusBarUtil.transparent();
-  // 物理平台使用的udp设备互相发现
   Global().initGlobal();
 }
 

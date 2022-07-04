@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
@@ -11,15 +10,15 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/app/controller/utils/scroll_extension.dart';
-import 'package:speed_share/app/controller/utils/socket_util.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/model/model_factory.dart';
 import 'package:speed_share/modules/item/message_item_factory.dart';
-import 'package:speed_share/utils/chat_server.dart';
+import 'package:speed_share/utils/chat_server_v2.dart';
 import 'package:speed_share/utils/file_server.dart';
+import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'utils/file_util.dart';
 import 'utils/server_util.dart';
@@ -54,17 +53,13 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   List<Widget> backup = [];
   // 输入框控制器
   TextEditingController controller = TextEditingController();
-  // WebSocket对象
-  GetSocket socket;
   // 列表渲染的widget列表
   List<Widget> children = [];
   // 本机的ip地址列表
   List<String> addrs = [];
   // 列表的滑动控制器
+  // scroll view controller
   ScrollController scrollController = ScrollController();
-  //
-  bool isConnect = false;
-  String chatRoomUrl = '';
 
   Map<String, int> dirItemMap = {};
   Map<String, MessageDirInfo> dirMsgMap = {};
@@ -82,26 +77,26 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   UniqueKey uniqueKey = UniqueKey();
   Map<String, XFile> webFileSendCache = {};
 
-  String chatServerAddress;
   ValueNotifier<bool> connectState = ValueNotifier(false);
 
   // 创建聊天房间，调用时机为app启动时
   Future<void> createChatRoom() async {
     WidgetsBinding.instance.addObserver(this);
-    chatBindPort = await createChatServer();
-    Log.i('聊天服务器端口 : $chatBindPort');
+
+    chatBindPort = await Server.start();
+    // chatBindPort = await createChatServer();
+    Log.i('消息服务器端口 : $chatBindPort');
     String udpData = '';
     udpData += await UniqueUtil.getDevicesId();
     udpData += ',$chatBindPort';
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
     Global().startSendBoardcast(udpData);
     // 保存本地的IP地址列表
-    chatRoomUrl = 'http://127.0.0.1:$chatBindPort';
     if (!GetPlatform.isWeb) {
       await refreshLocalAddress();
       update();
     }
-    initChat(chatRoomUrl);
+    initChat();
   }
 
   /// 刷新本地ip地址列表
@@ -109,52 +104,17 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     addrs = await PlatformUtil.localAddress();
   }
 
-  Future<void> initChat(
-    String chatServerAddress,
-  ) async {
-    if (socket != null && chatServerAddress == null) {
-      return;
-    }
-    // if (chatServerAddress != null) {
-    //   Global().stopSendBoardcast();
-    // }
-    if (chatServerAddress == this.chatServerAddress && socket != null) {
-      return;
-    }
-    this.chatServerAddress = chatServerAddress;
-
-    socket = GetSocket('${chatServerAddress ?? chatRoomUrl}/chat');
+  Future<void> initChat() async {
     // 清除消息列表
     children.clear();
-    socket.onClose((p0) {
-      Log.e('Socket onClose $p0');
-      socket = null;
-      // 移除所有设备
-      // remove all device
-      deviceController.clear();
-      // 这个会让顶部的竖线变红，以提示用户
-      // this can lat header container color change
-      connectState.value = false;
-      showToast('连接已断开');
-      update();
-    });
-    isConnect = await SocketUtil.connect(socket);
-    if (!isConnect) {
-      children.add(MessageItemFactory.getMessageItem(
-        MessageTextInfo(content: '加入失败!'),
-        false,
-      ));
-      update();
-      return;
-    }
-    //
     connectState.value = true;
     // 监听消息
-    listenMessage();
+    // listenMessage();
     await Future.delayed(const Duration(milliseconds: 100));
     getHistoryMsg();
     await getSuccessBindPort();
-    sendJoinEvent();
+    Log.i('shelf will server with $shelfBindPort port');
+    Log.i('file server started with $fileServerPort port');
     if (!initLock.isCompleted) {
       initLock.complete();
     }
@@ -166,14 +126,12 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         Config.shelfPortRangeStart,
         Config.shelfPortRangeEnd,
       );
-      Log.i('shelf will server with $shelfBindPort port');
       handleTokenCheck(shelfBindPort);
       fileServerPort ??= await getSafePort(
         Config.filePortRangeStart,
         Config.filePortRangeEnd,
       );
       startFileServer(fileServerPort);
-      Log.i('file server started with $fileServerPort port');
     }
   }
 
@@ -255,7 +213,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       port: fileServerPort,
     );
     // 发送消息
-    socket.send(notifyMessage.toString());
+    // TODO
+    // socket.send(notifyMessage.toString());
   }
 
   // 给 web 和桌面端提供的方法
@@ -277,7 +236,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           fileSize: FileSizeUtils.getFileSize(await xFile.length()),
         );
         // 发送消息
-        socket.send(sendFileInfo.toString());
+        // socket.send(sendFileInfo.toString());
         // 将消息添加到本地列表
         children.add(MessageItemFactory.getMessageItem(
           sendFileInfo,
@@ -369,7 +328,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       sendFrom: Global().deviceId,
     );
     // 发送消息
-    socket.send(sendFileInfo.toString());
+    sendMessage(sendFileInfo);
     // 将消息添加到本地列表
     children.add(MessageItemFactory.getMessageItem(
       sendFileInfo,
@@ -379,47 +338,57 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     update();
   }
 
-  /// 这个里面的处理相对复杂一点
-  void listenMessage() {
-    Log.i('$this 监听消息');
-    socket.onMessage((message) async {
-      if (message == '') {
-        // 发来的空字符串就没必要解析了
-        return;
-      }
-      Map<String, dynamic> map;
-      try {
-        map = jsonDecode(message);
-        cache.add(map);
-        if (map['msgType'] == 'exit') {
-          deviceController.onDeviceClose(
-            map['deviceId'],
-          );
-          update();
-          return;
-        }
-        MessageBaseInfo info = MessageInfoFactory.fromJson(map);
-        dispatch(info, children);
-      } catch (e) {
-        return;
-      }
-    });
+  // /// 这个里面的处理相对复杂一点
+  // void listenMessage() {
+  //   Log.i('$this 监听消息');
+  //   socket.onMessage((message) async {
+  //     if (message == '') {
+  //       // 发来的空字符串就没必要解析了
+  //       return;
+  //     }
+  //     Map<String, dynamic> map;
+  //     try {
+  //       map = jsonDecode(message);
+  //       cache.add(map);
+  //       handleMessage(map);
+  //     } catch (e) {
+  //       return;
+  //     }
+  //   });
+  // }
+
+  void handleMessage(Map<String, dynamic> data) {
+    if (data['msgType'] == 'exit') {
+      deviceController.onDeviceClose(
+        data['deviceId'],
+      );
+      update();
+      return;
+    }
+    MessageBaseInfo info = MessageInfoFactory.fromJson(data);
+    dispatch(info, children);
   }
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
     if (info is JoinMessage) {
       // 当连接设备不是本机的时候
       if (info.deviceName != await UniqueUtil.getDevicesId()) {
-        String address = await getCorrectUrlWithAddressAndPort(
-          info.addrs,
-          info.port,
-        );
-        deviceController.onDeviceConnect(
-          info.deviceId,
-          info.deviceName,
-          info.deviceType,
-          address,
-        );
+        try {
+          deviceController.connectDevice
+              .firstWhere((element) => element.id == info.deviceId);
+        } catch (e) {
+          String address = await getCorrectUrlWithAddressAndPort(
+            info.addrs,
+            info.filePort,
+          );
+          deviceController.onDeviceConnect(
+            info.deviceId,
+            info.deviceName,
+            info.deviceType,
+            address,
+            info.messagePort,
+          );
+        }
         update();
         // Global().stopSendBoardcast();
         return;
@@ -492,28 +461,32 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  Future<void> sendJoinEvent() async {
+  Future<void> sendJoinEvent(String url) async {
     // 这个消息来告诉聊天服务器，自己连接上来了
     // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID和IP地址列表
+
+    await getSuccessBindPort();
     JoinMessage message = JoinMessage();
     message.deviceName = Global().deviceId;
     message.addrs = addrs;
-    message.port = shelfBindPort;
-    sendMessage(message);
+    message.filePort = shelfBindPort;
+
+    message.messagePort = chatBindPort;
+
+    httpInstance.post('${url}/', data: message.toJson());
+    // sendMessage(message);
   }
 
   void getHistoryMsg() {
     // 这个消息来告诉聊天服务器，自己需要历史消息
     Log.v('获取历史消息');
-    socket.send(jsonEncode({
-      'type': "getHistory",
-    }));
+    // TODO
   }
 
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
     info.deviceId = uniqueKey.toString();
-    socket.send(info.toString());
+    deviceController.send(info.toJson());
   }
 
   void sendTextMsg() {
@@ -522,6 +495,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       content: controller.text,
       sendFrom: Global().deviceId,
     );
+    Log.e(info);
     sendMessage(info);
     children.add(MessageItemFactory.getMessageItem(
       info,
@@ -553,10 +527,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onClose() {
-    if (isConnect) {
-      Log.i('close socket.');
-      socket.close();
-    }
     Log.e('chat controller dispose');
     focusNode.dispose();
     controller.dispose();
@@ -571,7 +541,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         refreshLocalAddress();
-        initChat(chatServerAddress);
+        initChat();
         break;
       default:
     }

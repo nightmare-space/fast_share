@@ -7,8 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:multicast/multicast.dart';
-import 'package:speed_share/app/controller/online_controller.dart';
-import 'package:speed_share/app/controller/setting_controller.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/unique_util.dart';
 
@@ -55,14 +54,8 @@ class Global {
         }
       }
     } else if (id.trim() != await UniqueUtil.getDevicesId()) {
-      OnlineController onlineController = Get.find();
-      onlineController.updateDevices(
-        DeviceEntity(
-          id,
-          address,
-          int.tryParse(port),
-        ),
-      );
+      ChatController chatController = Get.find();
+      chatController.sendJoinEvent('http://$address:$port');
     }
   }
 
