@@ -1,5 +1,9 @@
+# 分abi打包脚本
 flutter build apk --split-per-abi
-LOCAL_DIR=$(cd `dirname $0`; pwd)
+LOCAL_DIR=$(
+    cd $(dirname $0)
+    pwd
+)
 PROJECT_DIR=$LOCAL_DIR/../..
 mkdir $PROJECT_DIR/dist/
 cp -f $PROJECT_DIR/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk $PROJECT_DIR/dist/

@@ -16,8 +16,6 @@ import 'global/global.dart';
 import 'themes/default_theme_data.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 
-import 'utils/chat_server_v2.dart';
-
 // 初始化hive的设置
 Future<void> initSetting() async {
   await initSettingStore(RuntimeEnvir.configPath);
@@ -91,28 +89,32 @@ class SpeedShare extends StatelessWidget {
             final ThemeData theme =
                 isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
             return ResponsiveWrapper.builder(
-              Builder(builder: (context) {
-                if (ResponsiveWrapper.of(context).isDesktop) {
-                  ScreenAdapter.init(896);
-                } else {
-                  ScreenAdapter.init(414);
-                }
-                return GetBuilder<SettingController>(builder: (context) {
-                  return Localizations(
-                    locale: context.currentLocale,
-                    delegates: const [
-                      S.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
-                    child: Theme(
-                      data: theme,
-                      child: child,
-                    ),
+              Builder(
+                builder: (context) {
+                  if (ResponsiveWrapper.of(context).isDesktop) {
+                    ScreenAdapter.init(896);
+                  } else {
+                    ScreenAdapter.init(414);
+                  }
+                  return GetBuilder<SettingController>(
+                    builder: (context) {
+                      return Localizations(
+                        locale: context.currentLocale,
+                        delegates: const [
+                          S.delegate,
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalWidgetsLocalizations.delegate,
+                          GlobalCupertinoLocalizations.delegate,
+                        ],
+                        child: Theme(
+                          data: theme,
+                          child: child,
+                        ),
+                      );
+                    },
                   );
-                });
-              }),
+                },
+              ),
               // maxWidth: 1200,
               minWidth: 480,
               defaultScale: false,

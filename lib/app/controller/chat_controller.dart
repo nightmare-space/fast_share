@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart' hide Router;
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
@@ -59,7 +58,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         update();
       }
       // Log.i('inputMultiline:$inputMultiline');
-      return KeyEventResult.ignored;
+      return KeyEventResult.skipRemainingHandlers;
     };
   }
   bool inputMultiline = false;

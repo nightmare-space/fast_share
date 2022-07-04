@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
+import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/utils/ext_util.dart';
 
 const onknownKey = '未知';
@@ -17,12 +18,8 @@ const apkKey = '安装包';
 /// 用来管理文件的类，目前主要用来展示文件用
 /// 还有整理文件
 class FileController extends GetxController {
-  FileController() {
-    if (GetPlatform.isWindows || GetPlatform.isMacOS) {
-      prefix =
-          '${FileSystemEntity.parentOf(Platform.resolvedExecutable)}/SpeedShare';
-    }
-  }
+  FileController() {}
+  SettingController settingController = Get.find();
   List<FileSystemEntity> onknown = [];
   List<FileSystemEntity> zipFiles = [];
   List<FileSystemEntity> docFiles = [];
@@ -41,7 +38,7 @@ class FileController extends GetxController {
     videoKey,
     apkKey,
   ];
-  String prefix = '/sdcard/SpeedShare';
+  String get prefix => settingController.savePath;
 
   @override
   void onInit() {
@@ -167,7 +164,9 @@ class FileController extends GetxController {
           moveFileSafe(element, '$prefix/$zipKey/${basename(element.path)}');
         } else {
           moveFileSafe(
-              element, '$prefix/$onknownKey/${basename(element.path)}');
+            element,
+            '$prefix/$onknownKey/${basename(element.path)}',
+          );
         }
       }
     }

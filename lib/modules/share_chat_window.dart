@@ -452,14 +452,14 @@ class _ShareChatV2State extends State<ShareChatV2>
                       // height: 40.w,
                       child: Center(
                         child: GetBuilder<ChatController>(builder: (_) {
-                          Log.i('re');
                           return TextField(
                             focusNode: controller.focusNode,
                             controller: controller.controller,
                             autofocus: false,
                             maxLines: 8,
                             minLines: 1,
-                            keyboardType: TextInputType.none,
+                            // TDDO
+                            keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               fillColor: Theme.of(context).backgroundColor,
                               isDense: true,

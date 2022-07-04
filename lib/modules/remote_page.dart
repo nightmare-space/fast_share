@@ -8,7 +8,6 @@ import 'package:speed_share/global/constant.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
 import 'widget/header.dart';
-import 'item/message_item_factory.dart';
 
 class RemotePage extends StatefulWidget {
   const RemotePage({Key key}) : super(key: key);
