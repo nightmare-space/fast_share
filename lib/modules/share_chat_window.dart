@@ -451,31 +451,47 @@ class _ShareChatV2State extends State<ShareChatV2>
                       width: double.infinity,
                       // height: 40.w,
                       child: Center(
-                        child: TextField(
-                          focusNode: controller.focusNode,
-                          controller: controller.controller,
-                          autofocus: false,
-                          maxLines: 8,
-                          minLines: 1,
-                          decoration: InputDecoration(
-                            fillColor: Theme.of(context).backgroundColor,
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: GetPlatform.isWeb ? 16.w : 10.w,
-                              horizontal: 12.w,
+                        child: GetBuilder<ChatController>(builder: (_) {
+                          Log.i('re');
+                          return TextField(
+                            focusNode: controller.focusNode,
+                            controller: controller.controller,
+                            autofocus: false,
+                            maxLines: 8,
+                            minLines: 1,
+                            keyboardType: TextInputType.none,
+                            decoration: InputDecoration(
+                              fillColor: Theme.of(context).backgroundColor,
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: GetPlatform.isWeb ? 16.w : 10.w,
+                                horizontal: 12.w,
+                              ),
+                              hintText: 'shift+enter 即可换行',
                             ),
-                          ),
-                          style: const TextStyle(
-                            textBaseline: TextBaseline.ideographic,
-                          ),
-                          onSubmitted: (_) {
-                            controller.sendTextMsg();
-                            Future.delayed(const Duration(milliseconds: 100),
-                                () {
-                              controller.focusNode.requestFocus();
-                            });
-                          },
-                        ),
+                            style: const TextStyle(
+                              textBaseline: TextBaseline.ideographic,
+                            ),
+                            onSubmitted: (_) {
+                              if (controller.inputMultiline) {
+                                controller.controller.value = TextEditingValue(
+                                  text: '${controller.controller.text}\n',
+                                  selection: TextSelection.collapsed(
+                                    offset:
+                                        controller.controller.selection.end + 1,
+                                  ),
+                                );
+                                controller.focusNode.requestFocus();
+                                return;
+                              }
+                              controller.sendTextMsg();
+                              Future.delayed(const Duration(milliseconds: 100),
+                                  () {
+                                controller.focusNode.requestFocus();
+                              });
+                            },
+                          );
+                        }),
                       ),
                     ),
                   ),

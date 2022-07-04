@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:file_manager_view/core/io/impl/directory_unix.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:path/path.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf/shelf.dart';
@@ -26,7 +22,7 @@ class Server {
     app.post('/', (Request request) async {
       ChatController controller = Get.find();
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
-      Map<String,dynamic> data=jsonDecode(await request.readAsString());
+      Map<String, dynamic> data = jsonDecode(await request.readAsString());
       controller.cache.add(data);
       controller.handleMessage(data);
       return Response.ok(

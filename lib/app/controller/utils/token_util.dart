@@ -39,7 +39,7 @@ Future<String> getToken(String url) async {
   Completer lock = Completer();
   CancelToken cancelToken = CancelToken();
   Response response;
-  Future.delayed(const Duration(milliseconds: 300), () {
+  Future.delayed(const Duration(milliseconds: 1000), () {
     if (!lock.isCompleted) {
       cancelToken.cancel();
     }

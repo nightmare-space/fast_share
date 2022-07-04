@@ -62,7 +62,7 @@ class Header extends StatelessWidget {
               NiIconButton(
                 onTap: () {
                   Get.dialog(ShowQRPage(
-                    port: controller.chatBindPort,
+                    port: controller.messageBindPort,
                   ));
                 },
                 child: Image.asset(

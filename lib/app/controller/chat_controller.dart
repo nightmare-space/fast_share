@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart' hide Router;
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
+import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/app/controller/utils/scroll_extension.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/constant.dart';
@@ -18,7 +20,6 @@ import 'package:speed_share/model/model_factory.dart';
 import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server_v2.dart';
 import 'package:speed_share/utils/file_server.dart';
-import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'utils/file_util.dart';
 import 'utils/server_util.dart';
@@ -47,7 +48,21 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       }
       update();
     });
+    focusNode.onKey = (FocusNode node, event) {
+      if (event.isShiftPressed) {
+        // Log.i(event);
+        inputMultiline = true;
+        update();
+      } else {
+        // Log.i(event);
+        inputMultiline = false;
+        update();
+      }
+      // Log.i('inputMultiline:$inputMultiline');
+      return KeyEventResult.ignored;
+    };
   }
+  bool inputMultiline = false;
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
   List<Widget> backup = [];
@@ -65,7 +80,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   Map<String, MessageDirInfo> dirMsgMap = {};
   List<Map<String, dynamic>> cache = [];
   // 消息服务器成功绑定的端口
-  int chatBindPort;
+  int messageBindPort;
   // 文件服务器成功绑定的端口
   int shelfBindPort;
   int fileServerPort;
@@ -83,12 +98,12 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   Future<void> createChatRoom() async {
     WidgetsBinding.instance.addObserver(this);
 
-    chatBindPort = await Server.start();
+    messageBindPort = await Server.start();
     // chatBindPort = await createChatServer();
-    Log.i('消息服务器端口 : $chatBindPort');
+    Log.i('消息服务器端口 : $messageBindPort');
     String udpData = '';
     udpData += await UniqueUtil.getDevicesId();
-    udpData += ',$chatBindPort';
+    udpData += ',$messageBindPort';
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
     Global().startSendBoardcast(udpData);
     // 保存本地的IP地址列表
@@ -374,8 +389,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       // 当连接设备不是本机的时候
       if (info.deviceName != await UniqueUtil.getDevicesId()) {
         try {
-          deviceController.connectDevice
-              .firstWhere((element) => element.id == info.deviceId);
+          deviceController.connectDevice.firstWhere(
+            (element) => element.id == info.deviceId,
+          );
         } catch (e) {
           String address = await getCorrectUrlWithAddressAndPort(
             info.addrs,
@@ -388,9 +404,11 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             address,
             info.messagePort,
           );
+          Uri uri = Uri.parse(address);
+          Log.i('http://${uri.host}/${info.messagePort}');
+          sendJoinEvent('http://${uri.host}:${info.messagePort}');
         }
         update();
-        // Global().stopSendBoardcast();
         return;
       }
     } else if (info is MessageDirInfo) {
@@ -459,22 +477,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       vibrate();
       update();
     }
-  }
-
-  Future<void> sendJoinEvent(String url) async {
-    // 这个消息来告诉聊天服务器，自己连接上来了
-    // 会有一个单独的函数是因为要告诉聊天服务器自己的设备ID和IP地址列表
-
-    await getSuccessBindPort();
-    JoinMessage message = JoinMessage();
-    message.deviceName = Global().deviceId;
-    message.addrs = addrs;
-    message.filePort = shelfBindPort;
-
-    message.messagePort = chatBindPort;
-
-    httpInstance.post('${url}/', data: message.toJson());
-    // sendMessage(message);
   }
 
   void getHistoryMsg() {
