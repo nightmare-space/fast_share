@@ -54,7 +54,7 @@ class _FileItemState extends State<FileItem> {
     info = widget.info;
     // 开启自动下载，且是来自其他设备的消息
     if (canAutoDownload()) {
-      downloadController.downloadFile(url, '/sdcard/SpeedShare');
+      downloadController.downloadFile(url, settingController.savePath);
     }
   }
 
@@ -68,7 +68,7 @@ class _FileItemState extends State<FileItem> {
     }
     if (!settingController.enableAutoDownload) return false;
     String type = url.getType;
-    String savePath = '/sdcard/SpeedShare' '/$type/${basename(url)}';
+    String savePath = '${settingController.savePath}/$type/${basename(url)}';
     File file = File(savePath);
     if (!file.existsSync()) {
       return true;
@@ -139,13 +139,7 @@ class _FileItemState extends State<FileItem> {
                       return;
                     }
                     if (GetPlatform.isDesktop) {
-                      const confirmButtonText = 'Choose';
-                      final dir = await getDirectoryPath(
-                        confirmButtonText: confirmButtonText,
-                      );
-                      if (dir == null) {
-                        return;
-                      }
+                      final dir = settingController.savePath;
                       Log.e(' -> $url');
                       downloadController.downloadFile(url, dir);
                     } else {
@@ -154,7 +148,9 @@ class _FileItemState extends State<FileItem> {
                         dataDir.createSync();
                       }
                       downloadController.downloadFile(
-                          url, '/sdcard/SpeedShare');
+                        url,
+                        '/sdcard/SpeedShare',
+                      );
                     }
                   },
                   borderRadius: BorderRadius.circular(12),
@@ -188,7 +184,6 @@ class _FileItemState extends State<FileItem> {
   }
 
   Padding body(BuildContext context) {
-    DownloadInfo info = downloadController.getInfo(url);
     return Padding(
       padding: EdgeInsets.all(10.w),
       child: ConstrainedBox(
@@ -210,6 +205,7 @@ class _FileItemState extends State<FileItem> {
             // 展示下载进度条
             if (!widget.sendByUser && !GetPlatform.isWeb)
               GetBuilder<DownloadController>(builder: (context) {
+                DownloadInfo info = downloadController.getInfo(url);
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -217,10 +213,11 @@ class _FileItemState extends State<FileItem> {
                       height: 8.w,
                     ),
                     ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25.0)),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(25.0),
+                      ),
                       child: Builder(builder: (context) {
-                        double pro = downloadController.getProgress(url);
+                        double pro = info.progress;
                         return LinearProgressIndicator(
                           backgroundColor:
                               Theme.of(context).colorScheme.surface3,

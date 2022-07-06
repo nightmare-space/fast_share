@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
+import 'package:path/path.dart';
 import 'package:settings/settings.dart';
+
 /// 支持切换的语言列表
 Map<String, Locale> languageMap = {
   "English": const Locale('en', ''),
@@ -24,7 +28,7 @@ class SettingController extends GetxController {
   // 开启消息振动
   bool vibrate = true;
   // 文件储存路径
-  String savePath = '/sdcard/SpeedShare';
+  String savePath;
 
   Locale currentLocale;
   String currentLocaleKey = '中文';
@@ -40,6 +44,11 @@ class SettingController extends GetxController {
     clipboardShare = 'clipboardShare'.get ?? true;
     vibrate = 'vibrate'.get ?? true;
     enableAutoDownload = 'enableAutoDownload'.get ?? true;
+    String defaultPath = '/sdcard/SpeedShare';
+    if (GetPlatform.isWindows || GetPlatform.isWeb) {
+      defaultPath = '${dirname(Platform.resolvedExecutable)}/SpeedShare';
+    }
+    savePath = 'savePath'.get ?? defaultPath;
   }
 
   @override
@@ -70,8 +79,9 @@ class SettingController extends GetxController {
     update();
   }
 
-  void changeSavepath(String path) {
+  void switchDownLoadPath(String path) {
     savePath = path;
+    'savePath'.set = path;
     update();
   }
 }

@@ -52,7 +52,7 @@ class DownloadController extends GetxController {
       // Log.e('diff -> $diff');
       // 乘以2是因为半秒测的一次
       info.speed = FileSizeUtils.getFileSize(diff * 2);
-      // Log.e('网速 -> $speed');
+      Log.e('网速 -> ${info.speed}');
     });
   }
 

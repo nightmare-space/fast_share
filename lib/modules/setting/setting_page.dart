@@ -1,7 +1,10 @@
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/config/config.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -27,14 +30,18 @@ class _SettingPageState extends State<SettingPage> {
       fontSize: 16.w,
     );
     final S s = S.of(context);
-    return Scaffold(
-      appBar: AppBar(
+    AppBar appBar;
+    if (ResponsiveWrapper.of(context).isMobile) {
+      appBar = AppBar(
         systemOverlayStyle: OverlayStyle.dark,
         title: const Text('设置'),
-      ),
+      );
+    }
+    return Scaffold(
+      appBar: appBar,
       body: SafeArea(
         left: false,
-        child: GetBuilder<SettingController>(builder: (_) {
+        child: GetBuilder<SettingController>(builder: (controller) {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,31 +54,43 @@ class _SettingPageState extends State<SettingPage> {
                     style: title,
                   ),
                 ),
-                SettingItem(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        s.downlaodPath,
-                        style: TextStyle(
-                          fontSize: 18.w,
+                GetBuilder<SettingController>(builder: (_) {
+                  return SettingItem(
+                    onTap: () async {
+                      const confirmButtonText = 'Choose';
+                      final path = await getDirectoryPath(
+                        confirmButtonText: confirmButtonText,
+                      );
+                      Log.e('path:$path');
+                      if (path != null) {
+                        controller.switchDownLoadPath(path);
+                      }
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          s.downlaodPath,
+                          style: TextStyle(
+                            fontSize: 18.w,
+                          ),
                         ),
-                      ),
-                      Text(
-                        _.savePath,
-                        style: TextStyle(
-                          fontSize: 16.w,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .color
-                              .withOpacity(0.6),
+                        Text(
+                          controller.savePath,
+                          style: TextStyle(
+                            fontSize: 16.w,
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .color
+                                .withOpacity(0.6),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    ),
+                  );
+                }),
                 SettingItem(
                   onTap: () {
                     Get.dialog(const SelectLang());
@@ -87,7 +106,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       Text(
-                        _.currentLocale.toLanguageTag(),
+                        controller.currentLocale.toLanguageTag(),
                         style: TextStyle(
                           fontSize: 16.w,
                           color: Theme.of(context)
@@ -183,7 +202,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       Text(
-                        'v2.0',
+                        Config.versionName,
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
