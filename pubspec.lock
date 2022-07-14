@@ -49,6 +49,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.3.0"
+  args:
+    dependency: transitive
+    description:
+      name: args
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.3.1"
   async:
     dependency: transitive
     description:
@@ -222,11 +229,9 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: f905531207362c661f13bc3d805474a4d492a8d5
-      url: "https://github.com/nightmare-space/file_selector_meng"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/file_selector_meng"
+      relative: false
+    source: path
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -266,6 +271,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_markdown:
+    dependency: "direct main"
+    description:
+      name: flutter_markdown
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.10+2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -286,7 +298,7 @@ packages:
       name: flutter_svg
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -441,6 +453,13 @@ packages:
       url: "https://github.com/nightmare-space/logger_view"
     source: git
     version: "0.0.1"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.0.0"
   matcher:
     dependency: transitive
     description:

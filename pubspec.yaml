@@ -18,6 +18,7 @@ dependencies:
   animations: ^2.0.2
   desktop_drop: ^0.3.3
   dio_range_download: ^1.0.1
+  flutter_markdown: ^0.6.10+2
   # 文件选择自实现方案
   file_selector_nightmare:
     git: https://github.com/nightmare-space/file_selector_meng
@@ -102,7 +103,7 @@ dependency_overrides:
   #   path: ../global_repository
   # file_manager_view:
   #   path: ../file_manager_view
-  # file_selector_nightmare:
-  #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+  file_selector_nightmare:
+    path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
 flutter_intl:
   enabled: true

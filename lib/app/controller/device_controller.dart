@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:settings/settings.dart';
+import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/utils/http/http.dart';
 
 class Device {
@@ -8,8 +12,8 @@ class Device {
   String id;
   int deviceType;
   String deviceName;
-  // 一个可以互通的ip:port
-  String address;
+  // url prefix
+  String url;
   int messagePort;
 
   @override
@@ -45,14 +49,27 @@ class Device {
 
   @override
   String toString() {
-    return 'id:$id deviceType:$deviceType deviceName:$deviceName address:$address';
+    return 'id:$id deviceType:$deviceType deviceName:$deviceName address:$url';
   }
 }
 
 // 用于管理设备连接的类
 class DeviceController extends GetxController {
-  DeviceController();
+  DeviceController() {
+    try {
+      history = (jsonDecode('history'.get) as List<dynamic>).cast();
+      history = history.toSet().toList();
+      history.removeWhere((element) => element.contains('null'));
+      Future.delayed(const Duration(milliseconds: 200), () {
+        history.forEach(sendJoinEvent);
+      });
+      Log.e(history);
+    } catch (e) {
+      Log.e(e);
+    }
+  }
   List<Device> connectDevice = [];
+  List<String> history = [];
 
   @override
   void onInit() {
@@ -68,16 +85,17 @@ class DeviceController extends GetxController {
     String id,
     String name,
     int type,
-    String addr,
+    String urlPrefix,
     int port,
   ) {
     Device device = Device(id)
       ..deviceType = type
       ..deviceName = name
-      ..address = addr
+      ..url = urlPrefix
       ..messagePort = port;
     if (!connectDevice.contains(device)) {
       connectDevice.add(device);
+      addHistory('$urlPrefix:$port');
       Log.i('device : $device');
     }
     update();
@@ -93,11 +111,19 @@ class DeviceController extends GetxController {
     update();
   }
 
+  void addHistory(String url) {
+    history.add(url);
+    'history'.set = jsonEncode(history);
+  }
+
   send(Map<String, dynamic> data) {
     for (Device device in connectDevice) {
-      Uri uri = Uri.parse(device.address);
-      Log.i('http://${uri.host}/${device.messagePort}');
-      httpInstance.post('http://${uri.host}:${device.messagePort}', data: data);
+      Log.i('${device.url}:${device.messagePort}');
+      httpInstance.post('${device.url}:${device.messagePort}', data: data);
+    }
+    for (String url in history) {
+      // Log.i('${device.url}:${device.messagePort}');
+      httpInstance.post('$url', data: data);
     }
   }
 }

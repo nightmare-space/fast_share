@@ -86,7 +86,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   bool hasInput = false;
   // 发送文件需要等套接字初始化
   Completer initLock = Completer();
-  DeviceController deviceController = Get.find();
+  DeviceController deviceController = Get.put(DeviceController());
   SettingController settingController = Get.find();
   UniqueKey uniqueKey = UniqueKey();
   Map<String, XFile> webFileSendCache = {};
@@ -387,26 +387,25 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     if (info is JoinMessage) {
       // 当连接设备不是本机的时候
       if (info.deviceName != await UniqueUtil.getDevicesId()) {
+        String urlPrefix = await getCorrectUrlWithAddressAndPort(
+          info.addrs,
+          info.filePort,
+        );
         try {
           deviceController.connectDevice.firstWhere(
             (element) => element.id == info.deviceId,
           );
         } catch (e) {
-          String address = await getCorrectUrlWithAddressAndPort(
-            info.addrs,
-            info.filePort,
-          );
           deviceController.onDeviceConnect(
             info.deviceId,
             info.deviceName,
             info.deviceType,
-            address,
+            urlPrefix,
             info.messagePort,
           );
-          Uri uri = Uri.parse(address);
-          Log.i('http://${uri.host}/${info.messagePort}');
-          sendJoinEvent('http://${uri.host}:${info.messagePort}');
+          Log.i('$urlPrefix/${info.messagePort}');
         }
+        sendJoinEvent('$urlPrefix:${info.messagePort}');
         update();
         return;
       }
@@ -459,7 +458,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         info.addrs,
         info.port,
       );
-      info.url = url;
+      info.url = '$url:${info.port}';
       // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
       // C加入A的房间，自然是不能再拿到这个文件的信息了
       info.url ??= '';
@@ -487,6 +486,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
     info.deviceId = uniqueKey.toString();
+    Log.e(info);
     deviceController.send(info.toJson());
   }
 
@@ -496,7 +496,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       content: controller.text,
       sendFrom: Global().deviceId,
     );
-    Log.e(info);
     sendMessage(info);
     children.add(MessageItemFactory.getMessageItem(
       info,

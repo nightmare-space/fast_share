@@ -68,7 +68,7 @@ Future<String> getCorrectUrlWithAddressAndPort(
   for (String address in addresses) {
     String token = await getToken('http://$address:$port');
     if (token != null) {
-      return 'http://$address:$port';
+      return 'http://$address';
     }
   }
   return null;

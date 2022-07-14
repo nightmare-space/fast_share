@@ -115,7 +115,7 @@ class _RemotePageState extends State<RemotePage> {
                   child: GestureWithScale(
                     onTap: () {
                       Log.i(device);
-                      Uri uri = Uri.tryParse(device.address);
+                      Uri uri = Uri.tryParse(device.url);
                       page = FileManager(
                         address: 'http://${uri.host}:20000',
                         usePackage: true,

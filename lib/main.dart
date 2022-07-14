@@ -42,8 +42,9 @@ Future<void> main() async {
     await initSetting();
   }
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put(DeviceController());
   Get.put(SettingController());
+  Get.put(ChatController());
+  Get.put(DeviceController());
   runApp(const SpeedShare());
   if (GetPlatform.isDesktop) {
     if (!GetPlatform.isWeb) {

@@ -16,6 +16,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodCall;
@@ -38,12 +40,6 @@ public class MainActivity extends FlutterActivity {
             window.getDecorView().setSystemUiVisibility(PlatformPlugin.DEFAULT_SYSTEM_UI);
         }
         Intent intent = getIntent();
-        Uri data_uri;
-        data_uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        if (data_uri == null) {
-            Log.d("NightmareTAG", "sendFile: no data in intent");
-            return;
-        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,10 +48,9 @@ public class MainActivity extends FlutterActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                runOnUiThread(() -> channel.invokeMethod("send_file", getRealPath(data_uri)));
+                shareFiles(intent);
             }
         }).start();
-        Log.d("NightmareTAG", data_uri.toString());
     }
 
     @Override
@@ -93,32 +88,52 @@ public class MainActivity extends FlutterActivity {
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        Uri data_uri;
-        data_uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        if (data_uri == null) {
-            Log.d("NightmareTAG", "sendFile: no data in intent");
-            return;
+        shareFiles(intent);
+    }
+
+    public void shareFiles(Intent intent) {
+        if (intent.getAction() == Intent.ACTION_SEND) {
+            Uri data_uri;
+            data_uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (data_uri == null) {
+                Log.d("NightmareTAG", "sendFile: no data in intent");
+                return;
+            }
+            runOnUiThread(() -> {
+                channel.invokeMethod("send_file", getRealPath(data_uri));
+            });
+            Log.d("NightmareTAG", data_uri.toString());
+        } else if (intent.getAction() == Intent.ACTION_SEND_MULTIPLE) {
+            List<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+            for (int i = 0; i < uris.size(); i++) {
+                Log.d("NightmareTAG", i + ":" + uris.get(i).toString());
+                int finalI = i;
+                runOnUiThread(() -> {
+                    channel.invokeMethod("send_file", getRealPath(uris.get(finalI)));
+                });
+            }
         }
-        channel.invokeMethod("send_file", getRealPath(data_uri));
-        Log.d("NightmareTAG", data_uri.toString());
     }
 
     private String getRealPath(Uri fileUrl) {
         String fileName = null;
         if (fileUrl != null) {
-            if (fileUrl.getScheme().toString().compareTo("content") == 0) // content://开头的uri
+            Log.d("NightmareTAG", fileUrl.getScheme());
+            if (fileUrl.getScheme().compareTo("content") == 0) // content://开头的uri
             {
-                Cursor cursor = this.getContentResolver().query(fileUrl, null, null, null, null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    try {
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        fileName = cursor.getString(column_index); // 取出文件路径
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    } finally {
-                        cursor.close();
-                    }
-                }
+//                Uri uri = Uri.parse(fileUrl.getPath());
+                fileName = fileUrl.getPath();
+//                Cursor cursor = this.getContentResolver().query(fileUrl, null, null, null, null);
+//                if (cursor != null && cursor.moveToFirst()) {
+//                    try {
+//                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                        fileName = cursor.getString(column_index); // 取出文件路径
+//                    } catch (IllegalArgumentException e) {
+//                        e.printStackTrace();
+//                    } finally {
+//                        cursor.close();
+//                    }
+//                }
             } else if (fileUrl.getScheme().compareTo("file") == 0) // file:///开头的uri
             {
                 fileName = fileUrl.getPath();

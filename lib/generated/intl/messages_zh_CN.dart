@@ -43,7 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noMessageTip" : MessageLookupByLibrary.simpleMessage("当前没有任何消息，点击进入消息列表"),
     "openSource" : MessageLookupByLibrary.simpleMessage("开源地址"),
     "otherVersion" : MessageLookupByLibrary.simpleMessage("其他版本下载"),
-    "privacyAgreement" : MessageLookupByLibrary.simpleMessage("隐私协议"),
+    "privacyAgreement" : MessageLookupByLibrary.simpleMessage("隐私政策"),
     "qrTips" : MessageLookupByLibrary.simpleMessage("左右滑动切换IP地址"),
     "recentFile" : MessageLookupByLibrary.simpleMessage("最近文件"),
     "recentImg" : MessageLookupByLibrary.simpleMessage("最近图片"),
