@@ -103,7 +103,7 @@ dependency_overrides:
   #   path: ../global_repository
   # file_manager_view:
   #   path: ../file_manager_view
-  file_selector_nightmare:
-    path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+  # file_selector_nightmare:
+  #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
 flutter_intl:
   enabled: true

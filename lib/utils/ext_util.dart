@@ -32,7 +32,9 @@ extension Ext on String {
         endsWith('.docx') ||
         endsWith('.ppt') ||
         endsWith('.pptx') ||
-        endsWith('.pdf');
+        endsWith('.pdf') ||
+        endsWith('.xls') ||
+        endsWith('.xlsx');
   }
 
   bool get isText {

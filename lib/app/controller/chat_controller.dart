@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart' hide Router;
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
@@ -53,12 +54,16 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         inputMultiline = true;
         update();
       } else {
-        // Log.i(event);
+        Log.i(event);
         inputMultiline = false;
         update();
       }
+      if (event.logicalKey == LogicalKeyboardKey.enter) {
+        return KeyEventResult.skipRemainingHandlers;
+        Log.e('on key');
+      }
       // Log.i('inputMultiline:$inputMultiline');
-      return KeyEventResult.skipRemainingHandlers;
+      return KeyEventResult.ignored;
     };
   }
   bool inputMultiline = false;
