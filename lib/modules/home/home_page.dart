@@ -6,14 +6,17 @@ import 'package:get/get.dart' hide ScreenType;
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/modules/file/file_page.dart';
+import 'package:speed_share/modules/privacy_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/modules/preview/image_preview.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -38,8 +41,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    request();
     handleSendFile();
+    Future.delayed(Duration.zero, () async {
+      if ('privacy'.get == null) {
+        await Get.to(const PrivacyAgreePage());
+        request();
+      }
+    });
   }
 
   Future<void> request() async {
@@ -54,10 +62,15 @@ class _HomePageState extends State<HomePage> {
       MethodChannel channel = const MethodChannel('send_channel');
       channel.setMethodCallHandler((call) async {
         if (call.method == 'send_file') {
+          if (call.arguments == null) {
+            showToast('分享文件失败');
+            return;
+          }
           // File file = File.fromUri(Uri.parse(call.arguments));
           // print(file.path);
           Log.d('call -> ${call.arguments}');
           String realPath = call.arguments.toString().replaceAll('file://', '');
+          realPath = realPath.replaceAll('/raw/', '');
           realPath = realPath.replaceAll(
             'content://com.miui.home.fileprovider/data_app',
             '/data/app',

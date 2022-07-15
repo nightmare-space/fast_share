@@ -27,7 +27,7 @@ Future<void> sendJoinEvent(String url) async {
     return;
   }
   ChatController controller = Get.find();
-  await controller.getSuccessBindPort();
+  await controller.initLock.future;
   JoinUtil.sendJoinEvent(
     controller.addrs,
     controller.shelfBindPort,

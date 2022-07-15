@@ -97,7 +97,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
   ChatController controller = Get.find();
   DeviceController deviceController = Get.find();
   Timer timer;
-  int page = 1;
+  int page = 0;
 
   @override
   void initState() {
@@ -105,6 +105,12 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
     timer = Timer.periodic(const Duration(seconds: 3), (_) {
       page += 1;
       page = page % 2;
+      if (page == 1) {
+        DeviceController deviceController = Get.find();
+        if (deviceController.connectDevice.isEmpty) {
+          page = 0;
+        }
+      }
       setState(() {});
     });
   }
@@ -136,11 +142,34 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
           Align(
             alignment: Alignment.centerLeft,
             child: GetBuilder<DeviceController>(builder: (_) {
-              return Text(
-                '当前有${deviceController.connectDevice.length}个设备会收到消息',
-                style: TextStyle(
-                  fontSize: 16.w,
-                  color: Theme.of(context).colorScheme.onBackground,
+              return RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '当前有',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Theme.of(context).colorScheme.onBackground,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${deviceController.connectDevice.length}',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '个设备会收到消息',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Theme.of(context).colorScheme.onBackground,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               );
             }),

@@ -227,7 +227,7 @@ class DrawerItem extends StatelessWidget {
         onChange?.call(value);
       },
       child: Container(
-        width: 160.w,
+        width: 200.w,
         padding: EdgeInsets.symmetric(
           horizontal: 12.w,
           vertical: 12.w,

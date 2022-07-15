@@ -1,4 +1,5 @@
 import 'package:file_selector/file_selector.dart';
+import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -57,13 +58,20 @@ class _SettingPageState extends State<SettingPage> {
                 GetBuilder<SettingController>(builder: (_) {
                   return SettingItem(
                     onTap: () async {
-                      const confirmButtonText = 'Choose';
-                      final path = await getDirectoryPath(
-                        confirmButtonText: confirmButtonText,
-                      );
-                      Log.e('path:$path');
-                      if (path != null) {
-                        controller.switchDownLoadPath(path);
+                      if (GetPlatform.isDesktop) {
+                        const confirmButtonText = 'Choose';
+                        final path = await getDirectoryPath(
+                          confirmButtonText: confirmButtonText,
+                        );
+                        Log.e('path:$path');
+                        if (path != null) {
+                          controller.switchDownLoadPath(path);
+                        }
+                      } else {
+                        String path = await FileSelector.pickDirectory(context);
+                        if (path != null) {
+                          controller.switchDownLoadPath(path);
+                        }
                       }
                     },
                     child: Column(

@@ -98,7 +98,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                             Builder(
                               builder: (context) {
                                 Uri uri = Uri.tryParse(
-                                  controller.connectDevice[i].address,
+                                  controller.connectDevice[i].url,
                                 );
                                 String addr = 'http://${uri.host}:20000';
                                 return FileManager(
