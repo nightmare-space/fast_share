@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
@@ -116,14 +117,22 @@ class DeviceController extends GetxController {
     'history'.set = jsonEncode(history);
   }
 
-  send(Map<String, dynamic> data) {
+  send(Map<String, dynamic> data) async {
+    Set<String> urls = {};
     for (Device device in connectDevice) {
-      Log.i('${device.url}:${device.messagePort}');
-      httpInstance.post('${device.url}:${device.messagePort}', data: data);
+      // Log.i('${device.url}:${device.messagePort}');
+      urls.add('${device.url}:${device.messagePort}');
     }
     for (String url in history) {
-      // Log.i('${device.url}:${device.messagePort}');
-      httpInstance.post('$url', data: data);
+      urls.add('$url');
+    }
+    for (String url in urls) {
+      Log.i('$url');
+      try {
+        Response res = await httpInstance.post('$url', data: data);
+      } catch (e) {
+        Log.e('send error : $e');
+      }
     }
   }
 }
