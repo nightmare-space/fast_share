@@ -54,15 +54,12 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         inputMultiline = true;
         update();
       } else {
-        Log.i(event);
         inputMultiline = false;
         update();
       }
       if (event.logicalKey == LogicalKeyboardKey.enter) {
         return KeyEventResult.skipRemainingHandlers;
-        Log.e('on key');
       }
-      // Log.i('inputMultiline:$inputMultiline');
       return KeyEventResult.ignored;
     };
   }
@@ -377,6 +374,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   // }
 
   void handleMessage(Map<String, dynamic> data) {
+    Log.e(data);
     if (data['msgType'] == 'exit') {
       deviceController.onDeviceClose(
         data['deviceId'],
