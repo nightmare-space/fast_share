@@ -49,6 +49,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.3.0"
+  args:
+    dependency: transitive
+    description:
+      name: args
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.3.1"
   async:
     dependency: transitive
     description:
@@ -266,6 +273,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_markdown:
+    dependency: "direct main"
+    description:
+      name: flutter_markdown
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.10+2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -441,6 +455,13 @@ packages:
       url: "https://github.com/nightmare-space/logger_view"
     source: git
     version: "0.0.1"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.0.0"
   matcher:
     dependency: transitive
     description:
