@@ -88,7 +88,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   bool hasInput = false;
   // 发送文件需要等套接字初始化
   Completer initLock = Completer();
-  DeviceController deviceController = Get.put(DeviceController());
+  DeviceController deviceController = Get.find();
   SettingController settingController = Get.find();
   UniqueKey uniqueKey = UniqueKey();
   Map<String, XFile> webFileSendCache = {};
@@ -374,7 +374,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   // }
 
   void handleMessage(Map<String, dynamic> data) {
-    Log.e(data);
+    Log.e('handleMessage :$data');
     if (data['msgType'] == 'exit') {
       deviceController.onDeviceClose(
         data['deviceId'],

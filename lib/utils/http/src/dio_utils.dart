@@ -13,9 +13,11 @@ class DioUtils {
         InterceptorsWrapper(
           onRequest: (options, handler) {
             // print(options.extra);
-            print(options.uri);
-            print(options.method);
-            print(options.headers);
+            Log.v('>>>>>>>>HTTP LOG');
+            Log.v(options.uri);
+            Log.v(options.method);
+            Log.v(options.headers);
+            Log.v('<<<<<<<<');
             handler.next(options);
           },
         ),

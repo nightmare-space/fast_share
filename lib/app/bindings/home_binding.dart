@@ -7,7 +7,6 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.put(SettingController());
     Get.put(FileController());
-    Get.put(DeviceController());
     Get.put(DownloadController());
   }
 }

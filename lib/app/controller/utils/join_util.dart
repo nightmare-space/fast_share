@@ -22,7 +22,7 @@ class JoinUtil {
     try {
       Response res = await httpInstance.post('$url/', data: message.toJson());
     } on DioError catch (e) {
-      Log.e(e);
+      Log.e('发送加入消息异常，但不一定会影响使用\n详情：$e');
     }
   }
 }

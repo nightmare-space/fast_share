@@ -15,6 +15,7 @@ import 'generated/l10n.dart';
 import 'global/global.dart';
 import 'themes/default_theme_data.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'dart:async';
 
 // 初始化hive的设置
 Future<void> initSetting() async {
@@ -43,9 +44,29 @@ Future<void> main() async {
   }
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(SettingController());
-  Get.put(ChatController());
   Get.put(DeviceController());
-  runApp(const SpeedShare());
+  Get.put(ChatController());
+
+  runZonedGuarded<void>(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      if (!GetPlatform.isIOS) {
+        final dir = (await getApplicationSupportDirectory()).path;
+        RuntimeEnvir.initEnvirWithPackageName(
+          Config.packageName,
+          appSupportDirectory: dir,
+        );
+      }
+      runApp(const SpeedShare());
+    },
+    (error, stackTrace) {
+      Log.e('未捕捉到的异常 : $error \n$stackTrace');
+    },
+  );
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    Log.e('页面构建异常 : ${details.exception}');
+  };
   if (GetPlatform.isDesktop) {
     if (!GetPlatform.isWeb) {
       await windowManager.ensureInitialized();

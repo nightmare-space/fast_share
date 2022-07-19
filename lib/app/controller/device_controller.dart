@@ -64,9 +64,9 @@ class DeviceController extends GetxController {
       Future.delayed(const Duration(milliseconds: 200), () {
         history.forEach(sendJoinEvent);
       });
-      Log.e(history);
+      Log.i('历史IP地址：$history');
     } catch (e) {
-      Log.e(e);
+      Log.e('DeviceController error :$e');
     }
   }
   List<Device> connectDevice = [];
