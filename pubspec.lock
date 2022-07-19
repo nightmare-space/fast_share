@@ -6,7 +6,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4fcd79238d399bd790a7af16df1e4332871d14b7"
+      resolved-ref: c469b2db2876648cd965c62266b220b3e021ca77
       url: "https://github.com/nightmare-space/adbutil"
     source: git
     version: "0.0.1"
@@ -175,13 +175,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
-  event_bus:
-    dependency: transitive
-    description:
-      name: event_bus
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   fake_async:
     dependency: transitive
     description:
@@ -351,7 +344,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0536dd84855369280672ed33caf2547b331c1ead"
+      resolved-ref: a5b0378786501a7ebccd0d7e7d0744768f97496c
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"

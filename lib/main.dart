@@ -32,6 +32,8 @@ Future<void> main() async {
       Config.packageName,
       appSupportDirectory: dir,
     );
+    // 启动文件服务器
+    // start file manager server
     fm.Server.start();
   }
   Get.config(
