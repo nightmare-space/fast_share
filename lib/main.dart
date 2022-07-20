@@ -91,9 +91,6 @@ class SpeedShare extends StatelessWidget {
     String initRoute = SpeedPages.initial;
     ChatController controller = Get.put(ChatController());
     SettingController settingController = Get.find();
-    if (GetPlatform.isWeb) {
-      initRoute = Routes.chat;
-    }
     return ToastApp(
       child: GetBuilder<SettingController>(builder: (context) {
         Log.i('GetMaterialApp build');

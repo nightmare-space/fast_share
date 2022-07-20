@@ -53,7 +53,7 @@ class _FileItemState extends State<FileItem> {
     super.initState();
     info = widget.info;
     // 开启自动下载，且是来自其他设备的消息
-    if (canAutoDownload()) {
+    if (!GetPlatform.isWeb && canAutoDownload()) {
       downloadController.downloadFile(url, settingController.savePath);
     }
   }

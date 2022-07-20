@@ -5,6 +5,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf/shelf.dart';
+import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/config.dart';
 
@@ -31,7 +32,7 @@ class Server {
         headers: corsHeader,
       );
     });
-    app.get('/', (Request request) {
+    app.get('/message', (Request request) {
       if (controller.messageCache.isNotEmpty) {
         return Response.ok(
           jsonEncode(controller.messageCache.removeAt(0)),
@@ -43,6 +44,12 @@ class Server {
         headers: corsHeader,
       );
     });
+    var handler = createStaticHandler(
+      RuntimeEnvir.filesPath,
+      listDirectories: true,
+      defaultDocument: 'index.html',
+    );
+    app.mount('/', handler);
     int port = await getSafePort(
       Config.chatPortRangeStart,
       Config.chatPortRangeEnd,

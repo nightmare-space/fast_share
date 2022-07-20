@@ -131,8 +131,12 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     // listenMessage();
     if (GetPlatform.isWeb) {
       Timer.periodic(const Duration(seconds: 1), (timer) async {
-        Log.i(url);
-        Response res = await Dio().get('http://172.24.221.151:12000/');
+        Uri uri = Uri.tryParse(url);
+        String webUrl = 'http://${uri.host}:12000/message';
+        if (!kReleaseMode) {
+          webUrl = 'http://192.168.0.102:12000/message';
+        }
+        Response res = await Dio().get(webUrl);
         try {
           Map<String, dynamic> data = jsonDecode(res.data);
           MessageBaseInfo info = MessageInfoFactory.fromJson(data);

@@ -43,11 +43,8 @@ class SpeedPages {
           });
           return false;
         },
-        child: ThemeWrapper(
-          child: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: OverlayStyle.dark,
-            child: const AdaptiveEntryPoint(),
-          ),
+        child: const ThemeWrapper(
+          child: AdaptiveEntryPoint(),
         ),
       ),
       binding: HomeBinding(),
@@ -55,10 +52,6 @@ class SpeedPages {
     GetPage(
       name: Routes.chat,
       page: () {
-        Uri uri;
-        uri = GetPlatform.isWeb
-            ? Uri.parse(kDebugMode ? 'http://172.24.221.151:12000/' : url)
-            : Uri.parse(Get.parameters['chatServerAddress']);
         return const ThemeWrapper(
           child: AdaptiveEntryPoint(),
         );

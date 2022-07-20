@@ -43,7 +43,9 @@ class FileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    initFile();
+    if (!GetPlatform.isWeb) {
+      initFile();
+    }
   }
 
   void checkIfNotExist() {
