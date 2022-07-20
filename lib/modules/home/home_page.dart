@@ -22,10 +22,8 @@ class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
     this.onMessageWindowTap,
-    this.onJoinRoom,
   }) : super(key: key);
   final void Function() onMessageWindowTap;
-  final void Function(String address) onJoinRoom;
 
   @override
   State<HomePage> createState() => _HomePageState();

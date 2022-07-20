@@ -57,12 +57,10 @@ class SpeedPages {
       page: () {
         Uri uri;
         uri = GetPlatform.isWeb
-            ? Uri.parse(kDebugMode ? 'http://192.168.208.102:12000/' : url)
+            ? Uri.parse(kDebugMode ? 'http://172.24.221.151:12000/' : url)
             : Uri.parse(Get.parameters['chatServerAddress']);
-        return ThemeWrapper(
-          child: AdaptiveEntryPoint(
-            address: 'http://${uri.host}:${uri.port}',
-          ),
+        return const ThemeWrapper(
+          child: AdaptiveEntryPoint(),
         );
       },
       binding: ChatBinding(),

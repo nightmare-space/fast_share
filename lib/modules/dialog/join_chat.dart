@@ -104,7 +104,7 @@ class _JoinChatState extends State<JoinChat> {
     }
     Get.back();
     Get.toNamed(
-      '${Routes.chat}?needCreateChatServer=false&chatServerAddress=$url',
+      Routes.chat,
     );
   }
 }

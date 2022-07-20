@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
@@ -19,6 +20,7 @@ import 'package:speed_share/model/model.dart';
 import 'package:speed_share/model/model_factory.dart';
 import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server_v2.dart';
+import 'package:speed_share/utils/document/document.dart';
 import 'package:speed_share/utils/file_server.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'utils/file_util.dart';
@@ -98,7 +100,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   // 创建聊天房间，调用时机为app启动时
   Future<void> createChatRoom() async {
     WidgetsBinding.instance.addObserver(this);
-
+    // 启动消息服务器
+    // start message server
     messageBindPort = await Server.start();
     // chatBindPort = await createChatServer();
     Log.i('消息服务器端口 : $messageBindPort');
@@ -126,6 +129,18 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     connectState.value = true;
     // 监听消息
     // listenMessage();
+    if (GetPlatform.isWeb) {
+      Timer.periodic(const Duration(seconds: 1), (timer) async {
+        Log.i(url);
+        Response res = await Dio().get('http://172.24.221.151:12000/');
+        try {
+          Map<String, dynamic> data = jsonDecode(res.data);
+          MessageBaseInfo info = MessageInfoFactory.fromJson(data);
+          dispatch(info, children);
+        } catch (e) {}
+      });
+      return;
+    }
     await Future.delayed(const Duration(milliseconds: 100));
     getHistoryMsg();
     await getSuccessBindPort();
@@ -320,6 +335,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }
 
   // 基于一个文件路径发送消息
+  // send a file message base file path
   Future<void> sendFileFromPath(String filePath) async {
     await getSuccessBindPort();
     ServerUtil.serveFile(filePath, shelfBindPort);
@@ -354,25 +370,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     update();
   }
 
-  // /// 这个里面的处理相对复杂一点
-  // void listenMessage() {
-  //   Log.i('$this 监听消息');
-  //   socket.onMessage((message) async {
-  //     if (message == '') {
-  //       // 发来的空字符串就没必要解析了
-  //       return;
-  //     }
-  //     Map<String, dynamic> map;
-  //     try {
-  //       map = jsonDecode(message);
-  //       cache.add(map);
-  //       handleMessage(map);
-  //     } catch (e) {
-  //       return;
-  //     }
-  //   });
-  // }
-
   void handleMessage(Map<String, dynamic> data) {
     Log.e('handleMessage :$data');
     if (data['msgType'] == 'exit') {
@@ -395,6 +392,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           info.filePort,
         );
         try {
+          // 会先尝试去找是否已经被记录了
+          // will try to find object first
           deviceController.connectDevice.firstWhere(
             (element) => element.id == info.deviceId,
           );
@@ -486,10 +485,12 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     // TODO
   }
 
+  List<Map<String, dynamic>> messageCache = [];
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
     info.deviceId = uniqueKey.toString();
     Log.e(info);
+    messageCache.add(info.toJson());
     deviceController.send(info.toJson());
   }
 

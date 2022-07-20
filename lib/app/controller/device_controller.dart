@@ -57,6 +57,9 @@ class Device {
 // 用于管理设备连接的类
 class DeviceController extends GetxController {
   DeviceController() {
+    if (GetPlatform.isWeb) {
+      return;
+    }
     try {
       history = (jsonDecode('history'.get) as List<dynamic>).cast();
       history = history.toSet().toList();

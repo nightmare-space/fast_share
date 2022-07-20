@@ -53,11 +53,14 @@ Future<void> main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       if (!GetPlatform.isIOS) {
-        final dir = (await getApplicationSupportDirectory()).path;
-        RuntimeEnvir.initEnvirWithPackageName(
-          Config.packageName,
-          appSupportDirectory: dir,
-        );
+        String dir;
+        if (!GetPlatform.isWeb) {
+          dir = (await getApplicationSupportDirectory()).path;
+          RuntimeEnvir.initEnvirWithPackageName(
+            Config.packageName,
+            appSupportDirectory: dir,
+          );
+        }
       }
       runApp(const SpeedShare());
     },

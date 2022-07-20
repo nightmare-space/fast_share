@@ -20,9 +20,7 @@ import 'share_chat_window.dart';
 class AdaptiveEntryPoint extends StatefulWidget {
   const AdaptiveEntryPoint({
     Key key,
-    this.address,
   }) : super(key: key);
-  final String address;
 
   @override
   State<AdaptiveEntryPoint> createState() => _AdaptiveEntryPointState();
@@ -75,11 +73,6 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                                 page = 1;
                                 setState(() {});
                               },
-                              onJoinRoom: (value) {
-                                address = value;
-                                page = 1;
-                                setState(() {});
-                              },
                             )
                           else
                             const SizedBox(),
@@ -87,9 +80,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                             color: Colors.white,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: ShareChatV2(
-                                chatServerAddress: widget.address ?? address,
-                              ),
+                              child: const ShareChatV2(),
                             ),
                           ),
                           for (int i = 0;
@@ -145,9 +136,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                           color: Colors.white,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.w),
-                            child: ShareChatV2(
-                              chatServerAddress: widget.address ?? address,
-                            ),
+                            child: const ShareChatV2(),
                           ),
                         )
                       else

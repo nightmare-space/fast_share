@@ -19,10 +19,8 @@ import 'package:file_manager_view/file_manager_view.dart' as fm;
 class ShareChatV2 extends StatefulWidget {
   const ShareChatV2({
     Key key,
-    this.chatServerAddress,
   }) : super(key: key);
 
-  final String chatServerAddress;
   @override
   State createState() => _ShareChatV2State();
 }

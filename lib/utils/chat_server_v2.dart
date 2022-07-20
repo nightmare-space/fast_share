@@ -17,10 +17,11 @@ final corsHeader = {
 };
 
 class Server {
-  // 启动文件管理器服务端
+  // 启动消息服务端
   static Future<int> start() async {
+    // TODO 应该把文件服务器绑定过来
+    ChatController controller = Get.find();
     app.post('/', (Request request) async {
-      ChatController controller = Get.find();
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
       Map<String, dynamic> data = jsonDecode(await request.readAsString());
       controller.cache.add(data);
@@ -30,7 +31,18 @@ class Server {
         headers: corsHeader,
       );
     });
-
+    app.get('/', (Request request) {
+      if (controller.messageCache.isNotEmpty) {
+        return Response.ok(
+          jsonEncode(controller.messageCache.removeAt(0)),
+          headers: corsHeader,
+        );
+      }
+      return Response.ok(
+        '',
+        headers: corsHeader,
+      );
+    });
     int port = await getSafePort(
       Config.chatPortRangeStart,
       Config.chatPortRangeEnd,

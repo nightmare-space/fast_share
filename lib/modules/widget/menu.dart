@@ -123,11 +123,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                           Get.to(
                             () => Responsive(
                               builder: (context, screenType) {
-                                return const Material(
-                                  child: SafeArea(
-                                    child: LoggerView(),
-                                  ),
-                                );
+                                return const LoggerView();
                               },
                             ),
                           );
