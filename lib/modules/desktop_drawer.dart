@@ -46,150 +46,21 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             child: Row(
               children: [
                 GetBuilder<DeviceController>(builder: (controller) {
+                  if (GetPlatform.isWeb) {
+                    return Column(
+                      children: [
+                        messageMenu(),
+                        fileMenu(),
+                      ],
+                    );
+                  }
                   return Column(
                     children: [
-                      if (!GetPlatform.isWeb)
-                        DrawerItem(
-                          groupValue: widget.value,
-                          value: 0,
-                          onChange: (v) {
-                            setState(() {});
-                            widget.onChange?.call(v);
-                          },
-                          builder: (_) {
-                            return Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icon/homev2.png',
-                                  width: 16.w,
-                                ),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  '首页',
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(_).textTheme.bodyText2.color,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      DrawerItem(
-                        groupValue: widget.value,
-                        value: 1,
-                        onChange: (v) {
-                          setState(() {});
-                          chatController.restoreList();
-                          widget.onChange?.call(v);
-                        },
-                        builder: (_) {
-                          return Row(
-                            children: [
-                              Image.asset(
-                                'assets/icon/all.png',
-                                width: 16.w,
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                '消息窗口',
-                                style: TextStyle(
-                                  color: Theme.of(_).textTheme.bodyText2.color,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      GetBuilder<DeviceController>(builder: (_) {
-                        return Column(
-                          children: [
-                            for (int i = 0; i < _.connectDevice.length; i++)
-                              DrawerItem(
-                                groupValue: widget.value,
-                                value: i + 2,
-                                onChange: (v) {
-                                  widget.onChange?.call(v);
-                                  chatController
-                                      .changeListToDevice(_.connectDevice[i]);
-                                  setState(() {});
-                                },
-                                builder: (context) {
-                                  return Row(
-                                    children: [
-                                      Image.asset(
-                                        getIcon(_.connectDevice[i].deviceType),
-                                        width: 16.w,
-                                      ),
-                                      SizedBox(width: 4.w),
-                                      Text(
-                                        '文件管理(${_.connectDevice[i].deviceName})',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2
-                                              .color,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                          ],
-                        );
-                      }),
-                      if (!GetPlatform.isWeb)
-                        DrawerItem(
-                          groupValue: widget.value,
-                          value: controller.connectDevice.length + 2,
-                          onChange: (v) {
-                            setState(() {});
-                            widget.onChange?.call(v);
-                          },
-                          builder: (_) {
-                            return Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icon/file.png',
-                                  width: 16.w,
-                                ),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  '文件管理(本地)',
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(_).textTheme.bodyText2.color,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      DrawerItem(
-                        groupValue: widget.value,
-                        value: controller.connectDevice.length + 3,
-                        onChange: (v) {
-                          setState(() {});
-                          widget.onChange?.call(v);
-                        },
-                        builder: (_) {
-                          return Row(
-                            children: [
-                              Image.asset(
-                                'assets/icon/setting.png',
-                                width: 16.w,
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                '设置',
-                                style: TextStyle(
-                                  color: Theme.of(_).textTheme.bodyText2.color,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                      homeMenu(),
+                      messageMenu(),
+                      fileMenu(),
+                      localFileMenu(controller),
+                      settingMenu(controller),
                     ],
                   );
                 }),
@@ -203,6 +74,155 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
           ),
         ],
       ),
+    );
+  }
+
+  DrawerItem settingMenu(DeviceController controller) {
+    return DrawerItem(
+      groupValue: widget.value,
+      value: controller.connectDevice.length + 3,
+      onChange: (v) {
+        setState(() {});
+        widget.onChange?.call(v);
+      },
+      builder: (_) {
+        return Row(
+          children: [
+            Image.asset(
+              'assets/icon/setting.png',
+              width: 16.w,
+            ),
+            SizedBox(width: 4.w),
+            Text(
+              '设置',
+              style: TextStyle(
+                color: Theme.of(_).textTheme.bodyText2.color,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  DrawerItem localFileMenu(DeviceController controller) {
+    return DrawerItem(
+      groupValue: widget.value,
+      value: controller.connectDevice.length + 2,
+      onChange: (v) {
+        setState(() {});
+        widget.onChange?.call(v);
+      },
+      builder: (_) {
+        return Row(
+          children: [
+            Image.asset(
+              'assets/icon/file.png',
+              width: 16.w,
+            ),
+            SizedBox(width: 4.w),
+            Text(
+              '文件管理(本地)',
+              style: TextStyle(
+                color: Theme.of(_).textTheme.bodyText2.color,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  GetBuilder<DeviceController> fileMenu() {
+    return GetBuilder<DeviceController>(builder: (_) {
+      return Column(
+        children: [
+          for (int i = 0; i < _.connectDevice.length; i++)
+            DrawerItem(
+              groupValue: widget.value,
+              value: i + 2,
+              onChange: (v) {
+                widget.onChange?.call(v);
+                chatController.changeListToDevice(_.connectDevice[i]);
+                setState(() {});
+              },
+              builder: (context) {
+                return Row(
+                  children: [
+                    Image.asset(
+                      getIcon(_.connectDevice[i].deviceType),
+                      width: 16.w,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      '文件管理(${_.connectDevice[i].deviceName})',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2.color,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+        ],
+      );
+    });
+  }
+
+  DrawerItem messageMenu() {
+    return DrawerItem(
+      groupValue: widget.value,
+      value: 1,
+      onChange: (v) {
+        setState(() {});
+        chatController.restoreList();
+        widget.onChange?.call(v);
+      },
+      builder: (_) {
+        return Row(
+          children: [
+            Image.asset(
+              'assets/icon/all.png',
+              width: 16.w,
+            ),
+            SizedBox(width: 4.w),
+            Text(
+              '消息窗口',
+              style: TextStyle(
+                color: Theme.of(_).textTheme.bodyText2.color,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  DrawerItem homeMenu() {
+    return DrawerItem(
+      groupValue: widget.value,
+      value: 0,
+      onChange: (v) {
+        setState(() {});
+        widget.onChange?.call(v);
+      },
+      builder: (_) {
+        return Row(
+          children: [
+            Image.asset(
+              'assets/icon/homev2.png',
+              width: 16.w,
+            ),
+            SizedBox(width: 4.w),
+            Text(
+              '首页',
+              style: TextStyle(
+                color: Theme.of(_).textTheme.bodyText2.color,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

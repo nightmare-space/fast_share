@@ -97,9 +97,12 @@ class DeviceController extends GetxController {
       ..deviceName = name
       ..url = urlPrefix
       ..messagePort = port;
+    // Log.i(device);
     if (!connectDevice.contains(device)) {
       connectDevice.add(device);
-      addHistory('$urlPrefix:$port');
+      if (!GetPlatform.isWeb) {
+        addHistory('$urlPrefix:$port');
+      }
       Log.i('device : $device');
     }
     update();

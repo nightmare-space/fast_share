@@ -40,11 +40,12 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
     }
   }
 
-  int page = GetPlatform.isWeb ? 1 : 0;
+  int page;
 
   @override
   Widget build(BuildContext context) {
     if (ResponsiveWrapper.of(context).isDesktop) {
+      page ??= GetPlatform.isWeb ? 1 : 0;
       return Scaffold(
         body: SafeArea(
           left: false,
@@ -65,17 +66,50 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                       },
                     ),
                     GetBuilder<DeviceController>(builder: (controller) {
+                      if (GetPlatform.isWeb) {
+                        return Expanded(
+                          child: [
+                            const SizedBox(),
+                            Container(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                child: const ShareChatV2(),
+                              ),
+                            ),
+                            for (int i = 0;
+                                i < controller.connectDevice.length;
+                                i++)
+                              Builder(
+                                builder: (context) {
+                                  Uri uri = Uri.tryParse(
+                                    controller.connectDevice[i].url,
+                                  );
+                                  String addr = 'http://${uri.host}:20000';
+                                  return FileManager(
+                                    address: addr,
+                                    usePackage: true,
+                                    path: controller
+                                                .connectDevice[i].deviceType ==
+                                            desktop
+                                        ? '/User'
+                                        : '/sdcard',
+                                  );
+                                },
+                              ),
+                            const SizedBox(),
+                            const SizedBox(),
+                          ][page],
+                        );
+                      }
                       return Expanded(
                         child: [
-                          if (!GetPlatform.isWeb)
-                            HomePage(
-                              onMessageWindowTap: () {
-                                page = 1;
-                                setState(() {});
-                              },
-                            )
-                          else
-                            const SizedBox(),
+                          HomePage(
+                            onMessageWindowTap: () {
+                              page = 1;
+                              setState(() {});
+                            },
+                          ),
                           Container(
                             color: Colors.white,
                             child: Padding(
@@ -83,34 +117,8 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                               child: const ShareChatV2(),
                             ),
                           ),
-                          for (int i = 0;
-                              i < controller.connectDevice.length;
-                              i++)
-                            Builder(
-                              builder: (context) {
-                                Uri uri = Uri.tryParse(
-                                  controller.connectDevice[i].url,
-                                );
-                                String addr = 'http://${uri.host}:20000';
-                                return FileManager(
-                                  address: addr,
-                                  usePackage: true,
-                                  path:
-                                      controller.connectDevice[i].deviceType ==
-                                              desktop
-                                          ? '/User'
-                                          : '/sdcard',
-                                );
-                              },
-                            ),
-                          if (!GetPlatform.isWeb)
-                            const FilePage()
-                          else
-                            const SizedBox(),
-                          if (!GetPlatform.isWeb)
-                            const SettingPage()
-                          else
-                            const SizedBox(),
+                          const FilePage(),
+                          const SettingPage(),
                         ][page],
                       );
                     }),
@@ -122,47 +130,47 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
         ),
       );
     }
+    page ??= 0;
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: SafeArea(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: [
-                      if (GetPlatform.isWeb)
-                        Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w),
-                            child: const ShareChatV2(),
-                          ),
-                        )
-                      else
-                        const HomePage(),
-                      if (GetPlatform.isWeb) const SizedBox(),
-                      const RemotePage(),
-                      const SizedBox(),
-                      const FilePage(),
-                      if (!GetPlatform.isWeb)
-                        const PersonalPage()
-                      else
-                        const SizedBox(),
-                    ][page],
-                  ),
-                  Nav(
-                    value: page,
-                    onTap: (value) {
-                      page = value;
-                      setState(() {});
-                    },
-                  ),
-                ],
-              ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Builder(builder: (context) {
+                if (GetPlatform.isWeb) {
+                  return [
+                    Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: const ShareChatV2(),
+                      ),
+                    ),
+                    const SizedBox(),
+                    const RemotePage(),
+                    const SizedBox(),
+                    const FilePage(),
+                    const SizedBox(),
+                  ][page];
+                }
+                return [
+                  const HomePage(),
+                  const RemotePage(),
+                  const SizedBox(),
+                  const FilePage(),
+                  const PersonalPage()
+                ][page];
+              }),
             ),
-          ),
-        ],
+            Nav(
+              value: page,
+              onTap: (value) {
+                page = value;
+                setState(() {});
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

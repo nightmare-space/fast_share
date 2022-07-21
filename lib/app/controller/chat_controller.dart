@@ -130,12 +130,25 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     // 监听消息
     // listenMessage();
     if (GetPlatform.isWeb) {
-      Timer.periodic(const Duration(seconds: 1), (timer) async {
-        Uri uri = Uri.tryParse(url);
-        String webUrl = 'http://${uri.host}:12000/message';
-        if (!kReleaseMode) {
-          webUrl = 'http://192.168.0.102:12000/message';
-        }
+      String urlPrefix = url;
+      if (!kReleaseMode) {
+        urlPrefix = 'http://192.168.0.101:12000/';
+      }
+      Uri uri = Uri.parse(urlPrefix);
+      int port = uri.port;
+      deviceController.onDeviceConnect(
+        shortHash(''),
+        '设备',
+        phone,
+        'http://${uri.host}',
+        port,
+      );
+      // Log.i('$urlPrefix/${info.messagePort}');
+
+      sendJoinEvent('http://${uri.host}:$port');
+      update();
+      Timer.periodic(const Duration(milliseconds: 300), (timer) async {
+        String webUrl = '${urlPrefix}message';
         Response res = await Dio().get(webUrl);
         try {
           Map<String, dynamic> data = jsonDecode(res.data);
