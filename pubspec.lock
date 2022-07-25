@@ -6,7 +6,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8212cf920b2320600a517ec339075e2d9ec2879a"
+      resolved-ref: "4fcd79238d399bd790a7af16df1e4332871d14b7"
       url: "https://github.com/nightmare-space/adbutil"
     source: git
     version: "0.0.1"
@@ -168,13 +168,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  equatable:
+  event_bus:
     dependency: transitive
     description:
-      name: equatable
+      name: event_bus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "1.1.1"
   fake_async:
     dependency: transitive
     description:
@@ -231,7 +231,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: b25a901fe6a6d8c07bfc3492852e45e0faf1c07a
+      resolved-ref: f905531207362c661f13bc3d805474a4d492a8d5
       url: "https://github.com/nightmare-space/file_selector_meng"
     source: git
     version: "1.0.0+1"
@@ -344,7 +344,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a5b0378786501a7ebccd0d7e7d0744768f97496c
+      resolved-ref: "0536dd84855369280672ed33caf2547b331c1ead"
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"
@@ -449,9 +449,11 @@ packages:
   logger_view:
     dependency: "direct main"
     description:
-      path: "../logger_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "6d88858a49b20211a33c9bcc1b64773d96a0a3bd"
+      url: "https://github.com/nightmare-space/logger_view"
+    source: git
     version: "0.0.1"
   markdown:
     dependency: transitive
@@ -623,13 +625,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
-  platform_info:
-    dependency: transitive
-    description:
-      name: platform_info
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.2.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -807,6 +802,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  termare_view:
+    dependency: transitive
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "1d2e49d18f042e1c4ea55fedcda1d096622d1ad0"
+      url: "https://github.com/Termare/termare_view"
+    source: git
+    version: "0.0.7"
   test_api:
     dependency: transitive
     description:
@@ -954,15 +958,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
-  xterm:
-    dependency: transitive
-    description:
-      path: "."
-      ref: v3
-      resolved-ref: dc16176a04d0f2782d21aba257760bb8c8d5a9de
-      url: "https://github.com/mengyanshou/xterm.dart"
-    source: git
-    version: "3.0.6-alpha"
 sdks:
   dart: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"
