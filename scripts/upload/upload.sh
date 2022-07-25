@@ -1,4 +1,7 @@
-LOCAL_DIR=$(cd `dirname $0`; pwd)
+LOCAL_DIR=$(
+    cd $(dirname $0)
+    pwd
+)
 PROJECT_DIR=$LOCAL_DIR/../..
 source $LOCAL_DIR/../properties.sh
 # echo $PROJECT_DIR
