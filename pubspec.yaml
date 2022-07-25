@@ -95,8 +95,8 @@ flutter:
 
 dependency_overrides:
   flutter_svg: ^1.1.0
-  logger_view:
-    path: ../logger_view
+  # logger_view:
+  #   path: ../logger_view
   # app_manager:
   #   path: ../app_manager
   # applib_util:
