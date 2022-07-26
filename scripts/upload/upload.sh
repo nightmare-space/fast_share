@@ -15,7 +15,15 @@ if [ -f "$PROJECT_DIR/dist/${APP_NAME}_Windows.zip" ]; then
     target_name="${APP_NAME_CN}_${VERSION}_Windows.zip"
     rsync -v "$PROJECT_DIR/dist/${APP_NAME}_Windows.zip" "$TARGET_PATH/$target_name"
 fi
-
-rsync -v $PROJECT_DIR/dist/app-arm64-v8a-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_arm64.apk
-rsync -v $PROJECT_DIR/dist/app-armeabi-v7a-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_arm_v7a.apk
-rsync -v $PROJECT_DIR/dist/app-x86_64-release.apk $TARGET_PATH/$APP_NAME_CN'_'$VERSION'_'Android_x86_64.apk
+arm64_apk="$PROJECT_DIR/dist/app-arm64-v8a-release.apk"
+if [ -f "$arm64_apk" ]; then
+    rsync -v "$arm64_apk" $TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_arm64.apk
+fi
+arm_apk="$PROJECT_DIR/dist/app-armeabi-v7a-release.apk"
+if [ -f "$arm_apk" ]; then
+    rsync -v "$arm_apk" $TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_arm_v7a.apk
+fi
+x86_apk="$PROJECT_DIR/dist/app-x86_64-release.apk"
+if [ -f "$x86_apk" ]; then
+    rsync -v "$x86_apk" $TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_x86_64.apk
+fi
