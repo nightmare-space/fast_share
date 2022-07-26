@@ -229,7 +229,10 @@ class _SettingPageState extends State<SettingPage> {
                     String url =
                         'https://github.com/nightmare-space/speed_share';
                     await canLaunchUrlString(url)
-                        ? await launchUrlString(url)
+                        ? await launchUrlString(
+                            url,
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          )
                         : throw 'Could not launch $url';
                   },
                   child: Row(
@@ -253,7 +256,10 @@ class _SettingPageState extends State<SettingPage> {
                     String url =
                         'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
                     await canLaunchUrlString(url)
-                        ? await launchUrlString(url)
+                        ? await launchUrlString(
+                            url,
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          )
                         : throw 'Could not launch $url';
                   },
                   child: Row(
