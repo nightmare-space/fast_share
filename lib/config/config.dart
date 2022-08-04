@@ -17,5 +17,5 @@ class Config {
   static String package;
 
   static String packageConst = 'packages/speed_share/';
-  static String versionName = 'v2.1.2';
+  static String versionName = 'v2.1.3';
 }
