@@ -163,7 +163,7 @@ class _FilePageState extends State<FilePage> {
                   ),
                   SizedBox(
                     width: width,
-                    child: imgFile(context),
+                    child: apkFile(context),
                   ),
                 ],
               );

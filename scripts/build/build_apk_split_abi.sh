@@ -1,7 +1,7 @@
 # !/usr/bin/env sh
 # 分abi打包脚本
 # ./scripts/build/build_apk_split_abi.sh
-flutter build apk --split-per-abi
+flutter build apk --dart-define=APP_CHANNEL=www.baidu.com --dart-define=OTHER_VAR=这是测试环境 --split-per-abi
 LOCAL_DIR=$(
     cd $(dirname $0)
     pwd
