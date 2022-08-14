@@ -40,7 +40,7 @@ android {
     defaultConfig {
         applicationId "com.nightmare.speedshare"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

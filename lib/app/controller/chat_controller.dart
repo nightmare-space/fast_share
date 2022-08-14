@@ -22,6 +22,7 @@ import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server_v2.dart';
 import 'package:speed_share/utils/document/document.dart';
 import 'package:speed_share/utils/file_server.dart';
+import 'package:speed_share/utils/http/http.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'utils/file_util.dart';
 import 'utils/server_util.dart';
@@ -50,9 +51,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       }
       update();
     });
+    // 这里是shift+enter可以是实现换行的逻辑
     focusNode.onKey = (FocusNode node, event) {
       if (event.isShiftPressed) {
-        // Log.i(event);
         inputMultiline = true;
         update();
       } else {
@@ -65,6 +66,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       return KeyEventResult.ignored;
     };
   }
+  // 一个标记位
   bool inputMultiline = false;
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
@@ -422,8 +424,20 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             urlPrefix,
             info.messagePort,
           );
+          sendMessage(info);
+          for (Map<String, dynamic> data in messageCache) {
+            try {
+              Response res = await httpInstance.post(
+                '$urlPrefix:${info.messagePort}',
+                data: data,
+              );
+            } catch (e) {
+              Log.e('cache send error : $e');
+            }
+          }
           Log.i('$urlPrefix/${info.messagePort}');
         }
+        // 通知对方连接成功
         sendJoinEvent('$urlPrefix:${info.messagePort}');
         update();
         return;
@@ -503,6 +517,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }
 
   List<Map<String, dynamic>> messageCache = [];
+  List<Map<String, dynamic>> messageWebCache = [];
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
     info.deviceId = uniqueKey.toString();

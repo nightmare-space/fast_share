@@ -25,7 +25,6 @@ class Server {
     app.post('/', (Request request) async {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
       Map<String, dynamic> data = jsonDecode(await request.readAsString());
-      controller.cache.add(data);
       controller.handleMessage(data);
       return Response.ok(
         "success",
@@ -33,9 +32,9 @@ class Server {
       );
     });
     app.get('/message', (Request request) {
-      if (controller.messageCache.isNotEmpty) {
+      if (controller.messageWebCache.isNotEmpty) {
         return Response.ok(
-          jsonEncode(controller.messageCache.removeAt(0)),
+          jsonEncode(controller.messageWebCache.removeAt(0)),
           headers: corsHeader,
         );
       }
