@@ -103,8 +103,8 @@ jobs:
       - name: Packaging
         run: |
           .\scripts\patch_executable.bat
-          Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath "${{ env.ZIP_NAME }}_Windows.zip"
+          Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath "${{ env.ZIP_NAME }}-windows.zip"
 
       - name: Release
         run: |
-          curl --upload-file "${{ env.ZIP_NAME }}_Windows.zip" "https://transfer.sh/${{ env.APP_NAME }}_Windows.zip"
+          curl --upload-file "${{ env.ZIP_NAME }}-windows.zip" "https://transfer.sh/${{ env.APP_NAME }}-windows.zip"

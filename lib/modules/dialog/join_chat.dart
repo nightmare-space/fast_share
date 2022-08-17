@@ -91,6 +91,7 @@ class _JoinChatState extends State<JoinChat> {
   }
 
   void joinChat() {
+    // todo
     if (controller.text.isEmpty) {
       showToast('URL不能为空');
       return;

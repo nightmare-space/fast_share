@@ -437,6 +437,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           }
           Log.i('$urlPrefix/${info.messagePort}');
         }
+        Log.i('通知对方 $urlPrefix:${info.messagePort} sendJoinEvent');
         // 通知对方连接成功
         sendJoinEvent('$urlPrefix:${info.messagePort}');
         update();

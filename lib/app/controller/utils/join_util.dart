@@ -20,15 +20,21 @@ class JoinUtil {
     message.filePort = shelfBindPort;
     message.messagePort = chatBindPort;
     try {
-      Response res = await httpInstance.post('$url/', data: message.toJson());
+      Response res = await httpInstance.post(
+        '$url/',
+        data: message.toJson(),
+      );
+      Log.i('sendJoinEvent result : ${res.data}');
     } on DioError catch (e) {
-      Log.e('发送加入消息异常，但不一定会影响使用\n详情：${e.message}');
+      Log.e('$url 发送加入消息异常，但不一定会影响使用\n详情：${e.message}');
     }
   }
 }
 
 List<String> _hasSendJoin = [];
 Future<void> sendJoinEvent(String url) async {
+  // Log.i('sendJoinEvent : $url');
+  // Log.i('_hasSendJoin : $_hasSendJoin');
   if (_hasSendJoin.contains(url)) {
     return;
   }
