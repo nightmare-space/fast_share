@@ -578,7 +578,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         refreshLocalAddress();
-        initChat();
+        // TODO
+        // initChat();
         break;
       default:
     }

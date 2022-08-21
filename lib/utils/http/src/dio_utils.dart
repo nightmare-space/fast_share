@@ -8,15 +8,13 @@ class DioUtils {
   static Dio getInstance() {
     if (_instance == null) {
       BaseOptions options = BaseOptions(
-          receiveDataWhenStatusError: true,
-          connectTimeout: 60 * 1000, // 60 seconds
-          receiveTimeout: 60 * 1000 // 60 seconds
-          );
+        receiveDataWhenStatusError: true,
+        connectTimeout: 60 * 1000,
+        receiveTimeout: 60 * 1000,
+      );
 
       _instance = Dio(options);
       _instance.interceptors.add(HeaderInterceptor());
-      _instance.options.connectTimeout = 5000; //超时时间
-      _instance.options.receiveTimeout = 5000; //接收数据最长时间
       _instance.interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) {
