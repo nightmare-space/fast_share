@@ -70,8 +70,12 @@ class _HomePageState extends State<HomePage> {
           String realPath = call.arguments.toString().replaceAll('file://', '');
           realPath = realPath.replaceAll('/raw/', '');
           realPath = realPath.replaceAll(
-            'content://com.miui.home.fileprovider/data_app',
+            RegExp('^/data_app'),
             '/data/app',
+          );
+          realPath = realPath.replaceAll(
+            RegExp('^/525!'),
+            '/sdcard',
           );
           realPath = realPath.replaceAll(
             'content://com.nightmare.appmanager.fileprovider/root',
