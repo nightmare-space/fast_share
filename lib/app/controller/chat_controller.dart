@@ -424,7 +424,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             urlPrefix,
             info.messagePort,
           );
-          sendMessage(info);
+          // 同步之前发送过的消息
           for (Map<String, dynamic> data in messageCache) {
             try {
               Response res = await httpInstance.post(
@@ -435,6 +435,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
               Log.e('cache send error : $e');
             }
           }
+          // 不能在catch中，因为目前离线是收不到的
+          // 2020.08.21，我看不懂下面这行代码是干嘛的了
+          sendMessage(info);
           Log.i('$urlPrefix/${info.messagePort}');
         }
         Log.i('通知对方 $urlPrefix:${info.messagePort} sendJoinEvent');

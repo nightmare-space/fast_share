@@ -23,13 +23,16 @@ if [ -f $win_app ]; then
 fi
 arm64_apk="$PROJECT_DIR/dist/app-arm64-v8a-release.apk"
 if [ -f "$arm64_apk" ]; then
-    rsync -v "$arm64_apk" $TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_arm64.apk
+    echo upload android arm64...
+    rsync -v "$arm64_apk" "${TARGET_PATH}/${APP_NAME_CN}_${VERSION}_Android_arm64.apk"
 fi
 arm_apk="$PROJECT_DIR/dist/app-armeabi-v7a-release.apk"
 if [ -f "$arm_apk" ]; then
-    rsync -v "$arm_apk" $TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_arm_v7a.apk
+    echo upload android arm...
+    rsync -v "$arm_apk" "$TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_arm_v7a.apk"
 fi
 x86_apk="$PROJECT_DIR/dist/app-x86_64-release.apk"
 if [ -f "$x86_apk" ]; then
-    rsync -v "$x86_apk" $TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_x86_64.apk
+    echo upload android x86...
+    rsync -v "$x86_apk" "$TARGET_PATH/${APP_NAME_CN}_${VERSION}_Android_x86_64.apk"
 fi
