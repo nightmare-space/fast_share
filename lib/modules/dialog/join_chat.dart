@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/app/routes/app_pages.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
@@ -90,7 +92,7 @@ class _JoinChatState extends State<JoinChat> {
     );
   }
 
-  void joinChat() {
+  Future<void> joinChat() async {
     // todo
     if (controller.text.isEmpty) {
       showToast('URL不能为空');
@@ -104,8 +106,14 @@ class _JoinChatState extends State<JoinChat> {
       url = '$url:${Config.chatPortRangeStart}';
     }
     Get.back();
-    Get.toNamed(
-      Routes.chat,
+    Log.i('sendJoinEvent : $url');
+    ChatController chatController = Get.find();
+    await chatController.initLock.future;
+    JoinUtil.sendJoinEvent(
+      chatController.addrs,
+      chatController.shelfBindPort,
+      chatController.messageBindPort,
+      url,
     );
   }
 }
