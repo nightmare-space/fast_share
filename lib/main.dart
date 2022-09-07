@@ -93,7 +93,6 @@ class SpeedShare extends StatelessWidget {
     SettingController settingController = Get.find();
     return ToastApp(
       child: GetBuilder<SettingController>(builder: (context) {
-        Log.i('GetMaterialApp build');
         return GetMaterialApp(
           locale: settingController.currentLocale,
           title: '速享',

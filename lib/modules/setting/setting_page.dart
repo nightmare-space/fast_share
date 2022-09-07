@@ -225,6 +225,31 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
                 SettingItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '版本号',
+                        style: TextStyle(
+                          fontSize: 18.w,
+                        ),
+                      ),
+                      Text(
+                        Config.versionCode,
+                        style: TextStyle(
+                          fontSize: 18.w,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
                   onTap: () async {
                     String url =
                         'https://github.com/nightmare-space/speed_share';

@@ -18,7 +18,6 @@ class Config {
 
   static String packageConst = 'packages/speed_share/';
 
-  // Log.e(const String.fromEnvironment('APP_CHANNEL'));
-  // Log.e(const String.fromEnvironment('OTHER_VAR'));
-  static String versionName = 'v2.1.3';
+  static String versionName = const String.fromEnvironment('VERSION');
+  static String versionCode = const String.fromEnvironment('VERSION_CODE');
 }

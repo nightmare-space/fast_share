@@ -60,6 +60,10 @@ class DeviceController extends GetxController {
     if (GetPlatform.isWeb) {
       return;
     }
+    String cacheHistory = 'history'.get;
+    if (cacheHistory == null) {
+      return;
+    }
     try {
       history = (jsonDecode('history'.get) as List<dynamic>).cast();
       history = history.toSet().toList();
@@ -133,7 +137,7 @@ class DeviceController extends GetxController {
       urls.add('$url');
     }
     for (String url in urls) {
-      Log.i('$url');
+      // Log.i('$url');
       try {
         Response res = await httpInstance.post('$url', data: data);
       } catch (e) {

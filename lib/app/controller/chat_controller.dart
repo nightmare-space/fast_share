@@ -134,7 +134,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     if (GetPlatform.isWeb) {
       String urlPrefix = url;
       if (!kReleaseMode) {
-        urlPrefix = 'http://192.168.0.101:12000/';
+        urlPrefix = 'http://192.168.9.111:12000/';
       }
       Uri uri = Uri.parse(urlPrefix);
       int port = uri.port;
@@ -152,16 +152,18 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       Timer.periodic(const Duration(milliseconds: 300), (timer) async {
         String webUrl = '${urlPrefix}message';
         Response res = await Dio().get(webUrl);
+        Log.i('web 轮训消息结果 ${res.data}');
         try {
           Map<String, dynamic> data = jsonDecode(res.data);
           MessageBaseInfo info = MessageInfoFactory.fromJson(data);
           dispatch(info, children);
-        } catch (e) {}
+        } catch (e) {
+          Log.e('web 轮训消息error $e');
+        }
       });
       return;
     }
     await Future.delayed(const Duration(milliseconds: 100));
-    getHistoryMsg();
     await getSuccessBindPort();
     Log.i('shelf will server with $shelfBindPort port');
     Log.i('file server started with $fileServerPort port');
@@ -514,19 +516,17 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  void getHistoryMsg() {
-    // 这个消息来告诉聊天服务器，自己需要历史消息
-    Log.v('获取历史消息');
-    // TODO
-  }
-
+  // 储存已经发送过的消息
+  // 在第一次连接到设备的时候，会将消息同步过去
   List<Map<String, dynamic>> messageCache = [];
+  // 给Web端用的
   List<Map<String, dynamic>> messageWebCache = [];
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
     info.deviceId = uniqueKey.toString();
     Log.e(info);
     messageCache.add(info.toJson());
+    messageWebCache.add(info.toJson());
     deviceController.send(info.toJson());
   }
 

@@ -99,7 +99,7 @@ class Global {
 
   // 初始化全局单例
   Future<void> initGlobal() async {
-    Log.v('initGlobal');
+    Log.v('initGlobal', tag: 'GlobalInstance');
     deviceId = await UniqueUtil.getDevicesId();
     if (GetPlatform.isWeb || GetPlatform.isIOS) {
       // web udp 和部署都不支持

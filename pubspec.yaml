@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.1.4+40
+version: 2.1.5+42
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -107,5 +107,7 @@ dependency_overrides:
   #   path: ../file_manager_view
   # file_selector_nightmare:
   #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+  # user_center_frontend:
+  #   path: ../user_center_frontend
 flutter_intl:
   enabled: true

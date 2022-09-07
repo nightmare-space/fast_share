@@ -106,7 +106,7 @@ class _JoinChatState extends State<JoinChat> {
       url = '$url:${Config.chatPortRangeStart}';
     }
     Get.back();
-    Log.i('sendJoinEvent : $url');
+    Log.i('SendJoinEvent : $url');
     ChatController chatController = Get.find();
     await chatController.initLock.future;
     JoinUtil.sendJoinEvent(

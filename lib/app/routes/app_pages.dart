@@ -46,15 +46,6 @@ class SpeedPages {
       ),
       binding: HomeBinding(),
     ),
-    GetPage(
-      name: Routes.chat,
-      page: () {
-        return const ThemeWrapper(
-          child: AdaptiveEntryPoint(),
-        );
-      },
-      binding: ChatBinding(),
-    ),
   ];
 }
 

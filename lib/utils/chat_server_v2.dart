@@ -31,6 +31,8 @@ class Server {
         headers: corsHeader,
       );
     });
+    // 给web用的接口
+    // 用来轮询新的消息
     app.get('/message', (Request request) {
       if (controller.messageWebCache.isNotEmpty) {
         return Response.ok(
@@ -53,7 +55,6 @@ class Server {
       Config.chatPortRangeStart,
       Config.chatPortRangeEnd,
     );
-    Log.i(port);
     // ignore: unused_local_variable
     HttpServer server = await io.serve(
       app,

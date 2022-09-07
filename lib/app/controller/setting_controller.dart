@@ -19,7 +19,6 @@ class SettingController extends GetxController {
     if (!GetPlatform.isWeb) {
       initConfig();
     }
-    currentLocale = languageMap[currentLocaleKey];
   }
   // 开启自动下载
   bool enableAutoDownload = false;
@@ -30,11 +29,12 @@ class SettingController extends GetxController {
   // 文件储存路径
   String savePath;
 
-  Locale currentLocale;
+  Locale currentLocale = const Locale('zh', 'CN');
   String currentLocaleKey = '中文';
 
   void switchLanguage(String key) {
     currentLocaleKey = key;
+    'lang'.set = currentLocaleKey;
     currentLocale = languageMap[key];
     update();
   }
@@ -44,6 +44,8 @@ class SettingController extends GetxController {
     clipboardShare = 'clipboardShare'.get ?? true;
     vibrate = 'vibrate'.get ?? true;
     enableAutoDownload = 'enableAutoDownload'.get ?? true;
+    currentLocaleKey = 'lang'.get ?? currentLocaleKey;
+    currentLocale = languageMap[currentLocaleKey];
     String defaultPath = '/sdcard/SpeedShare';
     if (GetPlatform.isWindows || GetPlatform.isWeb) {
       defaultPath = '${dirname(Platform.resolvedExecutable)}/SpeedShare';
