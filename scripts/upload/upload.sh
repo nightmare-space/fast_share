@@ -5,8 +5,9 @@ LOCAL_DIR=$(
 PROJECT_DIR=$LOCAL_DIR/../..
 source $LOCAL_DIR/../properties.sh
 # echo $PROJECT_DIR
-if [ -f "$PROJECT_DIR/dist/$APP_NAME.deb" ]; then
-    rsync -v "$PROJECT_DIR/dist/$APP_NAME.deb" "${TARGET_PATH}/${APP_NAME_CN}_${VERSION}_Linux.deb"
+linux_app="$PROJECT_DIR/dist/$APP_NAME.deb"
+if [ -f $linux_app ]; then
+    rsync -v $linux_app "${TARGET_PATH}/${APP_NAME_CN}_${VERSION}_Linux.deb"
 fi
 mac_app="$PROJECT_DIR/dist/${APP_NAME}_macOS.dmg"
 if [ -f $mac_app ]; then

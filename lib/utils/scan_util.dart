@@ -6,7 +6,7 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/modules/qrscan_page.dart';
 
-// 解析二维码
+/// 解析二维码
 class ScanUtil {
   static Future<void> parseScan() async {
     if (Platform.isAndroid) {

@@ -44,7 +44,6 @@ Future<void> main() async {
   if (!GetPlatform.isWeb) {
     await initSetting();
   }
-  WidgetsFlutterBinding.ensureInitialized();
   Get.put(SettingController());
   Get.put(DeviceController());
   Get.put(ChatController());

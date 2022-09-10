@@ -7,6 +7,7 @@ import 'package:speed_share/model/model.dart';
 import 'package:speed_share/utils/http/http.dart';
 
 class JoinUtil {
+  // todo增加发送加入消息是否成功的结果
   static Future<void> sendJoinEvent(
     List<String> addrs,
     int shelfBindPort,
@@ -25,7 +26,7 @@ class JoinUtil {
         data: message.toJson(),
       );
       Log.i('sendJoinEvent result : ${res.data}');
-      // 这儿就应该添加设备
+      // todo 这儿就应该添加设备
     } on DioError catch (e) {
       Log.e('$url 发送加入消息异常，但不一定会影响使用\n详情：${e.message}');
     }
@@ -39,6 +40,7 @@ Future<void> sendJoinEvent(String url) async {
   if (_hasSendJoin.contains(url)) {
     return;
   }
+  // TODO成功后才添加已经发送列表
   _hasSendJoin.add(url);
   Log.i('sendJoinEvent : $url');
   ChatController controller = Get.find();
