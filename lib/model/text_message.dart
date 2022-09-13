@@ -1,22 +1,21 @@
 import 'base_message.dart';
 
-class MessageTextInfo extends MessageBaseInfo {
+class TextMessage extends MessageBaseInfo {
   String content;
 
-  MessageTextInfo({
+  TextMessage({
     this.content,
-    String msgType = 'text',
     String type,
     String data,
     String sendFrom,
   }) : super(
           data: data,
           type: type,
-          msgType: msgType,
+          msgType: 'text',
           deviceName: sendFrom,
         );
 
-  MessageTextInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+  TextMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     content = json['content'];
   }
 

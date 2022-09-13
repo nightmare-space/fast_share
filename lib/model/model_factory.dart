@@ -6,22 +6,17 @@ class MessageInfoFactory {
     String msgType = json['msgType'];
     switch (msgType) {
       case 'file':
-        return MessageFileInfo.fromJson(json);
+        return FileMessage.fromJson(json);
         break;
       case 'text':
-        return MessageTextInfo.fromJson(json);
+        return TextMessage.fromJson(json);
         break;
       case 'dir':
-        return MessageDirInfo.fromJson(json);
+        return DirMessage.fromJson(json);
         break;
       case 'dirPart':
-        return MessageDirPartInfo.fromJson(json);
+        return DirPartMessage.fromJson(json);
         break;
-      case 'tip':
-        return MessageTipInfo.fromJson(json);
-        break;
-      case 'qr':
-        return QRMessage.fromJson(json);
       case 'webfile':
         return BroswerFileMessage.fromJson(json);
       case 'notify':

@@ -82,7 +82,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   ScrollController scrollController = ScrollController();
 
   Map<String, int> dirItemMap = {};
-  Map<String, MessageDirInfo> dirMsgMap = {};
+  Map<String, DirMessage> dirMsgMap = {};
   List<Map<String, dynamic>> cache = [];
   // 消息服务器成功绑定的端口
   int messageBindPort;
@@ -372,7 +372,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     } else {
       context = p.posix;
     }
-    final MessageFileInfo sendFileInfo = MessageFileInfo(
+    final FileMessage sendFileInfo = FileMessage(
       filePath: filePath,
       fileName: context.basename(filePath),
       fileSize: FileSizeUtils.getFileSize(size),
@@ -448,13 +448,13 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         update();
         return;
       }
-    } else if (info is MessageDirInfo) {
+    } else if (info is DirMessage) {
       // 保存文件夹消息所在的index
       // dirItemMap[messageInfo.dirName] = children.length;
       // dirMsgMap[messageInfo.dirName] = messageInfo;
       // messageInfo.urlPrifix = await getCorrectUrl(messageInfo.urlPrifix);
       // Log.w('dirItemMap -> $dirItemMap');
-    } else if (info is MessageDirPartInfo) {
+    } else if (info is DirPartMessage) {
       if (info.stat == 'complete') {
         Log.e('完成发送');
         dirMsgMap[info.partOf].canDownload = true;
@@ -492,7 +492,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         }
       }
       return;
-    } else if (info is MessageFileInfo) {
+    } else if (info is FileMessage) {
       String url = await getCorrectUrlWithAddressAndPort(
         info.addrs,
         info.port,
@@ -532,7 +532,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
 
   void sendTextMsg() {
     // 发送文本消息
-    MessageTextInfo info = MessageTextInfo(
+    TextMessage info = TextMessage(
       content: controller.text,
       sendFrom: Global().deviceId,
     );

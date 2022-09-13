@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
@@ -24,7 +23,7 @@ import 'package:shelf/shelf_io.dart' as io;
 
 class FileItem extends StatefulWidget {
   /// 消息model
-  final MessageFileInfo info;
+  final FileMessage info;
 
   /// 是否是本机发送的消息
   final bool sendByUser;
@@ -42,7 +41,7 @@ class _FileItemState extends State<FileItem> {
   ChatController chatController = Get.find();
   SettingController settingController = Get.find();
   DownloadController downloadController = Get.find();
-  MessageFileInfo info;
+  FileMessage info;
 
   DateTime startTime;
   bool isStarted = false;
@@ -332,7 +331,7 @@ class Menu extends StatefulWidget {
   final Offset offset;
 
   /// 消息model
-  final MessageFileInfo info;
+  final FileMessage info;
 
   @override
   State<Menu> createState() => _MenuState();

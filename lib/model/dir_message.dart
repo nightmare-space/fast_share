@@ -1,13 +1,13 @@
 import 'base_message.dart';
 
-class MessageDirInfo extends MessageBaseInfo {
+class DirMessage extends MessageBaseInfo {
   String dirName;
   int fullSize;
   bool canDownload = false;
   List<String> paths = [];
   String urlPrifix;
 
-  MessageDirInfo({
+  DirMessage({
     this.dirName,
     this.fullSize,
     this.canDownload,
@@ -22,7 +22,7 @@ class MessageDirInfo extends MessageBaseInfo {
           msgType: msgType,
         );
 
-  MessageDirInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+  DirMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     dirName = json['dirName'];
     fullSize = json['fullSize'];
     urlPrifix = json['urlPrifix'];
@@ -40,12 +40,12 @@ class MessageDirInfo extends MessageBaseInfo {
   }
 }
 
-class MessageDirPartInfo extends MessageBaseInfo {
+class DirPartMessage extends MessageBaseInfo {
   String path;
   String stat;
   String partOf;
   int size;
-  MessageDirPartInfo({
+  DirPartMessage({
     this.path,
     String msgType,
     String type,
@@ -56,8 +56,7 @@ class MessageDirPartInfo extends MessageBaseInfo {
           msgType: msgType,
         );
 
-  MessageDirPartInfo.fromJson(Map<String, dynamic> json)
-      : super.fromJson(json) {
+  DirPartMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     path = json['path'];
     stat = json['stat'];
     partOf = json['partOf'];

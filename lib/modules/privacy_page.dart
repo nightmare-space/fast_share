@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:settings/settings.dart';
@@ -20,7 +18,7 @@ class _PrivacyAgreePageState extends State<PrivacyAgreePage> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(child: PrivacyPage()),
+          const Expanded(child: PrivacyPage()),
           Row(
             children: [
               Expanded(

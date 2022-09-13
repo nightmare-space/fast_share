@@ -4,7 +4,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/model/model.dart';
 
 class TextMessageItem extends StatelessWidget {
-  final MessageTextInfo info;
+  final TextMessage info;
   final bool sendByUser;
 
   const TextMessageItem({Key key, this.info, this.sendByUser})

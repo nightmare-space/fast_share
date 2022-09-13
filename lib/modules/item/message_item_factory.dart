@@ -11,34 +11,20 @@ import 'qr_item.dart';
 class MessageItemFactory {
   static Widget getMessageItem(MessageBaseInfo info, bool sendByUser) {
     Widget child;
-    if (info is MessageTextInfo) {
+    if (info is TextMessage) {
       child = TextMessageItem(
         info: info,
         sendByUser: sendByUser,
       );
-    } else if (info is MessageTipInfo) {
-      return Center(
-        child: Text(
-          info.content,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 12.w,
-          ),
-        ),
-      );
-    } else if (info is MessageFileInfo) {
+    } else if (info is FileMessage) {
       child = FileItem(
         info: info,
         sendByUser: sendByUser,
       );
-    } else if (info is MessageDirInfo) {
+    } else if (info is DirMessage) {
       child = DirMessageItem(
         info: info,
         sendByUser: sendByUser,
-      );
-    } else if (info is QRMessage) {
-      child = QrMessageItem(
-        data: info.content,
       );
     } else if (info is BroswerFileMessage) {
       child = BroswerFileItem(
