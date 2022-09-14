@@ -22,9 +22,12 @@ import 'udp_message_handler.dart';
 /// 主要用来发现局域网的设备
 class Global with ClipboardListener, TrayListener, WindowListener {
   factory Global() => _getInstance();
+
   Global._internal();
+
   static Global get instance => _getInstance();
   static Global _instance;
+
   static Global _getInstance() {
     _instance ??= Global._internal();
     return _instance;
@@ -35,6 +38,7 @@ class Global with ClipboardListener, TrayListener, WindowListener {
 
   /// 是否已经初始化
   bool isInit = false;
+
   // Widget header;
 
   // /// 接收广播消息
@@ -47,6 +51,17 @@ class Global with ClipboardListener, TrayListener, WindowListener {
     ClipboardMessage info = ClipboardMessage(
       content: newClipboardData?.text ?? "",
     );
+    chatController.sendMessage(info);
+  }
+
+  void setClipboard(String text) async {
+    Log.i('手动设置剪切板消息:$text' ?? "");
+    ChatController chatController = Get.find();
+    ClipboardMessage info = ClipboardMessage(
+      content: text ?? "",
+    );
+    // 写入剪切板 会触发 onClipboardChanged造成死循环
+    // await Clipboard.setData(ClipboardData(text: text));
     chatController.sendMessage(info);
   }
 
@@ -72,6 +87,7 @@ class Global with ClipboardListener, TrayListener, WindowListener {
   }
 
   List<String> boardcasdMessage = [];
+
   Future<void> startSendBoardcast(String data) async {
     if (!boardcasdMessage.contains(data)) {
       boardcasdMessage.add(data);
@@ -148,6 +164,7 @@ class Global with ClipboardListener, TrayListener, WindowListener {
   void onTrayIconRightMouseUp() {
     // do something
   }
+
   @override
   void onTrayMenuItemClick(MenuItem menuItem) {
     if (menuItem.key == 'show_window') {

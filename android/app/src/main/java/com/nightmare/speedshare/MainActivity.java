@@ -2,6 +2,7 @@ package com.nightmare.speedshare;
 
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -69,20 +70,16 @@ public class MainActivity extends FlutterActivity {
             @Override
 
             public void onPrimaryClipChanged() {
-                runOnUiThread(() -> {
-                    channel.invokeMethod("clip_changed",null);
-                });
-//                if (manager.hasPrimaryClip() && manager.getPrimaryClip().getItemCount() > 0) {
-//
-//                    CharSequence addedText = manager.getPrimaryClip().getItemAt(0).getText();
-//
-//                    if (addedText != null) {
-//
-//                        Log.d(TAG, "copied text: " + addedData);
-//
-//                    }
-//
-//                }});
+                // 判断剪切板内容不为空
+                if (manager.hasPrimaryClip() && manager.getPrimaryClip().getItemCount() > 0) {
+                    CharSequence addedText = manager.getPrimaryClip().getItemAt(0).getText();
+                    if (addedText != null) {
+                        runOnUiThread(() -> {
+                            channel.invokeMethod("clip_changed", addedText);
+                        });
+                        Log.d(TAG, "copied text: " + addedText);
+                    }
+                }
             }
         });
 
