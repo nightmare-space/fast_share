@@ -19,7 +19,7 @@ class DirMessageItem extends StatefulWidget {
     this.sendByUser,
   }) : super(key: key);
   final bool sendByUser;
-  final MessageDirInfo info;
+  final DirMessage info;
 
   @override
   State createState() => _DirMessageItemState();
@@ -27,7 +27,7 @@ class DirMessageItem extends StatefulWidget {
 
 class _DirMessageItemState extends State<DirMessageItem> {
   ChatController chatController = Get.find();
-  MessageDirInfo info;
+  DirMessage info;
   final Dio dio = Dio();
   CancelToken cancelToken = CancelToken();
   int count = 0;

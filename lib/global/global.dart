@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:archive/archive.dart';
+import 'package:clipboard_watcher/clipboard_watcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,10 +11,11 @@ import 'package:multicast/multicast.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/model/model.dart';
 import 'package:speed_share/utils/unique_util.dart';
 
 /// 主要用来发现局域网的设备
-class Global {
+class Global with ClipboardListener {
   factory Global() => _getInstance();
   Global._internal();
   static Global get instance => _getInstance();
@@ -59,30 +61,45 @@ class Global {
     }
   }
 
+  @override
+  void onClipboardChanged() async {
+    ClipboardData newClipboardData =
+        await Clipboard.getData(Clipboard.kTextPlain);
+    Log.i('剪切板来啦:${newClipboardData?.text}' ?? "");
+
+    ChatController chatController = Get.find();
+
+    TextMessage info = TextMessage(
+      content: newClipboardData?.text ?? "",
+      sendFrom: Global().deviceId,
+    );
+    chatController.sendMessage(info);
+  }
+
   Future<String> getLocalClip() async {
     ClipboardData clip = await Clipboard.getData(Clipboard.kTextPlain);
     return clip?.text ?? '';
   }
 
   void getclipboard() {
-    Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      SettingController settingController = Get.put(SettingController());
-      if (!settingController.clipboardShare) {
-        return;
-      }
-      ClipboardData clip = await Clipboard.getData(Clipboard.kTextPlain);
-      if (clip != null && clip.text != localClipdata) {
-        localClipdata = clip.text;
-        Log.i('ClipboardData ： ${clip.text}');
-        stopSendBoardcast();
-        startSendBoardcast('clip${clip.text}');
-        Future.delayed(const Duration(seconds: 3), () {
-          stopSendBoardcast();
-          boardcasdMessage.remove('clip${clip.text}');
-          multicast.startSendBoardcast(boardcasdMessage);
-        });
-      }
-    });
+    // Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+    //   SettingController settingController = Get.put(SettingController());
+    //   if (!settingController.clipboardShare) {
+    //     return;
+    //   }
+    //   ClipboardData clip = await Clipboard.getData(Clipboard.kTextPlain);
+    //   if (clip != null && clip.text != localClipdata) {
+    //     localClipdata = clip.text;
+    //     Log.i('ClipboardData ： ${clip.text}');
+    //     stopSendBoardcast();
+    //     startSendBoardcast('clip${clip.text}');
+    //     Future.delayed(const Duration(seconds: 3), () {
+    //       stopSendBoardcast();
+    //       boardcasdMessage.remove('clip${clip.text}');
+    //       multicast.startSendBoardcast(boardcasdMessage);
+    //     });
+    //   }
+    // });
   }
 
   List<String> boardcasdMessage = [];
@@ -118,6 +135,8 @@ class Global {
     isInit = true;
     multicast.addListener(_receiveUdpMessage);
     getclipboard();
+    clipboardWatcher.addListener(this);
+    clipboardWatcher.start();
     unpackWebResource();
   }
 

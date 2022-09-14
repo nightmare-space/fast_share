@@ -1,7 +1,7 @@
 import 'base_message.dart';
 import 'notify_message.dart';
 
-class MessageFileInfo extends MessageBaseInfo {
+class FileMessage extends MessageBaseInfo {
   String fileName;
   String filePath;
   String fileSize;
@@ -9,7 +9,7 @@ class MessageFileInfo extends MessageBaseInfo {
   String url;
   int port;
 
-  MessageFileInfo({
+  FileMessage({
     this.fileName,
     this.fileSize,
     this.port,
@@ -24,7 +24,7 @@ class MessageFileInfo extends MessageBaseInfo {
           deviceName: sendFrom,
         );
 
-  MessageFileInfo.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+  FileMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     fileName = json['fileName'];
     filePath = json['filePath'];
     fileSize = json['fileSize'];

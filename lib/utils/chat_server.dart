@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:get_server/get_server.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
@@ -22,9 +20,7 @@ Future<int> createChatServer() async {
     useLog: false,
     port: port,
     home: FolderWidget(home),
-    getPages: [
-      // GetPage(name: '/chat', page: () => SocketPage()),
-    ],
+    getPages: const [],
     shared: true,
     onNotFound: NotFound(),
   );

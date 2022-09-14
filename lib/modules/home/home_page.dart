@@ -16,7 +16,6 @@ import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/modules/preview/image_preview.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
-import 'package:speed_share/themes/app_colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
