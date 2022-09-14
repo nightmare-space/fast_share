@@ -66,20 +66,19 @@ class _HomePageState extends State<HomePage> {
           // File file = File.fromUri(Uri.parse(call.arguments));
           // print(file.path);
           Log.d('call -> ${call.arguments}');
-          String realPath = call.arguments.toString().replaceAll('file://', '');
-          realPath = realPath.replaceAll('/raw/', '');
-          realPath = realPath.replaceAll(
-            RegExp('^/data_app'),
-            '/data/app',
-          );
-          realPath = realPath.replaceAll(
-            RegExp('^/525!'),
-            '/sdcard',
-          );
-          realPath = realPath.replaceAll(
-            'content://com.nightmare.appmanager.fileprovider/root',
-            '',
-          );
+          String realPath = call.arguments;
+          // realPath = realPath.replaceAll(
+          //   RegExp('^/data_app'),
+          //   '/data/app',
+          // );
+          // realPath = realPath.replaceAll(
+          //   RegExp('^/525!'),
+          //   '/sdcard',
+          // );
+          // realPath = realPath.replaceAll(
+          //   'content://com.nightmare.appmanager.fileprovider/root',
+          //   '',
+          // );
           Log.d('send_file response realPath => $realPath');
           ChatController controller = Get.find();
           controller.sendFileFromPath(realPath);

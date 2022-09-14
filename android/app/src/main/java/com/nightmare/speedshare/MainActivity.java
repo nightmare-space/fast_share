@@ -1,26 +1,34 @@
 package com.nightmare.speedshare;
 
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.os.PowerManager;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.channels.FileChannel;
 import java.util.List;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
-import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformPlugin;
 import io.flutter.plugins.GeneratedPluginRegistrant;
@@ -28,10 +36,11 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 public class MainActivity extends FlutterActivity {
     MethodChannel channel;
     PowerManager.WakeLock wakeLock = null;
+    static String TAG = "Nightmare";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("NightmareTAG", "申请wakelock");
+        Log.d(TAG, "申请wakelock");
         acquireWakeLock();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -56,7 +65,7 @@ public class MainActivity extends FlutterActivity {
     @Override
     protected void onDestroy() {
         releaseWakeLock();
-        Log.d("NightmareTAG", "释放wakelock");
+        Log.d(TAG, "释放wakelock");
         super.onDestroy();
     }
 
@@ -91,22 +100,83 @@ public class MainActivity extends FlutterActivity {
         shareFiles(intent);
     }
 
+
+    /*
+     *
+     * */
+    private static void copyFileUsingFileChannels(FileInputStream fileInputStream, File dest) throws IOException {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = fileInputStream.getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } finally {
+            inputChannel.close();
+            outputChannel.close();
+        }
+    }
+
+    private static void copyFileUsingFileStreams(FileInputStream fileInputStream, File dest)
+            throws IOException {
+        InputStream input = null;
+        OutputStream output = null;
+        try {
+            input = fileInputStream;
+            output = new FileOutputStream(dest);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buf)) > 0) {
+                output.write(buf, 0, bytesRead);
+            }
+        } finally {
+            input.close();
+            output.close();
+        }
+    }
+
     public void shareFiles(Intent intent) {
         if (intent.getAction() == Intent.ACTION_SEND) {
             Uri data_uri;
             data_uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (data_uri == null) {
-                Log.d("NightmareTAG", "sendFile: no data in intent");
+                Log.d(TAG, "sendFile: no data in intent");
                 return;
             }
-            runOnUiThread(() -> {
-                channel.invokeMethod("send_file", getRealPath(data_uri));
-            });
-            Log.d("NightmareTAG", data_uri.toString());
+            Log.d(TAG, data_uri.toString());
+            try {
+                // 从分享的uri中构造文件描述符
+                ParcelFileDescriptor inputPFD = getContentResolver().openFileDescriptor(data_uri, "r");
+                FileDescriptor fd = inputPFD.getFileDescriptor();
+                // 获得文件路径，这个路径不能直接拿来读，只是为了计算出文件名
+                String filePath = data_uri.getPath();
+                String fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length());
+                Log.i(TAG, fileName);
+                // 需要生成的文件
+                String targetPath = getCacheDir().getPath() + "/" + fileName;
+                File file = new File(targetPath);
+                FileInputStream fileInputStream = new FileInputStream(fd);
+                // 进行复制
+                copyFileUsingFileChannels(fileInputStream, file);
+//                copyFileUsingFileStreams(fileInputStream, file);
+                Log.e(TAG, this.getCacheDir().getPath());
+                runOnUiThread(() -> {
+                    channel.invokeMethod("send_file", targetPath);
+                });
+//                byte[] b = new byte[10];
+//                Log.e("MainActivity", "File success read" + fileInputStream.read(b));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.e("MainActivity", "File not found.");
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.d(TAG, data_uri.toString());
         } else if (intent.getAction() == Intent.ACTION_SEND_MULTIPLE) {
             List<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
             for (int i = 0; i < uris.size(); i++) {
-                Log.d("NightmareTAG", i + ":" + uris.get(i).toString());
+                Log.d(TAG, i + ":" + uris.get(i).toString());
                 int finalI = i;
                 runOnUiThread(() -> {
                     channel.invokeMethod("send_file", getRealPath(uris.get(finalI)));
@@ -118,7 +188,7 @@ public class MainActivity extends FlutterActivity {
     private String getRealPath(Uri fileUrl) {
         String fileName = null;
         if (fileUrl != null) {
-            Log.d("NightmareTAG", fileUrl.getScheme());
+            Log.d(TAG, fileUrl.getScheme());
             if (fileUrl.getScheme().compareTo("content") == 0) // content://开头的uri
             {
 //                Uri uri = Uri.parse(fileUrl.getPath());

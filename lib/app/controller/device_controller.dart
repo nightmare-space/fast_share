@@ -141,7 +141,7 @@ class DeviceController extends GetxController {
       try {
         Response res = await httpInstance.post('$url', data: data);
       } catch (e) {
-        Log.e('send error : $e');
+        // Log.e('send error : ${e}');
       }
     }
   }
