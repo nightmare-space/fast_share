@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   ChatController chatController = Get.put(ChatController());
   FileController fileController = Get.find();
   bool serverOpend = true;
+
   // ChatController controller = Get.find();
   bool dropping = false;
 
@@ -60,7 +61,11 @@ class _HomePageState extends State<HomePage> {
       MethodChannel channel = const MethodChannel('send_channel');
       channel.setMethodCallHandler((call) async {
         if (call.method == 'clip_changed') {
-          Global().onClipboardChanged();
+          if (call.arguments != null) {
+            Global().setClipboard(call.arguments);
+          }else{
+            Global().onClipboardChanged();
+          }
         }
         if (call.method == 'send_file') {
           if (call.arguments == null) {
