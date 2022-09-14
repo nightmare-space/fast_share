@@ -11,6 +11,7 @@ import 'package:window_manager/window_manager.dart';
 import 'app/controller/device_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
+import 'dynamic_island.dart';
 import 'generated/l10n.dart';
 import 'global/global.dart';
 import 'themes/default_theme_data.dart';
@@ -130,7 +131,13 @@ class SpeedShare extends StatelessWidget {
                         ],
                         child: Theme(
                           data: theme,
-                          child: child,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              child,
+                              DynamicIsland(),
+                            ],
+                          ),
                         ),
                       );
                     },

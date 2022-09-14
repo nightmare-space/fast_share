@@ -1,4 +1,6 @@
 PODS:
+  - clipboard_watcher (0.0.1):
+    - FlutterMacOS
   - desktop_drop (0.0.1):
     - FlutterMacOS
   - file_selector_macos (0.0.1):
@@ -18,6 +20,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - clipboard_watcher (from `Flutter/ephemeral/.symlinks/plugins/clipboard_watcher/macos`)
   - desktop_drop (from `Flutter/ephemeral/.symlinks/plugins/desktop_drop/macos`)
   - file_selector_macos (from `Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
@@ -29,6 +32,8 @@ DEPENDENCIES:
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
 EXTERNAL SOURCES:
+  clipboard_watcher:
+    :path: Flutter/ephemeral/.symlinks/plugins/clipboard_watcher/macos
   desktop_drop:
     :path: Flutter/ephemeral/.symlinks/plugins/desktop_drop/macos
   file_selector_macos:
@@ -49,9 +54,10 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
 SPEC CHECKSUMS:
+  clipboard_watcher: a71da520051c24c1b969a411b3e152d4dcc93ca5
   desktop_drop: 69eeff437544aa619c8db7f4481b3a65f7696898
   file_selector_macos: f1b08a781e66103e3ba279fd5d4024a2478b3af6
-  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   mobile_scanner: 35dc92ffdbd7934b0dbc411b1c731bc2ef23c2dc
   path_provider_macos: 3c0c3b4b0d4a76d2bf989a913c2de869c5641a19
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
