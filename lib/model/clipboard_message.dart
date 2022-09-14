@@ -1,22 +1,19 @@
-import 'base_message.dart';
+import 'text_message.dart';
 
-class TextMessage extends MessageBaseInfo {
+class ClipboardMessage extends TextMessage {
   String content;
 
-  TextMessage({
+  ClipboardMessage({
     this.content,
     String type,
     String data,
-    String sendFrom,
-    String msgType = 'text',
   }) : super(
           data: data,
           type: type,
-          msgType: msgType,
-          deviceName: sendFrom,
+          msgType: 'clip',
         );
 
-  TextMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+  ClipboardMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     content = json['content'];
   }
 

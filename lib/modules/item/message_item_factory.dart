@@ -6,7 +6,6 @@ import 'package:speed_share/modules/item/text_item.dart';
 import 'broswer_file_item.dart';
 import 'dir_item.dart';
 import 'file_item.dart';
-import 'qr_item.dart';
 
 class MessageItemFactory {
   static Widget getMessageItem(MessageBaseInfo info, bool sendByUser) {

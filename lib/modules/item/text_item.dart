@@ -30,7 +30,7 @@ class TextMessageItem extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 children: [
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 200.w),
+                    constraints: BoxConstraints(maxWidth: 260.w),
                     child: Column(
                       children: [
                         Theme(

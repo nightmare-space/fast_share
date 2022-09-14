@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_manager/app_manager.dart';
 import 'package:app_manager/global/global.dart';
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/ext_util.dart';
@@ -46,7 +47,10 @@ Widget getIconByExt(String path) {
       package: Config.package,
     );
   } else if (path.isApk) {
-    String filePath=Uri.parse(path).path;
+    if (GetPlatform.isDesktop) {
+      return Icon(Icons.adb);
+    }
+    String filePath = Uri.parse(path).path;
     child = Image.network(
       'http://127.0.0.1:${(Global().appChannel as LocalAppChannel).getPort()}/icon?path=$filePath',
       gaplessPlayback: true,

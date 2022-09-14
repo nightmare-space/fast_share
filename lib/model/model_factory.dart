@@ -17,6 +17,9 @@ class MessageInfoFactory {
       case 'dirPart':
         return DirPartMessage.fromJson(json);
         break;
+      case 'clip':
+        return ClipboardMessage.fromJson(json);
+        break;
       case 'webfile':
         return BroswerFileMessage.fromJson(json);
       case 'notify':

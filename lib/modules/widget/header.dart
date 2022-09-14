@@ -44,11 +44,6 @@ class Header extends StatelessWidget {
                   },
                 ),
               SizedBox(width: 4.w),
-              if (Global().header != null)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.w),
-                  child: ClipOval(child: Global().header),
-                ),
               const HeaderSwiper(),
             ],
           ),

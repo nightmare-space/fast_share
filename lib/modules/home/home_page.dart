@@ -10,6 +10,7 @@ import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:speed_share/generated/l10n.dart';
+import 'package:speed_share/global/global.dart';
 import 'package:speed_share/modules/file/file_page.dart';
 import 'package:speed_share/modules/privacy_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
@@ -58,6 +59,9 @@ class _HomePageState extends State<HomePage> {
     if (GetPlatform.isAndroid) {
       MethodChannel channel = const MethodChannel('send_channel');
       channel.setMethodCallHandler((call) async {
+        if (call.method == 'clip_changed') {
+          Global().onClipboardChanged();
+        }
         if (call.method == 'send_file') {
           if (call.arguments == null) {
             showToast('分享文件失败');

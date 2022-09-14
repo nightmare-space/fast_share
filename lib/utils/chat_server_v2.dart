@@ -26,6 +26,7 @@ class Server {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
       Map<String, dynamic> data = jsonDecode(await request.readAsString());
       controller.handleMessage(data);
+      // 这儿应该返回本机信息
       return Response.ok(
         "success",
         headers: corsHeader,

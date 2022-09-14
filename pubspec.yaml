@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  tray_manager: ^0.2.0
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0

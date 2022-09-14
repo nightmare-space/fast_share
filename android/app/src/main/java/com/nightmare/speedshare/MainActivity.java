@@ -1,6 +1,7 @@
 package com.nightmare.speedshare;
 
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -49,6 +50,7 @@ public class MainActivity extends FlutterActivity {
             window.getDecorView().setSystemUiVisibility(PlatformPlugin.DEFAULT_SYSTEM_UI);
         }
         Intent intent = getIntent();
+        // 看不懂了
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -60,6 +62,30 @@ public class MainActivity extends FlutterActivity {
                 shareFiles(intent);
             }
         }).start();
+        final ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+        manager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
+
+            @Override
+
+            public void onPrimaryClipChanged() {
+                runOnUiThread(() -> {
+                    channel.invokeMethod("clip_changed",null);
+                });
+//                if (manager.hasPrimaryClip() && manager.getPrimaryClip().getItemCount() > 0) {
+//
+//                    CharSequence addedText = manager.getPrimaryClip().getItemAt(0).getText();
+//
+//                    if (addedText != null) {
+//
+//                        Log.d(TAG, "copied text: " + addedData);
+//
+//                    }
+//
+//                }});
+            }
+        });
+
     }
 
     @Override
@@ -104,7 +130,8 @@ public class MainActivity extends FlutterActivity {
     /*
      *
      * */
-    private static void copyFileUsingFileChannels(FileInputStream fileInputStream, File dest) throws IOException {
+    private static void copyFileUsingFileChannels(FileInputStream fileInputStream, File dest) throws
+            IOException {
         FileChannel inputChannel = null;
         FileChannel outputChannel = null;
         try {
