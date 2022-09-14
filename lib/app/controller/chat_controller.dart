@@ -18,6 +18,7 @@ import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/model/model_factory.dart';
+import 'package:speed_share/modules/item/file_item_dynamic_island.dart';
 import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server_v2.dart';
 import 'package:speed_share/utils/document/document.dart';
@@ -501,6 +502,10 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
       // C加入A的房间，自然是不能再拿到这个文件的信息了
       info.url ??= '';
+      onNewFileReceive?.call(FileDynamicIsland(
+        info: info,
+        sendByUser: false,
+      ));
     }
     // 往聊天列表中添加一条消息
     Widget item = MessageItemFactory.getMessageItem(
@@ -516,6 +521,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     }
   }
 
+  void Function(Widget fileWidget) onNewFileReceive;
   // 储存已经发送过的消息
   // 在第一次连接到设备的时候，会将消息同步过去
   List<Map<String, dynamic>> messageCache = [];
