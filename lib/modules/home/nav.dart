@@ -1,6 +1,7 @@
 import 'dart:math';
-
+import 'package:android_window/main.dart' as android_window;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
@@ -177,6 +178,13 @@ class _NavState extends State<Nav> {
                   child: center,
                 ),
               ));
+              android_window.open(
+                size: const Size(600, 600),
+                position: const Offset(200, 200),
+                focusable: true,
+              );
+              // MethodChannel channel = MethodChannel('send_channel');
+              // channel.invokeMethod('island');
             },
             child: center,
           ),

@@ -50,6 +50,7 @@ class Global with ClipboardListener, TrayListener, WindowListener {
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(
       content: newClipboardData?.text ?? "",
+      sendFrom: Global().deviceId,
     );
     chatController.sendMessage(info);
   }

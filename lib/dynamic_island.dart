@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'dart:ui';
 
+import 'package:android_window/android_window.dart';
+import 'package:android_window/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -12,6 +15,7 @@ import 'package:speed_share/app/controller/setting_controller.dart';
 
 import 'generated/l10n.dart';
 import 'modules/setting/setting_page.dart';
+import 'speed_share.dart';
 
 class DynamicIsland extends StatefulWidget {
   const DynamicIsland({Key key}) : super(key: key);
@@ -25,16 +29,8 @@ class _DynamicIslandState extends State<DynamicIsland>
   AnimationController controller;
   Animation<double> animation;
   Animation<double> radius;
-  ChatController chatController = Get.find();
   double maxHeight = 160;
-  Widget content = Text(
-    '欢迎回到速享',
-    style: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 20,
-    ),
-  );
+  Widget content = const DynamicIslandSetting();
 
   @override
   void initState() {
@@ -64,13 +60,25 @@ class _DynamicIslandState extends State<DynamicIsland>
     controller.addListener(() {
       setState(() {});
     });
-    // anim();
-    chatController.onNewFileReceive = (fileWidget) {
-      content = fileWidget;
+    if (!pop) {
+      ChatController chatController = Get.put(ChatController());
+      chatController.onNewFileReceive = (fileWidget) {
+        content = fileWidget;
 
-      maxHeight = 85;
+        maxHeight = 85;
+        // anim();
+        Size size = MediaQuery.of(context).size;
+        open(
+          size: Size(size.width * window.devicePixelRatio, 600),
+          position: const Offset(0, 0),
+          focusable: true,
+        );
+        // MethodChannel channel = MethodChannel('send_channel');
+        // channel.invokeMethod('island');
+      };
+    } else {
       anim();
-    };
+    }
 
     // controller.addListener(() {
     //   setState(() {
@@ -90,6 +98,10 @@ class _DynamicIslandState extends State<DynamicIsland>
         SystemUiMode.manual,
         overlays: [SystemUiOverlay.top],
       );
+      if (pop) {
+        // Navigator.pop(context);
+        AndroidWindow.close();
+      }
       if (pre != null) {
         content = pre;
       }
@@ -100,11 +112,6 @@ class _DynamicIslandState extends State<DynamicIsland>
 
   @override
   Widget build(BuildContext context) {
-    Directory('/data/user/0/com.nightmare.speedshare/cache').list().listen(
-      (event) {
-        Log.w(event);
-      },
-    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -120,6 +127,7 @@ class _DynamicIslandState extends State<DynamicIsland>
             animation: controller,
             builder: (context, child) {
               return Material(
+                color: Colors.transparent,
                 child: Container(
                   width: 24 * radius.value + (animation.value * 300),
                   height: 24 * radius.value + (animation.value * maxHeight),
@@ -143,8 +151,11 @@ class _DynamicIslandState extends State<DynamicIsland>
         ),
         GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () {
-            anim();
+          onTap: () async {
+            maxHeight = 160;
+            pre = content;
+            content = const DynamicIslandSetting();
+            await anim();
           },
           onDoubleTap: () async {
             maxHeight = 160;

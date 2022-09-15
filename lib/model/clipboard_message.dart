@@ -7,10 +7,12 @@ class ClipboardMessage extends TextMessage {
     this.content,
     String type,
     String data,
+    String sendFrom,
   }) : super(
           data: data,
           type: type,
           msgType: 'clip',
+          sendFrom: sendFrom,
         );
 
   ClipboardMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {

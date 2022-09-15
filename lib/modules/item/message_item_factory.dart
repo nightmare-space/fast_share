@@ -35,19 +35,22 @@ class MessageItemFactory {
       return null;
     }
     return Align(
-      alignment: sendByUser ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: sendByUser ? Alignment.centerLeft : Alignment.centerLeft,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 10.w,
           vertical: 8.w,
         ),
         child: Column(
+          crossAxisAlignment:
+              sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             if (info.deviceName != null)
               Row(
                 mainAxisAlignment: sendByUser
                     ? MainAxisAlignment.end
                     : MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     decoration: BoxDecoration(
@@ -68,6 +71,29 @@ class MessageItemFactory {
                       ),
                     ),
                   ),
+                  SizedBox(width: 4.w),
+                  if (info is ClipboardMessage)
+                    Container(
+                      decoration: BoxDecoration(
+                        color:
+                            Device.getColor(info.deviceType).withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      margin: EdgeInsets.only(left: 4.w),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '剪切板',
+                          style: TextStyle(
+                            fontSize: 12.w,
+                            color: Device.getColor(info.deviceType),
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             SizedBox(

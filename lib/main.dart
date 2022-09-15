@@ -8,6 +8,7 @@ import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:window_manager/window_manager.dart';
+import 'android_window.dart';
 import 'app/controller/device_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'config/config.dart';
@@ -21,6 +22,46 @@ import 'dart:async';
 // 初始化hive的设置
 Future<void> initSetting() async {
   await initSettingStore(RuntimeEnvir.configPath);
+}
+
+@pragma('vm:entry-point')
+Future<void> androidWindow() async {
+  if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
+    WidgetsFlutterBinding.ensureInitialized();
+    // 拿到应用程序路径
+    // get app directory
+    final dir = (await getApplicationSupportDirectory()).path;
+    RuntimeEnvir.initEnvirWithPackageName(
+      Config.packageName,
+      appSupportDirectory: dir,
+    );
+    // 启动文件服务器
+    // start file manager server
+    fm.Server.start();
+  }
+  if (!GetPlatform.isWeb) {
+    await initSetting();
+  }
+  Get.put(SettingController());
+  Get.put(DeviceController());
+  Get.put(ChatController());
+
+  pop = true;
+  runApp(const AndroidWindowApp());
+  StatusBarUtil.transparent();
+}
+
+bool pop = false;
+@pragma('vm:entry-point')
+void constIsland() {
+  pop = true;
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    initialRoute: '/',
+    home: DynamicIsland(),
+  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  StatusBarUtil.transparent();
 }
 
 Future<void> main() async {

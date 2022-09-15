@@ -28,14 +28,20 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 import java.util.List;
+import java.util.Objects;
 
+import io.flutter.FlutterInjector;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
+import io.flutter.embedding.engine.FlutterEngineCache;
+import io.flutter.embedding.engine.dart.DartExecutor;
+import io.flutter.embedding.engine.loader.FlutterLoader;
+import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformPlugin;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
-public class MainActivity extends FlutterActivity {
+public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity {
     MethodChannel channel;
     PowerManager.WakeLock wakeLock = null;
     static String TAG = "Nightmare";
@@ -43,6 +49,16 @@ public class MainActivity extends FlutterActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "申请wakelock");
+        FlutterEngine engine = new FlutterEngine(this);
+
+        FlutterLoader flutterLoader = FlutterInjector.instance().flutterLoader();
+//        DartExecutor.DartEntrypoint.createDefault()
+        engine.getDartExecutor().executeDartEntrypoint(
+                new DartExecutor.DartEntrypoint(flutterLoader.findAppBundlePath(), "constIsland")
+        );
+        FlutterEngineCache
+                .getInstance()
+                .put("my_engine_id", engine);
         acquireWakeLock();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -239,6 +255,16 @@ public class MainActivity extends FlutterActivity {
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
+//        flutterEngine.en
         channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "send_channel");
+        channel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {
+            @Override
+            public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+                if(Objects.equals(call.method, "island")){
+                    Intent intent = new Intent(MainActivity.this, ConstIsland.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }
