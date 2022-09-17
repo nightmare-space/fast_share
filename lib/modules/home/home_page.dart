@@ -61,9 +61,12 @@ class _HomePageState extends State<HomePage> {
       MethodChannel channel = const MethodChannel('send_channel');
       channel.setMethodCallHandler((call) async {
         if (call.method == 'clip_changed') {
+          if (!Global().canShareClip) {
+            return;
+          }
           if (call.arguments != null) {
             Global().setClipboard(call.arguments);
-          }else{
+          } else {
             Global().onClipboardChanged();
           }
         }

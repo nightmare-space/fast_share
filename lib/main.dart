@@ -24,8 +24,15 @@ Future<void> initSetting() async {
   await initSettingStore(RuntimeEnvir.configPath);
 }
 
+// class NoPrint
 @pragma('vm:entry-point')
 Future<void> androidWindow() async {
+  Log.defaultLogger.level = LogLevel.error;
+  Log.d("androidWindow");
+  Log.v("androidWindow");
+  Log.w("androidWindow");
+  Log.e("androidWindow");
+  Log.i("androidWindow");
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
     WidgetsFlutterBinding.ensureInitialized();
     // 拿到应用程序路径

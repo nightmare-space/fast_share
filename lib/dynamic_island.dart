@@ -1,13 +1,10 @@
-import 'dart:io';
+
 import 'dart:ui';
 
 import 'package:android_window/android_window.dart';
 import 'package:android_window/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
@@ -37,7 +34,7 @@ class _DynamicIslandState extends State<DynamicIsland>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 600,
       ),
     );
@@ -62,22 +59,48 @@ class _DynamicIslandState extends State<DynamicIsland>
     });
     if (!pop) {
       ChatController chatController = Get.put(ChatController());
-      chatController.onNewFileReceive = (fileWidget) {
+      chatController.onNewFileReceive = (fileWidget) async {
         content = fileWidget;
 
         maxHeight = 85;
         // anim();
         Size size = MediaQuery.of(context).size;
         open(
-          size: Size(size.width * window.devicePixelRatio, 600),
+          size: Size(size.width * window.devicePixelRatio, 800),
           position: const Offset(0, 0),
           focusable: true,
         );
+        Future.delayed(const Duration(milliseconds: 300), () async {
+          final response = await post(
+            'hello',
+            '已复制macOS的剪切板',
+          );
+        });
         // MethodChannel channel = MethodChannel('send_channel');
         // channel.invokeMethod('island');
       };
     } else {
-      anim();
+      AndroidWindow.setHandler((name, data) async {
+        switch (name) {
+          case 'hello':
+            content = Center(
+              child: Text(
+                data,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+            maxHeight = 40;
+            anim();
+            Future.delayed(const Duration(milliseconds: 1200), () {
+              anim();
+            });
+        }
+        return null;
+      });
+      // anim();
     }
 
     // controller.addListener(() {
@@ -112,84 +135,117 @@ class _DynamicIslandState extends State<DynamicIsland>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(
-          height: 7,
-        ),
-        GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            anim();
-          },
-          child: AnimatedBuilder(
-            animation: controller,
-            builder: (context, child) {
-              return Material(
-                color: Colors.transparent,
-                child: Container(
-                  width: 24 * radius.value + (animation.value * 300),
-                  height: 24 * radius.value + (animation.value * maxHeight),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(
-                      12 + (animation.value * 20),
-                    ),
-                  ),
-                  padding: EdgeInsets.all(12.w),
-                  child: Transform(
-                    transform: Matrix4.identity()..scale(1 * animation.value),
-                    alignment: Alignment.topCenter,
-                    child: content,
-                  ),
-                ),
-              );
-            },
-            child: Container(),
-          ),
-        ),
-        GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () async {
-            maxHeight = 160;
-            pre = content;
-            content = const DynamicIslandSetting();
-            await anim();
-          },
-          onDoubleTap: () async {
-            maxHeight = 160;
-            pre = content;
-            content = const DynamicIslandSetting();
-            await anim();
-          },
-          child: AnimatedBuilder(
-            animation: controller,
-            builder: (context, child) {
-              return Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                ),
-              );
-            },
-            child: Container(),
-          ),
-        ),
-        if (!controller.isDismissed)
-          Expanded(
-            child: GestureDetector(
+    return WillPopScope(
+      onWillPop: () async {
+        anim();
+        return false;
+      },
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onPanUpdate: (details) {
+          // double value = details.delta.dy / 300;
+          controller.value += details.delta.dy / 160;
+          Log.d(details.delta.dy);
+        },
+        onPanEnd: ((details) async {
+          if (controller.value >= 0.8) {
+            await controller.forward();
+          } else {
+            await controller.reverse();
+            SystemChrome.setEnabledSystemUIMode(
+              SystemUiMode.manual,
+              overlays: [SystemUiOverlay.top],
+            );
+            if (pop) {
+              // Navigator.pop(context);
+              AndroidWindow.close();
+            }
+            if (pre != null) {
+              content = pre;
+            }
+          }
+        }),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 8,
+            ),
+            GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 anim();
               },
-              child: Container(
-                color: Colors.transparent,
+              child: AnimatedBuilder(
+                animation: controller,
+                builder: (context, child) {
+                  return Material(
+                    color: Colors.transparent,
+                    child: Container(
+                      width: 24 * radius.value + (animation.value * 300),
+                      height: 24 * radius.value + (animation.value * maxHeight),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(
+                          12 + (animation.value * 20),
+                        ),
+                      ),
+                      padding: EdgeInsets.all(12.w),
+                      child: Transform(
+                        transform: Matrix4.identity()
+                          ..scale(0.4 + 0.6 * animation.value),
+                        alignment: Alignment.topCenter,
+                        child: content,
+                      ),
+                    ),
+                  );
+                },
+                child: Container(),
               ),
             ),
-          )
-      ],
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () async {
+                maxHeight = 160;
+                pre = content;
+                content = const DynamicIslandSetting();
+                await anim();
+              },
+              onDoubleTap: () async {
+                maxHeight = 160;
+                pre = content;
+                content = const DynamicIslandSetting();
+                await anim();
+              },
+              child: AnimatedBuilder(
+                animation: controller,
+                builder: (context, child) {
+                  return Container(
+                    width: 40,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                  );
+                },
+                child: Container(),
+              ),
+            ),
+            if (!controller.isDismissed)
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    anim();
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                ),
+              )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -207,6 +263,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
   Widget build(BuildContext context) {
     final S s = S.of(context);
     return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
       child: GetBuilder<SettingController>(builder: (context) {
         return Column(
           children: [
@@ -216,7 +273,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
               },
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: SizedBox(
                   width: 290,
                   child: Row(
@@ -244,7 +301,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
               },
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: SizedBox(
                   width: 290,
                   child: Row(
@@ -272,7 +329,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
               },
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: SizedBox(
                   width: 290,
                   child: Row(

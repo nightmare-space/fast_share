@@ -11,6 +11,7 @@ import 'package:multicast/multicast.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/global/tray_handler.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'package:tray_manager/tray_manager.dart';
@@ -20,10 +21,9 @@ import 'assets_util.dart';
 import 'udp_message_handler.dart';
 
 /// 主要用来发现局域网的设备
-class Global with ClipboardListener, TrayListener, WindowListener {
-  factory Global() => _getInstance();
-
+class Global with ClipboardListener, WindowListener {
   Global._internal();
+  factory Global() => _getInstance();
 
   static Global get instance => _getInstance();
   static Global _instance;
@@ -41,7 +41,9 @@ class Global with ClipboardListener, TrayListener, WindowListener {
 
   // Widget header;
 
-  // /// 接收广播消息
+  //
+  TrayHandler trayHandler = TrayHandler();
+
   @override
   void onClipboardChanged() async {
     ClipboardData newClipboardData =
@@ -55,6 +57,7 @@ class Global with ClipboardListener, TrayListener, WindowListener {
     chatController.sendMessage(info);
   }
 
+  bool canShareClip = true;
   void setClipboard(String text) async {
     Log.i('手动设置剪切板消息:$text' ?? "");
     ChatController chatController = Get.find();
@@ -66,27 +69,7 @@ class Global with ClipboardListener, TrayListener, WindowListener {
     chatController.sendMessage(info);
   }
 
-  void getclipboard() {
-    // Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-    //   SettingController settingController = Get.put(SettingController());
-    //   if (!settingController.clipboardShare) {
-    //     return;
-    //   }
-    //   ClipboardData clip = await Clipboard.getData(Clipboard.kTextPlain);
-    //   if (clip != null && clip.text != localClipdata) {
-    //     localClipdata = clip.text;
-    //     Log.i('ClipboardData ： ${clip.text}');
-    //     stopSendBoardcast();
-    //     startSendBoardcast('clip${clip.text}');
-    //     Future.delayed(const Duration(seconds: 3), () {
-    //       stopSendBoardcast();
-    //       boardcasdMessage.remove('clip${clip.text}');
-    //       multicast.startSendBoardcast(boardcasdMessage);
-    //     });
-    //   }
-    // });
-  }
-
+  // udp广播消息列表
   List<String> boardcasdMessage = [];
 
   Future<void> startSendBoardcast(String data) async {
@@ -120,62 +103,16 @@ class Global with ClipboardListener, TrayListener, WindowListener {
     }
     isInit = true;
     multicast.addListener(receiveUdpMessage);
-    getclipboard();
     if (GetPlatform.isDesktop) {
+      // 注册剪切板观察回调
       clipboardWatcher.addListener(this);
+      // 开始监听
       clipboardWatcher.start();
-
-      await trayManager.setIcon(
-        'assets/icon/ic_launcher.png',
-      );
-      Menu menu = Menu(
-        items: [
-          MenuItem(
-            key: 'show_window',
-            label: 'Show Window',
-          ),
-          MenuItem.separator(),
-          MenuItem(
-            key: 'exit_app',
-            label: 'Exit App',
-          ),
-        ],
-      );
-      await trayManager.setContextMenu(menu);
-      trayManager.addListener(this);
+      // 注册任务栏监听
+      trayManager.addListener(trayHandler);
       windowManager.addListener(this);
     }
     unpackWebResource();
-  }
-
-  @override
-  void onTrayIconMouseDown() {
-    // do something, for example pop up the menu
-    windowManager.show();
-    windowManager.setSkipTaskbar(false);
-  }
-
-  @override
-  void onTrayIconRightMouseDown() {
-    trayManager.popUpContextMenu();
-    // do something
-  }
-
-  @override
-  void onTrayIconRightMouseUp() {
-    // do something
-  }
-
-  @override
-  void onTrayMenuItemClick(MenuItem menuItem) {
-    if (menuItem.key == 'show_window') {
-      windowManager.show();
-      windowManager.setSkipTaskbar(false);
-      // do something
-    } else if (menuItem.key == 'exit_app') {
-      windowManager.destroy();
-      // do something
-    }
   }
 
   @override

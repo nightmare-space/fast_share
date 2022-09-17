@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
@@ -17,7 +18,7 @@ const apkKey = '安装包';
 
 /// 用来管理文件的类，目前主要用来展示文件用
 /// 还有整理文件
-class FileController extends GetxController {
+class FileController extends GetxController with WidgetsBindingObserver {
   FileController() {}
   SettingController settingController = Get.find();
   List<FileSystemEntity> onknown = [];
@@ -177,5 +178,15 @@ class FileController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        break;
+      default:
+    }
+    Log.v('didChangeAppLifecycleState : $state');
   }
 }

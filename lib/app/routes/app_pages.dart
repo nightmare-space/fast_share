@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/app/bindings/chat_binding.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
 import 'package:speed_share/modules/adapive_entry.dart';
 import 'package:speed_share/themes/theme.dart';

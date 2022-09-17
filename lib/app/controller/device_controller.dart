@@ -134,7 +134,7 @@ class DeviceController extends GetxController {
       urls.add('${device.url}:${device.messagePort}');
     }
     for (String url in history) {
-      urls.add('$url');
+      urls.add(url);
     }
     for (String url in urls) {
       // Log.i('$url');

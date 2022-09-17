@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:signale/signale.dart';
-import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
@@ -48,7 +47,7 @@ Future<void> sendJoinEvent(String url) async {
   Log.i('sendJoinEvent : $url');
   ChatController controller = Get.find();
   await controller.initLock.future;
-  JoinUtil.sendJoinEvent(
+  await JoinUtil.sendJoinEvent(
     controller.addrs,
     controller.shelfBindPort,
     controller.messageBindPort,
