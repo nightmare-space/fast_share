@@ -20,9 +20,10 @@ class DioUtils {
           onRequest: (options, handler) {
             // print(options.extra);
             Log.v('>>>>>>>>HTTP LOG');
-            Log.v(options.uri);
-            Log.v(options.method);
-            Log.v(options.headers);
+            Log.v('>>>>>>>>URI: ${options.uri}');
+            Log.v('>>>>>>>>Method: ${options.method}');
+            Log.v('>>>>>>>>Headers: ${options.headers}');
+            Log.v('>>>>>>>>Body: ${options.data}');
             Log.v('<<<<<<<<');
             handler.next(options);
           },

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
+import 'package:android_window/main.dart';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
@@ -67,7 +69,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       return KeyEventResult.ignored;
     };
   }
-  // 一个标记位
+  // 一个标记位，是否输入多行
   bool inputMultiline = false;
   // 输入框用到的焦点
   FocusNode focusNode = FocusNode();
@@ -395,6 +397,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   void handleMessage(Map<String, dynamic> data) {
     Log.e('handleMessage :$data');
     if (data['msgType'] == 'exit') {
+      //
       deviceController.onDeviceClose(
         data['deviceId'],
       );
@@ -406,50 +409,91 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
-    if (info is JoinMessage) {
-      // 当连接设备不是本机的时候
-      if (info.deviceName != await UniqueUtil.getDevicesId()) {
-        String urlPrefix = await getCorrectUrlWithAddressAndPort(
-          info.addrs,
-          info.filePort,
+    switch (info.runtimeType) {
+      case ClipboardMessage:
+        ClipboardMessage clipboardMessage = info;
+        Clipboard.setData(ClipboardData(text: clipboardMessage.content));
+        Global().canShareClip = false;
+        Future.delayed(Duration(milliseconds: 300), () {
+          Global().canShareClip = true;
+        });
+        Size size = Get.size;
+        open(
+          size: Size(size.width * window.devicePixelRatio, 800),
+          position: const Offset(0, 0),
+          focusable: true,
         );
-        try {
-          // 会先尝试去找是否已经被记录了
-          // will try to find object first
-          deviceController.connectDevice.firstWhere(
-            (element) => element.id == info.deviceId,
+        Future.delayed(const Duration(milliseconds: 300), () async {
+          final response = await post(
+            'hello',
+            '已复制macOS的剪切板',
           );
-        } catch (e) {
-          deviceController.onDeviceConnect(
-            info.deviceId,
-            info.deviceName,
-            info.deviceType,
-            urlPrefix,
-            info.messagePort,
+        });
+        break;
+      case JoinMessage:
+        JoinMessage joinMessage = info as JoinMessage;
+        // 当连接设备不是本机的时候
+        if (info.deviceName != await UniqueUtil.getDevicesId()) {
+          String urlPrefix = await getCorrectUrlWithAddressAndPort(
+            joinMessage.addrs,
+            joinMessage.filePort,
           );
-          // 同步之前发送过的消息
-          for (Map<String, dynamic> data in messageCache) {
-            try {
-              Response res = await httpInstance.post(
-                '$urlPrefix:${info.messagePort}',
-                data: data,
-              );
-            } catch (e) {
-              Log.e('cache send error : $e');
+          try {
+            // 会先尝试去找是否已经被记录了
+            // will try to find object first
+            deviceController.connectDevice.firstWhere(
+              (element) => element.id == info.deviceId,
+            );
+          } catch (e) {
+            deviceController.onDeviceConnect(
+              info.deviceId,
+              info.deviceName,
+              info.deviceType,
+              urlPrefix,
+              joinMessage.messagePort,
+            );
+            // 同步之前发送过的消息
+            for (Map<String, dynamic> data in messageCache) {
+              try {
+                Response res = await httpInstance.post(
+                  '$urlPrefix:${joinMessage.messagePort}',
+                  data: data,
+                );
+              } catch (e) {
+                Log.e('cache send error : $e');
+              }
             }
+            // 不能在catch中，因为目前离线是收不到的
+            // 2020.08.21，我看不懂下面这行代码是干嘛的了
+            sendMessage(info);
+            Log.i('$urlPrefix/${joinMessage.messagePort}');
           }
-          // 不能在catch中，因为目前离线是收不到的
-          // 2020.08.21，我看不懂下面这行代码是干嘛的了
-          sendMessage(info);
-          Log.i('$urlPrefix/${info.messagePort}');
+          Log.i('通知对方 $urlPrefix:${joinMessage.messagePort} sendJoinEvent');
+          // 通知对方连接成功
+          sendJoinEvent('$urlPrefix:${joinMessage.messagePort}');
+          update();
+          return;
         }
-        Log.i('通知对方 $urlPrefix:${info.messagePort} sendJoinEvent');
-        // 通知对方连接成功
-        sendJoinEvent('$urlPrefix:${info.messagePort}');
-        update();
-        return;
-      }
-    } else if (info is DirMessage) {
+        break;
+      case FileMessage:
+        FileMessage fileMessage = info as FileMessage;
+        // 文件消息，需要先计算出正确的下载地址
+        String url = await getCorrectUrlWithAddressAndPort(
+          fileMessage.addrs,
+          fileMessage.port,
+        );
+        fileMessage.url = '$url:${fileMessage.port}';
+        // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
+        // C加入A的房间，自然是不能再拿到这个文件的信息了
+        fileMessage.url ??= '';
+        onNewFileReceive?.call(FileDynamicIsland(
+          info: info,
+          sendByUser: false,
+        ));
+        break;
+      default:
+    }
+    if (info is DirMessage) {
       // 保存文件夹消息所在的index
       // dirItemMap[messageInfo.dirName] = children.length;
       // dirMsgMap[messageInfo.dirName] = messageInfo;
@@ -493,19 +537,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         }
       }
       return;
-    } else if (info is FileMessage) {
-      String url = await getCorrectUrlWithAddressAndPort(
-        info.addrs,
-        info.port,
-      );
-      info.url = '$url:${info.port}';
-      // 这里有种情况，A,B,C三台机器，A创建房间，B加入发送一个文件后退出了速享
-      // C加入A的房间，自然是不能再拿到这个文件的信息了
-      info.url ??= '';
-      onNewFileReceive?.call(FileDynamicIsland(
-        info: info,
-        sendByUser: false,
-      ));
     }
     // 往聊天列表中添加一条消息
     Widget item = MessageItemFactory.getMessageItem(
@@ -530,7 +561,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
     info.deviceId = uniqueKey.toString();
-    Log.e(info);
     messageCache.add(info.toJson());
     messageWebCache.add(info.toJson());
     deviceController.send(info.toJson());
