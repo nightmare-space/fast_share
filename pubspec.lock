@@ -17,13 +17,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.2"
-  android_window:
-    dependency: "direct main"
-    description:
-      path: "/Users/didi/Documents/GitHub/flutter-android-window"
-      relative: false
-    source: path
-    version: "0.0.0"
   animations:
     dependency: "direct main"
     description:
@@ -98,13 +91,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.1"
-  clipboard_watcher:
-    dependency: "direct main"
-    description:
-      name: clipboard_watcher
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.2"
   clock:
     dependency: transitive
     description:
@@ -456,9 +442,11 @@ packages:
   logger_view:
     dependency: "direct main"
     description:
-      path: "../logger_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: f987214de77d4d52753869a0e92deafd523cce5e
+      url: "https://github.com/nightmare-space/logger_view"
+    source: git
     version: "0.0.1"
   markdown:
     dependency: transitive
@@ -481,13 +469,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.5"
-  menu_base:
-    dependency: transitive
-    description:
-      name: menu_base
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.1"
   meta:
     dependency: transitive
     description:
@@ -746,13 +727,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.1"
-  shortid:
-    dependency: transitive
-    description:
-      name: shortid
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.2"
   signale:
     dependency: "direct main"
     description:
@@ -835,13 +809,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.4.12"
-  tray_manager:
-    dependency: "direct main"
-    description:
-      name: tray_manager
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.2.0"
   typed_data:
     dependency: transitive
     description:
@@ -983,7 +950,7 @@ packages:
     source: hosted
     version: "6.1.0"
   xterm:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "."
       ref: HEAD
