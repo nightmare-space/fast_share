@@ -10,8 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  android_window: 
-    git: https://github.com/mengyanshou/flutter-android-window
+  android_window: ^0.2.0
   tray_manager: ^0.2.0
   flutter_localizations:
     sdk: flutter
@@ -98,11 +97,14 @@ flutter:
 
 dependency_overrides:
   flutter_svg: ^1.1.0
-  android_window:
-    path: /Users/didi/Documents/GitHub/flutter-android-window
+  xterm:
+    git:
+      url: https://github.com/TerminalStudio/xterm.dart
+  # android_window:
+  #   path: /Users/didi/Documents/GitHub/flutter-android-window
   # xterm: ^3.2.6
-  # logger_view:
-  #   path: ../logger_view
+  logger_view:
+    path: ../logger_view
   # app_manager:
   #   path: ../app_manager
   # applib_util:

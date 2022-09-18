@@ -23,6 +23,7 @@ import 'package:speed_share/model/model_factory.dart';
 import 'package:speed_share/modules/item/file_item_dynamic_island.dart';
 import 'package:speed_share/modules/item/message_item_factory.dart';
 import 'package:speed_share/utils/chat_server_v2.dart';
+import 'package:speed_share/utils/const_island.dart';
 import 'package:speed_share/utils/document/document.dart';
 import 'package:speed_share/utils/file_server.dart';
 import 'package:speed_share/utils/http/http.dart';
@@ -413,22 +414,12 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       case ClipboardMessage:
         ClipboardMessage clipboardMessage = info;
         Clipboard.setData(ClipboardData(text: clipboardMessage.content));
+        // 置为false是为了不让此次复制行为再同步出去
         Global().canShareClip = false;
         Future.delayed(const Duration(milliseconds: 300), () {
           Global().canShareClip = true;
         });
-        Size size = Get.size;
-        open(
-          size: Size(size.width * window.devicePixelRatio, 800),
-          position: const Offset(0, 0),
-          focusable: true,
-        );
-        Future.delayed(const Duration(milliseconds: 40), () async {
-          final response = await post(
-            'hello',
-            '已复制${clipboardMessage.deviceName}的剪切板',
-          );
-        });
+        ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
         break;
       case JoinMessage:
         JoinMessage joinMessage = info as JoinMessage;

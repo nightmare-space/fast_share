@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:android_window/android_window.dart';
@@ -71,7 +70,7 @@ class _DynamicIslandState extends State<DynamicIsland>
           focusable: true,
         );
         Future.delayed(const Duration(milliseconds: 300), () async {
-          final response = await post(
+          await post(
             'hello',
             '已复制macOS的剪切板',
           );
