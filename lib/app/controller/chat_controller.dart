@@ -481,6 +481,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           info: info,
           sendByUser: false,
         ));
+        ConstIsland.onFileReceive(fileMessage.toJson());
         break;
       default:
     }

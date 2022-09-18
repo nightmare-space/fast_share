@@ -14,13 +14,26 @@ class ConstIsland {
       focusable: true,
     );
     Future.delayed(const Duration(milliseconds: 10), () async {
-      final response = await post(
-        'hello',
+      await post(
+        'clipboard',
         '已复制$deviceName的剪切板',
       );
     });
   }
 
-  static void onFileReceive() {}
+  static void onFileReceive(Map<String, dynamic> data) {
+    Size size = Get.size;
+    open(
+      size: Size(size.width * window.devicePixelRatio, 800),
+      position: const Offset(0, 0),
+      focusable: true,
+    );
+    Future.delayed(const Duration(milliseconds: 1000), () async {
+      await post(
+        'file_receive',
+        data,
+      );
+    });
+  }
   // static void onFileReceive() {}
 }

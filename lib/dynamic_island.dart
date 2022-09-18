@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:android_window/android_window.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 
 import 'generated/l10n.dart';
@@ -57,31 +59,10 @@ class _DynamicIslandState extends State<DynamicIsland>
       setState(() {});
     });
     if (!pop) {
-      ChatController chatController = Get.put(ChatController());
-      chatController.onNewFileReceive = (fileWidget) async {
-        content = fileWidget;
-
-        maxHeight = 85;
-        // anim();
-        Size size = MediaQuery.of(context).size;
-        open(
-          size: Size(size.width * window.devicePixelRatio, 800),
-          position: const Offset(0, 0),
-          focusable: true,
-        );
-        Future.delayed(const Duration(milliseconds: 300), () async {
-          await post(
-            'hello',
-            '已复制macOS的剪切板',
-          );
-        });
-        // MethodChannel channel = MethodChannel('send_channel');
-        // channel.invokeMethod('island');
-      };
     } else {
       AndroidWindow.setHandler((name, data) async {
         switch (name) {
-          case 'hello':
+          case 'clipboard':
             content = Center(
               child: Text(
                 data,
@@ -96,6 +77,17 @@ class _DynamicIslandState extends State<DynamicIsland>
             Future.delayed(const Duration(milliseconds: 1200), () {
               anim();
             });
+            break;
+          case 'file_receive':
+            ChatController chatController = Get.put(ChatController());
+            Get.put(DownloadController());
+            chatController.onNewFileReceive = (file) {
+              content = file;
+              maxHeight = 90;
+              anim();
+            };
+            Log.e('>>>>:$data');
+            chatController.handleMessage(Map<String, dynamic>.from(data));
         }
         return null;
       });
