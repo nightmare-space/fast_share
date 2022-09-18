@@ -414,7 +414,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         ClipboardMessage clipboardMessage = info;
         Clipboard.setData(ClipboardData(text: clipboardMessage.content));
         Global().canShareClip = false;
-        Future.delayed(Duration(milliseconds: 300), () {
+        Future.delayed(const Duration(milliseconds: 300), () {
           Global().canShareClip = true;
         });
         Size size = Get.size;
@@ -423,10 +423,10 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           position: const Offset(0, 0),
           focusable: true,
         );
-        Future.delayed(const Duration(milliseconds: 300), () async {
+        Future.delayed(const Duration(milliseconds: 40), () async {
           final response = await post(
             'hello',
-            '已复制macOS的剪切板',
+            '已复制${clipboardMessage.deviceName}的剪切板',
           );
         });
         break;
