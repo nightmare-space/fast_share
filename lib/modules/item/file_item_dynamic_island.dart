@@ -99,14 +99,11 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(10.w),
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onLongPress: () {},
-        child: GestureDetector(
-          onTapDown: (details) {
-            offset = details.globalPosition;
-          },
-          child: body(context),
-        ),
+      child: GestureDetector(
+        onTapDown: (details) {
+          offset = details.globalPosition;
+        },
+        child: body(context),
       ),
     );
   }
