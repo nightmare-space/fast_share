@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:file_manager_view/core/io/interface/file_entity.dart';
@@ -144,6 +145,50 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                   SizedBox(width: 12.w),
                                   Text(
                                     S.of(context).log,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          // Navigator.of(context).pop();
+                          SettingController settingController = Get.find();
+                          final dir = settingController.savePath;
+                          const String fileName = 'log.txt';
+                          File newFile = File('${dir}_$fileName');
+                          if (newFile.existsSync()) {
+                            newFile.deleteSync();
+                          }
+
+                          StringBuffer sb = StringBuffer();
+                          for (var log in Log.buffer) {
+                            sb.writeln(
+                                '[${twoDigits(log.time.hour)}:${twoDigits(log.time.minute)}:${twoDigits(log.time.second)}] ${log.data}');
+                          }
+                          newFile.writeAsString(sb.toString());
+                        },
+                        child: SizedBox(
+                          height: 48.w,
+                          child: Align(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.download,
+                                    color: Colors.black,
+                                    size: 24.w,
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    '输出 ${S.of(context).log}',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
