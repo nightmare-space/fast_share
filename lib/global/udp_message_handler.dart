@@ -14,18 +14,7 @@ Future<void> receiveUdpMessage(String message, String address) async {
   if ((await PlatformUtil.localAddress()).contains(address)) {
     return;
   }
-  if (id.startsWith('clip')) {
-    // SettingController settingController = Get.find();
-    // if (settingController.clipboardShare) {
-    //   String data = id.replaceFirst(RegExp('^clip'), '');
-    //   if (data != remoteClipdata && data != await getLocalClip()) {
-    //     showToast('已复制剪切板');
-    //     Log.i('已复制剪切板 ClipboardData ： $data');
-    //     remoteClipdata = data;
-    //     Clipboard.setData(ClipboardData(text: data));
-    //   }
-    // }
-  } else if (id.trim() != await UniqueUtil.getDevicesId()) {
+  if (id.trim() != await UniqueUtil.getDevicesId()) {
     sendJoinEvent('http://$address:$port');
   }
 }

@@ -1,24 +1,19 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:archive/archive.dart';
 import 'package:clipboard_watcher/clipboard_watcher.dart';
-import 'package:flutter/material.dart' hide MenuItem;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:multicast/multicast.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/tray_handler.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/utils/unique_util.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
-
 import 'assets_util.dart';
 import 'udp_message_handler.dart';
+export 'constant.dart';
 
 /// 主要用来发现局域网的设备
 class Global with ClipboardListener, WindowListener {
@@ -46,6 +41,7 @@ class Global with ClipboardListener, WindowListener {
 
   @override
   void onClipboardChanged() async {
+    // TODO，应该先读设置开关
     ClipboardData newClipboardData =
         await Clipboard.getData(Clipboard.kTextPlain);
     Log.i('剪切板来啦:${newClipboardData?.text}' ?? "");
