@@ -57,19 +57,7 @@ Future<void> androidWindow() async {
   runApp(const AndroidWindowApp());
   StatusBarUtil.transparent();
 }
-
 bool pop = false;
-@pragma('vm:entry-point')
-void constIsland() {
-  pop = true;
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    initialRoute: '/',
-    home: DynamicIsland(),
-  ));
-  WidgetsFlutterBinding.ensureInitialized();
-  StatusBarUtil.transparent();
-}
 
 Future<void> main() async {
   if (!GetPlatform.isWeb && !GetPlatform.isIOS) {

@@ -51,15 +51,16 @@ public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity 
         Log.d(TAG, "申请wakelock");
         FlutterEngine engine = new FlutterEngine(this);
 
-        FlutterLoader flutterLoader = FlutterInjector.instance().flutterLoader();
-//        DartExecutor.DartEntrypoint.createDefault()
-        engine.getDartExecutor().executeDartEntrypoint(
-                new DartExecutor.DartEntrypoint(flutterLoader.findAppBundlePath(), "constIsland")
-        );
-        FlutterEngineCache
-                .getInstance()
-                .put("my_engine_id", engine);
+//        FlutterLoader flutterLoader = FlutterInjector.instance().flutterLoader();
+////        DartExecutor.DartEntrypoint.createDefault()
+//        engine.getDartExecutor().executeDartEntrypoint(
+//                new DartExecutor.DartEntrypoint(flutterLoader.findAppBundlePath(), "constIsland")
+//        );
+//        FlutterEngineCache
+//                .getInstance()
+//                .put("my_engine_id", engine);
         acquireWakeLock();
+        // 下面代码会防止应用打开的时候，状态栏会先是灰色，再是透明的情况
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -67,7 +68,8 @@ public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity 
             window.getDecorView().setSystemUiVisibility(PlatformPlugin.DEFAULT_SYSTEM_UI);
         }
         Intent intent = getIntent();
-        // 看不懂了
+        // 下面代码是处理app冷启动的时候处理文件分享
+        // 延时200ms是为了等Flutter注册好method channel回调
         new Thread(new Runnable() {
             @Override
             public void run() {
