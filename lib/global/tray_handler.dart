@@ -1,9 +1,12 @@
+import 'package:get/utils.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
 class TrayHandler with TrayListener {
   TrayHandler() {
-    initTray();
+    if (GetPlatform.isDesktop) {
+      initTray();
+    }
   }
 
   Future<void> initTray() async {

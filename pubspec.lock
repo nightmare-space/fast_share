@@ -206,11 +206,9 @@ packages:
   file_manager_view:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: ea831cfec910d53dd68c38b0faa170febeb14f20
-      url: "https://github.com/nightmare-space/file_manager_view.git"
-    source: git
+      path: "../file_manager_view"
+      relative: true
+    source: path
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
@@ -456,9 +454,11 @@ packages:
   logger_view:
     dependency: "direct main"
     description:
-      path: "../logger_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: f987214de77d4d52753869a0e92deafd523cce5e
+      url: "https://github.com/nightmare-space/logger_view"
+    source: git
     version: "0.0.1"
   markdown:
     dependency: transitive

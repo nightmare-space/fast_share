@@ -6,6 +6,7 @@ import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/app/routes/page_route_builder.dart';
+import 'package:speed_share/utils/utils.dart';
 
 import '../send_file_bottom_sheet.dart';
 
@@ -178,11 +179,7 @@ class _NavState extends State<Nav> {
                   child: center,
                 ),
               ));
-              android_window.open(
-                size: const Size(600, 600),
-                position: const Offset(200, 200),
-                focusable: true,
-              );
+              ConstIsland.onClipboardReceive('deviceName');
               // MethodChannel channel = MethodChannel('send_channel');
               // channel.invokeMethod('island');
             },
