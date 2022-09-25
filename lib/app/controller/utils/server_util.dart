@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:global_repository/global_repository.dart';
+import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/utils/ext_util.dart';
-import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:path/path.dart' as p;
 import 'package:shelf/shelf_io.dart' as io;
 

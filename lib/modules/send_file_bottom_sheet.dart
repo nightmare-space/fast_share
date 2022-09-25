@@ -191,6 +191,7 @@ class _SendFilePageState extends State<SendFilePage>
                     child: GestureWithScale(
                       onTap: () async {
                         await controller.reverse();
+                        // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
                       },
                       child: AnimatedBuilder(

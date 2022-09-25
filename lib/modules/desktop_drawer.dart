@@ -242,10 +242,11 @@ class DrawerItem extends StatelessWidget {
   bool get enable => groupValue == value;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         onChange?.call(value);
       },
+      borderRadius: BorderRadius.circular(8.w),
       child: Container(
         width: 200.w,
         padding: EdgeInsets.symmetric(

@@ -1,10 +1,8 @@
 import 'text_message.dart';
 
 class ClipboardMessage extends TextMessage {
-  String content;
-
   ClipboardMessage({
-    this.content,
+    String content,
     String type,
     String data,
     String sendFrom,
@@ -13,6 +11,7 @@ class ClipboardMessage extends TextMessage {
           type: type,
           msgType: 'clip',
           sendFrom: sendFrom,
+          content: content,
         );
 
   ClipboardMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {

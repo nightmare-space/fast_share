@@ -12,7 +12,7 @@ import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/modules/file/file_page.dart';
-import 'package:speed_share/modules/privacy_page.dart';
+import 'package:speed_share/modules/personal/privacy_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/modules/preview/image_preview.dart';

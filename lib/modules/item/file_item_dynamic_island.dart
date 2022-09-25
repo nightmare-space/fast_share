@@ -1,26 +1,14 @@
 import 'dart:io';
-import 'dart:math';
-import 'dart:typed_data';
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart' hide Router;
-import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:shelf/shelf.dart';
-import 'package:shelf_router/shelf_router.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/download_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
-import 'package:speed_share/app/controller/utils/server_util.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:speed_share/modules/dialog/show_qr_page.dart';
 import 'package:speed_share/modules/widget/icon.dart';
-import 'package:speed_share/speed_share.dart';
-import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/ext_util.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:shelf/shelf_io.dart' as io;
 
 class FileDynamicIsland extends StatefulWidget {
   /// 消息model

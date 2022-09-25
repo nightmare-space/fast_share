@@ -1,6 +1,4 @@
-import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/utils/unique_util.dart';
 

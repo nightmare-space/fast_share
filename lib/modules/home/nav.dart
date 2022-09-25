@@ -1,7 +1,5 @@
 import 'dart:math';
-import 'package:android_window/main.dart' as android_window;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';

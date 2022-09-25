@@ -45,6 +45,7 @@ class DownloadController extends GetxController {
   // 计算网速
   Future<void> computeNetSpeed(DownloadInfo info) async {
     int tmpCount = 0;
+    // todo 没释放
     Timer timer;
     timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       int diff = info.count - tmpCount;

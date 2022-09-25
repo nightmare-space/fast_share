@@ -404,7 +404,11 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         Future.delayed(const Duration(milliseconds: 300), () {
           Global().canShareClip = true;
         });
-        ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
+        if (settingController.enbaleConstIsland) {
+          ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
+        } else {
+          showToast('已复制${clipboardMessage.deviceName}的剪切板');
+        }
         break;
       case JoinMessage:
         JoinMessage joinMessage = info as JoinMessage;
@@ -466,7 +470,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           info: info,
           sendByUser: false,
         ));
-        ConstIsland.onFileReceive(fileMessage.toJson());
+        if (settingController.enbaleConstIsland) {
+          ConstIsland.onFileReceive(fileMessage.toJson());
+        }
         break;
       default:
     }
