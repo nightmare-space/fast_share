@@ -57,8 +57,9 @@
 //   void add(String name, String modified, String size, bool isDir) {
 //     modified ??= '';
 //     size ??= '-';
-//     String button =
-//         isDir ? '' : '<button onclick="onClick(\'$name?download=true\')">直接下载</button>';
+//     String button = isDir
+//         ? ''
+//         : '<button onclick="onClick(\'$name?download=true\')">直接下载</button>';
 //     var entry = '''  <tr>
 //     <td><a href="$name">$name</a>$button</td>
 //     <td>$modified</td>
@@ -77,34 +78,33 @@
 //   controller.add(encoding.encode(_getHeader(sanitizer.convert(heading))));
 
 //   // Return a sorted listing of the directory contents asynchronously.
-//   Directory(dirPath).list().toList()
-//     .then((entities) {
-//       entities.sort(fileNodeCompare);
-//       if (dirPath != '/') {
-//         add('../', null, null, true);
+//   Directory(dirPath).list().toList().then((entities) {
+//     entities.sort(fileNodeCompare);
+//     if (dirPath != '/') {
+//       add('../', null, null, true);
+//     }
+//     for (var entity in entities) {
+//       var name = path.relative(entity.path, from: dirPath);
+//       var stat = entity.statSync();
+//       bool isDir = false;
+//       int size = stat.size;
+//       String modified = stat.modified.toString();
+//       if (entity is Directory) {
+//         name += '/';
+//         isDir = true;
 //       }
-//       for (var entity in entities) {
-//         var name = path.relative(entity.path, from: dirPath);
-//         var stat = entity.statSync();
-//         bool isDir = false;
-//         int size = stat.size;
-//         String modified = stat.modified.toString();
-//         if (entity is Directory) {
-//           name += '/';
-//           isDir = true;
-//         }
-//         final sanitizedName = sanitizer.convert(name);
-//         var encodedSize = const HtmlEscape().convert(
-//           FileSizeUtils.getFileSize(size),
-//         );
-//         var encodedModified = const HtmlEscape().convert(modified);
+//       final sanitizedName = sanitizer.convert(name);
+//       var encodedSize = const HtmlEscape().convert(
+//         FileSizeUtils.getFileSize(size),
+//       );
+//       var encodedModified = const HtmlEscape().convert(modified);
 
-//         add(sanitizedName, encodedModified, encodedSize, isDir);
-//       }
+//       add(sanitizedName, encodedModified, encodedSize, isDir);
+//     }
 
-//       controller.add(encoding.encode(_trailer));
-//       controller.close();
-//     });
+//     controller.add(encoding.encode(_trailer));
+//     controller.close();
+//   });
 
 //   return Response.ok(
 //     controller.stream,

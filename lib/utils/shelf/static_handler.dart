@@ -160,7 +160,7 @@
 // /// to looking up a content type based on [path]'s file extension, and failing
 // /// that doesn't sent a [contentType] header at all.
 
-// var app = Router();
+// var fileRouter = Router();
 // Handler createFileHandler(
 //   String path, {
 //   String url,
@@ -179,10 +179,10 @@
 //   final mimeType = contentType ?? _defaultMimeTypeResolver.lookup(path);
 //   url ??= p.toUri(p.basename(path)).toString();
 //   // Log.d('createFileHandler -> $url');
-//   app.get('/$url', (Request request) {
+//   fileRouter.get('/$url', (Request request) {
 //     return _handleFile(request, file, () => mimeType);
 //   });
-//   return app;
+//   return fileRouter;
 // }
 
 // /// Serves the contents of [file] in response to [request].
