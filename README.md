@@ -48,47 +48,44 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 截图
 
-<img src="screenshot/v2/home.png" width="32%" height="32%" /> <img src="screenshot/v2/remote_file.png" width="32%" height="32%" /> <img src="screenshot/v2/file_manager.png" width="32%" height="32%" /> 
+<img src="screenshot/v2/home.png" width="32%" /> <img src="screenshot/v2/remote_file.png" width="32%" height="32%" /> <img src="screenshot/v2/file_manager.png" width="32%" height="32%" /> 
 
 <img src="screenshot/v2/file_manager2.png" width="32%" height="32%" />  <img src="screenshot/v2/personal.png" width="32%" height="32%" /> <img src="screenshot/v2/setting.png" width="32%" height="32%" /> 
 
-<img src="screenshot/v2/chat_window.png" width="32%" height="32%" />
+<img src="screenshot/v2/chat_window.png" width="32%" />
 
-## 下载
 
-- [个人服务器下载地址](http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A)
+## 功能特性
 
-该项目集成了 Github Action 来提供自动打包的功能，然后使用`transfer.sh`进行包的上传，所以你可以在[actions](https://github.com/nightmare-space/speed_share/actions)中找`release`这个 task 能看到下载地址。
-
-<img src="screenshot/v2/actions.png" width="50%" height="50%" /> 
-
-## 功能列表
-
-- 接收文件分类()
+- 文件互传
+  - 像聊天一样在局域网共享文件
+  - 断点续传
+  - 图片预览，视频极速在线播放
+  - 点对点高速下载，不使用服务器中转
+  - 多个设备同时分享与查看
+  - 文件夹共享（重构中）
 - 远程文件管理
-- 文件静态部署（类似 tomcat 或者 nginx）。
-- 局域网设备发现，快速加入共享。
-- 像聊天一样在局域网共享文件，点对点连接，不使用服务器中转。
-- 支持图片以及视频消息直接预览（视频预览仅支持 Android 与 Web ），快速缓冲。
-- 支持断点续传
-- 支持多个设备同时分享与查看
-- 文件夹共享
-- 浏览器快速加入共享
-- 历史消息获取
-
-## 局域网发现
-
-发现其他设备启动速享后，主页顶部会出现提示，如图：
-
-<img src="screenshot/v2/broadcast.jpg" width="50%" height="50%" />
-
-点击√即可加入共享房间~
+  - 可视化浏览
+  - 删除，重命名
+- 文件分类:将接受到的文件按扩展名进行分类
+- 快速连接
+  - UDP 自动连接
+  - 扫码连接
+  - 输入连接
+  - 历史连接
+- 文件静态部署：类似 tomcat 或者 nginx，方便设备间使用浏览器查看文件，访问网页
+- 支持浏览器加入客户端
+- 剪切板极速共享
+- 支持多平台：Android、Windows、macOS、Linux
+- 响应式设计：适配各种尺寸，平板、手机、横竖屏切换自动适配布局
+- 支持Android SAF:可以接收任意App分享的文件
+- 桌面端后台运行
 
 ## 浏览器加入
 
 客户端启动速享后，点击底部导航栏切换到主页，会有一个`远程访问`的卡片，局域网内浏览器打开对应的 url 即可加入共享。
 
-<img src="screenshot/v2/address.jpg" width="50%" height="50%" />
+<img src="screenshot/v2/address.jpg" width="50%"/>
 
 ## 文件共享
 ### 在房间中
@@ -107,7 +104,7 @@ Language: 中文简体 | [English](README-EN.md)
 
 通过底部导航栏切换至`我的`页面即可看见设置功能。
 
-<img src="screenshot/v2/setting.png" width="50%" height="50%" /> 
+<img src="screenshot/v2/setting.png" width="50%" /> 
 
 ## 本地文件管理
 
