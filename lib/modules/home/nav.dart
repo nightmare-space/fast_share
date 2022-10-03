@@ -177,7 +177,8 @@ class _NavState extends State<Nav> {
                   child: center,
                 ),
               ));
-              ConstIsland.onClipboardReceive('deviceName');
+              // todo 上线前别把这行代码放出来了
+              // ConstIsland.onClipboardReceive('deviceName');
               // MethodChannel channel = MethodChannel('send_channel');
               // channel.invokeMethod('island');
             },
