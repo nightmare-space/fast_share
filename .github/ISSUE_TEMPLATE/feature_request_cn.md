@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
- - [ ] 我已经阅读过 [需求清单](https://github.com/Genymobile/scrcpy/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+request%22) 没有存在这个需求.
+ - [ ] 我已经阅读过 [需求清单](https://github.com/nightmare-space/speed_share/issues?q=is%3Aissue+is%3Aopen+label%3A%22feature%22) 没有存在这个需求.
 
 **请描述这个需求关联的问题.**
 清晰而简明地描述问题所在。
