@@ -155,6 +155,40 @@ class _SettingPageState extends State<SettingPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '开启常量岛动画',
+                            style: TextStyle(
+                              fontSize: 18.w,
+                            ),
+                          ),
+                          // SizedBox(height: 2.w),
+                          Text(
+                            '模仿iOS灵动岛的动画，这个开关需要同时打开速享的悬浮窗权限',
+                            style: TextStyle(
+                              fontSize: 14.w,
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                          ),
+                        ],
+                      ),
+                      AquaSwitch(
+                        value: controller.enbaleConstIsland,
+                        onChanged: controller.constIslandChange,
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  onTap: () {
+                    controller.clipChange(!controller.clipboardShare);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
                         s.clipboardshare,
                         style: TextStyle(

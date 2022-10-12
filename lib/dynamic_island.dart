@@ -1,15 +1,9 @@
-import 'dart:convert';
-import 'dart:ui';
-
 import 'package:android_window/android_window.dart';
-import 'package:android_window/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/app/controller/setting_controller.dart';
 
 import 'generated/l10n.dart';
 import 'modules/setting/setting_page.dart';

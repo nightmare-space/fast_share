@@ -24,6 +24,8 @@ class SettingController extends GetxController {
   bool enableAutoDownload = false;
   // 开启剪切板共享
   bool clipboardShare = true;
+  // 开启常量岛 const island
+  bool enbaleConstIsland = true;
   // 开启消息振动
   bool vibrate = true;
   // 文件储存路径
@@ -44,6 +46,7 @@ class SettingController extends GetxController {
     clipboardShare = 'clipboardShare'.get ?? true;
     vibrate = 'vibrate'.get ?? true;
     enableAutoDownload = 'enableAutoDownload'.get ?? true;
+    enbaleConstIsland = 'enbaleConstIsland'.get ?? false;
     currentLocaleKey = 'lang'.get ?? currentLocaleKey;
     currentLocale = languageMap[currentLocaleKey];
     String defaultPath = '/sdcard/SpeedShare';
@@ -61,6 +64,12 @@ class SettingController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+  }
+
+  void constIslandChange(bool value) {
+    enbaleConstIsland = value;
+    'enbaleConstIsland'.set = enbaleConstIsland;
+    update();
   }
 
   void clipChange(bool value) {

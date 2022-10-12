@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
-import 'package:android_window/main.dart';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
@@ -11,27 +9,13 @@ import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart' hide Router;
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:global_repository/global_repository.dart';
-import 'package:speed_share/app/controller/device_controller.dart';
-import 'package:speed_share/app/controller/setting_controller.dart';
-import 'package:speed_share/app/controller/utils/join_util.dart';
-import 'package:speed_share/app/controller/utils/scroll_extension.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
-import 'package:speed_share/model/model_factory.dart';
-import 'package:speed_share/modules/item/file_item_dynamic_island.dart';
-import 'package:speed_share/modules/item/message_item_factory.dart';
-import 'package:speed_share/utils/chat_server_v2.dart';
-import 'package:speed_share/utils/const_island.dart';
-import 'package:speed_share/utils/document/document.dart';
-import 'package:speed_share/utils/file_server.dart';
-import 'package:speed_share/utils/http/http.dart';
-import 'package:speed_share/utils/unique_util.dart';
-import 'utils/file_util.dart';
-import 'utils/server_util.dart';
-import 'utils/token_util.dart';
-import 'utils/vibrate.dart';
+import 'package:speed_share/modules/item/item.dart';
+import 'package:speed_share/utils/utils.dart';
+import 'utils/utils.dart';
 
 int get type {
   if (GetPlatform.isWeb) {
@@ -412,6 +396,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
     switch (info.runtimeType) {
       case ClipboardMessage:
+        // TODO，应该先读设置开关
         ClipboardMessage clipboardMessage = info;
         Clipboard.setData(ClipboardData(text: clipboardMessage.content));
         // 置为false是为了不让此次复制行为再同步出去
@@ -419,7 +404,11 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         Future.delayed(const Duration(milliseconds: 300), () {
           Global().canShareClip = true;
         });
-        ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
+        if (settingController.enbaleConstIsland) {
+          ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
+        } else {
+          showToast('已复制${clipboardMessage.deviceName}的剪切板');
+        }
         break;
       case JoinMessage:
         JoinMessage joinMessage = info as JoinMessage;
@@ -481,7 +470,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           info: info,
           sendByUser: false,
         ));
-        ConstIsland.onFileReceive(fileMessage.toJson());
+        if (settingController.enbaleConstIsland) {
+          ConstIsland.onFileReceive(fileMessage.toJson());
+        }
         break;
       default:
     }

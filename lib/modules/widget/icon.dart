@@ -48,7 +48,7 @@ Widget getIconByExt(String path) {
     );
   } else if (path.isApk) {
     if (GetPlatform.isDesktop) {
-      return Icon(Icons.adb);
+      return const Icon(Icons.adb);
     }
     String filePath = Uri.parse(path).path;
     child = Image.network(

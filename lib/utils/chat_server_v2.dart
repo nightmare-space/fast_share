@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart' hide Response;
@@ -8,6 +9,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:file_manager_view/file_manager_view.dart' as f;
 
 var app = Router();
 final corsHeader = {
@@ -20,7 +22,6 @@ final corsHeader = {
 class Server {
   // 启动消息服务端
   static Future<int> start() async {
-    // TODO 应该把文件服务器绑定过来
     ChatController controller = Get.find();
     app.post('/', (Request request) async {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
@@ -46,12 +47,28 @@ class Server {
         headers: corsHeader,
       );
     });
+    // 返回速享网页的handler
     var handler = createStaticHandler(
       RuntimeEnvir.filesPath,
       listDirectories: true,
       defaultDocument: 'index.html',
     );
-    app.mount('/', handler);
+    app.mount('/', (r) {
+      // `http://192.168.0.103:12000/sdcard/`的形式，说明是想要访问文件
+      if (r.requestedUri.path.startsWith('/sdcard')) {
+        try {
+          return f.Server.getFileServerHandler().call(r);
+        } catch (e) {
+          return Response.notFound(
+            e.toString(),
+            headers: corsHeader,
+          );
+        }
+      } else {
+        // `http://192.168.0.103:12000/`的形式，说明是想要打开速享网页端
+        return handler(r);
+      }
+    });
     int port = await getSafePort(
       Config.chatPortRangeStart,
       Config.chatPortRangeEnd,

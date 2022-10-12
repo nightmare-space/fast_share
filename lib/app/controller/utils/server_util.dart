@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:global_repository/global_repository.dart';
+import 'package:shelf_router/shelf_router.dart';
+import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/utils/ext_util.dart';
-import 'package:speed_share/utils/shelf/static_handler.dart';
 import 'package:path/path.dart' as p;
 import 'package:shelf/shelf_io.dart' as io;
 
@@ -18,6 +19,7 @@ final corsHeader = {
   'Access-Control-Allow-Methods': '*',
   'Access-Control-Allow-Credentials': 'true',
 };
+var fileRouter = Router();
 
 // 用来部署单个文件
 class ServerUtil {
@@ -31,6 +33,7 @@ class ServerUtil {
     String url = p.toUri(filePath).toString();
     Log.e('部署 url -> $url');
     var handler = createFileHandler(path, url: url);
+    fileRouter.get('/$url', handler);
     // serverFileFunc = (_) {
     //   io.serve(
     //     handler,
@@ -40,7 +43,7 @@ class ServerUtil {
     //   );
     // };
     io.serve(
-      handler,
+      fileRouter,
       InternetAddress.anyIPv4,
       port,
       shared: true,

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:speed_share/global/global.dart';
 import 'package:speed_share/modules/dialog/show_qr_page.dart';
 
 import 'menu.dart';

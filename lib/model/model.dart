@@ -6,3 +6,4 @@ export 'broswer_file_message.dart';
 export 'notify_message.dart';
 export 'join_message.dart';
 export 'clipboard_message.dart';
+export 'model_factory.dart';

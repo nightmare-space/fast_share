@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
+import 'package:path/path.dart' as p;
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
@@ -62,6 +63,20 @@ class _ShareChatV2State extends State<ShareChatV2>
       child: DropTarget(
         onDragDone: (detail) async {
           Log.d('files -> ${detail.files}');
+          if (GetPlatform.isAndroid) {
+            for (var value in detail.files) {
+              Log.w(value.path);
+              String filePath =
+                  p.fromUri(Uri.parse(value.path).path).replaceAll(
+                        '/raw/',
+                        '',
+                      );
+              controller.sendFileFromPath(filePath);
+              // Log.w(p
+              //     .fromUri(Uri.parse(value.path).path)
+              //     .replaceAll('/raw/', ''));
+            }
+          }
           setState(() {});
           if (detail.files.isNotEmpty) {
             controller.sendXFiles(detail.files);
