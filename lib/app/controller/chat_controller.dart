@@ -122,7 +122,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     if (GetPlatform.isWeb) {
       String urlPrefix = url;
       if (!kReleaseMode) {
-        urlPrefix = 'http://192.168.9.111:12000/';
+        urlPrefix = 'http://127.0.0.1:12000/';
       }
       Uri uri = Uri.parse(urlPrefix);
       int port = uri.port;
@@ -140,15 +140,18 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       Timer.periodic(const Duration(milliseconds: 300), (timer) async {
         String webUrl = '${urlPrefix}message';
         Response res = await Dio().get(webUrl);
-        Log.i('web 轮训消息结果 ${res.data}');
+        // Log.i('web 轮训消息结果 ${res.data}');
         try {
           Map<String, dynamic> data = jsonDecode(res.data);
           MessageBaseInfo info = MessageInfoFactory.fromJson(data);
           dispatch(info, children);
         } catch (e) {
-          Log.e('web 轮训消息error $e');
+          // Log.e('web 轮训消息error $e');
         }
       });
+      if (!initLock.isCompleted) {
+        initLock.complete();
+      }
       return;
     }
     await Future.delayed(const Duration(milliseconds: 100));
@@ -253,8 +256,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       port: fileServerPort,
     );
     // 发送消息
+    sendMessage(notifyMessage);
     // TODO
-    // socket.send(notifyMessage.toString());
   }
 
   // 给 web 和桌面端提供的方法
@@ -277,6 +280,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         );
         // 发送消息
         // socket.send(sendFileInfo.toString());
+        sendMessage(sendFileInfo);
         // 将消息添加到本地列表
         children.add(MessageItemFactory.getMessageItem(
           sendFileInfo,
@@ -394,6 +398,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget> children) async {
+    if (info.deviceId == uniqueKey.toString()) {
+      return;
+    }
     switch (info.runtimeType) {
       case ClipboardMessage:
         // TODO，应该先读设置开关

@@ -101,6 +101,7 @@ class DownloadController extends GetxController {
   }
 
   String getSavePath(String url, String dir) {
+    // todo 检查是否开启文件分类
     String type = url.getType;
     String savePath = '$dir/$type/${basename(url)}';
     return getSafePath(savePath);

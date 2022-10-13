@@ -42,8 +42,7 @@ class Global with ClipboardListener, WindowListener {
   @override
   void onClipboardChanged() async {
     // TODO，应该先读设置开关
-    ClipboardData newClipboardData =
-        await Clipboard.getData(Clipboard.kTextPlain);
+    ClipboardData newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     Log.i('剪切板来啦:${newClipboardData?.text}' ?? "");
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(
@@ -90,8 +89,7 @@ class Global with ClipboardListener, WindowListener {
     if (isInit) {
       return;
     }
-    if (RuntimeEnvir.packageName != Config.packageName &&
-        !GetPlatform.isDesktop) {
+    if (RuntimeEnvir.packageName != Config.packageName && !GetPlatform.isDesktop) {
       // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
       // 这个 if 就不会走到，如果是被其他的项目依赖，RuntimeEnvir.packageName就会是对应的主仓库的包名
       Config.flutterPackage = 'packages/speed_share/';
@@ -99,7 +97,7 @@ class Global with ClipboardListener, WindowListener {
     }
     isInit = true;
     multicast.addListener(receiveUdpMessage);
-    if (GetPlatform.isDesktop) {
+    if (!GetPlatform.isMobile) {
       // 注册剪切板观察回调
       clipboardWatcher.addListener(this);
       // 开始监听

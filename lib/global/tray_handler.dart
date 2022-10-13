@@ -4,7 +4,7 @@ import 'package:window_manager/window_manager.dart';
 
 class TrayHandler with TrayListener {
   TrayHandler() {
-    if (GetPlatform.isDesktop) {
+    if (!GetPlatform.isMobile) {
       initTray();
     }
   }
