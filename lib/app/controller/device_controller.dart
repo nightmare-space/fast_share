@@ -105,6 +105,7 @@ class DeviceController extends GetxController {
     if (!connectDevice.contains(device)) {
       connectDevice.add(device);
       if (!GetPlatform.isWeb) {
+        // TODO history ip 和一个hashcode绑定起来
         addHistory('$urlPrefix:$port');
       }
       Log.i('device : $device');
