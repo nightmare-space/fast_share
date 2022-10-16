@@ -3,6 +3,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:mime/mime.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'path_util.dart';
 
 /// 一个接收文件的服务端
@@ -49,14 +50,8 @@ Future<void> startFileServer(int port) async {
       List<int> dateBytes = [];
       final fileName = request.headers.value('filename');
       if (fileName != null) {
-        String downPath = '/sdcard/SpeedShare';
-        if (GetPlatform.isDesktop) {
-          downPath = await getDirectoryPath();
-          if (downPath == null) {
-            request.response.close();
-            return;
-          }
-        }
+        SettingController settingController = Get.find();
+        String downPath = settingController.savePath;
         RandomAccessFile randomAccessFile =
             await File(getSafePath('$downPath/$fileName')).open(
           mode: FileMode.write,
@@ -74,36 +69,40 @@ Future<void> startFileServer(int port) async {
         Log.v('success');
       }
     } else {
-      Log.w(request.headers);
-      List<int> dateBytes = [];
-      await for (var data in request) {
-        dateBytes.addAll(data);
-        progressCall?.call(
-          dateBytes.length / request.headers.contentLength,
-          dateBytes.length,
-        );
-        Log.v(
-            'dateBytes.length ${dateBytes.length} request.headers.contentLength -> ${request.headers.contentLength}');
-        Log.w(dateBytes.length / request.headers.contentLength);
-      }
-      String boundary = request.headers.contentType.parameters['boundary'];
-      final transformer = MimeMultipartTransformer(boundary);
-      final bodyStream = Stream.fromIterable([dateBytes]);
-      final parts = await transformer.bind(bodyStream).toList();
-      Directory('/sdcard/SpeedShare').createSync(recursive: true);
-      for (var part in parts) {
-        Log.v(part.headers);
-        final contentDisposition = part.headers['content-disposition'];
-        Log.v('contentDisposition -> $contentDisposition');
-        final fimename = RegExp(r'filename="([^"]*)"')
-            .firstMatch(contentDisposition)
-            .group(1);
-        final content = await part.toList();
-        File(getSafePath('/sdcard/SpeedShare/$fimename'))
-            .writeAsBytesSync(content[0]);
-      }
-      Log.v('success');
+      // Log.w(request.headers);
+      // List<int> dateBytes = [];
+      // await for (var data in request) {
+      //   dateBytes.addAll(data);
+      //   progressCall?.call(
+      //     dateBytes.length / request.headers.contentLength,
+      //     dateBytes.length,
+      //   );
+      //   Log.v(
+      //       'dateBytes.length ${dateBytes.length} request.headers.contentLength -> ${request.headers.contentLength}');
+      //   Log.w(dateBytes.length / request.headers.contentLength);
+      // }
+      // String boundary = request.headers.contentType.parameters['boundary'];
+      // final transformer = MimeMultipartTransformer(boundary);
+      // final bodyStream = Stream.fromIterable([dateBytes]);
+      // final parts = await transformer.bind(bodyStream).toList();
+      // Directory('/sdcard/SpeedShare').createSync(recursive: true);
+      // for (var part in parts) {
+      //   Log.v(part.headers);
+      //   final contentDisposition = part.headers['content-disposition'];
+      //   Log.v('contentDisposition -> $contentDisposition');
+      //   final fimename = RegExp(r'filename="([^"]*)"')
+      //       .firstMatch(contentDisposition)
+      //       .group(1);
+      //   final content = await part.toList();
+      //   File(getSafePath('/sdcard/SpeedShare/$fimename'))
+      //       .writeAsBytesSync(content[0]);
+      // }
+      // Log.v('success');
     }
     request.response.close();
   });
 }
+// void main() {
+//   Log.d('test');
+//   startFileServer(30000);
+// }

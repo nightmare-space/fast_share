@@ -277,6 +277,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           fileName: xFile.name,
           hash: hash,
           fileSize: FileSizeUtils.getFileSize(await xFile.length()),
+          deviceName: Global().deviceId,
         );
         // 发送消息
         // socket.send(sendFileInfo.toString());
@@ -420,11 +421,16 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       case JoinMessage:
         JoinMessage joinMessage = info as JoinMessage;
         // 当连接设备不是本机的时候
+        // todo 应该用hashcode
         if (info.deviceName != await UniqueUtil.getDevicesId()) {
+          Log.i('计算互通的IP地址');
+          Log.i('addrs:${joinMessage.addrs}');
+          Log.i('filePort:${joinMessage.filePort}');
           String urlPrefix = await getCorrectUrlWithAddressAndPort(
             joinMessage.addrs,
             joinMessage.filePort,
           );
+          Log.i('计算结果:$urlPrefix');
           try {
             // 会先尝试去找是否已经被记录了
             // will try to find object first
@@ -450,13 +456,15 @@ class ChatController extends GetxController with WidgetsBindingObserver {
                 Log.e('cache send error : $e');
               }
             }
-            // 不能在catch中，因为目前离线是收不到的
             // 2020.08.21，我看不懂下面这行代码是干嘛的了
             sendMessage(info);
             Log.i('$urlPrefix/${joinMessage.messagePort}');
           }
           Log.i('通知对方 $urlPrefix:${joinMessage.messagePort} sendJoinEvent');
           // 通知对方连接成功
+          // todo 2022.10.22
+          // 有可能手机端先启动，发送加入消息没有成功
+          // 然后收到mac过来的join消息，再次调用sendJoinEvent其实没有被执行
           sendJoinEvent('$urlPrefix:${joinMessage.messagePort}');
           update();
           return;
@@ -533,6 +541,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       info,
       false,
     );
+    Log.w(info);
     if (item != null) {
       children.add(item);
       // 自动滑动，振动，更新UI

@@ -11,12 +11,15 @@ class BroswerFileMessage extends MessageBaseInfo {
     this.hash,
     String msgType = 'webfile',
     String type,
+    String deviceName,
   }) : super(
           type: type,
           msgType: msgType,
+          deviceName: deviceName,
         );
 
-  BroswerFileMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+  BroswerFileMessage.fromJson(Map<String, dynamic> json)
+      : super.fromJson(json) {
     fileName = json['fileName'];
     fileSize = json['fileSize'];
     hash = json['hash'];
