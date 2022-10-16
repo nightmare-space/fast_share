@@ -213,9 +213,11 @@ packages:
   file_manager_view:
     dependency: "direct main"
     description:
-      path: "../file_manager_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "9a59666814705e9cec4a57fc97c2f133ea88b8bc"
+      url: "https://github.com/nightmare-space/file_manager_view.git"
+    source: git
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
