@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:file_selector/file_selector.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,7 @@ Future<void> startFileServer(int port) async {
       ..statusCode = HttpStatus.ok;
     if (request.uri.path == '/check_token') {
       request.response.write('web token access');
-    } else if (request.uri.path != '/file') {
+    } else if (request.uri.path != '/file_upload') {
       request.response
         ..headers.contentType = ContentType.html
         ..write('''<!DOCTYPE html>
@@ -45,25 +46,30 @@ Future<void> startFileServer(int port) async {
     </form>
 </body>
 </html>''');
-    } else if (request.uri.path == '/file') {
+    } else if (request.uri.path == '/file_upload') {
       Log.w(request.headers);
-      List<int> dateBytes = [];
-      final fileName = request.headers.value('filename');
+      int count = 0;
+      String fileName = request.headers.value('filename');
+      final blob = request.headers.value('blob');
       if (fileName != null) {
+        Log.w(fileName);
+        fileName = utf8.decode(base64Decode(fileName));
         SettingController settingController = Get.find();
         String downPath = settingController.savePath;
-        RandomAccessFile randomAccessFile =
-            await File(getSafePath('$downPath/$fileName')).open(
+        RandomAccessFile randomAccessFile = await File(getSafePath('$downPath/$fileName')).open(
           mode: FileMode.write,
         );
+
+        DownloadInfo info = DownloadInfo();
+        DownloadController downloadController = Get.find();
+        downloadController.progress[blob] = info;
         await for (var data in request) {
-          dateBytes.addAll(data);
-          progressCall?.call(
-            dateBytes.length / request.headers.contentLength,
-            dateBytes.length,
-          );
+          count += data.length;
+          info.count = count;
+          info.progress = count / request.headers.contentLength;
+          downloadController.update();
           await randomAccessFile.writeFrom(data);
-          Log.w(dateBytes.length / request.headers.contentLength);
+          // Log.w(dateBytes.length / request.headers.contentLength);
         }
         randomAccessFile.close();
         Log.v('success');

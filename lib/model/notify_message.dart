@@ -21,7 +21,6 @@ class NotifyMessage extends MessageBaseInfo {
         );
 
   NotifyMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    Log.w("json['addrs'] -> ${json['addrs'].runtimeType}");
     final List<String> addrs = json['addrs'] is List ? <String>[] : null;
     if (addrs != null) {
       for (final dynamic item in json['addrs']) {

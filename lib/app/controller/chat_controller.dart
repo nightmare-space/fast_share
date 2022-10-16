@@ -120,6 +120,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     // 监听消息
     // listenMessage();
     if (GetPlatform.isWeb) {
+      // web 是靠轮询得到的消息
       String urlPrefix = url;
       if (!kReleaseMode) {
         urlPrefix = 'http://127.0.0.1:12000/';
@@ -138,10 +139,10 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       sendJoinEvent('http://${uri.host}:$port');
       update();
       Timer.periodic(const Duration(milliseconds: 300), (timer) async {
-        String webUrl = '${urlPrefix}message';
-        Response res = await Dio().get(webUrl);
         // Log.i('web 轮训消息结果 ${res.data}');
         try {
+          String webUrl = '${urlPrefix}message';
+          Response res = await Dio().get(webUrl);
           Map<String, dynamic> data = jsonDecode(res.data);
           MessageBaseInfo info = MessageInfoFactory.fromJson(data);
           dispatch(info, children);
@@ -255,9 +256,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       addrs: addresses,
       port: fileServerPort,
     );
-    // 发送消息
-    sendMessage(notifyMessage);
-    // TODO
+    messageWebCache.add(notifyMessage.toJson());
   }
 
   // 给 web 和桌面端提供的方法
@@ -278,6 +277,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           hash: hash,
           fileSize: FileSizeUtils.getFileSize(await xFile.length()),
           deviceName: Global().deviceId,
+          blob: xFile.path,
         );
         // 发送消息
         // socket.send(sendFileInfo.toString());
@@ -313,20 +313,28 @@ class ChatController extends GetxController with WidgetsBindingObserver {
 
   // web 端速享上传文件调用的方法
   Future<void> uploadFileForWeb(XFile xFile, String urlPrefix) async {
-    await Dio().post(
-      '$urlPrefix/file',
-      data: xFile.openRead(),
-      onSendProgress: (count, total) {
-        Log.v('count:$count total:$total pro:${count / total}');
-      },
-      options: Options(
-        headers: {
-          Headers.contentLengthHeader: await xFile.length(),
-          HttpHeaders.contentTypeHeader: ContentType.binary.toString(),
-          'filename': xFile.name,
+    try {
+      String base64Name = base64Encode(utf8.encode(xFile.name));
+      Log.w(base64Name);
+      Response response2 = await Dio().post(
+        '$urlPrefix/file_upload',
+        data: xFile.openRead(),
+        onSendProgress: (count, total) {
+          Log.v('count:$count total:$total pro:${count / total}');
         },
-      ),
-    );
+        options: Options(
+          headers: {
+            Headers.contentLengthHeader: await xFile.length(),
+            HttpHeaders.contentTypeHeader: ContentType.binary.toString(),
+            'filename': base64Name,
+            'blob': xFile.path,
+          },
+        ),
+      );
+      Log.w(response2);
+    } catch (e) {
+      Log.e('Web 上传文件出错 : $e');
+    }
   }
 
   /// useSystemPicker: 是否使用系统文件选择器
@@ -526,9 +534,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             info.addrs,
             info.port,
           );
-          Log.d('uploadFileForWeb url -> $url');
+          Log.d('uploadFileForWeb url -> $url:${info.port}');
           if (url != null) {
-            uploadFileForWeb(webFileSendCache[info.hash], url);
+            uploadFileForWeb(webFileSendCache[info.hash], '$url:${info.port}');
           } else {
             showToast('未检测到可上传IP');
           }

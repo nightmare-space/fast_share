@@ -35,14 +35,34 @@ class Server {
         headers: corsHeader,
       );
     });
+    app.get('/check_token', (Request request) {
+      Log.d('check_token');
+      return Response.ok('success', headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      });
+    });
+    app.get('/file_upload', (Request request) {
+      Log.d('file_upload');
+      return Response.ok('file_upload', headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      });
+    });
     app.post('/file_upload', (Request request) async {
+      request.context.addAll(corsHeader);
+      request.headers.addAll(corsHeader);
+      request.change(headers: corsHeader);
       Log.w(request.headers);
       final fileName = request.headers['filename'];
       if (fileName != null) {
         SettingController settingController = Get.find();
         String downPath = settingController.savePath;
-        RandomAccessFile randomAccessFile =
-            await File(getSafePath('$downPath/$fileName')).open(
+        RandomAccessFile randomAccessFile = await File(getSafePath('$downPath/$fileName')).open(
           mode: FileMode.write,
         );
         int fullLength = int.tryParse(request.headers['content-length']);
