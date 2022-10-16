@@ -8,8 +8,10 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:file_manager_view/file_manager_view.dart' as f;
+import 'package:speed_share/utils/utils.dart';
 
 var app = Router();
 final corsHeader = {
@@ -28,6 +30,67 @@ class Server {
       Map<String, dynamic> data = jsonDecode(await request.readAsString());
       controller.handleMessage(data);
       // 这儿应该返回本机信息
+      return Response.ok(
+        "success",
+        headers: corsHeader,
+      );
+    });
+    app.get('/check_token', (Request request) {
+      Log.d('check_token');
+      return Response.ok('success', headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      });
+    });
+    app.get('/file_upload', (Request request) {
+      Log.d('file_upload');
+      return Response.ok('file_upload', headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      });
+    });
+    app.post('/file_upload', (Request request) async {
+      request.context.addAll(corsHeader);
+      request.headers.addAll(corsHeader);
+      request.change(headers: corsHeader);
+      Log.w(request.headers);
+      final fileName = request.headers['filename'];
+      if (fileName != null) {
+        SettingController settingController = Get.find();
+        String downPath = settingController.savePath;
+        RandomAccessFile randomAccessFile = await File(getSafePath('$downPath/$fileName')).open(
+          mode: FileMode.write,
+        );
+        int fullLength = int.tryParse(request.headers['content-length']);
+        Log.d('fullLength -> $fullLength');
+        Completer<bool> lock = Completer();
+        // 已经下载的字节长度
+        int count = 0;
+        request.read().listen(
+          (event) async {
+            count += event.length;
+            // Log.d(event);
+            // dateBytes.addAll(event);
+            // progressCall?.call(
+            //   dateBytes.length / request.headers.contentLength,
+            //   dateBytes.length,
+            // );
+            randomAccessFile.writeFromSync(event);
+            double progress = count / fullLength;
+            if (progress == 1.0) {
+              lock.complete();
+            }
+          },
+          onDone: () {},
+        );
+        await lock.future;
+        randomAccessFile.close();
+        Log.v('success');
+      }
       return Response.ok(
         "success",
         headers: corsHeader,

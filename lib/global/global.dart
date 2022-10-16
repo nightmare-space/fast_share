@@ -99,7 +99,7 @@ class Global with ClipboardListener, WindowListener {
     }
     isInit = true;
     multicast.addListener(receiveUdpMessage);
-    if (GetPlatform.isDesktop) {
+    if (!GetPlatform.isMobile && !GetPlatform.isWeb) {
       // 注册剪切板观察回调
       clipboardWatcher.addListener(this);
       // 开始监听

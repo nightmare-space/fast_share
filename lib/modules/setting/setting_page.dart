@@ -48,8 +48,7 @@ class _SettingPageState extends State<SettingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
                     s.common,
                     style: title,
@@ -88,11 +87,7 @@ class _SettingPageState extends State<SettingPage> {
                           controller.savePath,
                           style: TextStyle(
                             fontSize: 16.w,
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                .color
-                                .withOpacity(0.6),
+                            color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                           ),
                         ),
                       ],
@@ -117,11 +112,7 @@ class _SettingPageState extends State<SettingPage> {
                         controller.currentLocale.toLanguageTag(),
                         style: TextStyle(
                           fontSize: 16.w,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .color
-                              .withOpacity(0.6),
+                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -150,30 +141,32 @@ class _SettingPageState extends State<SettingPage> {
 
                 SettingItem(
                   onTap: () {
-                    controller.clipChange(!controller.clipboardShare);
+                    controller.constIslandChange(!controller.enbaleConstIsland);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '开启常量岛动画',
-                            style: TextStyle(
-                              fontSize: 18.w,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '开启常量岛动画',
+                              style: TextStyle(
+                                fontSize: 18.w,
+                              ),
                             ),
-                          ),
-                          // SizedBox(height: 2.w),
-                          Text(
-                            '模仿iOS灵动岛的动画，这个开关需要同时打开速享的悬浮窗权限',
-                            style: TextStyle(
-                              fontSize: 14.w,
-                              color: Colors.black.withOpacity(0.6),
+                            // SizedBox(height: 2.w),
+                            Text(
+                              '模仿iOS灵动岛的动画，这个开关需要同时打开速享的悬浮窗权限',
+                              style: TextStyle(
+                                fontSize: 14.w,
+                                color: Colors.black.withOpacity(0.6),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       AquaSwitch(
                         value: controller.enbaleConstIsland,
@@ -222,12 +215,92 @@ class _SettingPageState extends State<SettingPage> {
                     ],
                   ),
                 ),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  child: Text(
+                    '文件相关',
+                    style: title,
+                  ),
+                ),
+
+                SettingItem(
+                  onTap: () {
+                    controller.constIslandChange(!controller.enbaleConstIsland);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '开启文件分类',
+                              style: TextStyle(
+                                fontSize: 18.w,
+                              ),
+                            ),
+                            // SizedBox(height: 2.w),
+                            Text(
+                              '注意，文件分类开启后会自动整理下载路径的所有文件',
+                              style: TextStyle(
+                                fontSize: 14.w,
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      AquaSwitch(
+                        value: controller.enbaleConstIsland,
+                        onChanged: controller.constIslandChange,
+                      ),
+                    ],
+                  ),
+                ),
+                SettingItem(
+                  onTap: () {
+                    controller.constIslandChange(!controller.enbaleConstIsland);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '开启WebServer',
+                              style: TextStyle(
+                                fontSize: 18.w,
+                              ),
+                            ),
+                            // SizedBox(height: 2.w),
+                            Text(
+                              '开启后，局域网设备可通过以下地址访问到本机设备的所有文件',
+                              style: TextStyle(
+                                fontSize: 14.w,
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      AquaSwitch(
+                        value: controller.enbaleConstIsland,
+                        onChanged: controller.constIslandChange,
+                      ),
+                    ],
+                  ),
+                ),
                 // Text('隐私和安全'),
                 // Text('消息和通知'),
                 // Text('快捷键'),
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
                     s.aboutSpeedShare,
                     style: title,
@@ -248,11 +321,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .color
-                              .withOpacity(0.6),
+                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -273,11 +342,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .color
-                              .withOpacity(0.6),
+                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -285,8 +350,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () async {
-                    String url =
-                        'https://github.com/nightmare-space/speed_share';
+                    String url = 'https://github.com/nightmare-space/speed_share';
                     await canLaunchUrlString(url)
                         ? await launchUrlString(
                             url,
@@ -312,8 +376,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () async {
-                    String url =
-                        'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
+                    String url = 'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
                     await canLaunchUrlString(url)
                         ? await launchUrlString(
                             url,
@@ -339,11 +402,7 @@ class _SettingPageState extends State<SettingPage> {
                             style: TextStyle(
                               fontSize: 14.w,
                               fontWeight: FontWeight.normal,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  .color
-                                  .withOpacity(0.6),
+                              color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                             ),
                           ),
                         ],
@@ -370,11 +429,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .color
-                              .withOpacity(0.4),
+                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.4),
                         ),
                       ),
                     ],
@@ -395,11 +450,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .color
-                              .withOpacity(0.4),
+                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.4),
                         ),
                       ),
                     ],
@@ -429,9 +480,8 @@ class SettingItem extends StatelessWidget {
         onTap?.call();
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
         child: SizedBox(
-          height: 56.w,
           child: Align(
             alignment: Alignment.centerLeft,
             child: child,

@@ -86,6 +86,14 @@ Widget getIconByExt(String path) {
                 width: 36.w,
                 height: 36.w,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'assets/icon/other.png',
+                    width: 36.w,
+                    height: 36.w,
+                    package: Config.package,
+                  );
+                },
               ),
       ),
     );

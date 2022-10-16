@@ -42,14 +42,11 @@ class MessageItemFactory {
           vertical: 8.w,
         ),
         child: Column(
-          crossAxisAlignment:
-              sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment: sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             if (info.deviceName != null)
               Row(
-                mainAxisAlignment: sendByUser
-                    ? MainAxisAlignment.end
-                    : MainAxisAlignment.start,
+                mainAxisAlignment: sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
@@ -75,8 +72,7 @@ class MessageItemFactory {
                   if (info is ClipboardMessage)
                     Container(
                       decoration: BoxDecoration(
-                        color:
-                            Device.getColor(info.deviceType).withOpacity(0.15),
+                        color: Device.getColor(info.deviceType).withOpacity(0.15),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       margin: EdgeInsets.only(left: 4.w),
