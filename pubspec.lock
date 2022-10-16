@@ -30,13 +30,13 @@ packages:
       name: animations
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.7"
   app_manager:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a95047e919253213fcb6f8ab7a115a77c0bec8be
+      resolved-ref: "3ee1ed5e5f780a51f2558bb42f6c7e65d5c7eb7a"
       url: "https://github.com/nightmare-space/app_manager"
     source: git
     version: "1.0.0+1"
@@ -45,7 +45,7 @@ packages:
     description:
       path: applib_util
       ref: HEAD
-      resolved-ref: b2a0e42e465d80c68353a927902ab2b0105a8216
+      resolved-ref: "132c0f943240d8ad2b21fee1093305582c64ac36"
       url: "https://github.com/nightmare-space/applib"
     source: git
     version: "0.0.1"
@@ -69,7 +69,7 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.8.2"
+    version: "2.9.0"
   auth_header:
     dependency: transitive
     description:
@@ -97,14 +97,7 @@ packages:
       name: characters
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.0"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.3.1"
+    version: "1.2.1"
   clipboard_watcher:
     dependency: "direct main"
     description:
@@ -118,7 +111,7 @@ packages:
       name: clock
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   collection:
     dependency: transitive
     description:
@@ -132,7 +125,7 @@ packages:
       name: convert
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.1"
   cross_file:
     dependency: transitive
     description:
@@ -195,7 +188,7 @@ packages:
       name: fake_async
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.3.0"
+    version: "1.3.1"
   ffi:
     dependency: transitive
     description:
@@ -253,7 +246,7 @@ packages:
       name: file_selector_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   file_selector_web:
     dependency: transitive
     description:
@@ -336,7 +329,7 @@ packages:
       name: fwfh_text_style
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.22.08"
+    version: "2.22.08+1"
   get:
     dependency: "direct main"
     description:
@@ -394,14 +387,14 @@ packages:
       name: http_parser
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.2"
   image_picker:
     dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.8.5+3"
+    version: "0.8.6"
   image_picker_android:
     dependency: transitive
     description:
@@ -415,7 +408,7 @@ packages:
       name: image_picker_for_web
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.8"
+    version: "2.1.10"
   image_picker_ios:
     dependency: transitive
     description:
@@ -429,7 +422,7 @@ packages:
       name: image_picker_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.6.1"
+    version: "2.6.2"
   intl:
     dependency: "direct main"
     description:
@@ -463,7 +456,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: f987214de77d4d52753869a0e92deafd523cce5e
+      resolved-ref: "2d673b07c837acb6111036f8c8b45f2727b0f5e8"
       url: "https://github.com/nightmare-space/logger_view"
     source: git
     version: "0.0.1"
@@ -480,14 +473,14 @@ packages:
       name: matcher
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.12.11"
+    version: "0.12.12"
   material_color_utilities:
     dependency: transitive
     description:
       name: material_color_utilities
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   menu_base:
     dependency: transitive
     description:
@@ -501,7 +494,7 @@ packages:
       name: meta
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0"
   mime:
     dependency: transitive
     description:
@@ -545,7 +538,7 @@ packages:
       name: path
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.8.1"
+    version: "1.8.2"
   path_drawing:
     dependency: transitive
     description:
@@ -601,7 +594,7 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   path_provider_windows:
     dependency: transitive
     description:
@@ -629,7 +622,7 @@ packages:
       name: permission_handler_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.7.1"
+    version: "3.9.0"
   petitparser:
     dependency: transitive
     description:
@@ -706,7 +699,7 @@ packages:
       name: screen_retriever
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.3"
+    version: "0.1.4"
   settings:
     dependency: "direct main"
     description:
@@ -766,7 +759,7 @@ packages:
       name: signale
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.7"
+    version: "0.0.8"
   simple_animations:
     dependency: "direct main"
     description:
@@ -785,7 +778,7 @@ packages:
       name: source_span
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.8.2"
+    version: "1.9.0"
   stack_trace:
     dependency: transitive
     description:
@@ -806,7 +799,7 @@ packages:
       name: string_scanner
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   supercharged:
     dependency: transitive
     description:
@@ -834,14 +827,14 @@ packages:
       name: term_glyph
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.9"
+    version: "0.4.12"
   tray_manager:
     dependency: "direct main"
     description:
@@ -862,7 +855,7 @@ packages:
       name: url_launcher
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.1.5"
+    version: "6.1.6"
   url_launcher_android:
     dependency: transitive
     description:
@@ -897,7 +890,7 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   url_launcher_web:
     dependency: transitive
     description:
@@ -994,10 +987,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: baa72b3fc5f6a3edf6df3b0dc77b083d2511c091
+      resolved-ref: cb0de8b55858cee8261ca3676074851eb4beb7c2
       url: "https://github.com/TerminalStudio/xterm.dart"
     source: git
     version: "3.2.7"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
-  flutter: ">=3.0.0"
+  dart: ">=2.18.0 <3.0.0"
+  flutter: ">=3.1.0-0"
