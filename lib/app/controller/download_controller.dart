@@ -7,6 +7,8 @@ import 'package:path/path.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:speed_share/utils/path_util.dart';
 
+import 'controller.dart';
+
 class DownloadInfo {
   double progress = 0;
   String speed = '0';
@@ -16,6 +18,7 @@ class DownloadInfo {
 class DownloadController extends GetxController {
   /// key是url，value是进度
   Map<String, DownloadInfo> progress = {};
+  SettingController settingController = Get.find();
 
   final Dio dio = Dio();
   @override
@@ -101,7 +104,12 @@ class DownloadController extends GetxController {
   }
 
   String getSavePath(String url, String dir) {
-    // todo 检查是否开启文件分类
+    if (!settingController.enableFileClassify) {
+      // 未开启文件分类
+      String savePath = '$dir/${basename(url)}';
+      return getSafePath(savePath);
+    }
+    // 开启文件分类
     String type = url.getType;
     String savePath = '$dir/$type/${basename(url)}';
     return getSafePath(savePath);

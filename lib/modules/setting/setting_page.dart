@@ -226,7 +226,7 @@ class _SettingPageState extends State<SettingPage> {
 
                 SettingItem(
                   onTap: () {
-                    controller.constIslandChange(!controller.enbaleConstIsland);
+                    controller.changeFileClassify(!controller.enableFileClassify);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -254,8 +254,8 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       AquaSwitch(
-                        value: controller.enbaleConstIsland,
-                        onChanged: controller.constIslandChange,
+                        value: controller.enableFileClassify,
+                        onChanged: controller.changeFileClassify,
                       ),
                     ],
                   ),

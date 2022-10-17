@@ -62,9 +62,7 @@ class FileController extends GetxController with WidgetsBindingObserver {
     List<FileSystemEntity> tmp = [];
     tmp.addAll(imgFiles);
     tmp.sort((a, b) {
-      return (b as File)
-          .lastModifiedSync()
-          .compareTo((a as File).lastModifiedSync());
+      return (b as File).lastModifiedSync().compareTo((a as File).lastModifiedSync());
     });
     return tmp.isEmpty ? null : tmp.first;
   }
@@ -81,54 +79,48 @@ class FileController extends GetxController with WidgetsBindingObserver {
     all.addAll(videoFiles);
     all.removeWhere((element) => element is Directory);
     all.sort((a, b) {
-      return (b as File)
-          .lastModifiedSync()
-          .compareTo((a as File).lastModifiedSync());
+      return (b as File).lastModifiedSync().compareTo((a as File).lastModifiedSync());
     });
     return all;
   }
 
   // TODO 生命周期变化触发刷新
   Future<void> initFile() async {
-    checkIfNotExist();
-    moveFile();
-    List<FileSystemEntity> list =
-        await (Directory('$prefix/$onknownKey').list()).toList();
+    if (settingController.enableFileClassify) {
+      // TODO 有一种可能，用户在使用过程中打开这个开关，但是这个时候还没有对应的文件夹
+      // 是不是会报错
+      checkIfNotExist();
+      moveFile();
+    }
+    List<FileSystemEntity> list = await (Directory('$prefix/$onknownKey').list()).toList();
     for (var element in list) {
       onknown.add(element);
     }
-    List<FileSystemEntity> zip =
-        await (Directory('$prefix/$zipKey').list()).toList();
+    List<FileSystemEntity> zip = await (Directory('$prefix/$zipKey').list()).toList();
     for (var element in zip) {
       zipFiles.add(element);
     }
-    List<FileSystemEntity> doc =
-        await (Directory('$prefix/$docKey').list()).toList();
+    List<FileSystemEntity> doc = await (Directory('$prefix/$docKey').list()).toList();
     for (var element in doc) {
       docFiles.add(element);
     }
-    List<FileSystemEntity> audio =
-        await Directory('$prefix/$audioKey').list().toList();
+    List<FileSystemEntity> audio = await Directory('$prefix/$audioKey').list().toList();
     for (var element in audio) {
       audioFiles.add(element);
     }
-    List<FileSystemEntity> img =
-        await (Directory('$prefix/$picKey').list()).toList();
+    List<FileSystemEntity> img = await (Directory('$prefix/$picKey').list()).toList();
     for (var element in img) {
       imgFiles.add(element);
     }
-    List<FileSystemEntity> dirs =
-        await (Directory('$prefix/$dirKey').list()).toList();
+    List<FileSystemEntity> dirs = await (Directory('$prefix/$dirKey').list()).toList();
     for (var element in dirs) {
       dirFiles.add(element);
     }
-    List<FileSystemEntity> apks =
-        await (Directory('$prefix/$apkKey').list()).toList();
+    List<FileSystemEntity> apks = await (Directory('$prefix/$apkKey').list()).toList();
     for (var element in apks) {
       apkFiles.add(element);
     }
-    List<FileSystemEntity> video =
-        await (Directory('$prefix/$videoKey').list()).toList();
+    List<FileSystemEntity> video = await (Directory('$prefix/$videoKey').list()).toList();
     for (var element in video) {
       videoFiles.add(element);
     }
@@ -166,10 +158,7 @@ class FileController extends GetxController with WidgetsBindingObserver {
         } else if (path.isZip) {
           moveFileSafe(element, '$prefix/$zipKey/${basename(element.path)}');
         } else {
-          moveFileSafe(
-            element,
-            '$prefix/$onknownKey/${basename(element.path)}',
-          );
+          moveFileSafe(element, '$prefix/$onknownKey/${basename(element.path)}');
         }
       }
     }

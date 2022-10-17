@@ -134,9 +134,10 @@ class DeviceController extends GetxController {
       // Log.i('${device.url}:${device.messagePort}');
       urls.add('${device.url}:${device.messagePort}');
     }
-    for (String url in history) {
-      urls.add(url);
-    }
+    // TODO之前下面三行代码是未注释的
+    // for (String url in history) {
+    //   urls.add(url);
+    // }
     for (String url in urls) {
       // Log.i('$url');
       try {

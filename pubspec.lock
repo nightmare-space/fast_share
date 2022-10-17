@@ -20,8 +20,8 @@ packages:
   android_window:
     dependency: "direct main"
     description:
-      path: "../flutter-android-window"
-      relative: true
+      path: "/Users/didi/Documents/GitHub/flutter-android-window"
+      relative: false
     source: path
     version: "0.0.0"
   animations:
@@ -69,7 +69,7 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.8.2"
+    version: "2.9.0"
   auth_header:
     dependency: transitive
     description:
@@ -97,14 +97,7 @@ packages:
       name: characters
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.0"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.3.1"
+    version: "1.2.1"
   clipboard_watcher:
     dependency: "direct main"
     description:
@@ -118,7 +111,7 @@ packages:
       name: clock
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   collection:
     dependency: transitive
     description:
@@ -195,7 +188,7 @@ packages:
       name: fake_async
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.3.0"
+    version: "1.3.1"
   ffi:
     dependency: transitive
     description:
@@ -213,9 +206,11 @@ packages:
   file_manager_view:
     dependency: "direct main"
     description:
-      path: "../file_manager_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "9a59666814705e9cec4a57fc97c2f133ea88b8bc"
+      url: "https://github.com/nightmare-space/file_manager_view.git"
+    source: git
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
@@ -331,12 +326,12 @@ packages:
     source: hosted
     version: "0.8.5+3"
   fwfh_text_style:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: fwfh_text_style
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.22.08"
+    version: "2.22.08+1"
   get:
     dependency: "direct main"
     description:
@@ -480,14 +475,14 @@ packages:
       name: matcher
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.12.11"
+    version: "0.12.12"
   material_color_utilities:
     dependency: transitive
     description:
       name: material_color_utilities
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   menu_base:
     dependency: transitive
     description:
@@ -501,7 +496,7 @@ packages:
       name: meta
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0"
   mime:
     dependency: transitive
     description:
@@ -545,7 +540,7 @@ packages:
       name: path
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.8.1"
+    version: "1.8.2"
   path_drawing:
     dependency: transitive
     description:
@@ -785,7 +780,7 @@ packages:
       name: source_span
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.8.2"
+    version: "1.9.0"
   stack_trace:
     dependency: transitive
     description:
@@ -806,7 +801,7 @@ packages:
       name: string_scanner
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   supercharged:
     dependency: transitive
     description:
@@ -834,14 +829,14 @@ packages:
       name: term_glyph
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.9"
+    version: "0.4.12"
   tray_manager:
     dependency: "direct main"
     description:

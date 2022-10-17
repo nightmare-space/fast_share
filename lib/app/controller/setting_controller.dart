@@ -20,15 +20,29 @@ class SettingController extends GetxController {
       initConfig();
     }
   }
-  // 开启自动下载
+
+  /// 开启自动下载
   bool enableAutoDownload = false;
-  // 开启剪切板共享
+
+  /// 开启剪切板共享
   bool clipboardShare = true;
-  // 开启常量岛 const island
-  bool enbaleConstIsland = true;
-  // 开启消息振动
+
+  /// 开启常量岛 const island
+  bool enbaleConstIsland = false;
+
+  /// 开启消息振动
   bool vibrate = true;
-  // 文件储存路径
+
+  /// 开启文件分类
+  bool enableFileClassify = false;
+
+  void changeFileClassify(bool value) {
+    enableFileClassify = value;
+    'enableFileClassify'.set = enableFileClassify;
+    update();
+  }
+
+  /// 文件储存路径
   String savePath;
 
   Locale currentLocale = const Locale('zh', 'CN');
@@ -47,6 +61,7 @@ class SettingController extends GetxController {
     vibrate = 'vibrate'.get ?? true;
     enableAutoDownload = 'enableAutoDownload'.get ?? true;
     enbaleConstIsland = 'enbaleConstIsland'.get ?? false;
+    enableFileClassify = 'enableFileClassify'.get ?? false;
     currentLocaleKey = 'lang'.get ?? currentLocaleKey;
     currentLocale = languageMap[currentLocaleKey];
     String defaultPath = '/sdcard/SpeedShare';
