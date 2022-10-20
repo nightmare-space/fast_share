@@ -25,6 +25,7 @@ class Server {
   // 启动消息服务端
   static Future<int> start() async {
     ChatController controller = Get.find();
+    SettingController settingController = Get.find();
     app.post('/', (Request request) async {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
       Map<String, dynamic> data = jsonDecode(await request.readAsString());
@@ -119,12 +120,24 @@ class Server {
     app.mount('/', (r) {
       // `http://192.168.0.103:12000/sdcard/`的形式，说明是想要访问文件
       if (r.requestedUri.path.startsWith('/sdcard')) {
+        if (!settingController.enableWebServer) {
+          return Response.ok(
+            '请先去速享客户端中开启WebServer',
+            headers: {
+              ...corsHeader,
+              HttpHeaders.contentTypeHeader: 'text/plain',
+            },
+          );
+        }
         try {
           return f.Server.getFileServerHandler().call(r);
         } catch (e) {
           return Response.notFound(
             e.toString(),
-            headers: corsHeader,
+            headers: {
+              ...corsHeader,
+              HttpHeaders.contentTypeHeader: 'text/plain',
+            },
           );
         }
       } else {

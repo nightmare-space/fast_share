@@ -42,6 +42,14 @@ class SettingController extends GetxController {
     update();
   }
 
+  bool enableWebServer = true;
+
+  void changeWebServer(bool value) {
+    enableWebServer = value;
+    'enableWebServer'.set = enableWebServer;
+    update();
+  }
+
   /// 文件储存路径
   String savePath;
 
@@ -62,6 +70,7 @@ class SettingController extends GetxController {
     enableAutoDownload = 'enableAutoDownload'.get ?? true;
     enbaleConstIsland = 'enbaleConstIsland'.get ?? false;
     enableFileClassify = 'enableFileClassify'.get ?? false;
+    enableWebServer = 'enableWebServer'.get ?? true;
     currentLocaleKey = 'lang'.get ?? currentLocaleKey;
     currentLocale = languageMap[currentLocaleKey];
     String defaultPath = '/sdcard/SpeedShare';
