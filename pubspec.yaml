@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   android_window: ^0.2.0
+  speed_share_extension:
+    path: ../speed_share_extension
   tray_manager: ^0.2.0
   flutter_localizations:
     sdk: flutter
@@ -104,8 +106,8 @@ dependency_overrides:
   android_window:
     path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
-  # logger_view:
-  #   path: ../logger_view
+  logger_view:
+    path: ../logger_view
   # app_manager:
   #   path: ../app_manager
   # applib_util:

@@ -48,6 +48,13 @@
             "deviceId": "2206123SC"
         },
         {
+            "name": "小米12s-个人",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "2206123SC",
+            "program": "lib/main_personal.dart",
+        },
+        {
             "name": "小米平板5 12.4",
             "request": "launch",
             "type": "dart",
