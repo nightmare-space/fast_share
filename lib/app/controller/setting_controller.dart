@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
+import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
 import 'package:settings/settings.dart';
+import 'package:speed_share/speed_share.dart';
 
 /// 支持切换的语言列表
 Map<String, Locale> languageMap = {
@@ -42,12 +44,23 @@ class SettingController extends GetxController {
     update();
   }
 
-  bool enableWebServer = true;
+  bool enableWebServer = false;
 
   void changeWebServer(bool value) {
     enableWebServer = value;
-    'enableWebServer'.set = enableWebServer;
     update();
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        if (!isVIP) {
+          showToast('这个功能需要会员才能使用哦');
+          enableWebServer = !value;
+          update();
+        } else {
+          'enableWebServer'.set = enableWebServer;
+        }
+      },
+    );
   }
 
   /// 文件储存路径
@@ -65,12 +78,12 @@ class SettingController extends GetxController {
 
   // 初始化配置
   void initConfig() {
-    clipboardShare = 'clipboardShare'.get ?? true;
-    vibrate = 'vibrate'.get ?? true;
-    enableAutoDownload = 'enableAutoDownload'.get ?? true;
-    enbaleConstIsland = 'enbaleConstIsland'.get ?? false;
-    enableFileClassify = 'enableFileClassify'.get ?? false;
-    enableWebServer = 'enableWebServer'.get ?? true;
+    clipboardShare = 'clipboardShare'.get ?? clipboardShare;
+    vibrate = 'vibrate'.get ?? vibrate;
+    enableAutoDownload = 'enableAutoDownload'.get ?? enableAutoDownload;
+    enbaleConstIsland = 'enbaleConstIsland'.get ?? enbaleConstIsland;
+    enableFileClassify = 'enableFileClassify'.get ?? enableFileClassify;
+    enableWebServer = 'enableWebServer'.get ?? enableWebServer;
     currentLocaleKey = 'lang'.get ?? currentLocaleKey;
     currentLocale = languageMap[currentLocaleKey];
     String defaultPath = '/sdcard/SpeedShare';
@@ -110,8 +123,19 @@ class SettingController extends GetxController {
 
   void enableAutoChange(bool value) {
     enableAutoDownload = value;
-    'enableAutoDownload'.set = enableAutoDownload;
     update();
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        if (!isVIP) {
+          showToast('这个功能需要会员才能使用哦');
+          enableAutoDownload = !value;
+          update();
+        } else {
+          'enableAutoDownload'.set = enableAutoDownload;
+        }
+      },
+    );
   }
 
   void switchDownLoadPath(String path) {
