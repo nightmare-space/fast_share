@@ -9,6 +9,7 @@ import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/speed_share.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
+import '../login.dart';
 
 class PersonalPage extends StatefulWidget {
   const PersonalPage({Key key}) : super(key: key);
@@ -26,8 +27,21 @@ class _PersonalPageState extends State<PersonalPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Header(),
-          if (personHeader != null) personHeader,
-          
+          if (personHeader != null)
+            GestureDetector(
+              onTap: () {
+                Get.to(const LoginPage());
+              },
+              child: AbsorbPointer(
+                absorbing: false,
+                child: Column(
+                  children: [
+                    personHeader,
+                    SizedBox(height: 8.w),
+                  ],
+                ),
+              ),
+            ),
           SizedBox(height: 12.w),
           personalItem(
             title: S.of(context).aboutSpeedShare,
