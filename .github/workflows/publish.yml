@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - dev
     # paths-ignore
   
   repository_dispatch:
@@ -42,7 +41,7 @@ jobs:
       - name: Building
         run: |
           flutter config --enable-linux-desktop 
-          flutter build linux
+          flutter build linux --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} 
       
       - name: Packaging
         run: ./scripts/build/generate_linux.sh
@@ -85,7 +84,7 @@ jobs:
       - name: Building
         run: |
           flutter config --enable-macos-desktop
-          ./scripts/build/mac/build_mac.sh
+          flutter build macos --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} 
 
       - name: Packaging
         run: |
@@ -113,7 +112,7 @@ jobs:
       - name: Building...
         run: |
           flutter config --enable-windows-desktop
-          flutter build windows
+          flutter build windows flutter build linux --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} 
 
       - name: Packaging
         run: |
