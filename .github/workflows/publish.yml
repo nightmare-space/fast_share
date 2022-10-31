@@ -9,6 +9,8 @@ on:
   repository_dispatch:
     types:
       - api
+  
+  workflow_dispatch:
 
 env:
   # APP名称
@@ -20,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - run: echo ${{ github.event.client_payload }}
       - name: Checkout the code
         uses: actions/checkout@v3
 
