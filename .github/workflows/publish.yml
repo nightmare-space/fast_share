@@ -3,7 +3,12 @@ on:
   push:
     branches:
       - main
+      - dev
     # paths-ignore
+  
+  repository_dispatch:
+    types:
+      - api
 
 env:
   # APP名称
@@ -23,15 +28,17 @@ jobs:
         with:
           channel: 'stable'
 
-      - run: |
+      - name: Setup other environment
+        run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
           # tray manager need
           sudo apt-get install libayatana-appindicator3-dev
-      - run: flutter config --enable-linux-desktop
 
       - name: Building
-        run: flutter build linux
+        run: |
+          flutter config --enable-linux-desktop 
+          flutter build linux
       
       - name: Packaging
         run: ./scripts/build/generate_linux.sh
@@ -49,8 +56,8 @@ jobs:
       # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      # - name: Check out repository code
+      #   uses: actions/checkout@v3
       # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       # - name: List files in the repository
@@ -63,12 +70,14 @@ jobs:
       - name: actions/setup-node@v2
         uses: actions/setup-node@v2   
       
-      - run: npm install -g appdmg
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           
+      - name: Setup other environment
+        run: npm install -g appdmg
+        
       - name: Building
         run: |
           flutter config --enable-macos-desktop

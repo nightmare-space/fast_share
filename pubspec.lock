@@ -446,13 +446,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.4"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.7.0"
   lints:
     dependency: transitive
     description:
@@ -460,13 +453,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
-  logger:
-    dependency: transitive
-    description:
-      name: logger
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.1.0"
   logger_view:
     dependency: "direct main"
     description:
@@ -702,13 +688,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
-  retrofit:
-    dependency: transitive
-    description:
-      name: retrofit
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.3.1"
   sa_v1_migration:
     dependency: transitive
     description:
@@ -802,13 +781,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.9.0"
-  speed_share_extension:
-    dependency: "direct main"
-    description:
-      path: "../speed_share_extension"
-      relative: true
-    source: path
-    version: "0.0.1"
   stack_trace:
     dependency: transitive
     description:
@@ -935,13 +907,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
-  user_center_frontend:
-    dependency: transitive
-    description:
-      path: "../user_center_frontend"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   vector_math:
     dependency: transitive
     description:
