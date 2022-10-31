@@ -112,7 +112,7 @@ jobs:
       - name: Building...
         run: |
           flutter config --enable-windows-desktop
-          flutter build windows flutter build linux --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} 
+          flutter build windows --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} 
 
       - name: Packaging
         run: |
