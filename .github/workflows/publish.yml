@@ -22,10 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - run: echo ${{ github.event.client_payload }}
+      - run: echo ${{ github.event.client_payload.integration }}
       - name: Checkout the code
         uses: actions/checkout@v3
-
+        with:
+          ref: ${{ github.event.client_payload.ref }}
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
