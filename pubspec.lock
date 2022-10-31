@@ -20,10 +20,10 @@ packages:
   android_window:
     dependency: "direct main"
     description:
-      path: "/Users/didi/Documents/GitHub/flutter-android-window"
-      relative: false
-    source: path
-    version: "0.0.0"
+      name: android_window
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   animations:
     dependency: "direct main"
     description:
@@ -470,9 +470,11 @@ packages:
   logger_view:
     dependency: "direct main"
     description:
-      path: "../logger_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "8761beeeaf02ba0bea275a38c5f70056df96eba3"
+      url: "https://github.com/nightmare-space/logger_view"
+    source: git
     version: "0.0.1"
   markdown:
     dependency: transitive

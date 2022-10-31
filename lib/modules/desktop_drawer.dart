@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/modules/login.dart';
 import 'package:speed_share/speed_share.dart';
 
 class DesktopDrawer extends StatefulWidget {
