@@ -9,6 +9,8 @@ on:
   repository_dispatch:
     types:
       - api
+  
+  workflow_dispatch:
 
 env:
   # APP名称
