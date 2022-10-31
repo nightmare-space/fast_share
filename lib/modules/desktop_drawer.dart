@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/speed_share.dart';
 
 class DesktopDrawer extends StatefulWidget {
   const DesktopDrawer({
@@ -54,14 +55,27 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                       ],
                     );
                   }
-                  return Column(
-                    children: [
-                      homeMenu(),
-                      messageMenu(),
-                      fileMenu(),
-                      localFileMenu(controller),
-                      settingMenu(controller),
-                    ],
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (personHeader != null)
+                          Column(
+                            children: [
+                              SizedBox(
+                                width: 240.w,
+                                child: personHeader,
+                              ),
+                              SizedBox(height: 8.w),
+                            ],
+                          ),
+                        homeMenu(),
+                        messageMenu(),
+                        fileMenu(),
+                        localFileMenu(controller),
+                        settingMenu(controller),
+                      ],
+                    ),
                   );
                 }),
               ],
@@ -254,8 +268,7 @@ class DrawerItem extends StatelessWidget {
           vertical: 12.w,
         ),
         decoration: BoxDecoration(
-          color:
-              enable ? Theme.of(context).primaryColor.withOpacity(0.11) : null,
+          color: enable ? Theme.of(context).primaryColor.withOpacity(0.11) : null,
           borderRadius: BorderRadius.circular(8.w),
         ),
         child: Theme(

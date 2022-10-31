@@ -21,9 +21,16 @@ class _PersonalPageState extends State<PersonalPage> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Header(),
-          if (personHeader != null) personHeader,
+          if (personHeader != null)
+            Column(
+              children: [
+                personHeader,
+                SizedBox(height: 8.w),
+              ],
+            ),
           SizedBox(height: 12.w),
           personalItem(
             title: S.of(context).aboutSpeedShare,

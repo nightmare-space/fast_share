@@ -23,6 +23,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   SettingController controller = Get.find();
+  ChatController chatController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +263,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () {
-                    controller.constIslandChange(!controller.enbaleConstIsland);
+                    controller.changeWebServer(!controller.enableWebServer);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,12 +291,31 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       AquaSwitch(
-                        value: controller.enbaleConstIsland,
-                        onChanged: controller.constIslandChange,
+                        value: controller.enableWebServer,
+                        onChanged: controller.changeWebServer,
                       ),
                     ],
                   ),
                 ),
+                if (controller.enableWebServer)
+                  FutureBuilder(
+                    future: PlatformUtil.localAddress(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        List<Widget> children = [];
+                        for (String address in snapshot.data) {
+                          children.add(Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.w),
+                            child: SelectableText('$address:${chatController.messageBindPort}/sdcard'),
+                          ));
+                        }
+                        return Column(
+                          children: children,
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  ),
                 // Text('隐私和安全'),
                 // Text('消息和通知'),
                 // Text('快捷键'),
@@ -481,10 +501,15 @@ class SettingItem extends StatelessWidget {
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-        child: SizedBox(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: child,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: 40.w,
+          ),
+          child: SizedBox(
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: child,
+            ),
           ),
         ),
       ),

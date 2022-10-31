@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.1.6-5+48
+version: 2.1.7-4+54
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   android_window: ^0.2.0
+  speed_share_extension:
+    path: ../speed_share_extension
   tray_manager: ^0.2.0
   flutter_localizations:
     sdk: flutter

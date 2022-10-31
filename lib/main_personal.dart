@@ -1,4 +1,3 @@
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
@@ -7,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
+import 'package:speed_share_extension/speed_share_extension.dart';
 import 'package:window_manager/window_manager.dart';
 import 'android_window.dart';
 import 'app/controller/device_controller.dart';
@@ -82,7 +82,7 @@ Future<void> main() async {
   Get.put(SettingController());
   Get.put(DeviceController());
   Get.put(ChatController());
-
+  initPersonal();
   runZonedGuarded<void>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();

@@ -26,8 +26,7 @@ class ShareChatV2 extends StatefulWidget {
   State createState() => _ShareChatV2State();
 }
 
-class _ShareChatV2State extends State<ShareChatV2>
-    with SingleTickerProviderStateMixin {
+class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStateMixin {
   ChatController controller = Get.find();
   AnimationController menuAnim;
   bool dropping = false;
@@ -66,11 +65,10 @@ class _ShareChatV2State extends State<ShareChatV2>
           if (GetPlatform.isAndroid) {
             for (var value in detail.files) {
               Log.w(value.path);
-              String filePath =
-                  p.fromUri(Uri.parse(value.path).path).replaceAll(
-                        '/raw/',
-                        '',
-                      );
+              String filePath = p.fromUri(Uri.parse(value.path).path).replaceAll(
+                    '/raw/',
+                    '',
+                  );
               controller.sendFileFromPath(filePath);
               // Log.w(p
               //     .fromUri(Uri.parse(value.path).path)
@@ -138,10 +136,7 @@ class _ShareChatV2State extends State<ShareChatV2>
           children: [
             Column(
               children: [
-                if (ResponsiveWrapper.of(context).isMobile)
-                  appbar(context)
-                else
-                  SizedBox(height: 10.w),
+                if (ResponsiveWrapper.of(context).isMobile) appbar(context) else SizedBox(height: 10.w),
                 Expanded(
                   child: Row(
                     children: [
@@ -262,9 +257,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                 return Container(
                   width: 10.w,
                   height: 10.w,
-                  decoration: BoxDecoration(
-                      color: value ? Colors.green : Colors.red,
-                      borderRadius: BorderRadius.circular(16.w)),
+                  decoration: BoxDecoration(color: value ? Colors.green : Colors.red, borderRadius: BorderRadius.circular(16.w)),
                 );
               },
             ),
@@ -490,16 +483,14 @@ class _ShareChatV2State extends State<ShareChatV2>
                                 controller.controller.value = TextEditingValue(
                                   text: '${controller.controller.text}\n',
                                   selection: TextSelection.collapsed(
-                                    offset:
-                                        controller.controller.selection.end + 1,
+                                    offset: controller.controller.selection.end + 1,
                                   ),
                                 );
                                 controller.focusNode.requestFocus();
                                 return;
                               }
                               controller.sendTextMsg();
-                              Future.delayed(const Duration(milliseconds: 100),
-                                  () {
+                              Future.delayed(const Duration(milliseconds: 100), () {
                                 controller.focusNode.requestFocus();
                               });
                             },
@@ -533,8 +524,7 @@ class _ShareChatV2State extends State<ShareChatV2>
                           builder: (c, child) {
                             return Transform(
                               alignment: Alignment.center,
-                              transform: Matrix4.identity()
-                                ..rotateZ(menuAnim.value * pi / 4),
+                              transform: Matrix4.identity()..rotateZ(menuAnim.value * pi / 4),
                               child: child,
                             );
                           },
@@ -699,8 +689,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               ),
               onChange: (value) {
                 index = value;
-                offset = Tween<double>(begin: offset.value, end: 0.w)
-                    .animate(controller);
+                offset = Tween<double>(begin: offset.value, end: 0.w).animate(controller);
                 chatController.restoreList();
                 controller.reset();
                 controller.forward();
@@ -710,9 +699,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
             GetBuilder<DeviceController>(builder: (_) {
               return Column(
                 children: [
-                  for (int i = 0;
-                      i < deviceController.connectDevice.length;
-                      i++)
+                  for (int i = 0; i < deviceController.connectDevice.length; i++)
                     MenuButton(
                       value: i + 1,
                       enable: index == i + 1,

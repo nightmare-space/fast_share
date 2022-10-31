@@ -55,7 +55,7 @@ packages:
       name: archive
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.3.1"
+    version: "3.3.2"
   args:
     dependency: transitive
     description:
@@ -125,7 +125,7 @@ packages:
       name: convert
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.1"
   cross_file:
     dependency: transitive
     description:
@@ -248,7 +248,7 @@ packages:
       name: file_selector_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   file_selector_web:
     dependency: transitive
     description:
@@ -368,7 +368,7 @@ packages:
       name: html
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.15.0"
+    version: "0.15.1"
   http:
     dependency: transitive
     description:
@@ -446,6 +446,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.4"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.7.0"
   lints:
     dependency: transitive
     description:
@@ -453,12 +460,19 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
+  logger:
+    dependency: transitive
+    description:
+      name: logger
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.0"
   logger_view:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2d673b07c837acb6111036f8c8b45f2727b0f5e8"
+      resolved-ref: "8761beeeaf02ba0bea275a38c5f70056df96eba3"
       url: "https://github.com/nightmare-space/logger_view"
     source: git
     version: "0.0.1"
@@ -688,6 +702,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
+  retrofit:
+    dependency: transitive
+    description:
+      name: retrofit
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.3.1"
   sa_v1_migration:
     dependency: transitive
     description:
@@ -781,6 +802,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.9.0"
+  speed_share_extension:
+    dependency: "direct main"
+    description:
+      path: "../speed_share_extension"
+      relative: true
+    source: path
+    version: "0.0.1"
   stack_trace:
     dependency: transitive
     description:
@@ -907,6 +935,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  user_center_frontend:
+    dependency: transitive
+    description:
+      path: "../user_center_frontend"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   vector_math:
     dependency: transitive
     description:
@@ -994,5 +1029,5 @@ packages:
     source: git
     version: "3.2.7"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.0.0"
