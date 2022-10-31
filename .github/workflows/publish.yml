@@ -6,7 +6,7 @@ on:
       - dev
     # paths-ignore
   
-  workflow_dispatch:
+  repository_dispatch:
     types:
       - api
 
