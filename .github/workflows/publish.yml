@@ -21,7 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - run: echo ${{ github.event.client_payload.integration }}
+      - run: |
+          echo ${{ github.event.client_payload.version }}
+          echo ${{ github.event.client_payload.version_code }}
       - name: Checkout the code
         uses: actions/checkout@v3
         with:
