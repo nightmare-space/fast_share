@@ -53,8 +53,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
     for (String path in widget.info.paths) {
       Log.d(path);
       // .*?是非贪婪匹配，
-      String relativePath =
-          path.replaceAll(RegExp('.*?${widget.info.dirName}/'), '/');
+      String relativePath = path.replaceAll(RegExp('.*?${widget.info.dirName}/'), '/');
       // Log.e(relativePath);
       if (path.endsWith('/')) {
       } else {
@@ -114,19 +113,14 @@ class _DirMessageItemState extends State<DirMessageItem> {
       urlPrifix = info.urlPrifix;
     }
     Log.v('urlPrifix -> $urlPrifix');
-    Color background = scheme.primary.withOpacity(0.05);
-    if (widget.sendByUser) {
-      background = AppColors.sendByUser;
-    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment:
-          widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: background,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: ConstrainedBox(
@@ -139,9 +133,10 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: SvgPicture.asset(
-                        Assets.dir,
+                        'assets/icon/dir.svg',
                         width: 32,
                         color: Colors.black,
+                        package: 'file_manager_view',
                       ),
                     ),
                     Expanded(
@@ -164,8 +159,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                         height: 8.w,
                       ),
                       ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25.0)),
+                        borderRadius: const BorderRadius.all(Radius.circular(25.0)),
                         child: LinearProgressIndicator(
                           backgroundColor: Colors.black12,
                           valueColor: AlwaysStoppedAnimation(
@@ -216,8 +210,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                               ),
                               Builder(builder: (context) {
                                 return Text(
-                                  FileSizeUtils.getFileSize(
-                                      widget.info.fullSize),
+                                  FileSizeUtils.getFileSize(widget.info.fullSize),
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12.w,
@@ -262,7 +255,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                       if (!dataDir.existsSync()) {
                         dataDir.createSync();
                       }
-                      downloadFile(urlPrifix, '/sdcard/SpeedShare');
+                      downloadFile(urlPrifix, '/sdcard/SpeedShare/文件夹');
                     }
                   },
                   borderRadius: BorderRadius.circular(12),

@@ -5,13 +5,9 @@ class TextMessage extends MessageBaseInfo {
 
   TextMessage({
     this.content,
-    String type,
-    String data,
     String sendFrom,
     String msgType = 'text',
   }) : super(
-          data: data,
-          type: type,
           msgType: msgType,
           deviceName: sendFrom,
         );

@@ -12,10 +12,8 @@ class BroswerFileMessage extends MessageBaseInfo {
     this.hash,
     this.blob,
     String msgType = 'webfile',
-    String type,
     String deviceName,
   }) : super(
-          type: type,
           msgType: msgType,
           deviceName: deviceName,
         );

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
@@ -181,63 +182,63 @@ class ChatController extends GetxController with WidgetsBindingObserver {
 
   //
   Future<void> sendDir() async {
-    // String dirPath;
-    // if (GetPlatform.isDesktop) {
-    //   dirPath = await FileSelectorPlatform.instance.getDirectoryPath(
-    //     confirmButtonText: '选择',
-    //   );
-    // } else {
-    //   dirPath = await FileSelector.pickDirectory(Get.context);
-    // }
-    // Log.d('dirPath -> $dirPath');
-    // if (dirPath == null) {
-    //   return;
-    // }
-    // Directory dir = Directory(dirPath);
-    // // 可能会存在两个不同路径下有相同文件夹名的问题
-    // String dirName = p.basename(dirPath);
-    // // TODO 改Model
-    // MessageBaseInfo info = MessageInfoFactory.fromJson({
-    //   'dirName': dirName,
-    //   'msgType': 'dir',
-    //   'urlPrifix': fileUrl,
-    //   'fullSize': 0,
-    // });
-    // // 发送消息
+    String dirPath;
+    if (GetPlatform.isDesktop) {
+      dirPath = await getDirectoryPath(
+        confirmButtonText: '选择',
+      );
+    } else {
+      dirPath = await FileSelector.pickDirectory(Get.context);
+    }
+    Log.d('dirPath -> $dirPath');
+    if (dirPath == null) {
+      return;
+    }
+    Directory dir = Directory(dirPath);
+    String dirName = p.basename(dirPath);
+    DirMessage dirMessage = DirMessage(
+      dirName: dirName,
+      fullSize: 0,
+      deviceName: Global().deviceId,
+      addrs: addrs,
+      port: shelfBindPort,
+    );
+    // 发送消息
+    sendMessage(dirMessage);
     // socket.send(info.toString());
-    // // 将消息添加到本地列表
-    // children.add(MessageItemFactory.getMessageItem(
-    //   info,
-    //   true,
-    // ));
-    // scroll();
-    // update();
-    // // await for(FileSystemEntity element in  dir.list(recursive: true)){
+    // 将消息添加到本地列表
+    children.add(MessageItemFactory.getMessageItem(
+      dirMessage,
+      true,
+    ));
+    scrollController.scrollToEnd();
+    update();
+    dir.list(recursive: true).listen((event) async {
+      FileSystemEntity entity = event;
+      String suffix = '';
+      int size = 0;
+      if (entity is Directory) {
+        suffix = '/';
+      } else if (entity is File) {
+        size = await entity.length();
+        ServerUtil.serveFile(entity.path, shelfBindPort);
+      }
+      DirPartMessage dirPartMessage = DirPartMessage(
+        path: event.path + suffix,
+        size: size,
+        partOf: dirName,
+      );
+      sendMessage(dirPartMessage);
+      Log.i(dirPartMessage);
+    });
+    // await for(FileSystemEntity element in  dir.list(recursive: true)){
 
-    // // }
+    // }
     // List<FileSystemEntity> list = await dir.list(recursive: true).toList();
     // // TODO
     // // 这儿还不敢随便改，等后面分配时间优化
     // // 不await list，不然在文件特别多的时候，会等待很久
-    // list.forEach((element) async {
-    //   FileSystemEntity entity = element;
-    //   String suffix = '';
-    //   int size = 0;
-    //   if (entity is Directory) {
-    //     suffix = '/';
-    //   } else if (entity is File) {
-    //     size = await entity.length();
-    //     ServerUtil.serveFile(entity.path, shelfBindPort);
-    //   }
-    //   // TODO 改Model
-    //   dynamic info = MessageInfoFactory.fromJson({
-    //     'path': element.path + suffix,
-    //     'size': size,
-    //     'msgType': 'dirPart',
-    //     'partOf': dirName,
-    //   });
-    //   socket.send(info.toString());
-    // });
+
     // // TODO 改Model
     // info = MessageInfoFactory.fromJson({
     //   'stat': 'complete',
@@ -427,7 +428,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         }
         break;
       case JoinMessage:
-        JoinMessage joinMessage = info as JoinMessage;
+        JoinMessage joinMessage = info;
         // 当连接设备不是本机的时候
         // todo 应该用hashcode
         if (info.deviceName != await UniqueUtil.getDevicesId()) {
@@ -479,7 +480,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         }
         break;
       case FileMessage:
-        FileMessage fileMessage = info as FileMessage;
+        FileMessage fileMessage = info;
         // 文件消息，需要先计算出正确的下载地址
         String url = await getCorrectUrlWithAddressAndPort(
           fileMessage.addrs,
@@ -497,52 +498,57 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           ConstIsland.onFileReceive(fileMessage.toJson());
         }
         break;
-      default:
-    }
-    if (info is DirMessage) {
-      // 保存文件夹消息所在的index
-      // dirItemMap[messageInfo.dirName] = children.length;
-      // dirMsgMap[messageInfo.dirName] = messageInfo;
-      // messageInfo.urlPrifix = await getCorrectUrl(messageInfo.urlPrifix);
-      // Log.w('dirItemMap -> $dirItemMap');
-    } else if (info is DirPartMessage) {
-      if (info.stat == 'complete') {
-        Log.e('完成发送');
-        dirMsgMap[info.partOf].canDownload = true;
-        children[dirItemMap[info.partOf]] = MessageItemFactory.getMessageItem(
-          dirMsgMap[info.partOf],
-          false,
-        );
-
-        update();
-      } else {
-        dirMsgMap[info.partOf].fullSize += info.size ?? 0;
-        dirMsgMap[info.partOf].paths.add(info.path);
-        children[dirItemMap[info.partOf]] = MessageItemFactory.getMessageItem(
-          dirMsgMap[info.partOf],
-          false,
-        );
-
-        update();
-      }
-      return;
-    } else if (info is NotifyMessage) {
-      if (GetPlatform.isWeb) {
-        if (webFileSendCache.containsKey(info.hash)) {
-          Log.e(info);
-          String url = await getCorrectUrlWithAddressAndPort(
-            info.addrs,
-            info.port,
+      case DirMessage:
+        DirMessage dirMessage = info;
+        // 保存文件夹消息所在的index
+        dirItemMap[dirMessage.dirName] = children.length;
+        dirMsgMap[dirMessage.dirName] = info;
+        String url = await getCorrectUrlWithAddressAndPort(dirMessage.addrs, dirMessage.port);
+        dirMessage.urlPrifix = '$url:${dirMessage.port}';
+        Log.w('dirItemMap -> $dirItemMap');
+        break;
+      case DirPartMessage:
+        Log.w('DirPartMessage $info');
+        DirPartMessage dirPartMessage = info;
+        if (dirPartMessage.stat == 'complete') {
+          Log.e('完成发送');
+          dirMsgMap[dirPartMessage.partOf].canDownload = true;
+          children[dirItemMap[dirPartMessage.partOf]] = MessageItemFactory.getMessageItem(
+            dirMsgMap[dirPartMessage.partOf],
+            false,
           );
-          Log.d('uploadFileForWeb url -> $url:${info.port}');
-          if (url != null) {
-            uploadFileForWeb(webFileSendCache[info.hash], '$url:${info.port}');
-          } else {
-            showToast('未检测到可上传IP');
+          update();
+        } else {
+          dirMsgMap[dirPartMessage.partOf].fullSize += dirPartMessage.size ?? 0;
+          dirMsgMap[dirPartMessage.partOf].paths.add(dirPartMessage.path);
+          children[dirItemMap[dirPartMessage.partOf]] = MessageItemFactory.getMessageItem(
+            dirMsgMap[dirPartMessage.partOf],
+            false,
+          );
+          update();
+        }
+        return;
+        break;
+      case NotifyMessage:
+        NotifyMessage notifyMessage = info;
+        if (GetPlatform.isWeb) {
+          if (webFileSendCache.containsKey(notifyMessage.hash)) {
+            Log.e(info);
+            String url = await getCorrectUrlWithAddressAndPort(
+              notifyMessage.addrs,
+              notifyMessage.port,
+            );
+            Log.d('uploadFileForWeb url -> $url:${notifyMessage.port}');
+            if (url != null) {
+              uploadFileForWeb(webFileSendCache[notifyMessage.hash], '$url:${notifyMessage.port}');
+            } else {
+              showToast('未检测到可上传IP');
+            }
           }
         }
-      }
-      return;
+        return;
+        break;
+      default:
     }
     // 往聊天列表中添加一条消息
     Widget item = MessageItemFactory.getMessageItem(

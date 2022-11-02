@@ -12,11 +12,7 @@ class NotifyMessage extends MessageBaseInfo {
     this.addrs,
     this.port,
     String msgType = 'notify',
-    String type,
-    String data,
   }) : super(
-          data: data,
-          type: type,
           msgType: msgType,
         );
 

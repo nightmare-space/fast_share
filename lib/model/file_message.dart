@@ -16,10 +16,8 @@ class FileMessage extends MessageBaseInfo {
     this.addrs,
     this.filePath,
     String msgType = 'file',
-    String type,
     String sendFrom,
   }) : super(
-          type: type,
           msgType: msgType,
           deviceName: sendFrom,
         );

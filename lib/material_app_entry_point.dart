@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -36,8 +35,7 @@ class SpeedShare extends StatelessWidget {
           supportedLocales: S.delegate.supportedLocales,
           builder: (context, child) {
             final bool isDark = Theme.of(context).brightness == Brightness.dark;
-            final ThemeData theme =
-                isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+            final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
             return ResponsiveWrapper.builder(
               Builder(
                 builder: (context) {
@@ -62,7 +60,7 @@ class SpeedShare extends StatelessWidget {
                             alignment: Alignment.center,
                             children: [
                               child,
-                              const DynamicIsland(),
+                              if (settingController.enbaleConstIsland) const DynamicIsland(),
                             ],
                           ),
                         ),

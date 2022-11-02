@@ -3,12 +3,8 @@ import 'text_message.dart';
 class ClipboardMessage extends TextMessage {
   ClipboardMessage({
     String content,
-    String type,
-    String data,
     String sendFrom,
   }) : super(
-          data: data,
-          type: type,
           msgType: 'clip',
           sendFrom: sendFrom,
           content: content,

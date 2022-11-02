@@ -103,8 +103,8 @@ dependency_overrides:
   xterm:
     git:
       url: https://github.com/TerminalStudio/xterm.dart
-  # android_window:
-  #   path: /Users/didi/Documents/GitHub/flutter-android-window
+  android_window:
+    path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
   # logger_view:
   #   path: ../logger_view

@@ -44,7 +44,7 @@ class MessageItemFactory {
         child: Column(
           crossAxisAlignment: sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            if (info.deviceName != null)
+            if (info.deviceName != null && info.deviceName.isNotEmpty)
               Row(
                 mainAxisAlignment: sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,

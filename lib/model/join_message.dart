@@ -4,11 +4,7 @@ import 'notify_message.dart';
 class JoinMessage extends MessageBaseInfo {
   JoinMessage({
     String msgType = 'join',
-    String type,
-    String data,
   }) : super(
-          data: data,
-          type: type,
           msgType: msgType,
         );
 

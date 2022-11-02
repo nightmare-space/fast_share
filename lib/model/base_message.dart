@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 class MessageBaseInfo {
-  String type;
-  String data;
   String msgType;
   String deviceName;
   // 用来做发送设备的位移标识
@@ -10,8 +8,6 @@ class MessageBaseInfo {
   int deviceType;
 
   MessageBaseInfo({
-    this.type,
-    this.data,
     this.msgType,
     this.deviceName = '',
     this.deviceType,
@@ -19,8 +15,6 @@ class MessageBaseInfo {
   });
 
   MessageBaseInfo.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    data = json['data'];
     msgType = json['msgType'];
     deviceName = json['deviceName'];
     deviceType = json['deviceType'];
@@ -29,8 +23,6 @@ class MessageBaseInfo {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['type'] = type;
-    map['data'] = data;
     map['msgType'] = msgType;
     map['deviceName'] = deviceName;
     map['deviceType'] = deviceType;

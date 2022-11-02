@@ -752,6 +752,8 @@ class MenuButton extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
+            ChatController controller = Get.find();
+            controller.focusNode.unfocus();
             onChange?.call(value);
           },
           child: SizedBox(

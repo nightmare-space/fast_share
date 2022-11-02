@@ -1,4 +1,5 @@
 import 'base_message.dart';
+import 'model.dart';
 
 class DirMessage extends MessageBaseInfo {
   String dirName;
@@ -6,6 +7,9 @@ class DirMessage extends MessageBaseInfo {
   bool canDownload = false;
   List<String> paths = [];
   String urlPrifix;
+  List<String> addrs;
+  String url;
+  int port;
 
   DirMessage({
     this.dirName,
@@ -13,13 +17,12 @@ class DirMessage extends MessageBaseInfo {
     this.canDownload,
     this.paths,
     this.urlPrifix,
-    String msgType,
-    String type,
-    String data,
+    String deviceName,
+    this.addrs,
+    this.port,
   }) : super(
-          data: data,
-          type: type,
-          msgType: msgType,
+          msgType: 'dir',
+          deviceName: deviceName,
         );
 
   DirMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
@@ -27,6 +30,16 @@ class DirMessage extends MessageBaseInfo {
     fullSize = json['fullSize'];
     urlPrifix = json['urlPrifix'];
     canDownload = json['canDownload'] ?? false;
+    final List<String> addrs = json['addrs'] is List ? <String>[] : null;
+    if (addrs != null) {
+      for (final dynamic item in json['addrs']) {
+        if (item != null) {
+          addrs.add(asT<String>(item));
+        }
+      }
+    }
+    this.addrs = addrs;
+    port = asT<int>(json['port']);
   }
 
   @override
@@ -36,6 +49,8 @@ class DirMessage extends MessageBaseInfo {
     data['fullSize'] = fullSize;
     data['canDownload'] = canDownload;
     data['urlPrifix'] = urlPrifix;
+    data['port'] = port;
+    data['addrs'] = addrs;
     return data;
   }
 }
@@ -47,13 +62,10 @@ class DirPartMessage extends MessageBaseInfo {
   int size;
   DirPartMessage({
     this.path,
-    String msgType,
-    String type,
-    String data,
+    this.size,
+    this.partOf,
   }) : super(
-          data: data,
-          type: type,
-          msgType: msgType,
+          msgType: 'dirPart',
         );
 
   DirPartMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
