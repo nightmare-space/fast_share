@@ -29,7 +29,8 @@ class Global with ClipboardListener, WindowListener {
   }
 
   Multicast multicast = Multicast();
-  String deviceId = '';
+  String deviceName = '';
+  String uniqueKey = '';
 
   /// 是否已经初始化
   bool isInit = false;
@@ -42,13 +43,12 @@ class Global with ClipboardListener, WindowListener {
   @override
   void onClipboardChanged() async {
     // TODO，应该先读设置开关
-    ClipboardData newClipboardData =
-        await Clipboard.getData(Clipboard.kTextPlain);
+    ClipboardData newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     Log.i('剪切板来啦:${newClipboardData?.text}' ?? "");
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(
       content: newClipboardData?.text ?? "",
-      sendFrom: Global().deviceId,
+      sendFrom: Global().deviceName,
     );
     chatController.sendMessage(info);
   }
@@ -82,7 +82,10 @@ class Global with ClipboardListener, WindowListener {
   // 初始化全局单例
   Future<void> initGlobal() async {
     Log.v('initGlobal', tag: 'GlobalInstance');
-    deviceId = await UniqueUtil.getDevicesId();
+    deviceName = await UniqueUtil.getDevicesId();
+    uniqueKey = await UniqueUtil.getUniqueKey();
+    Log.v('deviceId -> $deviceName', tag: 'GlobalInstance');
+    Log.v('uniqueKey -> $uniqueKey', tag: 'GlobalInstance');
     if (GetPlatform.isWeb || GetPlatform.isIOS) {
       // web udp 和部署都不支持
       return;
@@ -90,8 +93,7 @@ class Global with ClipboardListener, WindowListener {
     if (isInit) {
       return;
     }
-    if (RuntimeEnvir.packageName != Config.packageName &&
-        !GetPlatform.isDesktop) {
+    if (RuntimeEnvir.packageName != Config.packageName && !GetPlatform.isDesktop) {
       // 如果这个项目是独立运行的，那么RuntimeEnvir.packageName会在main函数中被设置成Config.packageName
       // 这个 if 就不会走到，如果是被其他的项目依赖，RuntimeEnvir.packageName就会是对应的主仓库的包名
       Config.flutterPackage = 'packages/speed_share/';

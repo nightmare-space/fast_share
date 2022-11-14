@@ -14,11 +14,13 @@ class JoinUtil {
     String url,
   ) async {
     JoinMessage message = JoinMessage();
-    message.deviceName = Global().deviceId;
+    message.deviceName = Global().deviceName;
+    message.deviceId = Global().uniqueKey;
     message.addrs = addrs;
     message.deviceType = type;
     message.filePort = shelfBindPort;
     message.messagePort = chatBindPort;
+    Log.i(message);
     try {
       Response res = await httpInstance.post(
         '$url/',

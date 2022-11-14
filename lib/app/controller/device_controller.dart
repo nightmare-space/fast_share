@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:settings/settings.dart';
+import 'package:speed_share/app/controller/history.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/utils/http/http.dart';
 
@@ -60,24 +62,30 @@ class DeviceController extends GetxController {
     if (GetPlatform.isWeb) {
       return;
     }
-    String cacheHistory = 'history'.get;
-    if (cacheHistory == null) {
+    Log.i(RuntimeEnvir.filesPath);
+    Directory(RuntimeEnvir.filesPath).list().forEach((element) {
+      Log.i(element);
+    });
+    if (File(historyPath).existsSync()) {
+      // 如果文件存在的话
+      historys = Historys.fromJson(json.decode(File(historyPath).readAsStringSync()));
+      Log.i(historys);
+      // 向历史连接的设备发送连接消息
+      Future.delayed(const Duration(milliseconds: 200), () {
+        historys.datas.forEach(
+          ((element) {
+            sendJoinEvent(element.url);
+          }),
+        );
+      });
+    } else {
       return;
     }
-    try {
-      history = (jsonDecode('history'.get) as List<dynamic>).cast();
-      history = history.toSet().toList();
-      history.removeWhere((element) => element.contains('null'));
-      Future.delayed(const Duration(milliseconds: 200), () {
-        history.forEach(sendJoinEvent);
-      });
-      Log.i('历史IP地址：$history');
-    } catch (e) {
-      Log.e('DeviceController error :$e');
-    }
   }
+
+  String historyPath = '${RuntimeEnvir.filesPath}/history';
+  Historys historys = Historys(datas: []);
   List<Device> connectDevice = [];
-  List<String> history = [];
 
   @override
   void onInit() {
@@ -101,12 +109,19 @@ class DeviceController extends GetxController {
       ..deviceName = name
       ..url = urlPrefix
       ..messagePort = port;
-    // Log.i(device);
+    Log.i(device);
     if (!connectDevice.contains(device)) {
+      // 第一次连接该设备
       connectDevice.add(device);
       if (!GetPlatform.isWeb) {
-        // TODO history ip 和一个hashcode绑定起来
-        addHistory('$urlPrefix:$port');
+        historys.datas.add(History(
+          deviceName: name,
+          url: '$urlPrefix:$port',
+          id: id,
+        ));
+        Log.i(historys);
+        syncHistoryToLocal();
+        // addHistory('$urlPrefix:$port');
       }
       Log.i('device : $device');
     }
@@ -118,15 +133,20 @@ class DeviceController extends GetxController {
     update();
   }
 
+  void syncHistoryToLocal() {
+    File(historyPath).writeAsString(historys.toString());
+  }
+
   void clear() {
     connectDevice.clear();
     update();
   }
 
-  void addHistory(String url) {
-    history.add(url);
-    'history'.set = jsonEncode(history);
-  }
+  // void addHistory(String url) {
+  //   historys.datas.add(History());
+  //   history.add(url);
+  //   'history'.set = jsonEncode(history);
+  // }
 
   send(Map<String, dynamic> data) async {
     Set<String> urls = {};

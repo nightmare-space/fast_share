@@ -37,7 +37,7 @@ class Server {
       );
     });
     app.get('/check_token', (Request request) {
-      Log.d('check_token');
+      Log.d('check_token call');
       return Response.ok('success', headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',
@@ -45,21 +45,14 @@ class Server {
         'Access-Control-Allow-Credentials': 'true',
       });
     });
-    app.get('/file_upload', (Request request) {
-      Log.d('file_upload');
-      return Response.ok('file_upload', headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': '*',
-        'Access-Control-Allow-Credentials': 'true',
-      });
-    });
     app.post('/file_upload', (Request request) async {
-      request.context.addAll(corsHeader);
-      request.headers.addAll(corsHeader);
-      request.change(headers: corsHeader);
+      // return Response.ok(
+      //   "success",
+      //   headers: corsHeader,
+      // );
       Log.w(request.headers);
-      final fileName = request.headers['filename'];
+      String fileName = request.headers['filename'];
+      fileName = utf8.decode(base64Decode(fileName));
       if (fileName != null) {
         SettingController settingController = Get.find();
         String downPath = settingController.savePath;
@@ -71,6 +64,10 @@ class Server {
         Completer<bool> lock = Completer();
         // 已经下载的字节长度
         int count = 0;
+        DownloadInfo info = DownloadInfo();
+        DownloadController downloadController = Get.find();
+        final blob = request.headers['blob'];
+        downloadController.progress[blob] = info;
         request.read().listen(
           (event) async {
             count += event.length;
@@ -82,6 +79,10 @@ class Server {
             // );
             randomAccessFile.writeFromSync(event);
             double progress = count / fullLength;
+
+            info.count = count;
+            info.progress = progress;
+            downloadController.update();
             if (progress == 1.0) {
               lock.complete();
             }
@@ -112,7 +113,7 @@ class Server {
       );
     });
     // 返回速享网页的handler
-    var handler = createStaticHandler(
+    var webHandler = createStaticHandler(
       RuntimeEnvir.filesPath,
       listDirectories: true,
       defaultDocument: 'index.html',
@@ -142,16 +143,27 @@ class Server {
         }
       } else {
         // `http://192.168.0.103:12000/`的形式，说明是想要打开速享网页端
-        return handler(r);
+        return webHandler(r);
       }
     });
     int port = await getSafePort(
       Config.chatPortRangeStart,
       Config.chatPortRangeEnd,
     );
+    final handler = const Pipeline().addMiddleware((innerHandler) {
+      return (request) async {
+        final response = await innerHandler(request);
+        // Log.w(request.headers);
+        Log.i(request.requestedUri);
+        if (request.method == 'OPTIONS') {
+          return Response.ok('', headers: corsHeader);
+        }
+        return response;
+      };
+    }).addHandler(app);
     // ignore: unused_local_variable
     HttpServer server = await io.serve(
-      app,
+      handler,
       InternetAddress.anyIPv4,
       port,
       shared: true,

@@ -79,10 +79,15 @@ dependencies:
     git: https://github.com/nightmare-space/settings
   path_provider: ^2.0.10
 
+  # 序列化json的
+  json_annotation: ^4.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  build_runner: ^2.1.11
+  json_serializable: ^6.2.0
 
 flutter:
   generate: true
@@ -103,8 +108,8 @@ dependency_overrides:
   xterm:
     git:
       url: https://github.com/TerminalStudio/xterm.dart
-  # android_window:
-  #   path: /Users/didi/Documents/GitHub/flutter-android-window
+  android_window:
+    path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
   # logger_view:
   #   path: ../logger_view

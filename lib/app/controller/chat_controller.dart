@@ -199,7 +199,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     DirMessage dirMessage = DirMessage(
       dirName: dirName,
       fullSize: 0,
-      deviceName: Global().deviceId,
+      deviceName: Global().deviceName,
       addrs: addrs,
       port: shelfBindPort,
     );
@@ -255,7 +255,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     final NotifyMessage notifyMessage = NotifyMessage(
       hash: hash,
       addrs: addresses,
-      port: fileServerPort,
+      port: messageBindPort,
     );
     messageWebCache.add(notifyMessage.toJson());
   }
@@ -277,7 +277,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           fileName: xFile.name,
           hash: hash,
           fileSize: FileSizeUtils.getFileSize(await xFile.length()),
-          deviceName: Global().deviceId,
+          deviceName: Global().deviceName,
           blob: xFile.path,
         );
         // 发送消息
@@ -380,7 +380,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       fileSize: FileSizeUtils.getFileSize(size),
       addrs: addrs,
       port: shelfBindPort,
-      sendFrom: Global().deviceId,
+      sendFrom: Global().deviceName,
     );
     // 发送消息
     sendMessage(sendFileInfo);
@@ -583,7 +583,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     // 发送文本消息
     TextMessage info = TextMessage(
       content: controller.text,
-      sendFrom: Global().deviceId,
+      sendFrom: Global().deviceName,
     );
     sendMessage(info);
     children.add(MessageItemFactory.getMessageItem(
@@ -620,7 +620,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     focusNode.dispose();
     controller.dispose();
     scrollController.dispose();
-
     WidgetsBinding.instance.removeObserver(this);
     super.onClose();
   }

@@ -109,6 +109,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
             ),
             Expanded(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DesktopDrawer(
                     value: page,

@@ -8,7 +8,9 @@ import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
+import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
+import 'package:speed_share/app/controller/history.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/modules/file/file_page.dart';
@@ -119,6 +121,8 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 10.w),
                 recentFile(context),
                 SizedBox(height: 10.w),
+                recentConnect(context),
+                SizedBox(height: 10.w),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -196,6 +200,109 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  CardWrapper recentConnect(BuildContext context) {
+    return CardWrapper(
+      padding: EdgeInsets.all(12.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '最近连接',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+          SizedBox(height: 4.w),
+          Container(
+            color: const Color(0xffE0C4C4).withOpacity(0.2),
+            height: 1,
+          ),
+          SizedBox(height: 4.w),
+          Expanded(
+            child: GetBuilder<DeviceController>(
+              builder: (ctl) {
+                List<Widget> children = [];
+                for (History history in ctl.historys.datas) {
+                  children.add(
+                    SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 20.w,
+                            child: Row(
+                              children: [
+                                Text(
+                                  basename(history.deviceName),
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: 14.w,
+                                    color: Colors.black,
+                                    height: 1,
+                                  ),
+                                ),
+                                Text(
+                                  basename(history.id ?? ''),
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: 14.w,
+                                    color: Colors.black,
+                                    height: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.w,
+                            child: Text(
+                              basename(history.url),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 14.w,
+                                color: Colors.black,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                  children.add(
+                    SizedBox(
+                      width: 4.w,
+                    ),
+                  );
+                }
+                if (children.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '空',
+                      style: TextStyle(
+                        fontSize: 16.w,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

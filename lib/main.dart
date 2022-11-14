@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -67,13 +70,16 @@ Future<void> main() async {
       Config.packageName,
       appSupportDirectory: dir,
     );
+    Log.i(RuntimeEnvir.filesPath);
+    Log.w(RuntimeEnvir.configPath);
     // 启动文件服务器
     // start file manager server
     fm.Server.start();
   }
   Get.config(
+    enableLog: false,
     logWriterCallback: (text, {isError}) {
-      Log.d(text, tag: 'GetX');
+      // Log.d(text, tag: 'GetX');
     },
   );
   if (!GetPlatform.isWeb) {

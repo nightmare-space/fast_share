@@ -55,27 +55,25 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                       ],
                     );
                   }
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (personHeader != null)
-                          Column(
-                            children: [
-                              SizedBox(
-                                width: 240.w,
-                                child: personHeader,
-                              ),
-                              SizedBox(height: 8.w),
-                            ],
-                          ),
-                        homeMenu(),
-                        messageMenu(),
-                        fileMenu(),
-                        localFileMenu(controller),
-                        settingMenu(controller),
-                      ],
-                    ),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (personHeader != null)
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: 240.w,
+                              child: personHeader,
+                            ),
+                            SizedBox(height: 8.w),
+                          ],
+                        ),
+                      homeMenu(),
+                      messageMenu(),
+                      fileMenu(),
+                      localFileMenu(controller),
+                      settingMenu(controller),
+                    ],
                   );
                 }),
               ],

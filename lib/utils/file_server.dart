@@ -9,6 +9,7 @@ import 'path_util.dart';
 
 /// 一个接收文件的服务端
 /// Create by Nightmare at 2021/11/21
+/// 这个被遗弃了 用的 chat_server_v2代替
 void Function(double pro, int count) progressCall;
 Future<void> startFileServer(int port) async {
   var server = await HttpServer.bind(

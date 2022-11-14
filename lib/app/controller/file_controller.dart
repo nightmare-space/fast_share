@@ -110,7 +110,7 @@ class FileController extends GetxController with WidgetsBindingObserver {
     }
     List<FileSystemEntity> img = await (Directory('$prefix/$picKey').list()).toList();
     for (var element in img) {
-      imgFiles.add(element);
+      if (element.path.isImg) imgFiles.add(element);
     }
     List<FileSystemEntity> dirs = await (Directory('$prefix/$dirKey').list()).toList();
     for (var element in dirs) {
