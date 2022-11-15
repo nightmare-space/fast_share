@@ -120,6 +120,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    
+      - name: test
+        run: |
+          bash -c source properties.sh
+          echo $VERSION $VERSION_CODE
       - name: Checkout current code
         uses: actions/checkout@v3
       - name: Checkout speed_share_extension code
@@ -151,7 +156,7 @@ jobs:
       - name: Building...
         run: |
           source properties.sh
-          echo $VERSION 
+          echo $VERSION $VERSION_CODE
           flutter config --enable-windows-desktop
           flutter build windows --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
 
