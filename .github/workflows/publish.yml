@@ -75,12 +75,14 @@ jobs:
           repository: 'mengyanshou/speed_share_extension'
           token: ${{ secrets.GH_PAT }}
           ref: 'main'
+          path: "${{ github.workspace }}/../speed_share_extension"
       
       - uses: actions/checkout@v3
         with:
           repository: 'mengyanshou/user_center_frontend'
           token: ${{ secrets.GH_PAT }}
           ref: 'main'
+          path: "${{ github.workspace }}/../user_center_frontend"
 
       - name: List files in the repository
         run: |
