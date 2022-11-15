@@ -124,11 +124,11 @@ jobs:
       - name: Checkout current code
         uses: actions/checkout@v3
         
-      - name: test
-        run: |
-          bash -c "source scripts/properties.sh"
-          bash -c "echo $VERSION $VERSION_CODE"
-          echo %VERSION% %VERSION_CODE%
+      # - name: test
+      #   run: |
+      #     bash -c "source scripts/properties.sh"
+      #     bash -c "echo $VERSION $VERSION_CODE"
+      #     echo %VERSION% %VERSION_CODE%
       - name: Checkout speed_share_extension code
         uses: actions/checkout@v3
         with:
