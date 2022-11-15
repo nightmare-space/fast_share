@@ -126,9 +126,8 @@ jobs:
         
       - name: test
         run: |
-          bash --help 
           bash -c "source scripts/properties.sh"
-          bach -c "echo $VERSION $VERSION_CODE"
+          bash -c "echo $VERSION $VERSION_CODE"
           echo %VERSION% %VERSION_CODE%
       - name: Checkout speed_share_extension code
         uses: actions/checkout@v3
