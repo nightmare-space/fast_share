@@ -846,9 +846,11 @@ class CardWrapper extends StatelessWidget {
     Key key,
     this.child,
     this.padding,
+    this.height,
   }) : super(key: key);
   final Widget child;
   final EdgeInsetsGeometry padding;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -857,7 +859,7 @@ class CardWrapper extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
-      height: 120.w,
+      height: height ?? 120.w,
       padding: padding ??
           EdgeInsets.symmetric(
             vertical: 4.w,

@@ -71,4 +71,15 @@ class History {
         'url': url,
         'device_name': deviceName,
       };
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is History) {
+      return id == other.id;
+    }
+    return false;
+  }
 }

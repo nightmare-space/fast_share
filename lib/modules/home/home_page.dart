@@ -206,6 +206,7 @@ class _HomePageState extends State<HomePage> {
 
   CardWrapper recentConnect(BuildContext context) {
     return CardWrapper(
+      height: 200.w,
       padding: EdgeInsets.all(12.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,12 +293,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 }
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: children,
-                  ),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: children,
                 );
               },
             ),

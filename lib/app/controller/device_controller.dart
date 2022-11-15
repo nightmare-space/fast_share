@@ -62,14 +62,15 @@ class DeviceController extends GetxController {
     if (GetPlatform.isWeb) {
       return;
     }
-    Log.i(RuntimeEnvir.filesPath);
-    Directory(RuntimeEnvir.filesPath).list().forEach((element) {
-      Log.i(element);
-    });
+    // Log.i(RuntimeEnvir.filesPath);
+    // Directory(RuntimeEnvir.filesPath).list().forEach((element) {
+    //   Log.i(element);
+    // });
     if (File(historyPath).existsSync()) {
       // 如果文件存在的话
       historys = Historys.fromJson(json.decode(File(historyPath).readAsStringSync()));
       Log.i(historys);
+      historys.datas.removeWhere((element) => element.url.contains('null'));
       // 向历史连接的设备发送连接消息
       Future.delayed(const Duration(milliseconds: 200), () {
         historys.datas.forEach(
@@ -114,18 +115,28 @@ class DeviceController extends GetxController {
       // 第一次连接该设备
       connectDevice.add(device);
       if (!GetPlatform.isWeb) {
-        historys.datas.add(History(
-          deviceName: name,
-          url: '$urlPrefix:$port',
-          id: id,
-        ));
-        Log.i(historys);
-        syncHistoryToLocal();
-        // addHistory('$urlPrefix:$port');
+        appendHistory(name, '$urlPrefix:$port', id);
       }
       Log.i('device : $device');
     }
     update();
+  }
+
+  void appendHistory(String name, String url, String id) {
+    History history = History(
+      deviceName: name,
+      url: url,
+      id: id,
+    );
+    if (!historys.datas.contains(history)) {
+      // 不包含才
+      historys.datas.add(history);
+      Log.i(historys);
+    } else {
+      History exist = historys.datas.firstWhere((element) => element.id == history.id);
+      exist.url = url;
+    }
+    syncHistoryToLocal();
   }
 
   void onDeviceClose(String id) {

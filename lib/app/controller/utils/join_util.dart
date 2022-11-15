@@ -20,7 +20,7 @@ class JoinUtil {
     message.deviceType = type;
     message.filePort = shelfBindPort;
     message.messagePort = chatBindPort;
-    Log.i(message);
+    // Log.i(message);
     try {
       Response res = await httpInstance.post(
         '$url/',
