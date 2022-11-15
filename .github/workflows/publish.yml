@@ -124,7 +124,7 @@ jobs:
       - name: test
         run: |
           bash --help 
-          bash "-c source properties.sh"
+          bash -c "source properties.sh"
           echo $VERSION $VERSION_CODE
       - name: Checkout current code
         uses: actions/checkout@v3
