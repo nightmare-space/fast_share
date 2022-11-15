@@ -150,8 +150,10 @@ jobs:
           
       - name: Building...
         run: |
+          source properties.sh
+          echo $VERSION 
           flutter config --enable-windows-desktop
-          flutter build windows --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} 
+          flutter build windows --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
 
       - name: Packaging
         run: |
