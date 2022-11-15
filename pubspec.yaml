@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # speed_share_extension:
-  #   path: ../speed_share_extension
+  speed_share_extension:
+    path: ../speed_share_extension
   android_window: ^0.2.0
   tray_manager: ^0.2.0
   flutter_localizations:
@@ -103,8 +103,8 @@ dependency_overrides:
   xterm:
     git:
       url: https://github.com/TerminalStudio/xterm.dart
-  android_window:
-    path: /Users/didi/Documents/GitHub/flutter-android-window
+  # android_window:
+  #   path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
   # logger_view:
   #   path: ../logger_view
