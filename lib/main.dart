@@ -1,8 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:dio/adapter.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
@@ -70,8 +65,6 @@ Future<void> main() async {
       Config.packageName,
       appSupportDirectory: dir,
     );
-    Log.i(RuntimeEnvir.filesPath);
-    Log.w(RuntimeEnvir.configPath);
     // 启动文件服务器
     // start file manager server
     fm.Server.start();
