@@ -139,9 +139,9 @@ jobs:
           ref: 'main'
           path: "${{ github.workspace }}/user_center_frontend"
       - name: move file
-          run: |
-            move "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
-            move "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+        run: |
+          move "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
+          move "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
