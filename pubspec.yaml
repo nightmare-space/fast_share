@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.1.8+55
+version: 2.1.9+56
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
   # speed_share_extension:
   #   path: ../speed_share_extension
-  android_window: ^0.2.0
+  android_window: 
+    git: https://github.com/mengyanshou/flutter-android-window
   tray_manager: ^0.2.0
   flutter_localizations:
     sdk: flutter
@@ -108,8 +109,8 @@ dependency_overrides:
   xterm:
     git:
       url: https://github.com/TerminalStudio/xterm.dart
-  android_window:
-    path: /Users/didi/Documents/GitHub/flutter-android-window
+  # android_window:
+  #   path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
   # logger_view:
   #   path: ../logger_view

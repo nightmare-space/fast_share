@@ -34,9 +34,11 @@ packages:
   android_window:
     dependency: "direct main"
     description:
-      path: "/Users/didi/Documents/GitHub/flutter-android-window"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: e27e233384962022c3a970ef848a452602904335
+      url: "https://github.com/mengyanshou/flutter-android-window"
+    source: git
     version: "0.0.0"
   animations:
     dependency: "direct main"
