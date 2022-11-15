@@ -84,7 +84,7 @@ jobs:
 
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}/..
       - name: actions/setup-node@v2
         uses: actions/setup-node@v2   
       
