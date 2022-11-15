@@ -72,11 +72,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: 'mengyanshou/speed_share_extension'
-            - uses: actions/checkout@v3
       
       - uses: actions/checkout@v3
         with:
           repository: 'mengyanshou/user_center_frontend'
+          
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
