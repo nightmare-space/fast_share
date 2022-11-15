@@ -66,7 +66,8 @@ jobs:
       # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
-      # - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "${{ github.token }}."
+      - run: echo "${{ secrets.GH_PAT }}."
       - name: Checkout the code
         uses: actions/checkout@v3
       - uses: actions/checkout@v3
