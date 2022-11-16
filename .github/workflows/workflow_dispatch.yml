@@ -21,12 +21,12 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Log level: $LEVEL"
-          echo "Tags: $TAGS"
-        env:
-          LEVEL: ${{ inputs.version }}
-          TAGS: ${{ inputs.version_code }}
+      # - run: |
+      #     echo "Log level: $LEVEL"
+      #     echo "Tags: $TAGS"
+      #   env:
+      #     LEVEL: ${{ inputs.version }}
+      #     TAGS: ${{ inputs.version_code }}
       - name: Checkout the code
         uses: actions/checkout@v3
         with:
@@ -68,7 +68,10 @@ jobs:
       - name: Building
         run: |
           flutter config --enable-linux-desktop 
-          flutter build linux --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
+          flutter build linux \
+          --dart-define=VERSION=${{ inputs.version }} \
+          --dart-define=VERSION_CODE=${{ inputs.version_code }} \
+          -t lib/main_personal.dart
       - name: Packaging
         run: ./scripts/build/generate_linux.sh
       
@@ -133,7 +136,10 @@ jobs:
       - name: Building
         run: |
           flutter config --enable-macos-desktop
-          flutter build macos --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
+          flutter build macos \
+          --dart-define=VERSION=${{ inputs.version }} \
+          --dart-define=VERSION_CODE=${{ inputs.version_code }} \
+          -t lib/main_personal.dart
 
       - name: Packaging
         run: |
@@ -184,7 +190,10 @@ jobs:
       - name: Building...
         run: |
           flutter config --enable-windows-desktop
-          flutter build windows --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
+          flutter build windows \
+          --dart-define=VERSION=${{ inputs.version }} \
+          --dart-define=VERSION_CODE=${{ inputs.version_code }} \
+          -t lib/main_personal.dart
 
       - name: Packaging
         run: |
