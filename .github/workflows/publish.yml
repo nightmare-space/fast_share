@@ -1,8 +1,8 @@
 name: SpeedShare Publish Actions
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
     # paths-ignore
   
   repository_dispatch:
