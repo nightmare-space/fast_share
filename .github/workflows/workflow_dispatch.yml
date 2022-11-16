@@ -1,4 +1,4 @@
-name: SpeedShare Publish Actions
+name: SpeedShare Repository Dispatch
 on:
   workflow_dispatch:
     inputs:
