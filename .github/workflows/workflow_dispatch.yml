@@ -190,10 +190,7 @@ jobs:
       - name: Building...
         run: |
           flutter config --enable-windows-desktop
-          flutter build windows \
-          --dart-define=VERSION=${{ inputs.version }} \
-          --dart-define=VERSION_CODE=${{ inputs.version_code }} \
-          -t lib/main_personal.dart
+          flutter build windows --dart-define=VERSION=${{ inputs.version }} --dart-define=VERSION_CODE=${{ inputs.version_code }} -t lib/main_personal.dart
 
       - name: Packaging
         run: |
