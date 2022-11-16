@@ -25,8 +25,8 @@ jobs:
           echo "Log level: $LEVEL"
           echo "Tags: $TAGS"
         env:
-          LEVEL: ${{ inputs.logLevel }}
-          TAGS: ${{ inputs.tags }}
+          LEVEL: ${{ inputs.version }}
+          TAGS: ${{ inputs.version_code }}
       - name: Checkout the code
         uses: actions/checkout@v3
         with:
