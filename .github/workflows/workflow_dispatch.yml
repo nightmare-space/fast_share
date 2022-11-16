@@ -1,0 +1,196 @@
+name: SpeedShare Publish Actions
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'App Version'
+        required: true
+        default: '1.0.0'
+      version_code:
+        description: 'App Version Code'
+        required: true
+        default: '1'
+
+
+env:
+  # APP名称
+  APP_NAME: SpeedShare
+  ZIP_NAME: Speed Share
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Log level: $LEVEL"
+          echo "Tags: $TAGS"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          TAGS: ${{ inputs.tags }}
+      - name: Checkout the code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+
+      - name: Checkout speed_share_extension code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/speed_share_extension'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/speed_share_extension"
+
+      
+      - name: Checkout user_center_frontend code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/user_center_frontend'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/user_center_frontend"
+      - name: move file
+        run: |
+          mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
+          mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Setup other environment
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+          # tray manager need
+          sudo apt-get install libayatana-appindicator3-dev
+
+      - name: Building
+        run: |
+          flutter config --enable-linux-desktop 
+          flutter build linux --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
+      - name: Packaging
+        run: ./scripts/build/generate_linux.sh
+      
+      - name: Upload
+        run: |
+          curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfer.sh/${{ env.APP_NAME }}.deb
+
+  build-mac:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      # - name: Check out repository code
+      #   uses: actions/checkout@v3
+      # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+
+
+      - name: Checkout the code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+
+      - name: Checkout speed_share_extension code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/speed_share_extension'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/speed_share_extension"
+
+      
+      - name: Checkout user_center_frontend code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/user_center_frontend'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/user_center_frontend"
+      - name: move file
+        run: |
+          mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
+          mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}/..
+      - name: actions/setup-node@v2
+        uses: actions/setup-node@v2   
+      
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Setup other environment
+        run: npm install -g appdmg
+        
+      - name: Building
+        run: |
+          flutter config --enable-macos-desktop
+          flutter build macos --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
+
+      - name: Packaging
+        run: |
+          ./scripts/build/generate_mac_app.sh
+
+      - name: Upload
+        run: |
+          curl --upload-file "${{ env.ZIP_NAME }}.dmg" https://transfer.sh/${{ env.APP_NAME }}_macOS.dmg
+            
+  build-windows:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    
+      - name: Checkout current code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+        
+      - name: Checkout speed_share_extension code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/speed_share_extension'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/speed_share_extension"
+
+      
+      - name: Checkout user_center_frontend code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/user_center_frontend'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/user_center_frontend"
+      - name: move file
+        run: |
+          move "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
+          move "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Building...
+        run: |
+          flutter config --enable-windows-desktop
+          flutter build windows --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
+
+      - name: Packaging
+        run: |
+          .\scripts\patch_executable.bat
+          Compress-Archive -Path .\build\windows\runner\Release\* -DestinationPath "${{ env.ZIP_NAME }}_Windows.zip"
+
+      - name: Upload
+        run: |
+          curl --upload-file "${{ env.ZIP_NAME }}_Windows.zip" "https://transfer.sh/${{ env.APP_NAME }}_Windows.zip"
