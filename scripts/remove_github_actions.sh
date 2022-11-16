@@ -4,7 +4,7 @@ repo=speed_share
 
 # Get workflow IDs with status "disabled_manually"
 workflow_ids=($(gh api repos/$org/$repo/actions/workflows | jq '.workflows[] | .id'))
-echo $workflow_ids
+# echo $workflow_ids
 for workflow_id in "${workflow_ids[@]}"
 do
   echo "Listing runs for the workflow ID $workflow_id"
