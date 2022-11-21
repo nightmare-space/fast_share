@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
-import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/history.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/utils/http/http.dart';
@@ -172,7 +171,7 @@ class DeviceController extends GetxController {
     for (String url in urls) {
       // Log.i('$url');
       try {
-        Response res = await httpInstance.post('$url', data: data);
+        Response res = await httpInstance.post(url, data: data);
       } catch (e) {
         // Log.e('send error : ${e}');
       }

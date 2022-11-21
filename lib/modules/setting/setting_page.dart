@@ -163,7 +163,7 @@ class _SettingPageState extends State<SettingPage> {
                               '模仿iOS灵动岛的动画，这个开关需要同时打开速享的悬浮窗权限',
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Colors.black.withOpacity(0.6),
+                                color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                               ),
                             ),
                           ],
@@ -248,7 +248,7 @@ class _SettingPageState extends State<SettingPage> {
                               '注意，文件分类开启后会自动整理下载路径的所有文件',
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Colors.black.withOpacity(0.6),
+                                color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                               ),
                             ),
                           ],
@@ -284,7 +284,7 @@ class _SettingPageState extends State<SettingPage> {
                               '开启后，局域网设备可通过以下地址访问到本机设备的所有文件',
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Colors.black.withOpacity(0.6),
+                                color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
                               ),
                             ),
                           ],

@@ -1,4 +1,3 @@
-import 'base_message.dart';
 import 'model.dart';
 
 class DirMessage extends MessageBaseInfo {

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -9,7 +8,40 @@ class AppColors {
   static Color grey2 = grey.shade200;
 }
 
-// const Color grey = Colors();
+extension ThemeDataExt on ThemeData {
+  Color get surface1 {
+    if (useMaterial3) {
+      return primaryColor.withOpacity(0.05);
+    }
+    return Colors.white;
+  }
+
+  Color get surface2 {
+    if (useMaterial3) {
+      return primaryColor.withOpacity(0.08);
+    }
+    return grey2;
+  }
+
+  Color get surface3 {
+    if (useMaterial3) {
+      return primaryColor.withOpacity(0.11);
+    }
+    return grey3;
+  }
+
+  Color get surface4 {
+    if (useMaterial3) {
+      return primaryColor.withOpacity(0.12);
+    }
+    return grey4;
+  }
+}
+
+Color grey1 = grey.shade100;
+Color grey2 = grey.shade200;
+Color grey3 = grey.shade300;
+Color grey4 = grey.shade400; // const Color grey = Colors();
 const int _greyPrimaryValue = 0xFF9E9E9E;
 const MaterialColor grey = MaterialColor(
   _greyPrimaryValue,

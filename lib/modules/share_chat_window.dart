@@ -127,7 +127,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
 
   Scaffold body(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).surface1,
       body: SafeArea(
         left: false,
         child: Stack(
@@ -163,7 +163,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
             Align(
               alignment: Alignment.bottomCenter,
               child: Material(
-                color: Colors.white,
+                color: Theme.of(context).surface1,
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 64.w,
@@ -219,7 +219,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
     return SizedBox(
       width: 64.w,
       child: Material(
-        color: Colors.white,
+        color: Theme.of(context).surface1,
         child: Column(
           children: [
             SizedBox(height: 4.w),
@@ -234,7 +234,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
 
   Material appbar(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: Theme.of(context).surface1,
       child: SizedBox(
         height: 48.w,
         child: Row(
@@ -245,7 +245,6 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
             Text(
               '全部设备',
               style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: AppColors.fontColor,
                     fontWeight: bold,
                     fontSize: 16.w,
                   ),
@@ -438,7 +437,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
           topLeft: Radius.circular(12.w),
           topRight: Radius.circular(12.w),
         ),
-        color: Colors.white,
+        color: Theme.of(context).surface1,
         child: Padding(
           padding: EdgeInsets.fromLTRB(0.w, 8.w, 8.w, 0),
           child: Column(
@@ -628,7 +627,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Material(
-                    color: Colors.white,
+                    color: Theme.of(context).surface1,
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(12.w),
                     ),
@@ -659,7 +658,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Material(
-                    color: Colors.white,
+                    color: Theme.of(context).surface1,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(12.w),
                     ),

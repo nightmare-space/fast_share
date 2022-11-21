@@ -4,7 +4,7 @@ import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/app/routes/page_route_builder.dart';
-import 'package:speed_share/utils/utils.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 import '../send_file_bottom_sheet.dart';
 
@@ -60,12 +60,10 @@ class _NavState extends State<Nav> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      enable
-                          ? 'assets/icon/homev2_sel.png'
-                          : 'assets/icon/homev2.png',
+                      enable ? 'assets/icon/homev2_sel.png' : 'assets/icon/homev2.png',
                       width: 24.w,
                       height: 24.w,
-                      color: enable ? Theme.of(context).primaryColor : null,
+                      color: enable ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onBackground,
                       package: Config.package,
                       gaplessPlayback: false,
                     ),
@@ -92,7 +90,7 @@ class _NavState extends State<Nav> {
                       'assets/icon/remote_file.png',
                       width: 24.w,
                       height: 24.w,
-                      color: enable ? Theme.of(context).primaryColor : null,
+                      color: enable ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onBackground,
                       gaplessPlayback: false,
                       package: Config.package,
                     ),
@@ -117,13 +115,11 @@ class _NavState extends State<Nav> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        enable
-                            ? 'assets/icon/file.png'
-                            : 'assets/icon/file.png',
+                        enable ? 'assets/icon/file.png' : 'assets/icon/file.png',
                         width: 24.w,
                         height: 24.w,
                         gaplessPlayback: false,
-                        color: enable ? Theme.of(context).primaryColor : null,
+                        color: enable ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onBackground,
                         package: Config.package,
                       ),
                       // SizedBox(height: 2.w),
@@ -146,13 +142,11 @@ class _NavState extends State<Nav> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        enable
-                            ? 'assets/icon/person.png'
-                            : 'assets/icon/person.png',
+                        enable ? 'assets/icon/person.png' : 'assets/icon/person.png',
                         width: 24.w,
                         height: 24.w,
                         gaplessPlayback: false,
-                        color: enable ? Theme.of(context).primaryColor : null,
+                        color: enable ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onBackground,
                         package: Config.package,
                       ),
                       // SizedBox(height: 2.w),
@@ -204,7 +198,7 @@ class _BottomTabState extends State<BottomTab> {
   Widget build(BuildContext context) {
     return Material(
       elevation: 0,
-      color: Colors.white,
+      color: Theme.of(context).surface1,
       child: SizedBox(
         height: 66.w,
         width: MediaQuery.of(context).size.width,

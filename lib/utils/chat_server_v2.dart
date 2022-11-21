@@ -7,7 +7,6 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf/shelf.dart';
 import 'package:shelf_static/shelf_static.dart';
-import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:file_manager_view/file_manager_view.dart' as f;

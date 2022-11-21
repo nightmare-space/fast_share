@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 part of http;
 
 class DioUtils {

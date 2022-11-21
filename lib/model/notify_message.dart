@@ -1,5 +1,3 @@
-import 'package:global_repository/global_repository.dart';
-
 import 'base_message.dart';
 
 class NotifyMessage extends MessageBaseInfo {

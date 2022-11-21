@@ -67,6 +67,7 @@ Future<void> main() async {
     );
     // 启动文件服务器
     // start file manager server
+    // todo 肯呢个需要更改成127.0.0.1
     fm.Server.start();
   }
   Get.config(
@@ -110,6 +111,7 @@ Future<void> main() async {
       await windowManager.ensureInitialized();
     }
   }
+  // Image.network(src)
   // 透明状态栏
   // transparent the appbar
   StatusBarUtil.transparent();

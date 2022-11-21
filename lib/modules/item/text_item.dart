@@ -2,28 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/model/model.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 class TextMessageItem extends StatelessWidget {
   final TextMessage info;
   final bool sendByUser;
 
-  const TextMessageItem({Key key, this.info, this.sendByUser})
-      : super(key: key);
+  const TextMessageItem({Key key, this.info, this.sendByUser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment:
-          sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Column(
-          crossAxisAlignment:
-              sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment: sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Container(
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).surface1,
                 borderRadius: BorderRadius.circular(10.w),
               ),
               child: Stack(

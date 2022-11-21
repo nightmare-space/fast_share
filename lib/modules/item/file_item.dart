@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
@@ -16,6 +15,7 @@ import 'package:get/get.dart' hide Response;
 import 'package:speed_share/modules/dialog/show_qr_page.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/speed_share.dart';
+import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -61,8 +61,7 @@ class _FileItemState extends State<FileItem> {
     if (widget.sendByUser) {
       return false;
     }
-    if (downloadController.progress.containsKey(url) &&
-        downloadController.progress[url].progress != 0.0) {
+    if (downloadController.progress.containsKey(url) && downloadController.progress[url].progress != 0.0) {
       return false;
     }
     if (!settingController.enableAutoDownload) return false;
@@ -83,8 +82,7 @@ class _FileItemState extends State<FileItem> {
   String get url {
     String url;
     if (widget.sendByUser) {
-      url =
-          'http://127.0.0.1:${chatController.shelfBindPort}${widget.info.filePath}';
+      url = 'http://127.0.0.1:${chatController.shelfBindPort}${widget.info.filePath}';
     } else {
       url = widget.info.url + widget.info.filePath;
     }
@@ -96,11 +94,10 @@ class _FileItemState extends State<FileItem> {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment:
-          widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Material(
-          color: Colors.white,
+          color: Theme.of(context).surface1,
           borderRadius: BorderRadius.circular(10.w),
           clipBehavior: Clip.antiAlias,
           child: InkWell(
@@ -113,6 +110,10 @@ class _FileItemState extends State<FileItem> {
                 useSafeArea: false,
                 barrierColor: Colors.black12,
               );
+            },
+            onTap: () {
+              // 打开文件
+              // OpenFile.open(widget.info.path);
             },
             child: GestureDetector(
               onTapDown: (details) {
@@ -132,9 +133,7 @@ class _FileItemState extends State<FileItem> {
                   onTap: () async {
                     if (GetPlatform.isWeb) {
                       Log.e('web download $url');
-                      await canLaunchUrlString(url)
-                          ? await launchUrlString('$url?download=true')
-                          : throw 'Could not launch $url';
+                      await canLaunchUrlString(url) ? await launchUrlString('$url?download=true') : throw 'Could not launch $url';
                       return;
                     }
                     if (GetPlatform.isDesktop) {
@@ -218,14 +217,9 @@ class _FileItemState extends State<FileItem> {
                       child: Builder(builder: (context) {
                         double pro = info.progress;
                         return LinearProgressIndicator(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.surface3,
+                          backgroundColor: Theme.of(context).colorScheme.surface3,
                           valueColor: AlwaysStoppedAnimation(
-                            pro == 1.0
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.4),
+                            pro == 1.0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(0.4),
                           ),
                           value: pro,
                         );
@@ -382,8 +376,7 @@ class _MenuState extends State<Menu> {
       children: [
         Positioned.fill(
           top: widget.offset.dy,
-          left:
-              min(widget.offset.dx, MediaQuery.of(context).size.width - 120.w),
+          left: min(widget.offset.dx, MediaQuery.of(context).size.width - 120.w),
           child: Align(
             alignment: Alignment.topCenter,
             child: Material(

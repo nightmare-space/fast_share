@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,7 @@ class SpeedShare extends StatelessWidget {
           getPages: SpeedPages.routes,
           defaultTransition: Transition.fadeIn,
           debugShowCheckedModeBanner: false,
+          themeMode: ThemeMode.dark,
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -34,7 +37,7 @@ class SpeedShare extends StatelessWidget {
           ],
           supportedLocales: S.delegate.supportedLocales,
           builder: (context, child) {
-            final bool isDark = Theme.of(context).brightness == Brightness.dark;
+            final bool isDark = window.platformBrightness == Brightness.dark;
             final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
             return ResponsiveWrapper.builder(
               Builder(

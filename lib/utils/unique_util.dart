@@ -26,9 +26,9 @@ class UniqueUtil {
     String dataPath = RuntimeEnvir.configPath;
     File file;
     if (Platform.isAndroid) {
-      file = File(RuntimeEnvir.filesPath + '/' + 'unique.txt');
+      file = File('${RuntimeEnvir.filesPath}/unique.txt');
     } else {
-      file = File(dataPath + '/' + 'unique.txt');
+      file = File('$dataPath/unique.txt');
     }
     if (file.existsSync()) {
       return file.readAsStringSync();

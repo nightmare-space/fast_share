@@ -1,21 +1,13 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:path/path.dart';
-import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/config/config.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/utils/file_server.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/utils.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class BroswerFileItem extends StatefulWidget {
   /// 消息model
@@ -68,7 +60,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
       mainAxisAlignment: widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Material(
-          color: Colors.white,
+          color: Theme.of(context).surface1,
           borderRadius: BorderRadius.circular(10.w),
           clipBehavior: Clip.antiAlias,
           child: InkWell(

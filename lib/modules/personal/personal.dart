@@ -69,7 +69,7 @@ class _PersonalPageState extends State<PersonalPage> {
       padding: EdgeInsets.only(bottom: 8.w),
       child: Material(
         borderRadius: BorderRadius.circular(12.w),
-        color: AppColors.grey2,
+        color: Theme.of(context).surface2,
         child: InkWell(
           borderRadius: BorderRadius.circular(10.w),
           onTap: () {

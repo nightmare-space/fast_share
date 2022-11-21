@@ -12,11 +12,18 @@ class DefaultThemeData {
   DefaultThemeData._();
 
   static ThemeData dark() {
-    final darkThemeData = ThemeData.dark();
+    final darkThemeData = ThemeData.dark(
+      useMaterial3: true,
+    );
+    final darkColorScheme = ColorScheme.fromSeed(
+      seedColor: const Color(0xFF4B4DCD),
+      brightness: Brightness.dark,
+    );
     // ThemeData
     return darkThemeData.copyWith(
       colorScheme: darkColorScheme,
-      primaryColor: darkColorScheme.onPrimary,
+      primaryColor: darkColorScheme.primary,
+      backgroundColor: darkColorScheme.background,
       scaffoldBackgroundColor: darkColorScheme.background,
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.dark,
@@ -55,8 +62,7 @@ class DefaultThemeData {
         labelStyle: TextStyle(
           fontSize: Dimens.font_sp16,
         ),
-        labelPadding:
-            EdgeInsets.only(top: Dimens.gap_dp8, bottom: Dimens.gap_dp10),
+        labelPadding: EdgeInsets.only(top: Dimens.gap_dp8, bottom: Dimens.gap_dp10),
         unselectedLabelColor: darkColorScheme.onSurface,
         unselectedLabelStyle: TextStyle(
           fontSize: Dimens.font_sp16,
@@ -71,6 +77,31 @@ class DefaultThemeData {
       ),
       popupMenuTheme: PopupMenuThemeData(
         color: darkColorScheme.surface,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: darkColorScheme.surface2,
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 12.w,
+          vertical: 12.w,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.w),
+          gapPadding: 0,
+          borderSide: const BorderSide(
+            width: 0,
+            color: Colors.transparent,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.w),
+          gapPadding: 0,
+          borderSide: const BorderSide(
+            width: 0,
+            color: Colors.transparent,
+          ),
+        ),
+        filled: true,
       ),
       textTheme: darkThemeData.textTheme.copyWith(
         headline5: darkThemeData.textTheme.headline5.copyWith(
@@ -120,7 +151,7 @@ class DefaultThemeData {
   static ThemeData light({
     Color primary,
   }) {
-    final lightThemeData = ThemeData.light().copyWith(useMaterial3: true);
+    final lightThemeData = ThemeData.light().copyWith();
     ColorScheme colorScheme = lightColorScheme.copyWith();
     return lightThemeData.copyWith(
       primaryColor: colorScheme.primary,
@@ -179,16 +210,14 @@ class DefaultThemeData {
       ),
       tabBarTheme: lightThemeData.tabBarTheme.copyWith(
         indicator: UnderlineTabIndicator(
-          borderSide:
-              BorderSide(width: Dimens.gap_dp2, color: colorScheme.primary),
+          borderSide: BorderSide(width: Dimens.gap_dp2, color: colorScheme.primary),
         ),
         indicatorSize: TabBarIndicatorSize.label,
         labelColor: colorScheme.primary,
         labelStyle: TextStyle(
           fontSize: Dimens.font_sp16,
         ),
-        labelPadding:
-            EdgeInsets.only(top: Dimens.gap_dp8, bottom: Dimens.gap_dp10),
+        labelPadding: EdgeInsets.only(top: Dimens.gap_dp8, bottom: Dimens.gap_dp10),
         unselectedLabelColor: colorScheme.onSurface,
         unselectedLabelStyle: TextStyle(
           fontSize: Dimens.font_sp16,
@@ -206,12 +235,7 @@ class DefaultThemeData {
         color: colorScheme.surface,
       ),
       textTheme: lightThemeData.textTheme.copyWith(
-        bodyText2: lightThemeData.textTheme.bodyText2.copyWith(
-          fontSize: 14.w,
-          fontWeight: FontWeight.w500,
-          color: colorScheme.onBackground,
-          fontFamily: 'MiSans'
-        ),
+        bodyText2: lightThemeData.textTheme.bodyText2.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
       ),
     );
   }

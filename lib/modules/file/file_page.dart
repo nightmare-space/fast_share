@@ -13,6 +13,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:speed_share/generated/l10n.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 import '../widget/header.dart';
 import '../widget/icon.dart';
@@ -270,7 +271,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -335,7 +336,7 @@ class _FilePageState extends State<FilePage> {
                     '空',
                     style: TextStyle(
                       fontSize: 16.w,
-                      color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 );
@@ -415,7 +416,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -489,7 +490,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -584,7 +585,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -659,7 +660,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -734,7 +735,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -820,7 +821,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -856,7 +857,7 @@ class CardWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).surface1,
         borderRadius: BorderRadius.circular(12),
       ),
       height: height ?? 120.w,

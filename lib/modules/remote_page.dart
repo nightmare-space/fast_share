@@ -6,6 +6,7 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:file_manager_view/file_manager_view.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 import 'widget/header.dart';
 
@@ -70,7 +71,7 @@ class _RemotePageState extends State<RemotePage> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).surface1,
                 borderRadius: BorderRadius.circular(12.w),
               ),
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.w),
@@ -119,8 +120,7 @@ class _RemotePageState extends State<RemotePage> {
                       page = FileManager(
                         address: 'http://${uri.host}:20000',
                         usePackage: true,
-                        path:
-                            device.deviceType == desktop ? '/Users' : '/sdcard',
+                        path: device.deviceType == desktop ? '/Users' : '/sdcard',
                       );
                       setState(() {});
                     },

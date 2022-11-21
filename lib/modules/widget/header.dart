@@ -62,6 +62,7 @@ class Header extends StatelessWidget {
                   'assets/icon/qr.png',
                   width: 20.w,
                   package: Config.package,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),
               NiIconButton(

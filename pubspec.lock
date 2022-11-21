@@ -20,10 +20,10 @@ packages:
   android_window:
     dependency: "direct main"
     description:
-      name: android_window
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.2.0"
+      path: "/Users/didi/Documents/GitHub/flutter-android-window"
+      relative: false
+    source: path
+    version: "0.0.0"
   animations:
     dependency: "direct main"
     description:

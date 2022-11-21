@@ -19,7 +19,6 @@ const apkKey = '安装包';
 /// 用来管理文件的类，目前主要用来展示文件用
 /// 还有整理文件
 class FileController extends GetxController with WidgetsBindingObserver {
-  FileController() {}
   SettingController settingController = Get.find();
   List<FileSystemEntity> onknown = [];
   List<FileSystemEntity> zipFiles = [];

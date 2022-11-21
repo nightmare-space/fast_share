@@ -7,18 +7,18 @@ import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:settings/settings.dart';
-import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:speed_share/app/controller/history.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/global.dart';
+import 'package:speed_share/image.dart';
 import 'package:speed_share/modules/file/file_page.dart';
 import 'package:speed_share/modules/personal/privacy_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/modules/preview/image_preview.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
+import 'package:speed_share/themes/app_colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 10.w),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).surface1,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: EdgeInsets.symmetric(
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                           height: 1,
                         ),
                         SizedBox(height: 4.w),
-                        GetBuilder<FileController>(builder: (context) {
+                        GetBuilder<FileController>(builder: (ctl) {
                           File file = fileController.getRecentImage();
 
                           if (file == null) {
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                                 '空',
                                 style: TextStyle(
                                   fontSize: 16.w,
-                                  color: Colors.black54,
+                                  color: Theme.of(context).colorScheme.onBackground,
                                 ),
                               ),
                             );
@@ -244,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                                   maxLines: 2,
                                   style: TextStyle(
                                     fontSize: 14.w,
-                                    color: Colors.black,
+                                    color: Theme.of(context).textTheme.bodyText2.color,
                                     height: 1,
                                   ),
                                 ),
@@ -253,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                                   maxLines: 2,
                                   style: TextStyle(
                                     fontSize: 14.w,
-                                    color: Colors.black,
+                                    color: Theme.of(context).textTheme.bodyText2.color,
                                     height: 1,
                                   ),
                                 ),
@@ -267,7 +267,7 @@ class _HomePageState extends State<HomePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Colors.black,
+                                color: Theme.of(context).textTheme.bodyText2.color,
                                 height: 1,
                               ),
                             ),
@@ -288,7 +288,7 @@ class _HomePageState extends State<HomePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -365,7 +365,7 @@ class _HomePageState extends State<HomePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Colors.black54,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   );
@@ -397,7 +397,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).surface1,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: EdgeInsets.all(12.w),
