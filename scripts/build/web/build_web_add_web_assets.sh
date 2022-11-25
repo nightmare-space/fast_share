@@ -4,7 +4,8 @@ LOCAL_DIR=$(
     cd $(dirname $0)
     pwd
 )
-PROJECT_DIR=$LOCAL_DIR/../..
+PROJECT_DIR=$LOCAL_DIR/../../..
+source $PROJECT_DIR/scripts/properties.sh
 rm -rf assets/web.zip
 $LOCAL_DIR/build_web.sh
 cd $PROJECT_DIR/build/web/

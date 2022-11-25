@@ -65,17 +65,15 @@ jobs:
           # tray manager need
           sudo apt-get install libayatana-appindicator3-dev
 
-      - name: Building
+      - name: Building...
         run: |
-          flutter config --enable-linux-desktop 
-          flutter build linux \
-          --dart-define=VERSION=${{ inputs.version }} \
-          --dart-define=VERSION_CODE=${{ inputs.version_code }} \
-          -t lib/main_personal.dart
-      - name: Packaging
+          flutter config --enable-linux-desktop
+          ./scripts/build/linux/build_linux.sh
+          
+      - name: Packaging...
         run: ./scripts/build/generate_linux.sh
       
-      - name: Upload
+      - name: Upload..
         run: |
           curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfer.sh/${{ env.APP_NAME }}.deb
 
@@ -136,10 +134,7 @@ jobs:
       - name: Building
         run: |
           flutter config --enable-macos-desktop
-          flutter build macos \
-          --dart-define=VERSION=${{ inputs.version }} \
-          --dart-define=VERSION_CODE=${{ inputs.version_code }} \
-          -t lib/main_personal.dart
+          ./scripts/build/mac/build_mac.sh
 
       - name: Packaging
         run: |
