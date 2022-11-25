@@ -71,7 +71,7 @@ jobs:
           ./scripts/build/linux/build_linux.sh
           
       - name: Packaging...
-        run: ./scripts/build/generate_linux.sh
+        run: ./scripts/build/linux/generate_linux.sh
       
       - name: Upload..
         run: |
@@ -138,7 +138,7 @@ jobs:
 
       - name: Packaging
         run: |
-          ./scripts/build/generate_mac_app.sh
+          ./scripts/build/mac/generate_mac_app.sh
 
       - name: Upload
         run: |
