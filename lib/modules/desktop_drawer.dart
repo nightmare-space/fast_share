@@ -102,6 +102,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
           children: [
             Image.asset(
               'assets/icon/setting.png',
+              color: Theme.of(_).textTheme.bodyText2.color,
               width: 16.w,
             ),
             SizedBox(width: 4.w),
@@ -131,6 +132,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/file.png',
               width: 16.w,
+              color: Theme.of(_).textTheme.bodyText2.color,
             ),
             SizedBox(width: 4.w),
             Text(
@@ -164,6 +166,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                     Image.asset(
                       getIcon(_.connectDevice[i].deviceType),
                       width: 16.w,
+                      color: Theme.of(context).textTheme.bodyText2.color,
                     ),
                     SizedBox(width: 4.w),
                     Text(
@@ -196,6 +199,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/all.png',
               width: 16.w,
+              color: Theme.of(_).textTheme.bodyText2.color,
             ),
             SizedBox(width: 4.w),
             Text(
@@ -224,6 +228,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/homev2.png',
               width: 16.w,
+              color: Theme.of(_).textTheme.bodyText2.color,
             ),
             SizedBox(width: 4.w),
             Text(
@@ -254,6 +259,7 @@ class DrawerItem extends StatelessWidget {
   bool get enable => groupValue == value;
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: () {
         onChange?.call(value);
@@ -273,7 +279,7 @@ class DrawerItem extends StatelessWidget {
           data: Theme.of(context).copyWith(
             textTheme: TextTheme(
               bodyText2: TextStyle(
-                color: enable ? Theme.of(context).primaryColor : Colors.black,
+                color: enable ? Theme.of(context).primaryColor : (isDark ? Colors.white : Colors.black),
               ),
             ),
           ),

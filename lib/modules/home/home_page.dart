@@ -11,7 +11,6 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/history.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/global.dart';
-import 'package:speed_share/image.dart';
 import 'package:speed_share/modules/file/file_page.dart';
 import 'package:speed_share/modules/personal/privacy_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
@@ -293,9 +292,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: children,
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: children,
+                  ),
                 );
               },
             ),
@@ -344,7 +345,6 @@ class _HomePageState extends State<HomePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 8.w,
-                                color: Colors.black,
                                 height: 1,
                               ),
                             ),

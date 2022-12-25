@@ -30,12 +30,6 @@
             "deviceId": "linux"
         },
         {
-            "name": "小米10",
-            "request": "launch",
-            "type": "dart",
-            "deviceId": "Mi 10"
-        },
-        {
             "name": "小米10s",
             "request": "launch",
             "type": "dart",
@@ -65,6 +59,12 @@
             "request": "launch",
             "type": "dart",
             "deviceId": "cc004251"
-        }
+        },
+        {
+            "name": "小米13",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "2211133C"
+        },
     ]
 }

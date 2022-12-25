@@ -11,7 +11,7 @@ class AppColors {
 extension ThemeDataExt on ThemeData {
   Color get surface1 {
     if (useMaterial3) {
-      return primaryColor.withOpacity(0.05);
+      return Color.fromARGB(255, 19, 19, 25);
     }
     return Colors.white;
   }

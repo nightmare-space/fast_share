@@ -16,7 +16,7 @@ class DefaultThemeData {
       useMaterial3: true,
     );
     final darkColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color(0xFF4B4DCD),
+      seedColor: const Color(0xff6A6DED),
       brightness: Brightness.dark,
     );
     // ThemeData

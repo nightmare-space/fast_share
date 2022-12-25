@@ -1,103 +1,28 @@
-// 响应式布局
+import 'package:file_manager_view/file_manager_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:file_manager_view/file_manager_view.dart';
 import 'package:speed_share/global/constant.dart';
+import 'package:speed_share/modules/desktop_drawer.dart';
+import 'package:speed_share/modules/file/file_page.dart';
+import 'package:speed_share/modules/home/home_page.dart';
+import 'package:speed_share/modules/setting/setting_page.dart';
+import 'package:speed_share/modules/share_chat_window.dart';
+import 'package:speed_share/themes/theme.dart';
 
-import 'desktop_drawer.dart';
-import 'file/file_page.dart';
-import 'home/home_page.dart';
-import 'home/nav.dart';
-import 'personal/personal.dart';
-import 'remote_page.dart';
-import 'setting/setting_page.dart';
-import 'share_chat_window.dart';
-
-// 自动响应布局
-class AdaptiveEntryPoint extends StatefulWidget {
-  const AdaptiveEntryPoint({
-    Key key,
-  }) : super(key: key);
+class DesktopHome extends StatefulWidget {
+  const DesktopHome({Key key}) : super(key: key);
 
   @override
-  State<AdaptiveEntryPoint> createState() => _AdaptiveEntryPointState();
+  State<DesktopHome> createState() => _DesktopHomeState();
 }
 
-class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
-  ChatController chatController = Get.put(ChatController());
-  String address;
-
-  @override
-  void initState() {
-    super.initState();
-    if (!GetPlatform.isWeb) {
-      chatController.createChatRoom();
-    } else {
-      chatController.initChat();
-    }
-  }
-
-  int page;
+class _DesktopHomeState extends State<DesktopHome> {
+  int page = GetPlatform.isWeb ? 1 : 0;
 
   @override
   Widget build(BuildContext context) {
-    if (ResponsiveWrapper.of(context).isDesktop) {
-      page ??= GetPlatform.isWeb ? 1 : 0;
-      return buildDesktop(context);
-    }
-    page ??= 0;
-    return buildMobile();
-  }
-
-  Scaffold buildMobile() {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Builder(builder: (context) {
-                if (GetPlatform.isWeb) {
-                  return [
-                    Container(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        child: const ShareChatV2(),
-                      ),
-                    ),
-                    const SizedBox(),
-                    const RemotePage(),
-                    const SizedBox(),
-                    const FilePage(),
-                    const SizedBox(),
-                  ][page];
-                }
-                return [
-                  const HomePage(),
-                  const RemotePage(),
-                  const SizedBox(),
-                  const FilePage(),
-                  const PersonalPage()
-                ][page];
-              }),
-            ),
-            Nav(
-              value: page,
-              onTap: (value) {
-                page = value;
-                setState(() {});
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Scaffold buildDesktop(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         left: false,
@@ -124,15 +49,13 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                         child: [
                           const SizedBox(),
                           Container(
-                            color: Colors.white,
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8.w),
                               child: const ShareChatV2(),
                             ),
                           ),
-                          for (int i = 0;
-                              i < controller.connectDevice.length;
-                              i++)
+                          for (int i = 0; i < controller.connectDevice.length; i++)
                             Builder(
                               builder: (context) {
                                 Uri uri = Uri.tryParse(
@@ -142,11 +65,7 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                                 return FileManager(
                                   address: addr,
                                   usePackage: true,
-                                  path:
-                                      controller.connectDevice[i].deviceType ==
-                                              desktop
-                                          ? '/User'
-                                          : '/sdcard',
+                                  path: controller.connectDevice[i].deviceType == desktop ? '/User' : '/sdcard',
                                 );
                               },
                             ),
@@ -164,15 +83,13 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
                           },
                         ),
                         Container(
-                          color: Colors.white,
+                          color: Theme.of(context).brightness == Brightness.light ? Colors.white : Color.fromRGBO(19, 19, 25, 1),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.w),
                             child: const ShareChatV2(),
                           ),
                         ),
-                        for (int i = 0;
-                            i < controller.connectDevice.length;
-                            i++)
+                        for (int i = 0; i < controller.connectDevice.length; i++)
                           Builder(
                             builder: (context) {
                               Uri uri = Uri.tryParse(

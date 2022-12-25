@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
-import 'package:speed_share/modules/adapive_entry.dart';
+import 'package:speed_share/modules/home/adapive_entry.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:file_manager_view/file_manager_view.dart';
 
@@ -58,8 +58,7 @@ class ThemeWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    final ThemeData theme =
-        isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+    final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
     return Theme(
       data: theme,
       child: child,

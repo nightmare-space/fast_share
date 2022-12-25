@@ -250,7 +250,6 @@ class _FilePageState extends State<FilePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 8.w,
-                                color: Colors.black,
                                 height: 1.0,
                               ),
                             ),
@@ -318,7 +317,6 @@ class _FilePageState extends State<FilePage> {
                         path.basename(file.path),
                         style: TextStyle(
                           fontSize: 10.w,
-                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -336,7 +334,7 @@ class _FilePageState extends State<FilePage> {
                     '空',
                     style: TextStyle(
                       fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 );
@@ -396,7 +394,6 @@ class _FilePageState extends State<FilePage> {
                               path.basename(name.path),
                               style: TextStyle(
                                 fontSize: 8.w,
-                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -469,7 +466,6 @@ class _FilePageState extends State<FilePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 8.w,
-                                color: Colors.black,
                                 height: 1.0,
                               ),
                             ),
@@ -564,7 +560,6 @@ class _FilePageState extends State<FilePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 8.w,
-                                color: Colors.black,
                                 height: 1.0,
                               ),
                             ),
@@ -639,7 +634,6 @@ class _FilePageState extends State<FilePage> {
                               style: TextStyle(
                                 fontSize: 8.w,
                                 height: 1.0,
-                                color: Colors.black,
                                 textBaseline: TextBaseline.ideographic,
                               ),
                             ),
@@ -714,7 +708,6 @@ class _FilePageState extends State<FilePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 8.w,
-                                color: Colors.black,
                                 height: 1.0,
                               ),
                             ),
@@ -800,7 +793,6 @@ class _FilePageState extends State<FilePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 8.w,
-                                color: Colors.black,
                                 height: 1,
                               ),
                             ),

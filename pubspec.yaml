@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.1.10+57
+version: 2.1.11+58
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -100,6 +100,10 @@ flutter:
 dependency_overrides:
   flutter_svg: ^1.1.0
   fwfh_text_style: 2.22.8+1
+  shelf_static:
+    git:
+      url: https://github.com/nightmare-space/shelf
+      path: pkgs/shelf_static
   xterm:
     git:
       url: https://github.com/TerminalStudio/xterm.dart
