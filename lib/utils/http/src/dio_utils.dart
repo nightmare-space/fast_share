@@ -9,13 +9,13 @@ class DioUtils {
 
   static Dio getInstance() {
     if (_instance == null) {
-      BaseOptions options = BaseOptions(
-        receiveDataWhenStatusError: true,
-        connectTimeout: 60 * 1000,
-        receiveTimeout: 60 * 1000,
-      );
+      // BaseOptions options = BaseOptions(
+      //   receiveDataWhenStatusError: true,
+      //   connectTimeout: 60 * 1000,
+      //   receiveTimeout: 60 * 1000,
+      // );
 
-      _instance = Dio(options);
+      _instance = Dio();
       _instance.interceptors.add(HeaderInterceptor());
       _instance.interceptors.add(
         InterceptorsWrapper(

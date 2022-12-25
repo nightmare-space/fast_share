@@ -6,13 +6,8 @@ class HeaderInterceptor extends InterceptorsWrapper {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-    options.connectTimeout = 300;
-    // options.headers['API-Key'] = Config.apiKey;
-    // if (Global.instance?.userInfo?.token != null) {
-    //   print('添加头');
-    //   options.headers['Authorization'] =
-    //       'Bearer ' + Global.instance.userInfo.token;
-    // } else {}
+    options.connectTimeout = 1000 * 15;
+    options.receiveTimeout = 10000 * 15;
     return handler.next(options);
   }
 
@@ -39,8 +34,7 @@ class ErrorInterceptor extends InterceptorsWrapper {
           // Log.d('content不为空');
           try {
             // Log.d(err.response.data.toString());
-            final Map<String, dynamic> decode =
-                err.response.data as Map<String, dynamic>;
+            final Map<String, dynamic> decode = err.response.data as Map<String, dynamic>;
             message = decode['error'] as String;
           } catch (error) {
             message = error.toString();
@@ -72,13 +66,10 @@ class ErrorInterceptor extends InterceptorsWrapper {
         break;
       case DioErrorType.cancel:
         DioUtils.cancelToken = null;
-        throw CancelRequestException(
-            status: HttpStatus.clientClosedRequest, message: err.toString());
+        throw CancelRequestException(status: HttpStatus.clientClosedRequest, message: err.toString());
         break;
       default:
-        throw NetworkException(
-            status: HttpStatus.networkConnectTimeoutError,
-            message: err.message);
+        throw NetworkException(status: HttpStatus.networkConnectTimeoutError, message: err.message);
     }
   }
 }
