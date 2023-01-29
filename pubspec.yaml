@@ -20,7 +20,8 @@ dependencies:
   window_manager: ^0.2.3
   animations: ^2.0.2
   desktop_drop: ^0.3.3
-  dio_range_download: ^1.0.1
+  # 分段下载，后面可能还需要弄一下
+  # dio_range_download: ^1.0.1
   flutter_markdown: ^0.6.10+2
   clipboard_watcher: ^0.1.2
   # 文件选择自实现方案
@@ -35,7 +36,7 @@ dependencies:
   global_repository:
     git: https://github.com/nightmare-space/global_repository
   #动画组件
-  simple_animations: ^2.4.0
+  simple_animations: ^5.0.0+3
   logger_view:
     git: https://github.com/nightmare-space/logger_view
   # 二维码生成
