@@ -5,18 +5,18 @@ import 'package:speed_share/model/model.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 class TextMessageItem extends StatelessWidget {
-  final TextMessage info;
-  final bool sendByUser;
+  final TextMessage? info;
+  final bool? sendByUser;
 
-  const TextMessageItem({Key key, this.info, this.sendByUser}) : super(key: key);
+  const TextMessageItem({Key? key, this.info, this.sendByUser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: sendByUser! ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Column(
-          crossAxisAlignment: sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment: sendByUser! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Container(
               padding: EdgeInsets.all(10.w),
@@ -38,7 +38,7 @@ class TextMessageItem extends StatelessWidget {
                             ),
                           ),
                           child: SelectableText(
-                            info.content,
+                            info!.content!,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontSize: 14.w,
@@ -54,14 +54,14 @@ class TextMessageItem extends StatelessWidget {
             ),
           ],
         ),
-        if (!sendByUser)
+        if (!sendByUser!)
           Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () async {
                 showToast('内容已复制');
                 await Clipboard.setData(ClipboardData(
-                  text: info.content,
+                  text: info!.content,
                 ));
               },
               borderRadius: BorderRadius.circular(12),

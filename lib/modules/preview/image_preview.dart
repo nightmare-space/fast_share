@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 
 // 预览图片的组件
 class PreviewImage extends StatefulWidget {
-  const PreviewImage({Key key, this.path, this.tag}) : super(key: key);
-  final String path;
+  const PreviewImage({Key? key, this.path, this.tag}) : super(key: key);
+  final String? path;
   // hero
-  final String tag;
+  final String? tag;
   @override
   State<PreviewImage> createState() => _PreviewImageState();
 }
@@ -22,15 +22,15 @@ class _PreviewImageState extends State<PreviewImage> {
           alignment: Alignment.center,
           children: [
             Hero(
-              tag: widget.tag,
+              tag: widget.tag!,
               child: GestureDetector(
                 onTap: () {
                   Get.back();
                 },
-                child: widget.path.startsWith('http')
-                    ? Image.network(widget.path)
+                child: widget.path!.startsWith('http')
+                    ? Image.network(widget.path!)
                     : Image.file(
-                        File(widget.path),
+                        File(widget.path!),
                       ),
               ),
             ),

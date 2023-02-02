@@ -12,7 +12,7 @@ import 'package:speed_share/modules/share_chat_window.dart';
 import 'package:speed_share/themes/theme.dart';
 
 class DesktopHome extends StatefulWidget {
-  const DesktopHome({Key key}) : super(key: key);
+  const DesktopHome({Key? key}) : super(key: key);
 
   @override
   State<DesktopHome> createState() => _DesktopHomeState();
@@ -59,8 +59,8 @@ class _DesktopHomeState extends State<DesktopHome> {
                             Builder(
                               builder: (context) {
                                 Uri uri = Uri.tryParse(
-                                  controller.connectDevice[i].url,
-                                );
+                                  controller.connectDevice[i].url!,
+                                )!;
                                 String addr = 'http://${uri.host}:20000';
                                 return FileManager(
                                   address: addr,
@@ -93,8 +93,8 @@ class _DesktopHomeState extends State<DesktopHome> {
                           Builder(
                             builder: (context) {
                               Uri uri = Uri.tryParse(
-                                controller.connectDevice[i].url,
-                              );
+                                controller.connectDevice[i].url!,
+                              )!;
                               String addr = 'http://${uri.host}:20000';
                               return FileManager(
                                 address: addr,

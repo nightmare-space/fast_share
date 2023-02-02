@@ -4,7 +4,7 @@ import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:get/get.dart';
 
 // 用来选择文件的
-Future<List<XFile>> getFilesForDesktopAndWeb() async {
+Future<List<XFile>?> getFilesForDesktopAndWeb() async {
   final typeGroup = XTypeGroup(
     label: 'images',
     extensions: GetPlatform.isWeb ? [''] : null,
@@ -16,15 +16,15 @@ Future<List<XFile>> getFilesForDesktopAndWeb() async {
   return files;
 }
 
-Future<List<String>> getFilesPathsForAndroid(bool useSystemPicker) async {
+Future<List<String?>> getFilesPathsForAndroid(bool useSystemPicker) async {
   // 选择文件路径
-  List<String> filePaths = [];
+  List<String?>? filePaths = [];
   if (!useSystemPicker) {
-    filePaths = await FileSelector.pick(
-      Get.context,
-    );
+    filePaths = (await FileSelector.pick(
+      Get.context!,
+    ))!;
   } else {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowCompression: false,
       allowMultiple: true,
     );

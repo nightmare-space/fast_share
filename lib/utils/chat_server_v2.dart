@@ -50,15 +50,15 @@ class Server {
       //   headers: corsHeader,
       // );
       Log.w(request.headers);
-      String fileName = request.headers['filename'];
+      String fileName = request.headers['filename']!;
       fileName = utf8.decode(base64Decode(fileName));
       if (fileName != null) {
         SettingController settingController = Get.find();
-        String downPath = settingController.savePath;
+        String? downPath = settingController.savePath;
         RandomAccessFile randomAccessFile = await File(getSafePath('$downPath/$fileName')).open(
           mode: FileMode.write,
         );
-        int fullLength = int.tryParse(request.headers['content-length']);
+        int? fullLength = int.tryParse(request.headers['content-length']!);
         Log.d('fullLength -> $fullLength');
         Completer<bool> lock = Completer();
         // 已经下载的字节长度
@@ -77,7 +77,7 @@ class Server {
             //   dateBytes.length,
             // );
             randomAccessFile.writeFromSync(event);
-            double progress = count / fullLength;
+            double progress = count / fullLength!;
 
             info.count = count;
             info.progress = progress;
@@ -113,7 +113,7 @@ class Server {
     });
     // 返回速享网页的handler
     var webHandler = createStaticHandler(
-      RuntimeEnvir.filesPath,
+      RuntimeEnvir.filesPath!,
       listDirectories: true,
       defaultDocument: 'index.html',
     );
@@ -145,10 +145,10 @@ class Server {
         return webHandler(r);
       }
     });
-    int port = await getSafePort(
+    int port = (await getSafePort(
       Config.chatPortRangeStart,
       Config.chatPortRangeEnd,
-    );
+    ))!;
     final handler = const Pipeline().addMiddleware((innerHandler) {
       return (request) async {
         final response = await innerHandler(request);
@@ -179,7 +179,7 @@ Future<String> execCmd(
   ProcessResult execResult;
   if (Platform.isWindows) {
     execResult = await Process.run(
-      RuntimeEnvir.binPath + Platform.pathSeparator + args[0],
+      RuntimeEnvir.binPath! + Platform.pathSeparator + args[0],
       args.sublist(1),
       environment: RuntimeEnvir.envir(),
       includeParentEnvironment: true,

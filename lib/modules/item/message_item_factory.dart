@@ -8,8 +8,8 @@ import 'dir_item.dart';
 import 'file_item.dart';
 
 class MessageItemFactory {
-  static Widget getMessageItem(MessageBaseInfo info, bool sendByUser) {
-    Widget child;
+  static Widget? getMessageItem(MessageBaseInfo? info, bool sendByUser) {
+    Widget? child;
     if (info is TextMessage) {
       child = TextMessageItem(
         info: info,
@@ -44,7 +44,7 @@ class MessageItemFactory {
         child: Column(
           crossAxisAlignment: sendByUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            if (info.deviceName != null && info.deviceName.isNotEmpty)
+            if (info!.deviceName != null && info.deviceName!.isNotEmpty)
               Row(
                 mainAxisAlignment: sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,

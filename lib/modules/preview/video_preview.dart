@@ -3,8 +3,8 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 // 预览视频的组件
 class VideoPreview extends StatefulWidget {
-  const VideoPreview({Key key, this.url}) : super(key: key);
-  final String url;
+  const VideoPreview({Key? key, this.url}) : super(key: key);
+  final String? url;
 
   @override
   State createState() => _VideoPreviewState();
@@ -22,9 +22,9 @@ class _VideoPreviewState extends State<VideoPreview> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: widget.url.startsWith('http')
+          child: widget.url!.startsWith('http')
               ? BetterPlayer.network(
-                  widget.url,
+                  widget.url!,
                   betterPlayerConfiguration: const BetterPlayerConfiguration(
                     // aspectRatio: 9 / 16,
                     fullScreenByDefault: false,
@@ -33,7 +33,7 @@ class _VideoPreviewState extends State<VideoPreview> {
                   ),
                 )
               : BetterPlayer.file(
-                  widget.url,
+                  widget.url!,
                   betterPlayerConfiguration: const BetterPlayerConfiguration(
                     // aspectRatio: 9 / 16,
                     fullScreenByDefault: false,

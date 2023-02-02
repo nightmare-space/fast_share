@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-T asT<T>(dynamic value) {
+T? asT<T>(dynamic value) {
   if (value is T) {
     return value;
   }
@@ -13,15 +13,11 @@ class Historys {
   });
 
   factory Historys.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
-
-    final List<History> datas = json['datas'] is List ? <History>[] : null;
+    final List<History>? datas = json['datas'] is List ? <History>[] : null;
     if (datas != null) {
       for (final dynamic item in json['datas']) {
         if (item != null) {
-          datas.add(History.fromJson(asT<Map<String, dynamic>>(item)));
+          datas.add(History.fromJson(asT<Map<String, dynamic>>(item)!));
         }
       }
     }
@@ -30,7 +26,7 @@ class Historys {
     );
   }
 
-  List<History> datas;
+  List<History>? datas;
 
   @override
   String toString() {
@@ -49,17 +45,15 @@ class History {
     this.deviceName,
   });
 
-  factory History.fromJson(Map<String, dynamic> json) => json == null
-      ? null
-      : History(
-          id: asT<String>(json['id']),
-          url: asT<String>(json['url']),
-          deviceName: asT<String>(json['device_name']),
-        );
+  factory History.fromJson(Map<String, dynamic> json) => History(
+        id: asT<String>(json['id']),
+        url: asT<String>(json['url']),
+        deviceName: asT<String>(json['device_name']),
+      );
 
-  String id;
-  String url;
-  String deviceName;
+  String? id;
+  String? url;
+  String? deviceName;
 
   @override
   String toString() {

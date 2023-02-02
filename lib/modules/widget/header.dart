@@ -13,7 +13,7 @@ import 'menu.dart';
 // 主页显示的最上面那个header
 class Header extends StatelessWidget {
   const Header({
-    Key key,
+    Key? key,
     this.showAddress = true,
   }) : super(key: key);
   final bool showAddress;
@@ -82,7 +82,7 @@ class Header extends StatelessWidget {
 }
 
 class HeaderSwiper extends StatefulWidget {
-  const HeaderSwiper({Key key}) : super(key: key);
+  const HeaderSwiper({Key? key}) : super(key: key);
 
   @override
   State<HeaderSwiper> createState() => _HeaderSwiperState();
@@ -91,7 +91,7 @@ class HeaderSwiper extends StatefulWidget {
 class _HeaderSwiperState extends State<HeaderSwiper> {
   ChatController controller = Get.find();
   DeviceController deviceController = Get.find();
-  Timer timer;
+  late Timer timer;
   int page = 0;
 
   @override
@@ -184,7 +184,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.w),
                             child: Center(
-                              child: Text(device.deviceName),
+                              child: Text(device.deviceName!),
                             ),
                           ),
                         ),

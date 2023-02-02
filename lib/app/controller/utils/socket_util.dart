@@ -23,6 +23,6 @@ class SocketUtil {
     } catch (e) {
       conLock.complete(false);
     }
-    return await conLock.future;
+    return await (conLock.future as FutureOr<bool>);
   }
 }

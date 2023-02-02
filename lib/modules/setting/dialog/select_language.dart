@@ -4,7 +4,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 
 class SelectLang extends StatefulWidget {
-  const SelectLang({Key key}) : super(key: key);
+  const SelectLang({Key? key}) : super(key: key);
 
   @override
   State<SelectLang> createState() => _SelectLangState();
@@ -12,7 +12,7 @@ class SelectLang extends StatefulWidget {
 
 class _SelectLangState extends State<SelectLang> {
   SettingController controller = Get.find();
-  String groupValue = '';
+  String? groupValue = '';
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _SelectLangState extends State<SelectLang> {
                         Radio(
                           value: lang,
                           groupValue: groupValue,
-                          onChanged: (value) {
+                          onChanged: (dynamic value) {
                             groupValue = value;
                             controller.switchLanguage(value);
                             setState(() {});

@@ -21,10 +21,10 @@ import 'package:speed_share/themes/app_colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
-    Key key,
+    Key? key,
     this.onMessageWindowTap,
   }) : super(key: key);
-  final void Function() onMessageWindowTap;
+  final void Function()? onMessageWindowTap;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          S.of(context).recentImg,
+                          S.of(context)!.recentImg,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onBackground,
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 4.w),
                         GetBuilder<FileController>(builder: (ctl) {
-                          File file = fileController.getRecentImage();
+                          File? file = fileController.getRecentImage() as File?;
 
                           if (file == null) {
                             return Center(
@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
             child: GetBuilder<DeviceController>(
               builder: (ctl) {
                 List<Widget> children = [];
-                for (History history in ctl.historys.datas) {
+                for (History history in ctl.historys.datas!) {
                   children.add(
                     SizedBox(
                       child: Column(
@@ -239,11 +239,11 @@ class _HomePageState extends State<HomePage> {
                             child: Row(
                               children: [
                                 Text(
-                                  basename(history.deviceName),
+                                  basename(history.deviceName!),
                                   maxLines: 2,
                                   style: TextStyle(
                                     fontSize: 14.w,
-                                    color: Theme.of(context).textTheme.bodyText2.color,
+                                    color: Theme.of(context).textTheme.bodyText2!.color,
                                     height: 1,
                                   ),
                                 ),
@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                                   maxLines: 2,
                                   style: TextStyle(
                                     fontSize: 14.w,
-                                    color: Theme.of(context).textTheme.bodyText2.color,
+                                    color: Theme.of(context).textTheme.bodyText2!.color,
                                     height: 1,
                                   ),
                                 ),
@@ -262,11 +262,11 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 20.w,
                             child: Text(
-                              basename(history.url),
+                              basename(history.url!),
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Theme.of(context).textTheme.bodyText2.color,
+                                color: Theme.of(context).textTheme.bodyText2!.color,
                                 height: 1,
                               ),
                             ),
@@ -313,7 +313,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            S.of(context).recentFile,
+            S.of(context)!.recentFile,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onBackground,
@@ -406,7 +406,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                S.of(context).chatWindow,
+                S.of(context)!.chatWindow,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,

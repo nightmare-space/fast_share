@@ -7,10 +7,10 @@ import 'package:speed_share/utils/ext_util.dart';
 import 'package:path/path.dart' as p;
 import 'package:shelf/shelf_io.dart' as io;
 
-void Function(Null arg) serverFileFunc;
+void Function(Null arg)? serverFileFunc;
 
 class IsolateArg {
-  int port;
+  int? port;
 }
 
 final corsHeader = {

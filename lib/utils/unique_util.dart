@@ -23,7 +23,7 @@ class UniqueUtil {
   }
 
   static Future<String> getUniqueKey() async {
-    String dataPath = RuntimeEnvir.configPath;
+    String? dataPath = RuntimeEnvir.configPath;
     File file;
     if (Platform.isAndroid) {
       file = File('${RuntimeEnvir.filesPath}/unique.txt');
@@ -38,7 +38,7 @@ class UniqueUtil {
   }
 
   static Future<void> generateUniqueKey() async {
-    String dataPath = RuntimeEnvir.configPath;
+    String? dataPath = RuntimeEnvir.configPath;
     File file;
     if (Platform.isAndroid) {
       file = File('${RuntimeEnvir.filesPath}/unique.txt');
@@ -48,9 +48,9 @@ class UniqueUtil {
     await file.writeAsString(shortHash(() {}));
   }
 
-  static String props;
+  static String? props;
   static String getValueFromProps(String key) {
-    final List<String> tmp = props.split('\n');
+    final List<String> tmp = props!.split('\n');
     for (final String line in tmp) {
       if (line.contains(key)) {
         return line.replaceAll(RegExp('.*\\]: |\\[|\\]'), '');

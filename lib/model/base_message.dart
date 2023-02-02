@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 class MessageBaseInfo {
-  String msgType;
-  String deviceName;
+  String? msgType;
+  String? deviceName;
   // 用来做发送设备的位移标识
-  String deviceId;
-  int deviceType;
+  String? deviceId;
+  int? deviceType;
 
   MessageBaseInfo({
     this.msgType,

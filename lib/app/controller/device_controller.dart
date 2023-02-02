@@ -11,12 +11,12 @@ import 'package:speed_share/utils/http/http.dart';
 
 class Device {
   Device(this.id);
-  String id;
-  int deviceType;
-  String deviceName;
+  String? id;
+  int? deviceType;
+  String? deviceName;
   // url prefix
-  String url;
-  int messagePort;
+  String? url;
+  int? messagePort;
 
   @override
   int get hashCode => id.hashCode;
@@ -29,7 +29,7 @@ class Device {
     return false;
   }
 
-  static Color getColor(int type) {
+  static Color getColor(int? type) {
     switch (type) {
       case 0:
         return const Color(0xffED796A);
@@ -69,10 +69,10 @@ class DeviceController extends GetxController {
       // 如果文件存在的话
       historys = Historys.fromJson(json.decode(File(historyPath).readAsStringSync()));
       Log.i(historys);
-      historys.datas.removeWhere((element) => element.url.contains('null'));
+      historys.datas!.removeWhere((element) => element.url!.contains('null'));
       // 向历史连接的设备发送连接消息
       Future.delayed(const Duration(milliseconds: 200), () {
-        historys.datas.forEach(
+        historys.datas!.forEach(
           ((element) {
             sendJoinEvent(element.url);
           }),
@@ -98,11 +98,11 @@ class DeviceController extends GetxController {
   }
 
   void onDeviceConnect(
-    String id,
-    String name,
-    int type,
-    String urlPrefix,
-    int port,
+    String? id,
+    String? name,
+    int? type,
+    String? urlPrefix,
+    int? port,
   ) {
     Device device = Device(id)
       ..deviceType = type
@@ -121,24 +121,24 @@ class DeviceController extends GetxController {
     update();
   }
 
-  void appendHistory(String name, String url, String id) {
+  void appendHistory(String? name, String url, String? id) {
     History history = History(
       deviceName: name,
       url: url,
       id: id,
     );
-    if (!historys.datas.contains(history)) {
+    if (!historys.datas!.contains(history)) {
       // 不包含才
-      historys.datas.add(history);
+      historys.datas!.add(history);
       Log.i(historys);
     } else {
-      History exist = historys.datas.firstWhere((element) => element.id == history.id);
+      History exist = historys.datas!.firstWhere((element) => element.id == history.id);
       exist.url = url;
     }
     syncHistoryToLocal();
   }
 
-  void onDeviceClose(String id) {
+  void onDeviceClose(String? id) {
     connectDevice.remove(Device(id));
     update();
   }
@@ -171,7 +171,7 @@ class DeviceController extends GetxController {
     for (String url in urls) {
       // Log.i('$url');
       try {
-        Response res = await httpInstance.post(url, data: data);
+        Response res = await httpInstance!.post(url, data: data);
       } catch (e) {
         // Log.e('send error : ${e}');
       }

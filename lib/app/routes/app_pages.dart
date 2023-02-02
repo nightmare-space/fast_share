@@ -50,10 +50,10 @@ class SpeedPages {
 
 class ThemeWrapper extends StatelessWidget {
   const ThemeWrapper({
-    Key key,
+    Key? key,
     this.child,
   }) : super(key: key);
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class ThemeWrapper extends StatelessWidget {
     final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
     return Theme(
       data: theme,
-      child: child,
+      child: child!,
     );
   }
 }

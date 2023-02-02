@@ -46,7 +46,7 @@ Future<String> getToken(String url) async {
     }
   });
   try {
-    response = await httpInstance.get(
+    response = await httpInstance!.get(
       '$url/check_token',
       cancelToken: cancelToken,
     );
@@ -59,14 +59,14 @@ Future<String> getToken(String url) async {
       lock.complete(null);
     }
   }
-  return await lock.future;
+  return await (lock.future as FutureOr<String>);
 } // 得到正确的url
 
-Future<String> getCorrectUrlWithAddressAndPort(
-  List<String> addresses,
-  int port,
+Future<String?> getCorrectUrlWithAddressAndPort(
+  List<String?> addresses,
+  int? port,
 ) async {
-  for (String address in addresses) {
+  for (String? address in addresses) {
     String token = await getToken('http://$address:$port');
     if (token != null) {
       return 'http://$address';

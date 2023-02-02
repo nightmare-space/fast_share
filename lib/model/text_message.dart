@@ -1,11 +1,11 @@
 import 'base_message.dart';
 
 class TextMessage extends MessageBaseInfo {
-  String content;
+  String? content;
 
   TextMessage({
     this.content,
-    String sendFrom,
+    String? sendFrom,
     String msgType = 'text',
   }) : super(
           msgType: msgType,

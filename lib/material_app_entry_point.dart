@@ -13,7 +13,7 @@ import 'generated/l10n.dart';
 import 'themes/theme.dart';
 
 class SpeedShare extends StatelessWidget {
-  const SpeedShare({Key key}) : super(key: key);
+  const SpeedShare({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class SpeedShare extends StatelessWidget {
                   return GetBuilder<SettingController>(
                     builder: (context) {
                       return Localizations(
-                        locale: context.currentLocale,
+                        locale: context.currentLocale!,
                         delegates: const [
                           S.delegate,
                           GlobalMaterialLocalizations.delegate,
@@ -62,7 +62,7 @@ class SpeedShare extends StatelessWidget {
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              child,
+                              child!,
                               if (settingController.enbaleConstIsland) const DynamicIsland(),
                             ],
                           ),

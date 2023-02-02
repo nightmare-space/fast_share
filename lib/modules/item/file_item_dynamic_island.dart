@@ -12,13 +12,13 @@ import 'package:speed_share/utils/ext_util.dart';
 
 class FileDynamicIsland extends StatefulWidget {
   /// 消息model
-  final FileMessage info;
+  final FileMessage? info;
 
   /// 是否是本机发送的消息
-  final bool sendByUser;
+  final bool? sendByUser;
 
   const FileDynamicIsland({
-    Key key,
+    Key? key,
     this.info,
     this.sendByUser,
   }) : super(key: key);
@@ -30,9 +30,9 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
   ChatController chatController = Get.find();
   SettingController settingController = Get.find();
   DownloadController downloadController = Get.find();
-  FileMessage info;
+  FileMessage? info;
 
-  DateTime startTime;
+  DateTime? startTime;
   bool isStarted = false;
   // 执行下载文件
 
@@ -47,11 +47,11 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
   }
 
   bool canAutoDownload() {
-    if (widget.sendByUser) {
+    if (widget.sendByUser!) {
       return false;
     }
     if (downloadController.progress.containsKey(url) &&
-        downloadController.progress[url].progress != 0.0) {
+        downloadController.progress[url]!.progress != 0.0) {
       return false;
     }
     if (!settingController.enableAutoDownload) return false;
@@ -63,24 +63,24 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
     }
     int len = file.lengthSync();
     if (file.existsSync()) {
-      if (widget.info.fileSize != FileSizeUtils.getFileSize(len)) return true;
-      if (widget.info.fileSize == FileSizeUtils.getFileSize(len)) return false;
+      if (widget.info!.fileSize != FileSizeUtils.getFileSize(len)) return true;
+      if (widget.info!.fileSize == FileSizeUtils.getFileSize(len)) return false;
     }
     return true;
   }
 
   String get url {
     String url;
-    if (widget.sendByUser) {
+    if (widget.sendByUser!) {
       url =
-          'http://127.0.0.1:${chatController.shelfBindPort}${widget.info.filePath}';
+          'http://127.0.0.1:${chatController.shelfBindPort}${widget.info!.filePath}';
     } else {
-      url = widget.info.url + widget.info.filePath;
+      url = widget.info!.url! + widget.info!.filePath!;
     }
     return url;
   }
 
-  Offset offset;
+  Offset? offset;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -116,9 +116,9 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
               );
             }),
             // 展示下载进度条
-            if (!widget.sendByUser && !GetPlatform.isWeb)
+            if (!widget.sendByUser! && !GetPlatform.isWeb)
               GetBuilder<DownloadController>(builder: (context) {
-                DownloadInfo info = downloadController.getInfo(url);
+                DownloadInfo info = downloadController.getInfo(url)!;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -181,7 +181,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
                           children: [
                             SizedBox(
                               child: Text(
-                                FileSizeUtils.getFileSize(info.count),
+                                FileSizeUtils.getFileSize(info.count)!,
                                 style: TextStyle(
                                   color: Colors.white54,
                                   fontSize: 12.w,
@@ -197,7 +197,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
                             ),
                             SizedBox(
                               child: Text(
-                                widget.info.fileSize,
+                                widget.info!.fileSize!,
                                 style: TextStyle(
                                   color: Colors.white54,
                                   fontSize: 12.w,
@@ -226,7 +226,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
-              widget.info.fileName,
+              widget.info!.fileName!,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 12.w,

@@ -4,10 +4,10 @@ part of http;
 
 class DioUtils {
   DioUtils._();
-  static Dio _instance;
-  static CancelToken cancelToken;
+  static Dio? _instance;
+  static CancelToken? cancelToken;
 
-  static Dio getInstance() {
+  static Dio? getInstance() {
     if (_instance == null) {
       // BaseOptions options = BaseOptions(
       //   receiveDataWhenStatusError: true,
@@ -16,8 +16,8 @@ class DioUtils {
       // );
 
       _instance = Dio();
-      _instance.interceptors.add(HeaderInterceptor());
-      _instance.interceptors.add(
+      _instance!.interceptors.add(HeaderInterceptor());
+      _instance!.interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) {
             // print(options.extra);
@@ -33,7 +33,7 @@ class DioUtils {
           },
         ),
       );
-      _instance.interceptors.add(ErrorInterceptor());
+      _instance!.interceptors.add(ErrorInterceptor());
     }
     return _instance;
   }

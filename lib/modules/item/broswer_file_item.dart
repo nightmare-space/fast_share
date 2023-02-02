@@ -11,13 +11,13 @@ import 'package:speed_share/utils/utils.dart';
 
 class BroswerFileItem extends StatefulWidget {
   /// 消息model
-  final BroswerFileMessage info;
+  final BroswerFileMessage? info;
 
   /// 是否是本机发送的消息
-  final bool sendByUser;
+  final bool? sendByUser;
 
   const BroswerFileItem({
-    Key key,
+    Key? key,
     this.info,
     this.sendByUser,
   }) : super(key: key);
@@ -29,9 +29,9 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
   ChatController chatController = Get.find();
   SettingController settingController = Get.find();
   DownloadController downloadController = Get.find();
-  BroswerFileMessage info;
+  BroswerFileMessage? info;
 
-  DateTime startTime;
+  DateTime? startTime;
   bool isStarted = false;
   // 执行下载文件
 
@@ -41,14 +41,14 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
     info = widget.info;
   }
 
-  Offset offset;
+  Offset? offset;
 
-  String get url {
-    String url;
-    if (widget.sendByUser) {
-      url = widget.info.blob;
+  String? get url {
+    String? url;
+    if (widget.sendByUser!) {
+      url = widget.info!.blob;
     } else {
-      url = widget.info.blob;
+      url = widget.info!.blob;
     }
     return url;
   }
@@ -57,7 +57,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: widget.sendByUser! ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Material(
           color: Theme.of(context).surface1,
@@ -74,7 +74,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
           ),
         ),
         // 展示下载按钮
-        if (!widget.sendByUser)
+        if (!widget.sendByUser!)
           Material(
             color: Colors.transparent,
             child: Column(
@@ -85,7 +85,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                       return;
                     }
                     showToast('通知浏览器上传文件，这会比客户端慢一点');
-                    chatController.notifyBroswerUploadFile(widget.info.hash);
+                    chatController.notifyBroswerUploadFile(widget.info!.hash);
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
@@ -134,9 +134,9 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
               );
             }),
             // 展示下载进度条
-            if (!widget.sendByUser && !GetPlatform.isWeb)
+            if (!widget.sendByUser! && !GetPlatform.isWeb)
               GetBuilder<DownloadController>(builder: (context) {
-                DownloadInfo info = downloadController.getInfo(url);
+                DownloadInfo info = downloadController.getInfo(url)!;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -195,7 +195,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                           children: [
                             SizedBox(
                               child: Text(
-                                FileSizeUtils.getFileSize(info.count),
+                                FileSizeUtils.getFileSize(info.count)!,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12.w,
@@ -211,7 +211,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                             ),
                             SizedBox(
                               child: Text(
-                                widget.info.fileSize,
+                                widget.info!.fileSize!,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12.w,
@@ -232,24 +232,24 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
   }
 
   UniqueKey key = UniqueKey();
-  Widget buildPreviewWidget(String url) {
+  Widget buildPreviewWidget(String? url) {
     return InkWell(
       child: Row(
         children: [
-          if (widget.info.fileName.isImg && widget.sendByUser)
+          if (widget.info!.fileName!.isImg && widget.sendByUser!)
             // 文件名是图片的时候，用blob协议展示
             Hero(
-              tag: widget.info.blob,
+              tag: widget.info!.blob!,
               child: GestureDetector(
                 onTap: () {
-                  FileUtil.openFile(widget.info.blob);
+                  FileUtil.openFile(widget.info!.blob!);
                 },
                 child: Image(
                   width: 36.w,
                   height: 36.w,
                   fit: BoxFit.cover,
                   image: ResizeImage(
-                    NetworkImage(widget.info.blob),
+                    NetworkImage(widget.info!.blob!),
                     width: 100,
                   ),
                 ),
@@ -257,11 +257,11 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
             )
           else
             // 传入文件名，已展示对应的图标
-            getIconByExt(widget.info.fileName),
+            getIconByExt(widget.info!.fileName!),
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
-              widget.info.fileName,
+              widget.info!.fileName!,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 12.w,

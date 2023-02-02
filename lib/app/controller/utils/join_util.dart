@@ -9,9 +9,9 @@ import 'package:speed_share/utils/http/http.dart';
 class JoinUtil {
   static Future<bool> sendJoinEvent(
     List<String> addrs,
-    int shelfBindPort,
-    int chatBindPort,
-    String url,
+    int? shelfBindPort,
+    int? chatBindPort,
+    String? url,
   ) async {
     JoinMessage message = JoinMessage();
     message.deviceName = Global().deviceName;
@@ -22,7 +22,7 @@ class JoinUtil {
     message.messagePort = chatBindPort;
     // Log.i(message);
     try {
-      Response res = await httpInstance.post(
+      Response res = await httpInstance!.post(
         '$url/',
         data: message.toJson(),
       );
@@ -36,8 +36,8 @@ class JoinUtil {
   }
 }
 
-List<String> _hasSendJoin = [];
-Future<void> sendJoinEvent(String url) async {
+List<String?> _hasSendJoin = [];
+Future<void> sendJoinEvent(String? url) async {
   // Log.i('sendJoinEvent : $url');
   // Log.i('_hasSendJoin : $_hasSendJoin');
   if (_hasSendJoin.contains(url)) {

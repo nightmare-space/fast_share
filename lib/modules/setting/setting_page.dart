@@ -15,7 +15,7 @@ import 'dialog/select_language.dart';
 
 // 设置页面
 class SettingPage extends StatefulWidget {
-  const SettingPage({Key key}) : super(key: key);
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -31,8 +31,8 @@ class _SettingPageState extends State<SettingPage> {
       color: Theme.of(context).primaryColor,
       fontSize: 16.w,
     );
-    final S s = S.of(context);
-    AppBar appBar;
+    final S? s = S.of(context);
+    AppBar? appBar;
     if (ResponsiveWrapper.of(context).isMobile) {
       appBar = AppBar(
         systemOverlayStyle: OverlayStyle.dark,
@@ -51,7 +51,7 @@ class _SettingPageState extends State<SettingPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
-                    s.common,
+                    s!.common,
                     style: title,
                   ),
                 ),
@@ -68,7 +68,7 @@ class _SettingPageState extends State<SettingPage> {
                           controller.switchDownLoadPath(path);
                         }
                       } else {
-                        String path = await FileSelector.pickDirectory(context);
+                        String? path = await FileSelector.pickDirectory(context);
                         if (path != null) {
                           controller.switchDownLoadPath(path);
                         }
@@ -85,10 +85,10 @@ class _SettingPageState extends State<SettingPage> {
                           ),
                         ),
                         Text(
-                          controller.savePath,
+                          controller.savePath!,
                           style: TextStyle(
                             fontSize: 16.w,
-                            color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                            color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                           ),
                         ),
                       ],
@@ -110,10 +110,10 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       Text(
-                        controller.currentLocale.toLanguageTag(),
+                        controller.currentLocale!.toLanguageTag(),
                         style: TextStyle(
                           fontSize: 16.w,
-                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                          color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -163,7 +163,7 @@ class _SettingPageState extends State<SettingPage> {
                               '模仿iOS灵动岛的动画，这个开关需要同时打开速享的悬浮窗权限',
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                                color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                               ),
                             ),
                           ],
@@ -248,7 +248,7 @@ class _SettingPageState extends State<SettingPage> {
                               '注意，文件分类开启后会自动整理下载路径的所有文件',
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                                color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                               ),
                             ),
                           ],
@@ -284,7 +284,7 @@ class _SettingPageState extends State<SettingPage> {
                               '开启后，局域网设备可通过以下地址访问到本机设备的所有文件',
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                                color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                               ),
                             ),
                           ],
@@ -298,12 +298,12 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
                 if (controller.enableWebServer)
-                  FutureBuilder(
+                  FutureBuilder<List<String>>(
                     future: PlatformUtil.localAddress(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         List<Widget> children = [];
-                        for (String address in snapshot.data) {
+                        for (String address in snapshot.data!) {
                           children.add(Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.w),
                             child: SelectableText('$address:${chatController.messageBindPort}/sdcard'),
@@ -341,7 +341,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                          color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -362,7 +362,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                          color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -418,11 +418,11 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                           ),
                           Text(
-                            S.of(context).downloadTip,
+                            S.of(context)!.downloadTip,
                             style: TextStyle(
                               fontSize: 14.w,
                               fontWeight: FontWeight.normal,
-                              color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.6),
                             ),
                           ),
                         ],
@@ -449,7 +449,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.4),
+                          color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.4),
                         ),
                       ),
                     ],
@@ -470,7 +470,7 @@ class _SettingPageState extends State<SettingPage> {
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.4),
+                          color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.4),
                         ),
                       ),
                     ],
@@ -487,12 +487,12 @@ class _SettingPageState extends State<SettingPage> {
 
 class SettingItem extends StatelessWidget {
   const SettingItem({
-    Key key,
+    Key? key,
     this.child,
     this.onTap,
   }) : super(key: key);
-  final Widget child;
-  final void Function() onTap;
+  final Widget? child;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -522,16 +522,16 @@ class AquaSwitch extends StatelessWidget {
 
   final ValueChanged<bool> onChanged;
 
-  final Color activeColor;
+  final Color? activeColor;
 
-  final Color unActiveColor;
+  final Color? unActiveColor;
 
-  final Color thumbColor;
+  final Color? thumbColor;
 
   const AquaSwitch({
-    Key key,
-    @required this.value,
-    @required this.onChanged,
+    Key? key,
+    required this.value,
+    required this.onChanged,
     this.activeColor,
     this.unActiveColor,
     this.thumbColor,

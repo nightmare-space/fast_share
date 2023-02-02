@@ -2,12 +2,12 @@ import 'base_message.dart';
 import 'notify_message.dart';
 
 class FileMessage extends MessageBaseInfo {
-  String fileName;
-  String filePath;
-  String fileSize;
-  List<String> addrs;
-  String url;
-  int port;
+  String? fileName;
+  String? filePath;
+  String? fileSize;
+  List<String?>? addrs;
+  String? url;
+  int? port;
 
   FileMessage({
     this.fileName,
@@ -16,7 +16,7 @@ class FileMessage extends MessageBaseInfo {
     this.addrs,
     this.filePath,
     String msgType = 'file',
-    String sendFrom,
+    String? sendFrom,
   }) : super(
           msgType: msgType,
           deviceName: sendFrom,
@@ -26,7 +26,7 @@ class FileMessage extends MessageBaseInfo {
     fileName = json['fileName'];
     filePath = json['filePath'];
     fileSize = json['fileSize'];
-    final List<String> addrs = json['addrs'] is List ? <String>[] : null;
+    final List<String?>? addrs = json['addrs'] is List ? <String?>[] : null;
     if (addrs != null) {
       for (final dynamic item in json['addrs']) {
         if (item != null) {

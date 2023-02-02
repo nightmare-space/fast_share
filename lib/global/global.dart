@@ -18,12 +18,12 @@ export 'constant.dart';
 /// 主要用来发现局域网的设备
 class Global with ClipboardListener, WindowListener {
   Global._internal();
-  factory Global() => _getInstance();
+  factory Global() => _getInstance()!;
 
-  static Global get instance => _getInstance();
-  static Global _instance;
+  static Global? get instance => _getInstance();
+  static Global? _instance;
 
-  static Global _getInstance() {
+  static Global? _getInstance() {
     _instance ??= Global._internal();
     return _instance;
   }
@@ -43,7 +43,7 @@ class Global with ClipboardListener, WindowListener {
   @override
   void onClipboardChanged() async {
     // TODO，应该先读设置开关
-    ClipboardData newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    ClipboardData? newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     Log.i('剪切板来啦:${newClipboardData?.text}' ?? "");
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(
@@ -54,7 +54,7 @@ class Global with ClipboardListener, WindowListener {
   }
 
   bool canShareClip = true;
-  void setClipboard(String text) async {
+  void setClipboard(String? text) async {
     Log.i('手动设置剪切板消息:$text' ?? "");
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(

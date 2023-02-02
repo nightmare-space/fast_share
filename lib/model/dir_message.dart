@@ -1,14 +1,14 @@
 import 'model.dart';
 
 class DirMessage extends MessageBaseInfo {
-  String dirName;
-  int fullSize;
-  bool canDownload = false;
-  List<String> paths = [];
-  String urlPrifix;
-  List<String> addrs;
-  String url;
-  int port;
+  String? dirName;
+  int? fullSize;
+  bool? canDownload = false;
+  List<String?>? paths = [];
+  String? urlPrifix;
+  List<String?>? addrs;
+  String? url;
+  int? port;
 
   DirMessage({
     this.dirName,
@@ -16,7 +16,7 @@ class DirMessage extends MessageBaseInfo {
     this.canDownload,
     this.paths,
     this.urlPrifix,
-    String deviceName,
+    String? deviceName,
     this.addrs,
     this.port,
   }) : super(
@@ -29,7 +29,7 @@ class DirMessage extends MessageBaseInfo {
     fullSize = json['fullSize'];
     urlPrifix = json['urlPrifix'];
     canDownload = json['canDownload'] ?? false;
-    final List<String> addrs = json['addrs'] is List ? <String>[] : null;
+    final List<String?>? addrs = json['addrs'] is List ? <String?>[] : null;
     if (addrs != null) {
       for (final dynamic item in json['addrs']) {
         if (item != null) {
@@ -55,10 +55,10 @@ class DirMessage extends MessageBaseInfo {
 }
 
 class DirPartMessage extends MessageBaseInfo {
-  String path;
-  String stat;
-  String partOf;
-  int size;
+  String? path;
+  String? stat;
+  String? partOf;
+  int? size;
   DirPartMessage({
     this.path,
     this.size,

@@ -11,12 +11,12 @@ import 'package:file_selector/file_selector.dart';
 
 class DirMessageItem extends StatefulWidget {
   const DirMessageItem({
-    Key key,
+    Key? key,
     this.info,
     this.sendByUser,
   }) : super(key: key);
-  final bool sendByUser;
-  final DirMessage info;
+  final bool? sendByUser;
+  final DirMessage? info;
 
   @override
   State createState() => _DirMessageItemState();
@@ -24,21 +24,21 @@ class DirMessageItem extends StatefulWidget {
 
 class _DirMessageItemState extends State<DirMessageItem> {
   ChatController chatController = Get.find();
-  DirMessage info;
+  DirMessage? info;
   final Dio dio = Dio();
   CancelToken cancelToken = CancelToken();
   int count = 0;
   double fileDownratio = 0.0;
   int downloadSize = 0;
   // 网速
-  String speed = '0';
-  Timer timer;
-  Future<void> downloadFile(String urlPath, String savePath) async {
+  String? speed = '0';
+  Timer? timer;
+  Future<void> downloadFile(String? urlPath, String savePath) async {
     if (fileDownratio != 0.0) {
       showToast('已经在下载中了哦');
       return;
     }
-    String baseDirPath = '$savePath/${widget.info.dirName}';
+    String baseDirPath = '$savePath/${widget.info!.dirName}';
     // 这儿可能已经有一个文件名被占用了
     try {
       await Directory(baseDirPath).create();
@@ -47,14 +47,14 @@ class _DirMessageItemState extends State<DirMessageItem> {
       return;
     }
     computeNetSpeed();
-    for (String path in widget.info.paths) {
+    for (String? path in widget.info!.paths!) {
       Log.d(path);
       // .*?是非贪婪匹配，
-      String relativePath = path.replaceAll(RegExp('.*?${widget.info.dirName}/'), '/');
+      String relativePath = path!.replaceAll(RegExp('.*?${widget.info!.dirName}/'), '/');
       // Log.e(relativePath);
       if (path.endsWith('/')) {
       } else {
-        String tmpSavePath = '$savePath/${widget.info.dirName}/$relativePath';
+        String tmpSavePath = '$savePath/${widget.info!.dirName}/$relativePath';
         // print(savePath);
         // Log.e(urlPath + '$path' + '?download=true');
         await dio.download(
@@ -63,7 +63,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
           cancelToken: cancelToken,
           onReceiveProgress: (count, total) {
             this.count = downloadSize + count;
-            fileDownratio = this.count / widget.info.fullSize;
+            fileDownratio = this.count / widget.info!.fullSize!;
             setState(() {});
             if (count == total) {
               downloadSize += total;
@@ -103,16 +103,16 @@ class _DirMessageItemState extends State<DirMessageItem> {
 
   @override
   Widget build(BuildContext context) {
-    String urlPrifix;
-    if (widget.sendByUser) {
+    String? urlPrifix;
+    if (widget.sendByUser!) {
       urlPrifix = 'http://127.0.0.1:${chatController.messageBindPort}';
     } else {
-      urlPrifix = info.urlPrifix;
+      urlPrifix = info!.urlPrifix;
     }
     Log.v('urlPrifix -> $urlPrifix');
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: widget.sendByUser! ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.all(10),
@@ -138,7 +138,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     ),
                     Expanded(
                       child: Text(
-                        widget.info.dirName,
+                        widget.info!.dirName!,
                         style: TextStyle(
                           color: Colors.black,
                           // fontWeight: FontWeight.bold,
@@ -148,7 +148,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                     ),
                   ],
                 ),
-                if (!widget.sendByUser && !GetPlatform.isWeb)
+                if (!widget.sendByUser! && !GetPlatform.isWeb)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -191,7 +191,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                             children: [
                               SizedBox(
                                 child: Text(
-                                  FileSizeUtils.getFileSize(count),
+                                  FileSizeUtils.getFileSize(count)!,
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12.w,
@@ -207,7 +207,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                               ),
                               Builder(builder: (context) {
                                 return Text(
-                                  FileSizeUtils.getFileSize(widget.info.fullSize),
+                                  FileSizeUtils.getFileSize(widget.info!.fullSize!)!,
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12.w,
@@ -224,7 +224,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
             ),
           ),
         ),
-        if (!widget.sendByUser)
+        if (!widget.sendByUser!)
           Material(
             color: Colors.transparent,
             child: Column(

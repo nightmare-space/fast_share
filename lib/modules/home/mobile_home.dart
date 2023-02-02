@@ -10,7 +10,7 @@ import 'home_page.dart';
 import 'nav.dart';
 
 class MobileHome extends StatefulWidget {
-  const MobileHome({Key key}) : super(key: key);
+  const MobileHome({Key? key}) : super(key: key);
 
   @override
   State<MobileHome> createState() => _MobileHomeState();

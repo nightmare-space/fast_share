@@ -2,7 +2,7 @@ part of xlive_switch;
 
 class _XliveThumbPainter {
   _XliveThumbPainter({
-    @required this.color,
+    required this.color,
     this.shadowColor = const Color(0x00FFFFFF),
   }) : _shadowPaint = BoxShadow(
           color: shadowColor,

@@ -2,8 +2,8 @@ import 'model.dart';
 
 class MessageInfoFactory {
   /// 根据不同的json返回不同的对象
-  static MessageBaseInfo fromJson(Map<String, dynamic> json) {
-    String msgType = json['msgType'];
+  static MessageBaseInfo? fromJson(Map<String, dynamic> json) {
+    String? msgType = json['msgType'];
     switch (msgType) {
       case 'file':
         return FileMessage.fromJson(json);

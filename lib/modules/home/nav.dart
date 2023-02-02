@@ -9,9 +9,9 @@ import 'package:speed_share/themes/app_colors.dart';
 import '../send_file_bottom_sheet.dart';
 
 class Nav extends StatefulWidget {
-  const Nav({Key key, this.value, this.onTap}) : super(key: key);
-  final int value;
-  final void Function(int value) onTap;
+  const Nav({Key? key, this.value, this.onTap}) : super(key: key);
+  final int? value;
+  final void Function(int value)? onTap;
 
   @override
   State<Nav> createState() => _NavState();
@@ -185,9 +185,9 @@ class _NavState extends State<Nav> {
 }
 
 class BottomTab extends StatefulWidget {
-  const BottomTab({Key key, this.children, this.onChange}) : super(key: key);
-  final List<Widget> children;
-  final void Function(int index) onChange;
+  const BottomTab({Key? key, this.children, this.onChange}) : super(key: key);
+  final List<Widget>? children;
+  final void Function(int index)? onChange;
 
   @override
   State<BottomTab> createState() => _BottomTabState();
@@ -206,13 +206,13 @@ class _BottomTabState extends State<BottomTab> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            for (int i = 0; i < widget.children.length; i++)
+            for (int i = 0; i < widget.children!.length; i++)
               IconButton(
                 padding: EdgeInsets.all(4.w),
                 onPressed: () {
                   widget.onChange?.call(i);
                 },
-                icon: widget.children[i],
+                icon: widget.children![i],
               ),
           ],
         ),

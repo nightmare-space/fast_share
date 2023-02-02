@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class ConstIsland {
   // 当剪切板消息收到的时候
-  static void onClipboardReceive(String deviceName) {
+  static void onClipboardReceive(String? deviceName) {
     Size size = Get.size;
     open(
       size: Size(size.width * window.devicePixelRatio, 800),

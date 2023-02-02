@@ -9,7 +9,7 @@ import 'package:speed_share/speed_share.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 class PersonalPage extends StatefulWidget {
-  const PersonalPage({Key key}) : super(key: key);
+  const PersonalPage({Key? key}) : super(key: key);
 
   @override
   State<PersonalPage> createState() => _PersonalPageState();
@@ -27,31 +27,31 @@ class _PersonalPageState extends State<PersonalPage> {
           if (personHeader != null)
             Column(
               children: [
-                personHeader,
+                personHeader!,
                 SizedBox(height: 8.w),
               ],
             ),
           SizedBox(height: 12.w),
           personalItem(
-            title: S.of(context).aboutSpeedShare,
+            title: S.of(context)!.aboutSpeedShare,
             onTap: () {
               Get.to(const SettingPage());
             },
           ),
           personalItem(
-            title: S.of(context).theTermsOfService,
+            title: S.of(context)!.theTermsOfService,
             onTap: () {
               Get.to(const SettingPage());
             },
           ),
           personalItem(
-            title: S.of(context).privacyAgreement,
+            title: S.of(context)!.privacyAgreement,
             onTap: () {
               Get.to(const PrivacyPage());
             },
           ),
           personalItem(
-            title: S.of(context).setting,
+            title: S.of(context)!.setting,
             onTap: () {
               Get.to(const SettingPage());
             },
@@ -62,8 +62,8 @@ class _PersonalPageState extends State<PersonalPage> {
   }
 
   Widget personalItem({
-    String title,
-    void Function() onTap,
+    required String title,
+    void Function()? onTap,
   }) {
     return Padding(
       padding: EdgeInsets.only(bottom: 8.w),
@@ -73,7 +73,7 @@ class _PersonalPageState extends State<PersonalPage> {
         child: InkWell(
           borderRadius: BorderRadius.circular(10.w),
           onTap: () {
-            onTap();
+            onTap!();
           },
           child: Container(
             height: 52.w,

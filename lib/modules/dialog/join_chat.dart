@@ -7,7 +7,7 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 class JoinChat extends StatefulWidget {
-  const JoinChat({Key key}) : super(key: key);
+  const JoinChat({Key? key}) : super(key: key);
 
   @override
   State createState() => _JoinChatState();

@@ -38,7 +38,7 @@ class FileController extends GetxController with WidgetsBindingObserver {
     videoKey,
     apkKey,
   ];
-  String get prefix => settingController.savePath;
+  String? get prefix => settingController.savePath;
 
   @override
   void onInit() {
@@ -57,7 +57,7 @@ class FileController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  FileSystemEntity getRecentImage() {
+  FileSystemEntity? getRecentImage() {
     List<FileSystemEntity> tmp = [];
     tmp.addAll(imgFiles);
     tmp.sort((a, b) {
@@ -140,7 +140,7 @@ class FileController extends GetxController with WidgetsBindingObserver {
   }
 
   void moveFile() async {
-    List<FileSystemEntity> video = await (Directory(prefix).list()).toList();
+    List<FileSystemEntity> video = await (Directory(prefix!).list()).toList();
     for (var element in video) {
       String path = element.path;
       if (element is File) {

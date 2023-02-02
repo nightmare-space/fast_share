@@ -1,10 +1,10 @@
 import 'base_message.dart';
 
 class BroswerFileMessage extends MessageBaseInfo {
-  String fileName;
-  String fileSize;
-  String hash;
-  String blob;
+  String? fileName;
+  String? fileSize;
+  String? hash;
+  String? blob;
 
   BroswerFileMessage({
     this.fileName,
@@ -12,7 +12,7 @@ class BroswerFileMessage extends MessageBaseInfo {
     this.hash,
     this.blob,
     String msgType = 'webfile',
-    String deviceName,
+    String? deviceName,
   }) : super(
           msgType: msgType,
           deviceName: deviceName,

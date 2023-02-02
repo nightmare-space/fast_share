@@ -6,20 +6,20 @@ import 'package:speed_share/speed_share.dart';
 
 class DesktopDrawer extends StatefulWidget {
   const DesktopDrawer({
-    Key key,
+    Key? key,
     this.value,
     this.onChange,
   }) : super(key: key);
 
   final dynamic value;
-  final void Function(int value) onChange;
+  final void Function(int value)? onChange;
 
   @override
   State<DesktopDrawer> createState() => _DesktopDrawerState();
 }
 
 class _DesktopDrawerState extends State<DesktopDrawer> {
-  String getIcon(int type) {
+  String getIcon(int? type) {
     switch (type) {
       case 0:
         return 'assets/icon/phone.png';
@@ -102,14 +102,14 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
           children: [
             Image.asset(
               'assets/icon/setting.png',
-              color: Theme.of(_).textTheme.bodyText2.color,
+              color: Theme.of(_).textTheme.bodyText2!.color,
               width: 16.w,
             ),
             SizedBox(width: 4.w),
             Text(
               '设置',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2.color,
+                color: Theme.of(_).textTheme.bodyText2!.color,
               ),
             ),
           ],
@@ -132,13 +132,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/file.png',
               width: 16.w,
-              color: Theme.of(_).textTheme.bodyText2.color,
+              color: Theme.of(_).textTheme.bodyText2!.color,
             ),
             SizedBox(width: 4.w),
             Text(
               '文件管理(本地)',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2.color,
+                color: Theme.of(_).textTheme.bodyText2!.color,
               ),
             ),
           ],
@@ -166,13 +166,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                     Image.asset(
                       getIcon(_.connectDevice[i].deviceType),
                       width: 16.w,
-                      color: Theme.of(context).textTheme.bodyText2.color,
+                      color: Theme.of(context).textTheme.bodyText2!.color,
                     ),
                     SizedBox(width: 4.w),
                     Text(
                       '文件管理(${_.connectDevice[i].deviceName})',
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2.color,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
                       ),
                     ),
                   ],
@@ -199,13 +199,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/all.png',
               width: 16.w,
-              color: Theme.of(_).textTheme.bodyText2.color,
+              color: Theme.of(_).textTheme.bodyText2!.color,
             ),
             SizedBox(width: 4.w),
             Text(
               '消息窗口',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2.color,
+                color: Theme.of(_).textTheme.bodyText2!.color,
               ),
             ),
           ],
@@ -228,13 +228,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/homev2.png',
               width: 16.w,
-              color: Theme.of(_).textTheme.bodyText2.color,
+              color: Theme.of(_).textTheme.bodyText2!.color,
             ),
             SizedBox(width: 4.w),
             Text(
               '首页',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2.color,
+                color: Theme.of(_).textTheme.bodyText2!.color,
               ),
             ),
           ],
@@ -246,7 +246,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
 
 class DrawerItem extends StatelessWidget {
   const DrawerItem({
-    Key key,
+    Key? key,
     this.groupValue,
     this.value,
     this.builder,
@@ -254,8 +254,8 @@ class DrawerItem extends StatelessWidget {
   }) : super(key: key);
   final dynamic groupValue;
   final dynamic value;
-  final WidgetBuilder builder;
-  final void Function(int value) onChange;
+  final WidgetBuilder? builder;
+  final void Function(int value)? onChange;
   bool get enable => groupValue == value;
   @override
   Widget build(BuildContext context) {
@@ -284,7 +284,7 @@ class DrawerItem extends StatelessWidget {
             ),
           ),
           child: Builder(
-            builder: builder,
+            builder: builder!,
           ),
         ),
       ),

@@ -8,12 +8,12 @@ class JoinMessage extends MessageBaseInfo {
           msgType: msgType,
         );
 
-  List<String> addrs;
-  int messagePort;
-  int filePort;
+  List<String?>? addrs;
+  int? messagePort;
+  int? filePort;
 
   JoinMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    final List<String> addrs = json['addrs'] is List ? <String>[] : null;
+    final List<String?>? addrs = json['addrs'] is List ? <String?>[] : null;
     if (addrs != null) {
       for (final dynamic item in json['addrs']) {
         if (item != null) {

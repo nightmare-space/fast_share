@@ -9,8 +9,8 @@ import 'package:speed_share/config/config.dart';
 
 // 主页点击中间的按钮，打开的页面
 class SendFilePage extends StatefulWidget {
-  const SendFilePage({Key key, this.child}) : super(key: key);
-  final Widget child;
+  const SendFilePage({Key? key, this.child}) : super(key: key);
+  final Widget? child;
 
   @override
   State<SendFilePage> createState() => _SendFilePageState();
@@ -18,9 +18,9 @@ class SendFilePage extends StatefulWidget {
 
 class _SendFilePageState extends State<SendFilePage>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
+  late AnimationController controller;
   ChatController chatController = Get.find();
-  Animation color;
+  late Animation color;
 
   @override
   void initState() {
@@ -128,7 +128,7 @@ class _SendFilePageState extends State<SendFilePage>
                         onTap: () async {
                           Navigator.of(context).pop();
                           final ImagePicker picker = ImagePicker();
-                          final XFile photo = await picker.pickImage(
+                          final XFile? photo = await picker.pickImage(
                             source: ImageSource.camera,
                           );
                           if (photo != null) {

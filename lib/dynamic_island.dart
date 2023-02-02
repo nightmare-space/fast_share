@@ -10,7 +10,7 @@ import 'modules/setting/setting_page.dart';
 import 'speed_share.dart';
 
 class DynamicIsland extends StatefulWidget {
-  const DynamicIsland({Key key}) : super(key: key);
+  const DynamicIsland({Key? key}) : super(key: key);
 
   @override
   State<DynamicIsland> createState() => _DynamicIslandState();
@@ -18,11 +18,11 @@ class DynamicIsland extends StatefulWidget {
 
 class _DynamicIslandState extends State<DynamicIsland>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animation;
-  Animation<double> radius;
+  late AnimationController controller;
+  late Animation<double> animation;
+  late Animation<double> radius;
   double maxHeight = 160;
-  Widget content = const DynamicIslandSetting();
+  Widget? content = const DynamicIslandSetting();
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _DynamicIslandState extends State<DynamicIsland>
           case 'clipboard':
             content = Center(
               child: Text(
-                data,
+                data as String,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class _DynamicIslandState extends State<DynamicIsland>
               anim();
             };
             Log.e('>>>>:$data');
-            chatController.handleMessage(Map<String, dynamic>.from(data));
+            chatController.handleMessage(Map<String, dynamic>.from(data as Map<dynamic, dynamic>));
         }
         return null;
       });
@@ -95,7 +95,7 @@ class _DynamicIslandState extends State<DynamicIsland>
     // });
   }
 
-  Widget pre;
+  Widget? pre;
 
   Future<void> anim() async {
     // await Future.delayed(Duration(seconds: 1));
@@ -236,7 +236,7 @@ class _DynamicIslandState extends State<DynamicIsland>
 }
 
 class DynamicIslandSetting extends StatefulWidget {
-  const DynamicIslandSetting({Key key}) : super(key: key);
+  const DynamicIslandSetting({Key? key}) : super(key: key);
 
   @override
   State<DynamicIslandSetting> createState() => _DynamicIslandSettingState();
@@ -246,7 +246,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
   SettingController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    final S s = S.of(context);
+    final S? s = S.of(context);
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: GetBuilder<SettingController>(builder: (context) {
@@ -265,7 +265,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        s.autoDownload,
+                        s!.autoDownload,
                         style: TextStyle(
                           fontSize: 18.w,
                           color: Colors.white,

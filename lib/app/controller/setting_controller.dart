@@ -64,12 +64,12 @@ class SettingController extends GetxController {
   }
 
   /// 文件储存路径
-  String savePath;
+  String? savePath;
 
-  Locale currentLocale = const Locale('zh', 'CN');
-  String currentLocaleKey = '中文';
+  Locale? currentLocale = const Locale('zh', 'CN');
+  String? currentLocaleKey = '中文';
 
-  void switchLanguage(String key) {
+  void switchLanguage(String? key) {
     currentLocaleKey = key;
     'lang'.set = currentLocaleKey;
     currentLocale = languageMap[key];

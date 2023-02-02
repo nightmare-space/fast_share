@@ -1,7 +1,7 @@
 part of http;
 
 class StatusException implements Exception {
-  StatusException({@required this.status, @required this.message});
+  StatusException({required this.status, required this.message});
 
   final int status;
   final String message;
@@ -13,21 +13,21 @@ class StatusException implements Exception {
 }
 
 class AuthorizationException extends StatusException {
-  AuthorizationException({@required int status, @required String message})
+  AuthorizationException({required int status, required String message})
       : super(status: status, message: message);
 }
 
 class ValidationException extends StatusException {
-  ValidationException({@required int status, @required String message})
+  ValidationException({required int status, required String message})
       : super(status: status, message: message);
 }
 
 class NetworkException extends StatusException {
-  NetworkException({@required int status, @required String message})
+  NetworkException({required int status, required String message})
       : super(status: status, message: message);
 }
 
 class CancelRequestException extends StatusException {
-  CancelRequestException({@required int status, @required String message})
+  CancelRequestException({required int status, required String message})
       : super(status: status, message: message);
 }

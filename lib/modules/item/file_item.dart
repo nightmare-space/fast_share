@@ -23,13 +23,13 @@ import 'package:shelf/shelf_io.dart' as io;
 
 class FileItem extends StatefulWidget {
   /// 消息model
-  final FileMessage info;
+  final FileMessage? info;
 
   /// 是否是本机发送的消息
-  final bool sendByUser;
+  final bool? sendByUser;
 
   const FileItem({
-    Key key,
+    Key? key,
     this.info,
     this.sendByUser,
   }) : super(key: key);
@@ -41,9 +41,9 @@ class _FileItemState extends State<FileItem> {
   ChatController chatController = Get.find();
   SettingController settingController = Get.find();
   DownloadController downloadController = Get.find();
-  FileMessage info;
+  FileMessage? info;
 
-  DateTime startTime;
+  DateTime? startTime;
   bool isStarted = false;
   // 执行下载文件
 
@@ -58,10 +58,10 @@ class _FileItemState extends State<FileItem> {
   }
 
   bool canAutoDownload() {
-    if (widget.sendByUser) {
+    if (widget.sendByUser!) {
       return false;
     }
-    if (downloadController.progress.containsKey(url) && downloadController.progress[url].progress != 0.0) {
+    if (downloadController.progress.containsKey(url) && downloadController.progress[url]!.progress != 0.0) {
       return false;
     }
     if (!settingController.enableAutoDownload) return false;
@@ -73,28 +73,28 @@ class _FileItemState extends State<FileItem> {
     }
     int len = file.lengthSync();
     if (file.existsSync()) {
-      if (widget.info.fileSize != FileSizeUtils.getFileSize(len)) return true;
-      if (widget.info.fileSize == FileSizeUtils.getFileSize(len)) return false;
+      if (widget.info!.fileSize != FileSizeUtils.getFileSize(len)) return true;
+      if (widget.info!.fileSize == FileSizeUtils.getFileSize(len)) return false;
     }
     return true;
   }
 
   String get url {
     String url;
-    if (widget.sendByUser) {
-      url = 'http://127.0.0.1:${chatController.shelfBindPort}${widget.info.filePath}';
+    if (widget.sendByUser!) {
+      url = 'http://127.0.0.1:${chatController.shelfBindPort}${widget.info!.filePath}';
     } else {
-      url = widget.info.url + widget.info.filePath;
+      url = widget.info!.url! + widget.info!.filePath!;
     }
     return url;
   }
 
-  Offset offset;
+  Offset? offset;
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: widget.sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: widget.sendByUser! ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Material(
           color: Theme.of(context).surface1,
@@ -124,7 +124,7 @@ class _FileItemState extends State<FileItem> {
           ),
         ),
         // 展示下载按钮
-        if (!widget.sendByUser)
+        if (!widget.sendByUser!)
           Material(
             color: Colors.transparent,
             child: Column(
@@ -201,9 +201,9 @@ class _FileItemState extends State<FileItem> {
               );
             }),
             // 展示下载进度条
-            if (!widget.sendByUser && !GetPlatform.isWeb)
+            if (!widget.sendByUser! && !GetPlatform.isWeb)
               GetBuilder<DownloadController>(builder: (context) {
-                DownloadInfo info = downloadController.getInfo(url);
+                DownloadInfo info = downloadController.getInfo(url)!;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -262,7 +262,7 @@ class _FileItemState extends State<FileItem> {
                           children: [
                             SizedBox(
                               child: Text(
-                                FileSizeUtils.getFileSize(info.count),
+                                FileSizeUtils.getFileSize(info.count)!,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12.w,
@@ -278,7 +278,7 @@ class _FileItemState extends State<FileItem> {
                             ),
                             SizedBox(
                               child: Text(
-                                widget.info.fileSize,
+                                widget.info!.fileSize!,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12.w,
@@ -307,7 +307,7 @@ class _FileItemState extends State<FileItem> {
           SizedBox(width: 8.w),
           Expanded(
             child: Text(
-              widget.info.fileName,
+              widget.info!.fileName!,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 12.w,
@@ -321,22 +321,22 @@ class _FileItemState extends State<FileItem> {
 }
 
 class Menu extends StatefulWidget {
-  const Menu({Key key, this.offset, this.info}) : super(key: key);
-  final Offset offset;
+  const Menu({Key? key, this.offset, this.info}) : super(key: key);
+  final Offset? offset;
 
   /// 消息model
-  final FileMessage info;
+  final FileMessage? info;
 
   @override
   State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
-  Future<int> server(String path) async {
+  Future<int> server(String? path) async {
     final app = Router();
     int singlePort = Random().nextInt(10000) + 10000;
     Log.i(singlePort);
-    int port = Get.find<ChatController>().shelfBindPort;
+    int? port = Get.find<ChatController>().shelfBindPort;
     app.get('/', (Request request) {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.html.toString();
       return Response.ok(
@@ -344,7 +344,7 @@ class _MenuState extends State<Menu> {
             .replaceAll('placeholder3', ":$port$path")
             .replaceAll(
               'placeholder2',
-              FileSizeUtils.getFileSize(File(path).lengthSync()),
+              FileSizeUtils.getFileSize(File(path!).lengthSync())!,
             )
             .replaceAll('placeholder1', basename(path)),
         headers: corsHeader,
@@ -353,7 +353,7 @@ class _MenuState extends State<Menu> {
     app.get('/icon.png', (Request request) async {
       corsHeader[HttpHeaders.contentTypeHeader] = 'image/png';
       final ByteData byteData = await rootBundle.load(
-        '${Config.flutterPackage}assets/icon/${getIconFromPath(path)}.png',
+        '${Config.flutterPackage}assets/icon/${getIconFromPath(path!)}.png',
       );
       final Uint8List picBytes = byteData.buffer.asUint8List();
       return Response.ok(
@@ -369,14 +369,14 @@ class _MenuState extends State<Menu> {
     );
     return singlePort;
   }
-
+  // TODO 这个页面没有适配暗色主题
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned.fill(
-          top: widget.offset.dy,
-          left: min(widget.offset.dx, MediaQuery.of(context).size.width - 120.w),
+          top: widget.offset!.dy,
+          left: min(widget.offset!.dx, MediaQuery.of(context).size.width - 120.w),
           child: Align(
             alignment: Alignment.topCenter,
             child: Material(
@@ -397,7 +397,7 @@ class _MenuState extends State<Menu> {
                     ),
                     InkWell(
                       onTap: () async {
-                        int port = await server(widget.info.filePath);
+                        int port = await server(widget.info!.filePath);
                         Get.back();
                         Get.dialog(ShowQRPage(
                           port: port,
@@ -406,13 +406,6 @@ class _MenuState extends State<Menu> {
                       child: SizedBox(
                         height: 40.w,
                         child: const Center(child: Text('下载二维码')),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: SizedBox(
-                        height: 40.w,
-                        child: const Center(child: Text('删除')),
                       ),
                     ),
                   ],

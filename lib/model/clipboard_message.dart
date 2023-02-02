@@ -2,8 +2,8 @@ import 'text_message.dart';
 
 class ClipboardMessage extends TextMessage {
   ClipboardMessage({
-    String content,
-    String sendFrom,
+    String? content,
+    String? sendFrom,
   }) : super(
           msgType: 'clip',
           sendFrom: sendFrom,

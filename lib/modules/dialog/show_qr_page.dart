@@ -6,8 +6,8 @@ import 'package:speed_share/themes/app_colors.dart';
 
 // 展示二维码的弹窗
 class ShowQRPage extends StatefulWidget {
-  const ShowQRPage({Key key, this.port}) : super(key: key);
-  final int port;
+  const ShowQRPage({Key? key, this.port}) : super(key: key);
+  final int? port;
 
   @override
   State<ShowQRPage> createState() => _ShowQRPageState();
@@ -68,7 +68,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
                     ),
                   ),
                   Text(
-                    S.of(context).qrTips,
+                    S.of(context)!.qrTips,
                   ),
                   SizedBox(
                     height: 10.w,

@@ -1,9 +1,9 @@
 import 'base_message.dart';
 
 class NotifyMessage extends MessageBaseInfo {
-  String hash;
-  List<String> addrs;
-  int port;
+  String? hash;
+  List<String?>? addrs;
+  int? port;
 
   NotifyMessage({
     this.hash,
@@ -15,7 +15,7 @@ class NotifyMessage extends MessageBaseInfo {
         );
 
   NotifyMessage.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    final List<String> addrs = json['addrs'] is List ? <String>[] : null;
+    final List<String?>? addrs = json['addrs'] is List ? <String?>[] : null;
     if (addrs != null) {
       for (final dynamic item in json['addrs']) {
         if (item != null) {
@@ -38,7 +38,7 @@ class NotifyMessage extends MessageBaseInfo {
   }
 }
 
-T asT<T>(dynamic value) {
+T? asT<T>(dynamic value) {
   if (value is T) {
     return value;
   }

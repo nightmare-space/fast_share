@@ -29,5 +29,6 @@ class FileUtil {
   // 尽量用ffi调用win32 api
   static List<String> getWindowsDrive() {
     //TODO(ren)
+    return [];
   }
 }

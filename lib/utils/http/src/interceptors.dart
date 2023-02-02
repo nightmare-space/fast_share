@@ -27,14 +27,14 @@ class ErrorInterceptor extends InterceptorsWrapper {
     switch (err.type) {
       case DioErrorType.response:
         String message = '';
-        final String content = err.response.data.toString();
+        final String content = err.response!.data.toString();
         // Log.d(err.response.data.runtimeType);
         // Log.d('$this ------>content---->$content');
         if (content != '') {
           // Log.d('content不为空');
           try {
             // Log.d(err.response.data.toString());
-            final Map<String, dynamic> decode = err.response.data as Map<String, dynamic>;
+            final Map<String, dynamic> decode = err.response!.data as Map<String, dynamic>;
             message = decode['error'] as String;
           } catch (error) {
             message = error.toString();
@@ -42,7 +42,7 @@ class ErrorInterceptor extends InterceptorsWrapper {
         }
 
         // Log.d('$this ---->$message');
-        final int status = err.response.statusCode;
+        final int status = err.response!.statusCode!;
 
         switch (status) {
           case HttpStatus.badRequest:

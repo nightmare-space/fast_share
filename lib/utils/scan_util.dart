@@ -12,7 +12,7 @@ class ScanUtil {
     if (Platform.isAndroid) {
       await PermissionUtil.requestCamera();
     }
-    final String cameraScanResult = await Get.to(
+    final String? cameraScanResult = await Get.to(
       () => const QRScanPage(),
       preventDuplicates: false,
       fullscreenDialog: true,

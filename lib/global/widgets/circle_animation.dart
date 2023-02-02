@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class WaterRipple extends StatefulWidget {
   const WaterRipple({
-    Key key,
+    Key? key,
     this.count = 2,
   }) : super(key: key);
 
@@ -16,11 +16,11 @@ class WaterRipple extends StatefulWidget {
 
 class _WaterRippleState extends State<WaterRipple>
     with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> progress;
+  late AnimationController _controller;
+  late Animation<double> progress;
 
-  AnimationController _outController;
-  Animation<double> outProgress;
+  late AnimationController _outController;
+  late Animation<double> outProgress;
   @override
   void initState() {
     _controller = AnimationController(

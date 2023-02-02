@@ -10,7 +10,7 @@ import 'package:speed_share/utils/ext_util.dart';
 import 'package:speed_share/utils/file_util.dart';
 
 Widget getIconByExt(String path) {
-  Widget child;
+  Widget? child;
   if (path.isVideo) {
     child = Image.asset(
       'assets/icon/video.png',

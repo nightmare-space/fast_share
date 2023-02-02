@@ -44,7 +44,7 @@ class DefaultThemeData {
         actionsIconTheme: darkThemeData.iconTheme.copyWith(
           color: const Color(0xFF8C8C8C),
         ),
-        toolbarTextStyle: darkThemeData.textTheme.headline6.copyWith(
+        toolbarTextStyle: darkThemeData.textTheme.headline6!.copyWith(
           fontSize: Dimens.font_sp20,
           fontWeight: FontWeight.w500,
           color: const Color(0xFFA8A8A8),
@@ -104,42 +104,42 @@ class DefaultThemeData {
         filled: true,
       ),
       textTheme: darkThemeData.textTheme.copyWith(
-        headline5: darkThemeData.textTheme.headline5.copyWith(
+        headline5: darkThemeData.textTheme.headline5!.copyWith(
           fontSize: Dimens.font_sp24,
           fontWeight: FontWeight.w600,
           color: const Color(0xFFE7E7E7),
         ),
-        headline6: darkThemeData.textTheme.headline6.copyWith(
+        headline6: darkThemeData.textTheme.headline6!.copyWith(
           fontSize: Dimens.font_sp20,
           fontWeight: FontWeight.w500,
           color: const Color(0xFFE7E7E7),
         ),
-        subtitle1: darkThemeData.textTheme.subtitle1.copyWith(
+        subtitle1: darkThemeData.textTheme.subtitle1!.copyWith(
           fontSize: Dimens.font_sp16,
           fontWeight: FontWeight.w500,
           color: const Color(0xFFE7E7E7),
         ),
-        subtitle2: darkThemeData.textTheme.subtitle2.copyWith(
+        subtitle2: darkThemeData.textTheme.subtitle2!.copyWith(
           fontSize: Dimens.font_sp16,
           fontWeight: FontWeight.w400,
           color: const Color(0xFFE7E7E7),
         ),
-        bodyText1: darkThemeData.textTheme.bodyText1.copyWith(
+        bodyText1: darkThemeData.textTheme.bodyText1!.copyWith(
           fontSize: Dimens.font_sp16,
           fontWeight: FontWeight.w400,
           color: const Color(0xFFE7E7E7),
         ),
-        bodyText2: darkThemeData.textTheme.bodyText1.copyWith(
+        bodyText2: darkThemeData.textTheme.bodyText1!.copyWith(
           fontSize: Dimens.font_sp14,
           fontWeight: FontWeight.w400,
           color: const Color(0xFFE7E7E7),
         ),
-        button: darkThemeData.textTheme.button.copyWith(
+        button: darkThemeData.textTheme.button!.copyWith(
           fontSize: Dimens.font_sp16,
           fontWeight: FontWeight.w400,
           color: const Color(0xFFFFFFFF),
         ),
-        caption: darkThemeData.textTheme.caption.copyWith(
+        caption: darkThemeData.textTheme.caption!.copyWith(
           fontSize: Dimens.font_sp12,
           fontWeight: FontWeight.w400,
           color: const Color(0xFF8C8C8C),
@@ -149,7 +149,7 @@ class DefaultThemeData {
   }
 
   static ThemeData light({
-    Color primary,
+    Color? primary,
   }) {
     final lightThemeData = ThemeData.light().copyWith();
     ColorScheme colorScheme = lightColorScheme.copyWith();
@@ -203,7 +203,7 @@ class DefaultThemeData {
         actionsIconTheme: lightThemeData.iconTheme.copyWith(
           color: colorScheme.primary,
         ),
-        titleTextStyle: lightThemeData.textTheme.headline6.copyWith(
+        titleTextStyle: lightThemeData.textTheme.headline6!.copyWith(
           fontSize: 18.w,
           fontWeight: FontWeight.bold,
         ),
@@ -235,7 +235,7 @@ class DefaultThemeData {
         color: colorScheme.surface,
       ),
       textTheme: lightThemeData.textTheme.copyWith(
-        bodyText2: lightThemeData.textTheme.bodyText2.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
+        bodyText2: lightThemeData.textTheme.bodyText2!.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
       ),
     );
   }

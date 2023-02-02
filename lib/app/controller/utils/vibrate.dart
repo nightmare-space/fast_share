@@ -9,7 +9,7 @@ Future<void> vibrate() async {
   }
   // 这个用来触发移动端的振动
   for (int i = 0; i < 3; i++) {
-    Feedback.forLongPress(Get.context);
+    Feedback.forLongPress(Get.context!);
     await Future.delayed(const Duration(milliseconds: 100));
   }
 }

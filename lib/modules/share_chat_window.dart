@@ -19,7 +19,7 @@ import 'package:file_manager_view/file_manager_view.dart' as fm;
 // 聊天窗口
 class ShareChatV2 extends StatefulWidget {
   const ShareChatV2({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class ShareChatV2 extends StatefulWidget {
 
 class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStateMixin {
   ChatController controller = Get.find();
-  AnimationController menuAnim;
+  late AnimationController menuAnim;
   bool dropping = false;
   int index = 0;
   // 输入框控制器
@@ -189,7 +189,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
         color: Theme.of(context).backgroundColor,
         clipBehavior: Clip.antiAlias,
         child: GetBuilder<ChatController>(builder: (context) {
-          List<Widget> children = [];
+          List<Widget?> children = [];
           if (controller.backup.isNotEmpty) {
             children = controller.backup;
           } else {
@@ -244,7 +244,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
             SizedBox(width: 12.w),
             Text(
               '全部设备',
-              style: Theme.of(context).textTheme.bodyText2.copyWith(
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     fontWeight: bold,
                     fontSize: 16.w,
                   ),
@@ -550,10 +550,10 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
 
 class LeftNav extends StatefulWidget {
   const LeftNav({
-    Key key,
+    Key? key,
     this.value,
   }) : super(key: key);
-  final int value;
+  final int? value;
 
   @override
   State<LeftNav> createState() => _LeftNavState();
@@ -562,9 +562,9 @@ class LeftNav extends StatefulWidget {
 class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
   DeviceController deviceController = Get.find();
   ChatController chatController = Get.find();
-  AnimationController controller;
-  Animation offset;
-  int index;
+  late AnimationController controller;
+  late Animation offset;
+  int? index;
 
   @override
   void initState() {
@@ -585,7 +585,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  String getIcon(int type) {
+  String getIcon(int? type) {
     switch (type) {
       case 0:
         return 'assets/icon/phone.png';
@@ -734,16 +734,16 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
 
 class MenuButton extends StatelessWidget {
   const MenuButton({
-    Key key,
+    Key? key,
     this.enable = true,
     this.value,
     this.onChange,
     this.child,
   }) : super(key: key);
   final bool enable;
-  final int value;
-  final void Function(int index) onChange;
-  final Widget child;
+  final int? value;
+  final void Function(int? index)? onChange;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {

@@ -21,7 +21,7 @@ import '../share_chat_window.dart';
 // 自动响应布局
 class AdaptiveEntryPoint extends StatefulWidget {
   const AdaptiveEntryPoint({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class AdaptiveEntryPoint extends StatefulWidget {
 
 class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   ChatController chatController = Get.put(ChatController());
-  String address;
+  String? address;
 
   @override
   void initState() {

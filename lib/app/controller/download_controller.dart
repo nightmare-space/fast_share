@@ -11,13 +11,13 @@ import 'controller.dart';
 
 class DownloadInfo {
   double progress = 0;
-  String speed = '0';
+  String? speed = '0';
   int count = 0;
 }
 
 class DownloadController extends GetxController {
   /// key是url，value是进度
-  Map<String, DownloadInfo> progress = {};
+  Map<String?, DownloadInfo> progress = {};
   SettingController settingController = Get.find();
 
   final Dio dio = Dio();
@@ -31,14 +31,14 @@ class DownloadController extends GetxController {
     super.onReady();
   }
 
-  double getProgress(String url) {
+  double getProgress(String? url) {
     if (progress.containsKey(url)) {
-      return progress[url].progress;
+      return progress[url]!.progress;
     }
     return 0;
   }
 
-  DownloadInfo getInfo(String url) {
+  DownloadInfo? getInfo(String? url) {
     if (progress.containsKey(url)) {
       return progress[url];
     }
@@ -62,12 +62,12 @@ class DownloadController extends GetxController {
 
   @override
   void onClose() {}
-  Future<void> downloadFile(String url, String dir) async {
-    if (progress.containsKey(url) && progress[url].progress != 0.0) {
+  Future<void> downloadFile(String url, String? dir) async {
+    if (progress.containsKey(url) && progress[url]!.progress != 0.0) {
       showToast('已经在下载中了哦');
       return;
     }
-    if (progress.containsKey(url) && progress[url].progress == 1.0) {
+    if (progress.containsKey(url) && progress[url]!.progress == 1.0) {
       showToast('下载完成了哦');
       return;
     }
@@ -103,7 +103,7 @@ class DownloadController extends GetxController {
     update();
   }
 
-  String getSavePath(String url, String dir) {
+  String getSavePath(String url, String? dir) {
     if (!settingController.enableFileClassify) {
       // 未开启文件分类
       String savePath = '$dir/${basename(url)}';

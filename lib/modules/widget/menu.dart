@@ -16,11 +16,11 @@ import '../dialog/join_chat.dart';
 
 class HeaderMenu extends StatefulWidget {
   const HeaderMenu({
-    Key key,
+    Key? key,
     this.entity,
     this.offset = const Offset(0, 0),
   }) : super(key: key);
-  final FileEntity entity;
+  final FileEntity? entity;
   final Offset offset;
 
   @override
@@ -80,7 +80,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      S.of(context).inputConnect,
+                                      S.of(context)!.inputConnect,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -111,7 +111,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      S.of(context).scan,
+                                      S.of(context)!.scan,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -148,7 +148,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      S.of(context).log,
+                                      S.of(context)!.log,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -191,7 +191,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      '输出 ${S.of(context).log}',
+                                      '输出 ${S.of(context)!.log}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),

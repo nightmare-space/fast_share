@@ -6,7 +6,7 @@ import 'package:settings/settings.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 class PrivacyAgreePage extends StatefulWidget {
-  const PrivacyAgreePage({Key key}) : super(key: key);
+  const PrivacyAgreePage({Key? key}) : super(key: key);
 
   @override
   State<PrivacyAgreePage> createState() => _PrivacyAgreePageState();
@@ -71,14 +71,14 @@ class _PrivacyAgreePageState extends State<PrivacyAgreePage> {
 }
 
 class PrivacyPage extends StatefulWidget {
-  const PrivacyPage({Key key}) : super(key: key);
+  const PrivacyPage({Key? key}) : super(key: key);
 
   @override
   State<PrivacyPage> createState() => _PrivacyPageState();
 }
 
 class _PrivacyPageState extends State<PrivacyPage> {
-  String data;
+  String? data;
   @override
   void initState() {
     super.initState();

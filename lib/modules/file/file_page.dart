@@ -19,9 +19,9 @@ import '../widget/header.dart';
 import '../widget/icon.dart';
 
 class NiIconButton extends StatelessWidget {
-  const NiIconButton({Key key, this.child, this.onTap}) : super(key: key);
-  final Widget child;
-  final GestureTapCallback onTap;
+  const NiIconButton({Key? key, this.child, this.onTap}) : super(key: key);
+  final Widget? child;
+  final GestureTapCallback? onTap;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -40,7 +40,7 @@ class NiIconButton extends StatelessWidget {
 }
 
 class FilePage extends StatefulWidget {
-  const FilePage({Key key}) : super(key: key);
+  const FilePage({Key? key}) : super(key: key);
 
   @override
   State<FilePage> createState() => _FilePageState();
@@ -219,7 +219,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context).video),
+          title(S.of(context)!.video),
           SizedBox(
             height: 4.w,
           ),
@@ -295,7 +295,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context).music),
+          title(S.of(context)!.music),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -357,7 +357,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context).directory),
+          title(S.of(context)!.directory),
           SizedBox(
             height: 4.w,
           ),
@@ -439,7 +439,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          title(S.of(context).image),
+          title(S.of(context)!.image),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -510,7 +510,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          title(S.of(context).apk),
+          title(S.of(context)!.apk),
           SizedBox(
             height: 4.w,
           ),
@@ -605,7 +605,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context).doc),
+          title(S.of(context)!.doc),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -679,7 +679,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context).zip),
+          title(S.of(context)!.zip),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -766,7 +766,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context).unknownFile),
+          title(S.of(context)!.unknownFile),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -836,14 +836,14 @@ class _FilePageState extends State<FilePage> {
 
 class CardWrapper extends StatelessWidget {
   const CardWrapper({
-    Key key,
+    Key? key,
     this.child,
     this.padding,
     this.height,
   }) : super(key: key);
-  final Widget child;
-  final EdgeInsetsGeometry padding;
-  final double height;
+  final Widget? child;
+  final EdgeInsetsGeometry? padding;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {

@@ -11,14 +11,14 @@ import 'package:speed_share/themes/app_colors.dart';
 import 'widget/header.dart';
 
 class RemotePage extends StatefulWidget {
-  const RemotePage({Key key}) : super(key: key);
+  const RemotePage({Key? key}) : super(key: key);
 
   @override
   State<RemotePage> createState() => _RemotePageState();
 }
 
 class _RemotePageState extends State<RemotePage> {
-  Widget page;
+  Widget? page;
   ChatController chatController = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _RemotePageState extends State<RemotePage> {
   }
 
   GetBuilder<DeviceController> remoteList(BuildContext context) {
-    S s = S.of(context);
+    S? s = S.of(context);
     return GetBuilder<DeviceController>(builder: (controller) {
       return Column(
         children: [
@@ -79,7 +79,7 @@ class _RemotePageState extends State<RemotePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    s.remoteAccessFile,
+                    s!.remoteAccessFile,
                     style: TextStyle(
                       fontSize: 18.w,
                       fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class _RemotePageState extends State<RemotePage> {
                   child: GestureWithScale(
                     onTap: () {
                       Log.i(device);
-                      Uri uri = Uri.tryParse(device.url);
+                      Uri uri = Uri.tryParse(device.url!)!;
                       page = FileManager(
                         address: 'http://${uri.host}:20000',
                         usePackage: true,
@@ -138,7 +138,7 @@ class _RemotePageState extends State<RemotePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                device.deviceName,
+                                device.deviceName!,
                                 style: TextStyle(
                                   fontSize: 20.w,
                                   fontWeight: FontWeight.bold,
