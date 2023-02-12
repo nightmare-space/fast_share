@@ -10,7 +10,9 @@ on:
         description: 'App Version Code'
         required: true
         default: '1'
-
+  repository_dispatch:
+    types:
+      - api
 
 env:
   # APP名称
