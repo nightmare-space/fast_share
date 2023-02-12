@@ -111,18 +111,18 @@ dependency_overrides:
   # android_window:
   #   path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
-  logger_view:
-    path: ../logger_view
-  app_manager:
-    path: ../app_manager
-  app_channel:
-    path: ../applib/applib_util
+  # logger_view:
+  #   path: ../logger_view
+  # app_manager:
+  #   path: ../app_manager
+  # app_channel:
+  #   path: ../applib/applib_util
   # global_repository:
   #   path: ../global_repository
   # file_manager_view:
   #   path: ../file_manager_view
-  file_selector_nightmare:
-    path: ../file_selector_meng
+  # file_selector_nightmare:
+  #   path: ../file_selector_meng
   # user_center_frontend:
   #   path: ../user_center_frontend
 flutter_intl:

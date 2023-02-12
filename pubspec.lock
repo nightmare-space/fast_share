@@ -35,18 +35,22 @@ packages:
     source: hosted
     version: "2.0.7"
   app_channel:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../applib/applib_util"
-      relative: true
-    source: path
+      path: applib_util
+      ref: HEAD
+      resolved-ref: f8ccf0eb57cc1d0f5fcae1df3ad4f8a82e6b1658
+      url: "https://github.com/nightmare-space/applib"
+    source: git
     version: "0.0.1"
   app_manager:
     dependency: "direct main"
     description:
-      path: "../app_manager"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "006d4ac396f8c7122ced0002f94f4944bf3bc450"
+      url: "https://github.com/nightmare-space/app_manager"
+    source: git
     version: "1.0.0+1"
   archive:
     dependency: "direct main"
@@ -60,10 +64,10 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: "139d809800a412ebb26a3892da228b2d0ba36f0ef5d9a82166e5e52ec8d61611"
+      sha256: "4cab82a83ffef80b262ddedf47a0a8e56ee6fbf7fe21e6e768b02792034dd440"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.4.0"
   async:
     dependency: transitive
     description:
@@ -221,7 +225,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e42e9552c62b3bc15f978489bdd4871995b88e95
+      resolved-ref: cd556df12ce832897a534f53ef5d022fcc74f35e
       url: "https://github.com/nightmare-space/file_manager_view.git"
     source: git
     version: "1.0.0+1"
@@ -268,9 +272,11 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "../file_selector_meng"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "64ee69ba4f988eecbb49b62611d821e53755c9f6"
+      url: "https://github.com/nightmare-space/file_selector_meng"
+    source: git
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -326,10 +332,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_markdown
-      sha256: "818cf6c28377ba2c91ed283c96fd712e9c175dd2d2488eb7fc93b6afb9ad2e08"
+      sha256: "7b25c10de1fea883f3c4f9b8389506b54053cd00807beab69fd65c8653a2711f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.13+1"
+    version: "0.6.14"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -457,10 +463,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_android
-      sha256: b1cbfec0f5aef427a18eb573f5445af8c9c568626bf3388553e40c263d3f7368
+      sha256: "385f12ee9c7288575572c7873a332016ec45ebd092e1c2f6bd421b4a9ad21f1d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.5+5"
+    version: "0.8.5+6"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -473,10 +479,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_ios
-      sha256: "39c013200046d14c58b71dc4fa3d00e425fc9c699d589136cd3ca018727c0493"
+      sha256: "8ffb14b43713d7c43fb21299cc18181cc5b39bd3ea1cc427a085c6400fe5aa52"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.6+6"
+    version: "0.8.6+7"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -536,18 +542,20 @@ packages:
   logger_view:
     dependency: "direct main"
     description:
-      path: "../logger_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: bd4a2adf012dc7b7e012b430e06118b2d5ba4e1a
+      url: "https://github.com/nightmare-space/logger_view"
+    source: git
     version: "0.0.1"
   markdown:
     dependency: transitive
     description:
       name: markdown
-      sha256: c2b81e184067b41d0264d514f7cdaa2c02d38511e39d6521a1ccc238f6d7b3f2
+      sha256: "4ed544d2ce84975b2ab5cbd4268f2d31f47858553ae2295c92fdf5d6e431a927"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.1"
+    version: "7.0.0"
   matcher:
     dependency: transitive
     description:
@@ -673,10 +681,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_linux
-      sha256: ab0987bf95bc591da42dffb38c77398fc43309f0b9b894dcc5d6f40c4b26c379
+      sha256: "2e32f1640f07caef0d3cb993680f181c79e54a3827b997d5ee221490d131fbd9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.7"
+    version: "2.1.8"
   path_provider_platform_interface:
     dependency: transitive
     description:
@@ -801,10 +809,10 @@ packages:
     dependency: transitive
     description:
       name: screen_retriever
-      sha256: "9c3839c4eb80807cd8210afa3c84a177ba00aef9f9b7b74ad92d3a0ab1d7e7ed"
+      sha256: "4931f226ca158123ccd765325e9fbf360bfed0af9b460a10f960f9bb13d58323"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.5"
+    version: "0.1.6"
   settings:
     dependency: "direct main"
     description:
@@ -959,10 +967,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: "698fa0b4392effdc73e9e184403b627362eb5fbf904483ac9defbb1c2191d809"
+      sha256: e8f2efc804810c0f2f5b485f49e7942179f56eabcfe81dce3387fec4bb55876b
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.8"
+    version: "6.1.9"
   url_launcher_android:
     dependency: transitive
     description:
@@ -975,10 +983,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: bb328b24d3bccc20bdf1024a0990ac4f869d57663660de9c936fb8c043edefe3
+      sha256: "0a5af0aefdd8cf820dd739886efb1637f1f24489900204f50984634c07a54815"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.18"
+    version: "6.1.0"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -1102,10 +1110,10 @@ packages:
     dependency: transitive
     description:
       name: xdg_directories
-      sha256: bd512f03919aac5f1313eb8249f223bacf4927031bf60b02601f81f687689e86
+      sha256: ee1505df1426458f7f60aac270645098d318a8b4766d85fde75f76f2e21807d1
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0+3"
+    version: "1.0.0"
   xml:
     dependency: transitive
     description:
@@ -1125,4 +1133,4 @@ packages:
     version: "3.4.1"
 sdks:
   dart: ">=2.19.0 <3.0.0"
-  flutter: ">=3.0.0"
+  flutter: ">=3.3.0"
