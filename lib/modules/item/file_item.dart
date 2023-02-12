@@ -10,7 +10,7 @@ import 'package:speed_share/app/controller/download_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/app/controller/utils/server_util.dart';
 import 'package:speed_share/model/model.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import 'package:get/get.dart' hide Response;
 import 'package:speed_share/modules/dialog/show_qr_page.dart';
 import 'package:speed_share/modules/widget/icon.dart';
@@ -66,7 +66,7 @@ class _FileItemState extends State<FileItem> {
     }
     if (!settingController.enableAutoDownload) return false;
     String type = url.getType;
-    String savePath = '${settingController.savePath}/$type/${basename(url)}';
+    String savePath = '${settingController.savePath}/$type/${p.basename(url)}';
     File file = File(savePath);
     if (!file.existsSync()) {
       return true;
@@ -309,7 +309,7 @@ class _FileItemState extends State<FileItem> {
             child: Text(
               widget.info!.fileName!,
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 12.w,
               ),
             ),
@@ -346,7 +346,7 @@ class _MenuState extends State<Menu> {
               'placeholder2',
               FileSizeUtils.getFileSize(File(path!).lengthSync())!,
             )
-            .replaceAll('placeholder1', basename(path)),
+            .replaceAll('placeholder1', p.basename(path)),
         headers: corsHeader,
       );
     });
@@ -369,6 +369,7 @@ class _MenuState extends State<Menu> {
     );
     return singlePort;
   }
+
   // TODO 这个页面没有适配暗色主题
   @override
   Widget build(BuildContext context) {
@@ -380,7 +381,7 @@ class _MenuState extends State<Menu> {
           child: Align(
             alignment: Alignment.topCenter,
             child: Material(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.background,
               clipBehavior: Clip.antiAlias,
               borderRadius: BorderRadius.circular(10.w),
               child: SizedBox(
@@ -405,7 +406,9 @@ class _MenuState extends State<Menu> {
                       },
                       child: SizedBox(
                         height: 40.w,
-                        child: const Center(child: Text('下载二维码')),
+                        child: const Center(
+                          child: Text('下载二维码'),
+                        ),
                       ),
                     ),
                   ],

@@ -52,7 +52,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> request() async {
     if (GetPlatform.isAndroid) {
-      PermissionUtil.requestStorage();
+      await PermissionUtil.requestStorage();
+      // 第一次启动，需要在权限申请后加载一下文件
+      fileController.initFile();
     }
   }
 

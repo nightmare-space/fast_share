@@ -68,7 +68,9 @@ class DeviceController extends GetxController {
     if (File(historyPath).existsSync()) {
       // 如果文件存在的话
       historys = Historys.fromJson(json.decode(File(historyPath).readAsStringSync()));
-      Log.i(historys);
+      JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+      String prettyprint = encoder.convert(historys);
+      Log.i(prettyprint);
       historys.datas!.removeWhere((element) => element.url!.contains('null'));
       // 向历史连接的设备发送连接消息
       Future.delayed(const Duration(milliseconds: 200), () {
@@ -109,7 +111,9 @@ class DeviceController extends GetxController {
       ..deviceName = name
       ..url = urlPrefix
       ..messagePort = port;
-    Log.i(device);
+    JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+    String prettyprint = encoder.convert(device);
+    Log.i(prettyprint);
     if (!connectDevice.contains(device)) {
       // 第一次连接该设备
       connectDevice.add(device);

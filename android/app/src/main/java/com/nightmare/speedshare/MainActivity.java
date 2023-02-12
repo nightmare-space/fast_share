@@ -13,8 +13,10 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.window.SplashScreenView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.WindowCompat;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -50,6 +52,14 @@ public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity 
         super.onCreate(savedInstanceState);
         Log.d(TAG, "申请wakelock");
         FlutterEngine engine = new FlutterEngine(this);
+// Aligns the Flutter view vertically with the window.
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Disable the Android splash screen fade out animation to avoid
+            // a flicker before the similar frame is drawn in Flutter.
+//            getSplashScreen().setOnExitAnimationListener(SplashScreenView::remove);
+        }
 
 //        FlutterLoader flutterLoader = FlutterInjector.instance().flutterLoader();
 ////        DartExecutor.DartEntrypoint.createDefault()
@@ -262,7 +272,7 @@ public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity 
         channel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {
             @Override
             public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-                if(Objects.equals(call.method, "island")){
+                if (Objects.equals(call.method, "island")) {
                     Intent intent = new Intent(MainActivity.this, ConstIsland.class);
                     startActivity(intent);
                 }

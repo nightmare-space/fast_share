@@ -540,7 +540,7 @@ class _FilePageState extends State<FilePage> {
                               OpenFile.open(name.path);
                             },
                             child: Image.network(
-                              'http://127.0.0.1:${(Global().appChannel as LocalAppChannel).getPort()}/icon?path=${name.path}',
+                              'http://127.0.0.1:${(Global().appChannel as RemoteAppChannel).getPort()}/icon?path=${name.path}',
                               gaplessPlayback: true,
                               width: 40.w,
                               height: 40.w,

@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.2.0+59
+version: 2.2.1+60
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -111,18 +111,18 @@ dependency_overrides:
   # android_window:
   #   path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
-  # logger_view:
-  #   path: ../logger_view
-  # app_manager:
-  #   path: ../app_manager
-  # applib_util:
-  #   path: ../applib/applib_util
+  logger_view:
+    path: ../logger_view
+  app_manager:
+    path: ../app_manager
+  app_channel:
+    path: ../applib/applib_util
   # global_repository:
   #   path: ../global_repository
   # file_manager_view:
   #   path: ../file_manager_view
-  # file_selector_nightmare:
-  #   path: /Users/nightmare/Desktop/nightmare-space/file_selector_meng
+  file_selector_nightmare:
+    path: ../file_selector_meng
   # user_center_frontend:
   #   path: ../user_center_frontend
 flutter_intl:

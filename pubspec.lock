@@ -34,24 +34,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  app_channel:
+    dependency: "direct overridden"
+    description:
+      path: "../applib/applib_util"
+      relative: true
+    source: path
+    version: "0.0.1"
   app_manager:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "9379ee749a7fbc5bb23f1cdce787f381ab7ca499"
-      url: "https://github.com/nightmare-space/app_manager"
-    source: git
+      path: "../app_manager"
+      relative: true
+    source: path
     version: "1.0.0+1"
-  applib_util:
-    dependency: transitive
-    description:
-      path: applib_util
-      ref: HEAD
-      resolved-ref: "650b0c44b97cb8c9fe342a8ab7a5428e6b58042d"
-      url: "https://github.com/nightmare-space/applib"
-    source: git
-    version: "0.0.1"
   archive:
     dependency: "direct main"
     description:
@@ -144,10 +140,10 @@ packages:
     dependency: transitive
     description:
       name: cross_file
-      sha256: f71079978789bc2fe78d79227f1f8cfe195b31bbd8db2399b0d15a4b96fb843b
+      sha256: "0b0036e8cccbfbe0555fd83c1d31a6f30b77a96b598b35a5d36dd41f718695e9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3+2"
+    version: "0.3.3+4"
   crypto:
     dependency: transitive
     description:
@@ -225,7 +221,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: eae86f10fd7b3e5ed6582557716d48476463b717
+      resolved-ref: e42e9552c62b3bc15f978489bdd4871995b88e95
       url: "https://github.com/nightmare-space/file_manager_view.git"
     source: git
     version: "1.0.0+1"
@@ -272,11 +268,9 @@ packages:
   file_selector_nightmare:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b9aef9618f9ae612f45b3e8a66b1a446489589f7
-      url: "https://github.com/nightmare-space/file_selector_meng"
-    source: git
+      path: "../file_selector_meng"
+      relative: true
+    source: path
     version: "1.0.0+1"
   file_selector_platform_interface:
     dependency: transitive
@@ -307,6 +301,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_displaymode:
+    dependency: transitive
+    description:
+      name: flutter_displaymode
+      sha256: "136b0314fdc78fe995b0b75061fe9ff8210dffca84f8f8110f8f71029479db3b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -324,10 +326,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_markdown
-      sha256: "981442432b632237ffc1cf8092b4173b9e9f2278b5740637287c3069b51c8f09"
+      sha256: "818cf6c28377ba2c91ed283c96fd712e9c175dd2d2488eb7fc93b6afb9ad2e08"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.13"
+    version: "0.6.13+1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -534,11 +536,9 @@ packages:
   logger_view:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "4465646bf9c7c74bf09f350933ffd06ea058a2c1"
-      url: "https://github.com/nightmare-space/logger_view"
-    source: git
+      path: "../logger_view"
+      relative: true
+    source: path
     version: "0.0.1"
   markdown:
     dependency: transitive
@@ -847,14 +847,6 @@ packages:
       url: "https://github.com/nightmare-space/shelf"
     source: git
     version: "1.1.1-dev"
-  shortcut:
-    dependency: transitive
-    description:
-      name: shortcut
-      sha256: "66ce9728aa52134eb59fda55c0aad017b35ae5114fe927e3d60f7375936ce3f5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   shortid:
     dependency: transitive
     description:

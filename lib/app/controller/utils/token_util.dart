@@ -59,7 +59,7 @@ Future<String> getToken(String url) async {
       lock.complete(null);
     }
   }
-  return await (lock.future as FutureOr<String>);
+  return await lock.future;
 } // 得到正确的url
 
 Future<String?> getCorrectUrlWithAddressAndPort(
