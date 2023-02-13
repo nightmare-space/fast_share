@@ -111,9 +111,7 @@ class DeviceController extends GetxController {
       ..deviceName = name
       ..url = urlPrefix
       ..messagePort = port;
-    JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-    String prettyprint = encoder.convert(device);
-    Log.i(prettyprint);
+    Log.i(device);
     if (!connectDevice.contains(device)) {
       // 第一次连接该设备
       connectDevice.add(device);
