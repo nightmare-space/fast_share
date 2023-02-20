@@ -463,10 +463,8 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                             autofocus: false,
                             maxLines: 8,
                             minLines: 1,
-                            // TDDO
-                            keyboardType: TextInputType.text,
+                            keyboardType: GetPlatform.isDesktop ? TextInputType.text : TextInputType.multiline,
                             decoration: InputDecoration(
-                              fillColor: Theme.of(context).backgroundColor,
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: GetPlatform.isWeb ? 16.w : 10.w,
