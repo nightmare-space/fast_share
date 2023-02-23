@@ -122,7 +122,7 @@ class _FilePageState extends State<FilePage> {
   Material fileList(BuildContext context) {
     if (ResponsiveWrapper.of(context).isDesktop) {
       return Material(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         child: Column(
           children: [
             LayoutBuilder(builder: (context, con) {
@@ -174,7 +174,7 @@ class _FilePageState extends State<FilePage> {
       );
     }
     return Material(
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       child: SingleChildScrollView(
         padding: EdgeInsets.zero,
         child: Column(
@@ -219,7 +219,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context)!.video),
+          title(S.of(context).video),
           SizedBox(
             height: 4.w,
           ),
@@ -295,7 +295,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context)!.music),
+          title(S.of(context).music),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -357,7 +357,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context)!.directory),
+          title(S.of(context).directory),
           SizedBox(
             height: 4.w,
           ),
@@ -439,7 +439,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          title(S.of(context)!.image),
+          title(S.of(context).image),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -510,7 +510,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          title(S.of(context)!.apk),
+          title(S.of(context).apk),
           SizedBox(
             height: 4.w,
           ),
@@ -605,7 +605,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context)!.doc),
+          title(S.of(context).doc),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -679,7 +679,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context)!.zip),
+          title(S.of(context).zip),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),
@@ -766,7 +766,7 @@ class _FilePageState extends State<FilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          title(S.of(context)!.unknownFile),
+          title(S.of(context).unknownFile),
           SizedBox(height: 4.w),
           Container(
             color: const Color(0xffE0C4C4).withOpacity(0.2),

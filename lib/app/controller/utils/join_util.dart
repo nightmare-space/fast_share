@@ -16,6 +16,7 @@ class JoinUtil {
     JoinMessage message = JoinMessage();
     message.deviceName = Global().deviceName;
     message.deviceId = Global().uniqueKey;
+    Log.i(' message.deviceId -> ${message.deviceId}');
     message.addrs = addrs;
     message.deviceType = type;
     message.filePort = shelfBindPort;
@@ -36,11 +37,9 @@ class JoinUtil {
   }
 }
 
-List<String?> _hasSendJoin = [];
-Future<void> sendJoinEvent(String? url) async {
-  // Log.i('sendJoinEvent : $url');
-  // Log.i('_hasSendJoin : $_hasSendJoin');
-  if (_hasSendJoin.contains(url)) {
+Future<void> sendJoinEvent(String url) async {
+  DeviceController deviceController = Get.find();
+  if (deviceController.ipIsConnect(url)) {
     return;
   }
   Log.i('sendJoinEvent : $url');
@@ -54,7 +53,6 @@ Future<void> sendJoinEvent(String? url) async {
     url,
   );
   if (success) {
-    _hasSendJoin.add(url);
     Log.i('sendJoinEvent : $url Success');
   }
 }

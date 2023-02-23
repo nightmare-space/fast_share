@@ -47,27 +47,20 @@ class ErrorInterceptor extends InterceptorsWrapper {
         switch (status) {
           case HttpStatus.badRequest:
             throw AuthorizationException(status: status, message: message);
-            break;
           case HttpStatus.unauthorized:
             throw AuthorizationException(status: status, message: message);
-            break;
           case HttpStatus.forbidden:
             throw AuthorizationException(status: status, message: message);
-            break;
           case HttpStatus.networkConnectTimeoutError:
             throw NetworkException(status: status, message: '连接超时');
-            break;
           case HttpStatus.unprocessableEntity:
             throw ValidationException(status: status, message: message);
-            break;
           default:
             throw StatusException(status: status, message: message);
         }
-        break;
       case DioErrorType.cancel:
         DioUtils.cancelToken = null;
         throw CancelRequestException(status: HttpStatus.clientClosedRequest, message: err.toString());
-        break;
       default:
         throw NetworkException(status: HttpStatus.networkConnectTimeoutError, message: err.message);
     }

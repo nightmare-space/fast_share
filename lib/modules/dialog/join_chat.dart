@@ -46,7 +46,7 @@ class _JoinChatState extends State<JoinChat> {
                   style: TextStyle(
                     color: AppColors.fontColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16.w,
+                    fontSize: 18.w,
                   ),
                 ),
                 SizedBox(

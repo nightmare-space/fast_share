@@ -93,15 +93,7 @@ class SettingController extends GetxController {
     savePath = 'savePath'.get ?? defaultPath;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   void constIslandChange(bool value) {
     enbaleConstIsland = value;

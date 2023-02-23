@@ -246,7 +246,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
   SettingController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    final S? s = S.of(context);
+    final S s = S.of(context);
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: GetBuilder<SettingController>(builder: (context) {
@@ -265,7 +265,7 @@ class _DynamicIslandSettingState extends State<DynamicIslandSetting> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        s!.autoDownload,
+                        s.autoDownload,
                         style: TextStyle(
                           fontSize: 18.w,
                           color: Colors.white,

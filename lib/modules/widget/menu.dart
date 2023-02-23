@@ -48,7 +48,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
             child: SizedBox(
               width: 180.w,
               child: Material(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.circular(12.w),
                 child: Material(
                   borderRadius: BorderRadius.circular(12.w),
@@ -80,7 +80,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      S.of(context)!.inputConnect,
+                                      S.of(context).inputConnect,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -111,7 +111,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      S.of(context)!.scan,
+                                      S.of(context).scan,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -148,7 +148,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      S.of(context)!.log,
+                                      S.of(context).log,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -191,7 +191,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                     ),
                                     SizedBox(width: 12.w),
                                     Text(
-                                      '输出 ${S.of(context)!.log}',
+                                      '输出 ${S.of(context).log}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),

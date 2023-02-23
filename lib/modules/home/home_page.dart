@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          S.of(context)!.recentImg,
+                          S.of(context).recentImg,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onBackground,
@@ -212,12 +212,28 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '最近连接',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
+          Row(
+            children: [
+              Text(
+                '最近连接',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  DeviceController deviceController = Get.find();
+                  deviceController.clearHistory();
+                  showToast('清除成功');
+                },
+                child: Container(
+                  child: Icon(
+                    Icons.delete,
+                  ),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 4.w),
           Container(
@@ -245,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                   maxLines: 2,
                                   style: TextStyle(
                                     fontSize: 14.w,
-                                    color: Theme.of(context).textTheme.bodyText2!.color,
+                                    color: Theme.of(context).textTheme.bodyMedium!.color,
                                     height: 1,
                                   ),
                                 ),
@@ -254,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                                   maxLines: 2,
                                   style: TextStyle(
                                     fontSize: 14.w,
-                                    color: Theme.of(context).textTheme.bodyText2!.color,
+                                    color: Theme.of(context).textTheme.bodyMedium!.color,
                                     height: 1,
                                   ),
                                 ),
@@ -268,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                               maxLines: 2,
                               style: TextStyle(
                                 fontSize: 14.w,
-                                color: Theme.of(context).textTheme.bodyText2!.color,
+                                color: Theme.of(context).textTheme.bodyMedium!.color,
                                 height: 1,
                               ),
                             ),
@@ -315,7 +331,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            S.of(context)!.recentFile,
+            S.of(context).recentFile,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onBackground,
@@ -408,7 +424,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                S.of(context)!.chatWindow,
+                S.of(context).chatWindow,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onBackground,
@@ -424,7 +440,7 @@ class _HomePageState extends State<HomePage> {
                 // Log.i(chatController.children..last);
                 return Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   height: 240.w,

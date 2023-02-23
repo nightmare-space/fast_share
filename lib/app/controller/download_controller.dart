@@ -21,15 +21,7 @@ class DownloadController extends GetxController {
   SettingController settingController = Get.find();
 
   final Dio dio = Dio();
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   double getProgress(String? url) {
     if (progress.containsKey(url)) {

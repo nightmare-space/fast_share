@@ -24,9 +24,11 @@ class DioUtils {
             print('');
             Log.v('>>>>>>>>HTTP LOG');
             Log.v('>>>>>>>>URI: ${options.uri}');
-            Log.v('>>>>>>>>Method: ${options.method}');
-            Log.v('>>>>>>>>Headers: ${options.headers}');
-            Log.v('>>>>>>>>Body: ${options.data}');
+            // Log.v('>>>>>>>>Method: ${options.method}');
+            // Log.v('>>>>>>>>Headers: ${options.headers}');
+            JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+            String prettyprint = encoder.convert(options.data);
+            Log.v('>>>>>>>>Body: $prettyprint');
             Log.v('<<<<<<<<');
             print('');
             handler.next(options);

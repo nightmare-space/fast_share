@@ -23,7 +23,6 @@ class DefaultThemeData {
     return darkThemeData.copyWith(
       colorScheme: darkColorScheme,
       primaryColor: darkColorScheme.primary,
-      backgroundColor: darkColorScheme.background,
       scaffoldBackgroundColor: darkColorScheme.background,
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.dark,
@@ -44,7 +43,7 @@ class DefaultThemeData {
         actionsIconTheme: darkThemeData.iconTheme.copyWith(
           color: const Color(0xFF8C8C8C),
         ),
-        toolbarTextStyle: darkThemeData.textTheme.headline6!.copyWith(
+        toolbarTextStyle: darkThemeData.textTheme.titleLarge!.copyWith(
           fontSize: Dimens.font_sp20,
           fontWeight: FontWeight.w500,
           color: const Color(0xFFA8A8A8),
@@ -69,7 +68,6 @@ class DefaultThemeData {
         ),
       ),
       unselectedWidgetColor: const Color(0xFF696969),
-      toggleableActiveColor: darkColorScheme.primary,
       dividerColor: darkColorScheme.outline,
       dividerTheme: DividerThemeData(
         color: darkColorScheme.outline,
@@ -102,48 +100,6 @@ class DefaultThemeData {
           ),
         ),
         filled: true,
-      ),
-      textTheme: darkThemeData.textTheme.copyWith(
-        headline5: darkThemeData.textTheme.headline5!.copyWith(
-          fontSize: Dimens.font_sp24,
-          fontWeight: FontWeight.w600,
-          color: const Color(0xFFE7E7E7),
-        ),
-        headline6: darkThemeData.textTheme.headline6!.copyWith(
-          fontSize: Dimens.font_sp20,
-          fontWeight: FontWeight.w500,
-          color: const Color(0xFFE7E7E7),
-        ),
-        subtitle1: darkThemeData.textTheme.subtitle1!.copyWith(
-          fontSize: Dimens.font_sp16,
-          fontWeight: FontWeight.w500,
-          color: const Color(0xFFE7E7E7),
-        ),
-        subtitle2: darkThemeData.textTheme.subtitle2!.copyWith(
-          fontSize: Dimens.font_sp16,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xFFE7E7E7),
-        ),
-        bodyText1: darkThemeData.textTheme.bodyText1!.copyWith(
-          fontSize: Dimens.font_sp16,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xFFE7E7E7),
-        ),
-        bodyText2: darkThemeData.textTheme.bodyText1!.copyWith(
-          fontSize: Dimens.font_sp14,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xFFE7E7E7),
-        ),
-        button: darkThemeData.textTheme.button!.copyWith(
-          fontSize: Dimens.font_sp16,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xFFFFFFFF),
-        ),
-        caption: darkThemeData.textTheme.caption!.copyWith(
-          fontSize: Dimens.font_sp12,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xFF8C8C8C),
-        ),
       ),
     );
   }
@@ -203,7 +159,7 @@ class DefaultThemeData {
         actionsIconTheme: lightThemeData.iconTheme.copyWith(
           color: colorScheme.primary,
         ),
-        titleTextStyle: lightThemeData.textTheme.headline6!.copyWith(
+        titleTextStyle: lightThemeData.textTheme.titleLarge!.copyWith(
           fontSize: 18.w,
           fontWeight: FontWeight.bold,
         ),
@@ -223,9 +179,7 @@ class DefaultThemeData {
           fontSize: Dimens.font_sp16,
         ),
       ),
-      backgroundColor: colorScheme.background,
       unselectedWidgetColor: const Color(0xFFBFBFBF),
-      toggleableActiveColor: colorScheme.primary,
       dividerColor: colorScheme.outline,
       dividerTheme: DividerThemeData(
         color: colorScheme.outline,
@@ -235,7 +189,7 @@ class DefaultThemeData {
         color: colorScheme.surface,
       ),
       textTheme: lightThemeData.textTheme.copyWith(
-        bodyText2: lightThemeData.textTheme.bodyText2!.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
+        bodyMedium: lightThemeData.textTheme.bodyMedium!.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
       ),
     );
   }

@@ -50,9 +50,9 @@ class Server {
       //   headers: corsHeader,
       // );
       Log.w(request.headers);
-      String fileName = request.headers['filename']!;
-      fileName = utf8.decode(base64Decode(fileName));
+      String? fileName = request.headers['filename'];
       if (fileName != null) {
+        fileName = utf8.decode(base64Decode(fileName));
         SettingController settingController = Get.find();
         String? downPath = settingController.savePath;
         RandomAccessFile randomAccessFile = await File(getSafePath('$downPath/$fileName')).open(
@@ -83,7 +83,7 @@ class Server {
             info.progress = progress;
             downloadController.update();
             if (progress == 1.0) {
-              lock.complete();
+              lock.complete(true);
             }
           },
           onDone: () {},
@@ -153,7 +153,7 @@ class Server {
       return (request) async {
         final response = await innerHandler(request);
         // Log.w(request.headers);
-        Log.i(request.requestedUri);
+        // Log.i(request.requestedUri);
         if (request.method == 'OPTIONS') {
           return Response.ok('', headers: corsHeader);
         }

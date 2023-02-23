@@ -1,8 +1,8 @@
 library http;
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:signale/signale.dart';
 part 'src/exception.dart';
 part 'src/dio_utils.dart';

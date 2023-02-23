@@ -79,7 +79,7 @@ class _RemotePageState extends State<RemotePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    s!.remoteAccessFile,
+                    s.remoteAccessFile,
                     style: TextStyle(
                       fontSize: 18.w,
                       fontWeight: FontWeight.bold,

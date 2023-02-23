@@ -9,7 +9,6 @@ import 'package:speed_share/modules/file/file_page.dart';
 import 'package:speed_share/modules/home/home_page.dart';
 import 'package:speed_share/modules/setting/setting_page.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
-import 'package:speed_share/themes/theme.dart';
 
 class DesktopHome extends StatefulWidget {
   const DesktopHome({Key? key}) : super(key: key);
@@ -83,7 +82,7 @@ class _DesktopHomeState extends State<DesktopHome> {
                           },
                         ),
                         Container(
-                          color: Theme.of(context).brightness == Brightness.light ? Colors.white : Color.fromRGBO(19, 19, 25, 1),
+                          color: Theme.of(context).brightness == Brightness.light ? Colors.white : const Color.fromRGBO(19, 19, 25, 1),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.w),
                             child: const ShareChatV2(),

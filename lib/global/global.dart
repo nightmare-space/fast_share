@@ -35,8 +35,6 @@ class Global with ClipboardListener, WindowListener {
   /// 是否已经初始化
   bool isInit = false;
 
-  // Widget header;
-
   //
   TrayHandler trayHandler = TrayHandler();
 
@@ -44,7 +42,7 @@ class Global with ClipboardListener, WindowListener {
   void onClipboardChanged() async {
     // TODO，应该先读设置开关
     ClipboardData? newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-    Log.i('剪切板来啦:${newClipboardData?.text}' ?? "");
+    Log.i('剪切板来啦:${newClipboardData?.text}');
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(
       content: newClipboardData?.text ?? "",
@@ -55,7 +53,7 @@ class Global with ClipboardListener, WindowListener {
 
   bool canShareClip = true;
   void setClipboard(String? text) async {
-    Log.i('手动设置剪切板消息:$text' ?? "");
+    Log.i('手动设置剪切板消息:$text');
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(
       content: text ?? "",

@@ -18,7 +18,7 @@ Future<List<XFile>?> getFilesForDesktopAndWeb() async {
 
 Future<List<String?>> getFilesPathsForAndroid(bool useSystemPicker) async {
   // 选择文件路径
-  List<String?>? filePaths = [];
+  List<String> filePaths = [];
   if (!useSystemPicker) {
     filePaths = (await FileSelector.pick(
       Get.context!,
@@ -30,12 +30,11 @@ Future<List<String?>> getFilesPathsForAndroid(bool useSystemPicker) async {
     );
     if (result != null) {
       for (PlatformFile file in result.files) {
-        filePaths.add(file.path);
+        filePaths.add(file.path!);
       }
     } else {
       // User canceled the picker
     }
   }
-  filePaths ??= [];
   return filePaths;
 }

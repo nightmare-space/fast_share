@@ -165,14 +165,12 @@ class _RenderXliveSwitch extends RenderConstrainedBox {
   Color _unActiveColor;
 
   set activeColor(Color value) {
-    assert(value != null);
     if (value == _activeColor) return;
     _activeColor = value;
     markNeedsPaint();
   }
 
   set unActiveColor(Color value) {
-    assert(value != null);
     if (value == _unActiveColor) return;
     _unActiveColor = value;
     markNeedsPaint();

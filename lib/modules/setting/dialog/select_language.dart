@@ -24,7 +24,7 @@ class _SelectLangState extends State<SelectLang> {
   Widget build(BuildContext context) {
     return Center(
       child: Material(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(12.w),
         child: SizedBox(
           width: 300.w,

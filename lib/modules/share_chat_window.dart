@@ -186,7 +186,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
       },
       child: Material(
         borderRadius: BorderRadius.circular(10.w),
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         clipBehavior: Clip.antiAlias,
         child: GetBuilder<ChatController>(builder: (context) {
           List<Widget?> children = [];
@@ -244,7 +244,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
             SizedBox(width: 12.w),
             Text(
               '全部设备',
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: bold,
                     fontSize: 16.w,
                   ),
@@ -512,7 +512,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                     child: Material(
                       borderRadius: BorderRadius.circular(24.w),
                       // borderOnForeground: true,
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).colorScheme.background,
                       child: SizedBox(
                         width: 46.w,
                         height: 46.w,
@@ -587,13 +587,10 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
     switch (type) {
       case 0:
         return 'assets/icon/phone.png';
-        break;
       case 1:
         return 'assets/icon/computer.png';
-        break;
       case 2:
         return 'assets/icon/broswer.png';
-        break;
       default:
         return 'assets/icon/computer.png';
     }
@@ -618,7 +615,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Stack(
                 children: [
                   Material(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     child: SizedBox(
                       height: 10.w,
                       width: 64.w,
@@ -639,7 +636,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Container(
                 height: 48.w,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12.w),
                     bottomLeft: Radius.circular(12.w),
@@ -649,7 +646,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Stack(
                 children: [
                   Material(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     child: SizedBox(
                       height: 10.w,
                       width: 60.w,

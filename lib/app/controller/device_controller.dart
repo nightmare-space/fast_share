@@ -33,13 +33,10 @@ class Device {
     switch (type) {
       case 0:
         return const Color(0xffED796A);
-        break;
       case 1:
         return const Color(0xff6A6DED);
-        break;
       case 2:
         return const Color(0xff317DEE);
-        break;
       default:
         return Colors.indigo;
     }
@@ -70,34 +67,34 @@ class DeviceController extends GetxController {
       historys = Historys.fromJson(json.decode(File(historyPath).readAsStringSync()));
       JsonEncoder encoder = const JsonEncoder.withIndent('  ');
       String prettyprint = encoder.convert(historys);
-      Log.i(prettyprint);
+      Log.i('history cache $prettyprint');
       historys.datas!.removeWhere((element) => element.url!.contains('null'));
+      syncHistoryToLocal();
+      List<History> newHistorys = [];
+      // for (History history in historys.datas!) {
+      //   History exist=newHistorys.firstWhere((element) => element.url=)
+      // }
       // 向历史连接的设备发送连接消息
       Future.delayed(const Duration(milliseconds: 200), () {
         historys.datas!.forEach(
           ((element) {
-            sendJoinEvent(element.url);
+            // TODO
+            // sendJoinEvent(element.url);
           }),
         );
       });
     } else {
       return;
     }
+
+
+    // TODO 开启定时器
+    // 检测链接设备是否互通
   }
 
   String historyPath = '${RuntimeEnvir.filesPath}/history';
   Historys historys = Historys(datas: []);
   List<Device> connectDevice = [];
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   void onDeviceConnect(
     String? id,
@@ -111,7 +108,6 @@ class DeviceController extends GetxController {
       ..deviceName = name
       ..url = urlPrefix
       ..messagePort = port;
-    Log.i(device);
     if (!connectDevice.contains(device)) {
       // 第一次连接该设备
       connectDevice.add(device);
@@ -130,7 +126,7 @@ class DeviceController extends GetxController {
       id: id,
     );
     if (!historys.datas!.contains(history)) {
-      // 不包含才
+      // 不包含才添加这行历史
       historys.datas!.add(history);
       Log.i(historys);
     } else {
@@ -178,5 +174,23 @@ class DeviceController extends GetxController {
         // Log.e('send error : ${e}');
       }
     }
+  }
+
+  bool ipIsConnect(String ip) {
+    Uri? ipUrl = Uri.tryParse(ip);
+    for (Device device in connectDevice) {
+      Uri? uri = Uri.tryParse(device.url!);
+      if (uri?.host == ipUrl?.host) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /// 清除历史
+  void clearHistory() {
+    historys.datas?.clear();
+    update();
+    syncHistoryToLocal();
   }
 }

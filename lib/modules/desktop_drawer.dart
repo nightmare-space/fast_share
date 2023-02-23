@@ -23,13 +23,10 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
     switch (type) {
       case 0:
         return 'assets/icon/phone.png';
-        break;
       case 1:
         return 'assets/icon/computer.png';
-        break;
       case 2:
         return 'assets/icon/broswer.png';
-        break;
       default:
         return 'assets/icon/computer.png';
     }
@@ -39,7 +36,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       child: Row(
         children: [
           Padding(
@@ -102,14 +99,14 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
           children: [
             Image.asset(
               'assets/icon/setting.png',
-              color: Theme.of(_).textTheme.bodyText2!.color,
+              color: Theme.of(_).textTheme.bodyMedium!.color,
               width: 16.w,
             ),
             SizedBox(width: 4.w),
             Text(
               '设置',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2!.color,
+                color: Theme.of(_).textTheme.bodyMedium!.color,
               ),
             ),
           ],
@@ -132,13 +129,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/file.png',
               width: 16.w,
-              color: Theme.of(_).textTheme.bodyText2!.color,
+              color: Theme.of(_).textTheme.bodyMedium!.color,
             ),
             SizedBox(width: 4.w),
             Text(
               '文件管理(本地)',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2!.color,
+                color: Theme.of(_).textTheme.bodyMedium!.color,
               ),
             ),
           ],
@@ -166,13 +163,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                     Image.asset(
                       getIcon(_.connectDevice[i].deviceType),
                       width: 16.w,
-                      color: Theme.of(context).textTheme.bodyText2!.color,
+                      color: Theme.of(context).textTheme.bodyMedium!.color,
                     ),
                     SizedBox(width: 4.w),
                     Text(
                       '文件管理(${_.connectDevice[i].deviceName})',
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2!.color,
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
                       ),
                     ),
                   ],
@@ -199,13 +196,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/all.png',
               width: 16.w,
-              color: Theme.of(_).textTheme.bodyText2!.color,
+              color: Theme.of(_).textTheme.bodyMedium!.color,
             ),
             SizedBox(width: 4.w),
             Text(
               '消息窗口',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2!.color,
+                color: Theme.of(_).textTheme.bodyMedium!.color,
               ),
             ),
           ],
@@ -228,13 +225,13 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             Image.asset(
               'assets/icon/homev2.png',
               width: 16.w,
-              color: Theme.of(_).textTheme.bodyText2!.color,
+              color: Theme.of(_).textTheme.bodyMedium!.color,
             ),
             SizedBox(width: 4.w),
             Text(
               '首页',
               style: TextStyle(
-                color: Theme.of(_).textTheme.bodyText2!.color,
+                color: Theme.of(_).textTheme.bodyMedium!.color,
               ),
             ),
           ],
@@ -278,7 +275,7 @@ class DrawerItem extends StatelessWidget {
         child: Theme(
           data: Theme.of(context).copyWith(
             textTheme: TextTheme(
-              bodyText2: TextStyle(
+              bodyMedium: TextStyle(
                 color: enable ? Theme.of(context).primaryColor : (isDark ? Colors.white : Colors.black),
               ),
             ),

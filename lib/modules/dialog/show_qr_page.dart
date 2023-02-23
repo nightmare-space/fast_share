@@ -30,7 +30,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
       padding: EdgeInsets.all(40.w),
       child: Center(
         child: Material(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           borderRadius: BorderRadius.circular(10.w),
           child: Material(
             color: Colors.transparent,
@@ -68,7 +68,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
                     ),
                   ),
                   Text(
-                    S.of(context)!.qrTips,
+                    S.of(context).qrTips,
                   ),
                   SizedBox(
                     height: 10.w,

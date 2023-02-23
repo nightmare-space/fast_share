@@ -121,8 +121,8 @@ dependency_overrides:
   #   path: ../global_repository
   # file_manager_view:
   #   path: ../file_manager_view
-  # file_selector_nightmare:
-  #   path: ../file_selector_meng
+  file_selector_nightmare:
+    path: ../file_selector_meng
   # user_center_frontend:
   #   path: ../user_center_frontend
 flutter_intl:

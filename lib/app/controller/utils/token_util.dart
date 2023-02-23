@@ -35,9 +35,9 @@ void handleTokenCheck(int port) {
 
 // 发起http get请求，用来校验网络是否互通
 // 如果不通，会返回null
-Future<String> getToken(String url) async {
+Future<String?> getToken(String url) async {
   Log.i('访问 $url/check_token 以检测网络是否互通');
-  Completer lock = Completer();
+  Completer<String?> lock = Completer();
   CancelToken cancelToken = CancelToken();
   Response response;
   Future.delayed(const Duration(milliseconds: 1000), () {
@@ -67,7 +67,7 @@ Future<String?> getCorrectUrlWithAddressAndPort(
   int? port,
 ) async {
   for (String? address in addresses) {
-    String token = await getToken('http://$address:$port');
+    String? token = await getToken('http://$address:$port');
     if (token != null) {
       return 'http://$address';
     }

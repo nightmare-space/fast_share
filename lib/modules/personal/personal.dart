@@ -33,25 +33,25 @@ class _PersonalPageState extends State<PersonalPage> {
             ),
           SizedBox(height: 12.w),
           personalItem(
-            title: S.of(context)!.aboutSpeedShare,
+            title: S.of(context).aboutSpeedShare,
             onTap: () {
               Get.to(const SettingPage());
             },
           ),
           personalItem(
-            title: S.of(context)!.theTermsOfService,
+            title: S.of(context).theTermsOfService,
             onTap: () {
               Get.to(const SettingPage());
             },
           ),
           personalItem(
-            title: S.of(context)!.privacyAgreement,
+            title: S.of(context).privacyAgreement,
             onTap: () {
               Get.to(const PrivacyPage());
             },
           ),
           personalItem(
-            title: S.of(context)!.setting,
+            title: S.of(context).setting,
             onTap: () {
               Get.to(const SettingPage());
             },

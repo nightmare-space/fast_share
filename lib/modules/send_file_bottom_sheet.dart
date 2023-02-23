@@ -16,8 +16,7 @@ class SendFilePage extends StatefulWidget {
   State<SendFilePage> createState() => _SendFilePageState();
 }
 
-class _SendFilePageState extends State<SendFilePage>
-    with SingleTickerProviderStateMixin {
+class _SendFilePageState extends State<SendFilePage> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   ChatController chatController = Get.find();
   late Animation color;
@@ -96,12 +95,9 @@ class _SendFilePageState extends State<SendFilePage>
                         onTap: () async {
                           Navigator.of(context).pop();
                           final ImagePicker picker = ImagePicker();
-                          final List<XFile> images =
-                              await picker.pickMultiImage();
-                          if (images != null) {
-                            for (var element in images) {
-                              chatController.sendFileFromPath(element.path);
-                            }
+                          final List<XFile> images = await picker.pickMultiImage();
+                          for (var element in images) {
+                            chatController.sendFileFromPath(element.path);
                           }
                         },
                         child: Column(
@@ -118,8 +114,7 @@ class _SendFilePageState extends State<SendFilePage>
                             ),
                             Text(
                               '上传图片',
-                              style: TextStyle(
-                                  fontSize: 14.w, color: Colors.black),
+                              style: TextStyle(fontSize: 14.w, color: Colors.black),
                             ),
                           ],
                         ),
@@ -149,8 +144,7 @@ class _SendFilePageState extends State<SendFilePage>
                             ),
                             Text(
                               '拍照',
-                              style: TextStyle(
-                                  fontSize: 14.w, color: Colors.black),
+                              style: TextStyle(fontSize: 14.w, color: Colors.black),
                             ),
                           ],
                         ),
@@ -176,8 +170,7 @@ class _SendFilePageState extends State<SendFilePage>
                             ),
                             Text(
                               '上传文件',
-                              style: TextStyle(
-                                  fontSize: 14.w, color: Colors.black),
+                              style: TextStyle(fontSize: 14.w, color: Colors.black),
                             ),
                           ],
                         ),
@@ -199,8 +192,7 @@ class _SendFilePageState extends State<SendFilePage>
                         builder: (context, child) {
                           return Transform(
                             alignment: Alignment.center,
-                            transform: Matrix4.identity()
-                              ..rotateZ(controller.value * pi / 4),
+                            transform: Matrix4.identity()..rotateZ(controller.value * pi / 4),
                             child: child,
                           );
                         },

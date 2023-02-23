@@ -83,7 +83,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   Completer initLock = Completer();
   DeviceController deviceController = Get.find();
   SettingController settingController = Get.find();
-  UniqueKey uniqueKey = UniqueKey();
   Map<String, XFile> webFileSendCache = {};
 
   ValueNotifier<bool> connectState = ValueNotifier(false);
@@ -100,7 +99,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     udpData += await UniqueUtil.getDevicesId();
     udpData += ',$messageBindPort';
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
-    Global().startSendBoardcast(udpData);
+    // TODO
+    // Global().startSendBoardcast(udpData);
     // 保存本地的IP地址列表
     if (!GetPlatform.isWeb) {
       await refreshLocalAddress();
@@ -122,44 +122,47 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     // listenMessage();
     if (GetPlatform.isWeb) {
       // web 是靠轮询得到的消息
-      String urlPrefix = url;
-      if (!kReleaseMode) {
-        urlPrefix = 'http://127.0.0.1:12000/';
-      }
-      Uri uri = Uri.parse(urlPrefix);
-      int port = uri.port;
-      deviceController.onDeviceConnect(
-        shortHash(''),
-        '设备',
-        phone,
-        'http://${uri.host}',
-        port,
-      );
-      // Log.i('$urlPrefix/${info.messagePort}');
-
-      sendJoinEvent('http://${uri.host}:$port');
-      update();
-      Timer.periodic(const Duration(milliseconds: 300), (timer) async {
-        // Log.i('web 轮训消息结果 ${res.data}');
-        try {
-          String webUrl = '${urlPrefix}message';
-          Response res = await Dio().get(webUrl);
-          Map<String, dynamic> data = jsonDecode(res.data);
-          MessageBaseInfo info = MessageInfoFactory.fromJson(data)!;
-          dispatch(info, children);
-        } catch (e) {
-          // Log.e('web 轮训消息error $e');
-        }
-      });
-      if (!initLock.isCompleted) {
-        initLock.complete();
-      }
+      initForWeb();
       return;
     }
     await Future.delayed(const Duration(milliseconds: 100));
     await getSuccessBindPort();
     Log.i('shelf will server with $shelfBindPort port');
-    Log.i('file server started with $fileServerPort port');
+    if (!initLock.isCompleted) {
+      initLock.complete();
+    }
+  }
+
+  Future<void> initForWeb() async {
+    String urlPrefix = url;
+    if (!kReleaseMode) {
+      urlPrefix = 'http://127.0.0.1:12000/';
+    }
+    Uri uri = Uri.parse(urlPrefix);
+    int port = uri.port;
+    deviceController.onDeviceConnect(
+      shortHash(''),
+      '设备',
+      phone,
+      'http://${uri.host}',
+      port,
+    );
+    // Log.i('$urlPrefix/${info.messagePort}');
+
+    sendJoinEvent('http://${uri.host}:$port');
+    update();
+    Timer.periodic(const Duration(milliseconds: 300), (timer) async {
+      // Log.i('web 轮训消息结果 ${res.data}');
+      try {
+        String webUrl = '${urlPrefix}message';
+        Response res = await Dio().get(webUrl);
+        Map<String, dynamic> data = jsonDecode(res.data);
+        MessageBaseInfo info = MessageInfoFactory.fromJson(data)!;
+        dispatch(info, children);
+      } catch (e) {
+        // Log.e('web 轮训消息error $e');
+      }
+    });
     if (!initLock.isCompleted) {
       initLock.complete();
     }
@@ -172,11 +175,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         Config.shelfPortRangeEnd,
       );
       handleTokenCheck(shelfBindPort!);
-      fileServerPort ??= await getSafePort(
-        Config.filePortRangeStart,
-        Config.filePortRangeEnd,
-      );
-      startFileServer(fileServerPort!);
     }
   }
 
@@ -408,9 +406,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget?> children) async {
-    if (info.deviceId == uniqueKey.toString()) {
-      return;
-    }
+    // if (info.deviceId == uniqueKey.toString()) {
+    //   return;
+    // }
     switch (info.runtimeType) {
       case ClipboardMessage:
         // TODO，应该先读设置开关
@@ -429,12 +427,15 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         break;
       case JoinMessage:
         JoinMessage joinMessage = info as JoinMessage;
+        Log.d(joinMessage);
         // 当连接设备不是本机的时候
         // todo 应该用hashcode
         if (info.deviceName != await UniqueUtil.getDevicesId()) {
+          Log.i('JoinMessage');
           Log.i('计算互通的IP地址');
           Log.i('addrs:${joinMessage.addrs}');
           Log.i('filePort:${joinMessage.filePort}');
+          // 这个不带端口，主要是为了筛选IP
           String? urlPrefix = await getCorrectUrlWithAddressAndPort(
             joinMessage.addrs!,
             joinMessage.filePort,
@@ -447,6 +448,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
               (element) => element.id == info.deviceId,
             );
           } catch (e) {
+            // 先回连接消息
+            sendJoinEvent('$urlPrefix:${joinMessage.messagePort}');
             deviceController.onDeviceConnect(
               info.deviceId,
               info.deviceName,
@@ -455,26 +458,18 @@ class ChatController extends GetxController with WidgetsBindingObserver {
               joinMessage.messagePort,
             );
             // 同步之前发送过的消息
-            for (Map<String, dynamic> data in messageCache) {
-              try {
-                Response res = await httpInstance!.post(
-                  '$urlPrefix:${joinMessage.messagePort}',
-                  data: data,
-                );
-              } catch (e) {
-                Log.e('cache send error : $e');
-              }
-            }
-            // 2020.08.21，我看不懂下面这行代码是干嘛的了
-            sendMessage(info);
+            // for (Map<String, dynamic> data in messageCache) {
+            //   try {
+            //     Response res = await httpInstance!.post(
+            //       '$urlPrefix:${joinMessage.messagePort}',
+            //       data: data,
+            //     );
+            //   } catch (e) {
+            //     Log.e('cache send error : $e');
+            //   }
+            // }
             Log.i('$urlPrefix/${joinMessage.messagePort}');
           }
-          Log.i('通知对方 $urlPrefix:${joinMessage.messagePort} sendJoinEvent');
-          // 通知对方连接成功
-          // todo 2022.10.22
-          // 有可能手机端先启动，发送加入消息没有成功
-          // 然后收到mac过来的join消息，再次调用sendJoinEvent其实没有被执行
-          sendJoinEvent('$urlPrefix:${joinMessage.messagePort}');
           update();
           return;
         }
@@ -528,7 +523,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           update();
         }
         return;
-        break;
       case NotifyMessage:
         NotifyMessage notifyMessage = info as NotifyMessage;
         if (GetPlatform.isWeb) {
@@ -547,7 +541,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           }
         }
         return;
-        break;
       default:
     }
     // 往聊天列表中添加一条消息
@@ -565,6 +558,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     }
   }
 
+  /// 给灵动岛用的
   void Function(Widget fileWidget)? onNewFileReceive;
   // 储存已经发送过的消息
   // 在第一次连接到设备的时候，会将消息同步过去
@@ -573,14 +567,14 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   List<Map<String, dynamic>> messageWebCache = [];
   void sendMessage(MessageBaseInfo info) {
     info.deviceType = type;
-    info.deviceId = uniqueKey.toString();
+    info.deviceId = Global().uniqueKey;
     messageCache.add(info.toJson());
     messageWebCache.add(info.toJson());
     deviceController.send(info.toJson());
   }
 
+  /// 发送文本消息
   void sendTextMsg() {
-    // 发送文本消息
     TextMessage info = TextMessage(
       content: controller.text,
       sendFrom: Global().deviceName,
@@ -628,6 +622,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        // 刷新本地ip列表
         refreshLocalAddress();
         // TODO
         // initChat();
