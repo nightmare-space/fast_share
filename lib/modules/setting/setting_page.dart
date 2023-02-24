@@ -1,5 +1,5 @@
 import 'package:file_selector/file_selector.dart';
-import 'package:file_selector_nightmare/file_selector_nightmare.dart';
+import 'package:file_manager_view/file_manager_view.dart' as file_manager;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -10,7 +10,7 @@ import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../widget/xliv-switch.dart';
+import '../widget/switch/xliv_switch.dart';
 import 'dialog/select_language.dart';
 
 // 设置页面
@@ -68,7 +68,7 @@ class _SettingPageState extends State<SettingPage> {
                           controller.switchDownLoadPath(path);
                         }
                       } else {
-                        String? path = await FileSelector.pickDirectory(context);
+                        String? path = await file_manager.FileSelector.pickDirectory(context);
                         if (path != null) {
                           controller.switchDownLoadPath(path);
                         }

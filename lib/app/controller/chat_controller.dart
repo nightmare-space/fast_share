@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:file_manager_view/file_manager_view.dart' as file_manager;
 import 'package:file_selector/file_selector.dart';
-import 'package:file_selector_nightmare/file_selector_nightmare.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
@@ -99,8 +99,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     udpData += await UniqueUtil.getDevicesId();
     udpData += ',$messageBindPort';
     // 将设备ID与聊天服务器成功创建的端口UDP广播出去
-    // TODO
-    // Global().startSendBoardcast(udpData);
+    Global().startSendBoardcast(udpData);
     // 保存本地的IP地址列表
     if (!GetPlatform.isWeb) {
       await refreshLocalAddress();
@@ -178,7 +177,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  //
+  /// 发送文件夹
+  /// send dir
   Future<void> sendDir() async {
     String? dirPath;
     if (GetPlatform.isDesktop) {
@@ -186,7 +186,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         confirmButtonText: '选择',
       );
     } else {
-      dirPath = await FileSelector.pickDirectory(Get.context!);
+      dirPath = await file_manager.FileSelector.pickDirectory(Get.context!);
     }
     Log.d('dirPath -> $dirPath');
     if (dirPath == null) {
@@ -203,7 +203,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     );
     // 发送消息
     sendMessage(dirMessage);
-    // socket.send(info.toString());
     // 将消息添加到本地列表
     children.add(MessageItemFactory.getMessageItem(
       dirMessage,
@@ -393,14 +392,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
 
   void handleMessage(Map<String, dynamic> data) {
     Log.e('handleMessage :$data');
-    if (data['msgType'] == 'exit') {
-      //
-      deviceController.onDeviceClose(
-        data['deviceId'],
-      );
-      update();
-      return;
-    }
     MessageBaseInfo info = MessageInfoFactory.fromJson(data)!;
     dispatch(info, children);
   }
@@ -410,6 +401,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     //   return;
     // }
     switch (info.runtimeType) {
+      // 剪切板消息
       case ClipboardMessage:
         // TODO，应该先读设置开关
         ClipboardMessage clipboardMessage = info as ClipboardMessage;
@@ -425,22 +417,21 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           showToast('已复制${clipboardMessage.deviceName}的剪切板');
         }
         break;
+      // 设备加入消息
       case JoinMessage:
         JoinMessage joinMessage = info as JoinMessage;
-        Log.d(joinMessage);
         // 当连接设备不是本机的时候
-        // todo 应该用hashcode
-        if (info.deviceName != await UniqueUtil.getDevicesId()) {
-          Log.i('JoinMessage');
-          Log.i('计算互通的IP地址');
-          Log.i('addrs:${joinMessage.addrs}');
-          Log.i('filePort:${joinMessage.filePort}');
+        if (info.deviceId != Global().uniqueKey) {
+          Log.i('JoinMessage -> $joinMessage');
+          Log.i('Global().uniqueKey -> ${Global().uniqueKey}');
           // 这个不带端口，主要是为了筛选IP
           String? urlPrefix = await getCorrectUrlWithAddressAndPort(
             joinMessage.addrs!,
             joinMessage.filePort,
           );
           Log.i('计算结果:$urlPrefix');
+          // 先回连接消息
+          sendJoinEvent('$urlPrefix:${joinMessage.messagePort}');
           try {
             // 会先尝试去找是否已经被记录了
             // will try to find object first
@@ -448,8 +439,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
               (element) => element.id == info.deviceId,
             );
           } catch (e) {
-            // 先回连接消息
-            sendJoinEvent('$urlPrefix:${joinMessage.messagePort}');
+            // catch住说明没有找到
             deviceController.onDeviceConnect(
               info.deviceId,
               info.deviceName,
@@ -457,6 +447,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
               urlPrefix,
               joinMessage.messagePort,
             );
+            Log.i('$urlPrefix/${joinMessage.messagePort}');
             // 同步之前发送过的消息
             // for (Map<String, dynamic> data in messageCache) {
             //   try {
@@ -468,9 +459,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             //     Log.e('cache send error : $e');
             //   }
             // }
-            Log.i('$urlPrefix/${joinMessage.messagePort}');
           }
-          update();
           return;
         }
         break;
@@ -629,6 +618,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         break;
       default:
     }
-    Log.v('didChangeAppLifecycleState : $state');
+    // Log.v('didChangeAppLifecycleState : $state');
   }
 }

@@ -1,4 +1,4 @@
-import 'package:file_manager_view/file_manager_view.dart';
+import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -60,8 +60,8 @@ class _DesktopHomeState extends State<DesktopHome> {
                                 Uri uri = Uri.tryParse(
                                   controller.connectDevice[i].url!,
                                 )!;
-                                String addr = 'http://${uri.host}:20000';
-                                return FileManager(
+                                String addr = 'http://${uri.host}:${fm.Config.port}';
+                                return fm.FileManager(
                                   address: addr,
                                   usePackage: true,
                                   path: controller.connectDevice[i].deviceType == desktop ? '/User' : '/sdcard',
@@ -94,8 +94,8 @@ class _DesktopHomeState extends State<DesktopHome> {
                               Uri uri = Uri.tryParse(
                                 controller.connectDevice[i].url!,
                               )!;
-                              String addr = 'http://${uri.host}:20000';
-                              return FileManager(
+                              String addr = 'http://${uri.host}:${fm.Config.port}';
+                              return fm.FileManager(
                                 address: addr,
                                 usePackage: true,
                               );

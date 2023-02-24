@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -17,6 +18,7 @@ class Device {
   // url prefix
   String? url;
   int? messagePort;
+  bool? isConnect;
 
   @override
   int get hashCode => id.hashCode;
@@ -79,22 +81,56 @@ class DeviceController extends GetxController {
         historys.datas!.forEach(
           ((element) {
             // TODO
-            // sendJoinEvent(element.url);
+            sendJoinEvent(element.url!);
           }),
         );
       });
     } else {
       return;
     }
-
-
+    checkConnectStat();
     // TODO 开启定时器
     // 检测链接设备是否互通
+  }
+
+  void checkConnectStat() {
+    Timer.periodic(const Duration(seconds: 2), (timer) async {
+      for (Device device in connectDevice) {
+        try {
+          Response response = await Dio().get('${device.url}:${device.messagePort}/check_token');
+          Log.d(response.data);
+          device.isConnect = true;
+          update();
+        } catch (e) {
+          device.isConnect = false;
+          update();
+        }
+      }
+    });
   }
 
   String historyPath = '${RuntimeEnvir.filesPath}/history';
   Historys historys = Historys(datas: []);
   List<Device> connectDevice = [];
+  int availableDevice() {
+    int count = 0;
+    for (Device device in connectDevice) {
+      if (device.isConnect ?? false) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  List<Device> availableDevices() {
+    List<Device> devices = [];
+    for (Device device in connectDevice) {
+      if (device.isConnect ?? false) {
+        devices.add(device);
+      }
+    }
+    return devices;
+  }
 
   void onDeviceConnect(
     String? id,
@@ -107,6 +143,7 @@ class DeviceController extends GetxController {
       ..deviceType = type
       ..deviceName = name
       ..url = urlPrefix
+      ..isConnect = true
       ..messagePort = port;
     if (!connectDevice.contains(device)) {
       // 第一次连接该设备
@@ -176,9 +213,11 @@ class DeviceController extends GetxController {
     }
   }
 
+  /// 判断一个IP是否已经被连接了
+  /// 发送连接消息的时候需要的
   bool ipIsConnect(String ip) {
     Uri? ipUrl = Uri.tryParse(ip);
-    for (Device device in connectDevice) {
+    for (Device device in availableDevices()) {
       Uri? uri = Uri.tryParse(device.url!);
       if (uri?.host == ipUrl?.host) {
         return true;

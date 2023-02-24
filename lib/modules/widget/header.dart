@@ -10,7 +10,7 @@ import 'package:speed_share/modules/dialog/show_qr_page.dart';
 
 import 'menu.dart';
 
-// 主页显示的最上面那个header
+/// 主页显示的最上面那个header
 class Header extends StatelessWidget {
   const Header({
     Key? key,
@@ -102,7 +102,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
       page = page % 2;
       if (page == 1) {
         DeviceController deviceController = Get.find();
-        if (deviceController.connectDevice.isEmpty) {
+        if (deviceController.availableDevices().isEmpty) {
           page = 0;
         }
       }
@@ -149,7 +149,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
                       ),
                     ),
                     TextSpan(
-                      text: '${deviceController.connectDevice.length}',
+                      text: '${deviceController.availableDevice()}',
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).primaryColor,
@@ -174,7 +174,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
               GetBuilder<DeviceController>(
                 builder: (controller) {
                   List<Widget> children = [];
-                  for (Device device in controller.connectDevice) {
+                  for (Device device in controller.availableDevices()) {
                     children.add(
                       Material(
                         color: device.deviceColor.withOpacity(0.1),

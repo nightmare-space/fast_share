@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # 下面这个库是未开源的，所有大家编译不过请手动移除这个仓库，然后移除相关代码
   speed_share_extension:
     path: ../speed_share_extension
   android_window: ^0.2.0
@@ -24,9 +25,6 @@ dependencies:
   # dio_range_download: ^1.0.1
   flutter_markdown: ^0.6.10+2
   clipboard_watcher: ^0.1.2
-  # 文件选择自实现方案
-  file_selector_nightmare:
-    git: https://github.com/nightmare-space/file_selector_meng
   signale: ^0.0.7
   file_manager_view:
     git: https://github.com/nightmare-space/file_manager_view.git
@@ -121,8 +119,6 @@ dependency_overrides:
   #   path: ../global_repository
   # file_manager_view:
   #   path: ../file_manager_view
-  file_selector_nightmare:
-    path: ../file_selector_meng
   # user_center_frontend:
   #   path: ../user_center_frontend
 flutter_intl:

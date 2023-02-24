@@ -85,10 +85,11 @@ class FileController extends GetxController with WidgetsBindingObserver {
 
   // TODO 生命周期变化触发刷新
   Future<void> initFile() async {
+    // 先创建文件夹
+    checkIfNotExist();
     if (settingController.enableFileClassify) {
       // TODO 有一种可能，用户在使用过程中打开这个开关，但是这个时候还没有对应的文件夹
       // 是不是会报错
-      checkIfNotExist();
       moveFile();
     }
     List<FileSystemEntity> list = await (Directory('$prefix/$onknownKey').list()).toList();

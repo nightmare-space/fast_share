@@ -5,9 +5,8 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
-import 'package:file_manager_view/file_manager_view.dart';
+import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:speed_share/themes/app_colors.dart';
-
 import 'widget/header.dart';
 
 class RemotePage extends StatefulWidget {
@@ -117,8 +116,8 @@ class _RemotePageState extends State<RemotePage> {
                     onTap: () {
                       Log.i(device);
                       Uri uri = Uri.tryParse(device.url!)!;
-                      page = FileManager(
-                        address: 'http://${uri.host}:20000',
+                      page = fm.FileManager(
+                        address: 'http://${uri.host}:${fm.Config.port}',
                         usePackage: true,
                         path: device.deviceType == desktop ? '/Users' : '/sdcard',
                       );

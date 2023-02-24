@@ -30,6 +30,7 @@ class Global with ClipboardListener, WindowListener {
 
   Multicast multicast = Multicast();
   String deviceName = '';
+  /// 设备的唯一标识
   String uniqueKey = '';
 
   /// 是否已经初始化

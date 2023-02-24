@@ -19,6 +19,8 @@ import 'package:speed_share/modules/preview/image_preview.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
+import 'recent_connect_container.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
@@ -122,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 10.w),
                 recentFile(context),
                 SizedBox(height: 10.w),
-                recentConnect(context),
+                const RecentConnectContainer(),
                 SizedBox(height: 10.w),
                 Container(
                   decoration: BoxDecoration(
@@ -153,7 +155,6 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(height: 4.w),
                         GetBuilder<FileController>(builder: (ctl) {
                           File? file = fileController.getRecentImage() as File?;
-
                           if (file == null) {
                             return Center(
                               child: Text(
@@ -201,125 +202,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  CardWrapper recentConnect(BuildContext context) {
-    return CardWrapper(
-      height: 200.w,
-      padding: EdgeInsets.all(12.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                '最近连接',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  DeviceController deviceController = Get.find();
-                  deviceController.clearHistory();
-                  showToast('清除成功');
-                },
-                child: Container(
-                  child: Icon(
-                    Icons.delete,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 4.w),
-          Container(
-            color: const Color(0xffE0C4C4).withOpacity(0.2),
-            height: 1,
-          ),
-          SizedBox(height: 4.w),
-          Expanded(
-            child: GetBuilder<DeviceController>(
-              builder: (ctl) {
-                List<Widget> children = [];
-                for (History history in ctl.historys.datas!) {
-                  children.add(
-                    SizedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 20.w,
-                            child: Row(
-                              children: [
-                                Text(
-                                  basename(history.deviceName!),
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    fontSize: 14.w,
-                                    color: Theme.of(context).textTheme.bodyMedium!.color,
-                                    height: 1,
-                                  ),
-                                ),
-                                Text(
-                                  basename(history.id ?? ''),
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    fontSize: 14.w,
-                                    color: Theme.of(context).textTheme.bodyMedium!.color,
-                                    height: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20.w,
-                            child: Text(
-                              basename(history.url!),
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 14.w,
-                                color: Theme.of(context).textTheme.bodyMedium!.color,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                  children.add(
-                    SizedBox(
-                      width: 4.w,
-                    ),
-                  );
-                }
-                if (children.isEmpty) {
-                  return Center(
-                    child: Text(
-                      '空',
-                      style: TextStyle(
-                        fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                    ),
-                  );
-                }
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: children,
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
       ),
     );
   }

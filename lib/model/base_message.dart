@@ -3,7 +3,7 @@ import 'dart:convert';
 class MessageBaseInfo {
   String? msgType;
   String? deviceName;
-  // 用来做发送设备的位移标识
+  // 用来做发送设备的唯一标识
   String? deviceId;
   int? deviceType;
 

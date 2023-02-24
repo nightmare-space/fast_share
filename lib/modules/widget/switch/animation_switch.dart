@@ -68,10 +68,7 @@ class _RenderXliveSwitch extends RenderConstrainedBox {
     required ValueChanged<bool> onChanged,
     required TextDirection textDirection,
     required TickerProvider vsync,
-  })  : assert(value != null),
-        assert(activeColor != null),
-        assert(vsync != null),
-        _value = value,
+  })  : _value = value,
         _activeColor = activeColor,
         _unActiveColor = unActiveColor,
         _onChanged = onChanged,
@@ -134,7 +131,6 @@ class _RenderXliveSwitch extends RenderConstrainedBox {
   bool _value;
 
   set value(bool value) {
-    assert(value != null);
     if (value == _value) return;
     _value = value;
     markNeedsSemanticsUpdate();
@@ -151,7 +147,6 @@ class _RenderXliveSwitch extends RenderConstrainedBox {
   TickerProvider _vsync;
 
   set vsync(TickerProvider value) {
-    assert(value != null);
     if (value == _vsync) return;
     _vsync = value;
     _positionController.resync(vsync);
@@ -193,7 +188,6 @@ class _RenderXliveSwitch extends RenderConstrainedBox {
   TextDirection _textDirection;
 
   set textDirection(TextDirection value) {
-    assert(value != null);
     if (_textDirection == value) return;
     _textDirection = value;
     markNeedsPaint();

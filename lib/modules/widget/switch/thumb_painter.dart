@@ -17,7 +17,7 @@ class _XliveThumbPainter {
 
   static const double radius = 14.0;
 
-  static const double extension = 7.0;
+  // static const double extension = 7.0;
 
   void paint(Canvas canvas, Rect rect) {
     final RRect rrectParent = RRect.fromRectAndRadius(
