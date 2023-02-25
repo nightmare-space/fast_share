@@ -177,21 +177,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  /// 发送文件夹
-  /// send dir
-  Future<void> sendDir() async {
-    String? dirPath;
-    if (GetPlatform.isDesktop) {
-      dirPath = await getDirectoryPath(
-        confirmButtonText: '选择',
-      );
-    } else {
-      dirPath = await file_manager.FileSelector.pickDirectory(Get.context!);
-    }
-    Log.d('dirPath -> $dirPath');
-    if (dirPath == null) {
-      return;
-    }
+  Future<void> sendDirFromPath(String dirPath) async {
     Directory dir = Directory(dirPath);
     String dirName = p.basename(dirPath);
     DirMessage dirMessage = DirMessage(
@@ -226,7 +212,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         partOf: dirName,
       );
       sendMessage(dirPartMessage);
-      Log.i(dirPartMessage);
+      // Log.i(dirPartMessage);
     });
     // await for(FileSystemEntity element in  dir.list(recursive: true)){
 
@@ -244,6 +230,24 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     //   'partOf': dirName,
     // });
     // socket.send(info.toString());
+  }
+
+  /// 发送文件夹
+  /// send dir
+  Future<void> sendDir() async {
+    String? dirPath;
+    if (GetPlatform.isDesktop) {
+      dirPath = await getDirectoryPath(
+        confirmButtonText: '选择',
+      );
+    } else {
+      dirPath = await file_manager.FileSelector.pickDirectory(Get.context!);
+    }
+    Log.d('dirPath -> $dirPath');
+    if (dirPath == null) {
+      return;
+    }
+    sendDirFromPath(dirPath);
   }
 
   // 通知web浏览器开始上传文件
@@ -397,13 +401,15 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> dispatch(MessageBaseInfo info, List<Widget?> children) async {
-    // if (info.deviceId == uniqueKey.toString()) {
-    //   return;
-    // }
+    if (info.deviceId == Global().uniqueKey) {
+      return;
+    }
     switch (info.runtimeType) {
       // 剪切板消息
       case ClipboardMessage:
-        // TODO，应该先读设置开关
+        if (!settingController.clipboardShare) {
+          return;
+        }
         ClipboardMessage clipboardMessage = info as ClipboardMessage;
         Clipboard.setData(ClipboardData(text: clipboardMessage.content));
         // 置为false是为了不让此次复制行为再同步出去
@@ -430,14 +436,15 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             joinMessage.filePort,
           );
           Log.i('计算结果:$urlPrefix');
+          if (urlPrefix == null) {
+            return;
+          }
           // 先回连接消息
           sendJoinEvent('$urlPrefix:${joinMessage.messagePort}');
           try {
             // 会先尝试去找是否已经被记录了
             // will try to find object first
-            deviceController.connectDevice.firstWhere(
-              (element) => element.id == info.deviceId,
-            );
+            deviceController.connectDevice.firstWhere((element) => element.id == info.deviceId);
           } catch (e) {
             // catch住说明没有找到
             deviceController.onDeviceConnect(
@@ -492,7 +499,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         Log.w('dirItemMap -> $dirItemMap');
         break;
       case DirPartMessage:
-        Log.w('DirPartMessage $info');
         DirPartMessage dirPartMessage = info as DirPartMessage;
         if (dirPartMessage.stat == 'complete') {
           Log.e('完成发送');
@@ -503,6 +509,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           );
           update();
         } else {
+          // 下面这行是不断重置文件夹的大小
           dirMsgMap[dirPartMessage.partOf]!.fullSize = dirMsgMap[dirPartMessage.partOf]!.fullSize! + (dirPartMessage.size ?? 0);
           dirMsgMap[dirPartMessage.partOf]!.paths!.add(dirPartMessage.path);
           children[dirItemMap[dirPartMessage.partOf]!] = MessageItemFactory.getMessageItem(

@@ -30,6 +30,7 @@ class Global with ClipboardListener, WindowListener {
 
   Multicast multicast = Multicast();
   String deviceName = '';
+
   /// 设备的唯一标识
   String uniqueKey = '';
 
@@ -42,8 +43,12 @@ class Global with ClipboardListener, WindowListener {
   @override
   void onClipboardChanged() async {
     // TODO，应该先读设置开关
+    SettingController settingController = Get.find();
+    if (!settingController.clipboardShare) {
+      return;
+    }
     ClipboardData? newClipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-    Log.i('剪切板来啦:${newClipboardData?.text}');
+    Log.i('监听到本机的剪切板:${newClipboardData?.text}');
     ChatController chatController = Get.find();
     ClipboardMessage info = ClipboardMessage(
       content: newClipboardData?.text ?? "",

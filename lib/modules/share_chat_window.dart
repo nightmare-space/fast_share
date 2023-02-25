@@ -29,7 +29,6 @@ class ShareChatV2 extends StatefulWidget {
 class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStateMixin {
   ChatController controller = Get.find();
   late AnimationController menuAnim;
-  bool dropping = false;
   int index = 0;
   // 输入框控制器
   TextEditingController editingController = TextEditingController();
@@ -59,68 +58,10 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: OverlayStyle.dark,
-      child: DropTarget(
-        onDragDone: (detail) async {
-          Log.d('files -> ${detail.files}');
-          if (GetPlatform.isAndroid) {
-            for (var value in detail.files) {
-              Log.w(value.path);
-              String filePath = p.fromUri(Uri.parse(value.path).path).replaceAll(
-                    '/raw/',
-                    '',
-                  );
-              controller.sendFileFromPath(filePath);
-              // Log.w(p
-              //     .fromUri(Uri.parse(value.path).path)
-              //     .replaceAll('/raw/', ''));
-            }
-          }
-          setState(() {});
-          if (detail.files.isNotEmpty) {
-            controller.sendXFiles(detail.files);
-          }
-        },
-        onDragUpdated: (details) {
-          setState(() {
-            // offset = details.localPosition;
-          });
-        },
-        onDragEntered: (detail) {
-          setState(() {
-            dropping = true;
-            // offset = detail.localPosition;
-          });
-        },
-        onDragExited: (detail) {
-          setState(() {
-            dropping = false;
-            // offset = null;
-          });
-        },
-        child: Stack(
-          children: [
-            body(context),
-            if (dropping)
-              BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 4.0,
-                  sigmaY: 4.0,
-                ),
-                child: Material(
-                  child: Center(
-                    child: Text(
-                      '释放以分享文件到共享窗口~',
-                      style: TextStyle(
-                        color: AppColors.fontColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.w,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
+      child: Stack(
+        children: [
+          body(context),
+        ],
       ),
     );
   }

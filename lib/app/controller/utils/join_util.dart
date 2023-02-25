@@ -16,7 +16,6 @@ class JoinUtil {
     JoinMessage message = JoinMessage();
     message.deviceName = Global().deviceName;
     message.deviceId = Global().uniqueKey;
-    Log.i(' message.deviceId -> ${message.deviceId}');
     message.addrs = addrs;
     message.deviceType = type;
     message.filePort = shelfBindPort;
@@ -31,7 +30,7 @@ class JoinUtil {
       return true;
       // deviceController.onDeviceConnect(res.data, name, type, urlPrefix, port)
     } on DioError catch (e) {
-      Log.e('$url 发送加入消息异常，但不一定会影响使用\n详情：${e.message}');
+      Log.e('$url 发送加入消息异常，但不一定会影响使用\n详情：${e.message} ${e.response}');
       return false;
     }
   }

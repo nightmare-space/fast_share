@@ -7,6 +7,9 @@ import 'package:speed_share/modules/setting/setting_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/speed_share.dart';
 import 'package:speed_share/themes/app_colors.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
+import 'change_log.dart';
 
 class PersonalPage extends StatefulWidget {
   const PersonalPage({Key? key}) : super(key: key);
@@ -32,18 +35,18 @@ class _PersonalPageState extends State<PersonalPage> {
               ],
             ),
           SizedBox(height: 12.w),
-          personalItem(
-            title: S.of(context).aboutSpeedShare,
-            onTap: () {
-              Get.to(const SettingPage());
-            },
-          ),
-          personalItem(
-            title: S.of(context).theTermsOfService,
-            onTap: () {
-              Get.to(const SettingPage());
-            },
-          ),
+          // personalItem(
+          //   title: S.of(context).aboutSpeedShare,
+          //   onTap: () {
+          //     Get.to(const SettingPage());
+          //   },
+          // ),
+          // personalItem(
+          //   title: S.of(context).theTermsOfService,
+          //   onTap: () {
+          //     Get.to(const SettingPage());
+          //   },
+          // ),
           personalItem(
             title: S.of(context).privacyAgreement,
             onTap: () {
@@ -54,6 +57,32 @@ class _PersonalPageState extends State<PersonalPage> {
             title: S.of(context).setting,
             onTap: () {
               Get.to(const SettingPage());
+            },
+          ),
+          personalItem(
+            title: '加入交流反馈群',
+            onTap: () async {
+              const String url = 'mqqapi://card/show_pslcard?src_type=internal&version=1&uin=673706601&card_type=group&source=qrcode';
+              if (await canLaunchUrlString(url)) {
+                await launchUrlString(url);
+              } else {
+                showToast('唤起QQ失败，请检查是否安装。');
+                // throw 'Could not launch $url';
+              }
+            },
+          ),
+          personalItem(
+            title: '开源协议',
+            onTap: () async {
+              Get.to(const LicensePage(
+                applicationName: '速享',
+              ));
+            },
+          ),
+          personalItem(
+            title: '更新日志',
+            onTap: () async {
+              Get.to(const ChangeLog());
             },
           ),
         ],

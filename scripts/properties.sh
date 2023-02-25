@@ -1,5 +1,5 @@
-VERSION='2.2.1'
-VERSION_CODE='61'
+VERSION='2.2.2'
+VERSION_CODE='62'
 TARGET_PATH=root@$server:/home/nightmare/YanTool/resources/SpeedShare
 APP_NAME='SpeedShare'
 APP_NAME_CN='速享'

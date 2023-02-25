@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.2.1+61
+version: 2.2.2+62
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -95,6 +95,7 @@ flutter:
   assets:
     - assets/
     - assets/icon/
+    - CHANGELOG.md
 
 dependency_overrides:
   flutter_svg: ^1.1.0

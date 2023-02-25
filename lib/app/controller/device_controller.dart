@@ -98,7 +98,7 @@ class DeviceController extends GetxController {
       for (Device device in connectDevice) {
         try {
           Response response = await Dio().get('${device.url}:${device.messagePort}/check_token');
-          Log.d(response.data);
+          // Log.d(response.data);
           device.isConnect = true;
           update();
         } catch (e) {
@@ -122,6 +122,7 @@ class DeviceController extends GetxController {
     return count;
   }
 
+  /// 返回正常连接的设备
   List<Device> availableDevices() {
     List<Device> devices = [];
     for (Device device in connectDevice) {
@@ -165,7 +166,6 @@ class DeviceController extends GetxController {
     if (!historys.datas!.contains(history)) {
       // 不包含才添加这行历史
       historys.datas!.add(history);
-      Log.i(historys);
     } else {
       History exist = historys.datas!.firstWhere((element) => element.id == history.id);
       exist.url = url;

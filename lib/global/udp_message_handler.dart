@@ -13,6 +13,6 @@ Future<void> receiveUdpMessage(String message, String address) async {
     return;
   }
   if (id.trim() != await UniqueUtil.getDevicesId()) {
-    sendJoinEvent('http://$address:$port');
+    // sendJoinEvent('http://$address:$port');
   }
 }

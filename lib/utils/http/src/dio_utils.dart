@@ -9,28 +9,28 @@ class DioUtils {
 
   static Dio? getInstance() {
     if (_instance == null) {
-      // BaseOptions options = BaseOptions(
-      //   receiveDataWhenStatusError: true,
-      //   connectTimeout: 60 * 1000,
-      //   receiveTimeout: 60 * 1000,
-      // );
+      BaseOptions options = BaseOptions(
+        receiveDataWhenStatusError: true,
+        connectTimeout: 60 * 1000,
+        receiveTimeout: 60 * 1000,
+      );
 
-      _instance = Dio();
+      _instance = Dio(options);
       _instance!.interceptors.add(HeaderInterceptor());
       _instance!.interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) {
             // print(options.extra);
-            print('');
-            Log.v('>>>>>>>>HTTP LOG');
-            Log.v('>>>>>>>>URI: ${options.uri}');
-            // Log.v('>>>>>>>>Method: ${options.method}');
-            // Log.v('>>>>>>>>Headers: ${options.headers}');
-            JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-            String prettyprint = encoder.convert(options.data);
-            Log.v('>>>>>>>>Body: $prettyprint');
-            Log.v('<<<<<<<<');
-            print('');
+            // print('');
+            // Log.v('>>>>>>>>HTTP LOG');
+            // Log.v('>>>>>>>>URI: ${options.uri}');
+            // // Log.v('>>>>>>>>Method: ${options.method}');
+            // // Log.v('>>>>>>>>Headers: ${options.headers}');
+            // JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+            // String prettyprint = encoder.convert(options.data);
+            // Log.v('>>>>>>>>Body: $prettyprint');
+            // Log.v('<<<<<<<<');
+            // print('');
             handler.next(options);
           },
         ),

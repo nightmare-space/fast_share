@@ -111,5 +111,5 @@ Language: 中文简体 | [English](README-EN.md)
 
 ## 开发者文档
 
-详见 [DEVELOP.md](DEVELOP.md)
+详见 [DEVELOP.md](docs/DEVELOP.md)
 

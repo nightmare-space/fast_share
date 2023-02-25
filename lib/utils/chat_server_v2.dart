@@ -36,7 +36,7 @@ class Server {
       );
     });
     app.get('/check_token', (Request request) {
-      Log.d('check_token call');
+      // Log.d('check_token call');
       return Response.ok('success', headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*',

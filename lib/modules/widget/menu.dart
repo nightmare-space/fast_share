@@ -55,155 +55,153 @@ class _HeaderMenuState extends State<HeaderMenu> {
                   clipBehavior: Clip.antiAlias,
                   color: Theme.of(context).surface1,
                   elevation: 2,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            Navigator.of(context).pop();
-                            Get.dialog(const JoinChat());
-                          },
-                          child: SizedBox(
-                            height: 48.w,
-                            child: Align(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      color: Theme.of(context).colorScheme.onBackground,
-                                      size: 24.w,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          Get.dialog(const JoinChat());
+                        },
+                        child: SizedBox(
+                          height: 48.w,
+                          child: Align(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: Theme.of(context).colorScheme.onBackground,
+                                    size: 24.w,
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    S.of(context).inputConnect,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    SizedBox(width: 12.w),
-                                    Text(
-                                      S.of(context).inputConnect,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            ScanUtil.parseScan();
-                            Navigator.of(context).pop();
-                          },
-                          child: SizedBox(
-                            height: 48.w,
-                            child: Align(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SvgPicture.asset(
-                                      GlobalAssets.qrCode,
-                                      color: Theme.of(context).colorScheme.onBackground,
-                                      width: 24.w,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          ScanUtil.parseScan();
+                          Navigator.of(context).pop();
+                        },
+                        child: SizedBox(
+                          height: 48.w,
+                          child: Align(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SvgPicture.asset(
+                                    GlobalAssets.qrCode,
+                                    color: Theme.of(context).colorScheme.onBackground,
+                                    width: 24.w,
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    S.of(context).scan,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    SizedBox(width: 12.w),
-                                    Text(
-                                      S.of(context).scan,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            Navigator.of(context).pop();
-                            Get.to(
-                              () => Responsive(
-                                builder: (context, screenType) {
-                                  return const LoggerView();
-                                },
-                              ),
-                            );
-                          },
-                          child: SizedBox(
-                            height: 48.w,
-                            child: Align(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.info,
-                                      color: Theme.of(context).colorScheme.onBackground,
-                                      size: 24.w,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          Get.to(
+                            () => Responsive(
+                              builder: (context, screenType) {
+                                return const LoggerView();
+                              },
+                            ),
+                          );
+                        },
+                        child: SizedBox(
+                          height: 48.w,
+                          child: Align(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.info,
+                                    color: Theme.of(context).colorScheme.onBackground,
+                                    size: 24.w,
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    S.of(context).log,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    SizedBox(width: 12.w),
-                                    Text(
-                                      S.of(context).log,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            // Navigator.of(context).pop();
-                            SettingController settingController = Get.find();
-                            final dir = settingController.savePath;
-                            const String fileName = 'log.txt';
-                            File newFile = File('${dir}_$fileName');
-                            if (newFile.existsSync()) {
-                              newFile.deleteSync();
-                            }
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          // Navigator.of(context).pop();
+                          SettingController settingController = Get.find();
+                          final dir = settingController.savePath;
+                          const String fileName = 'log.txt';
+                          File newFile = File('${dir}_$fileName');
+                          if (newFile.existsSync()) {
+                            newFile.deleteSync();
+                          }
 
-                            StringBuffer sb = StringBuffer();
-                            for (var log in Log.buffer) {
-                              sb.writeln('[${twoDigits(log.time.hour)}:${twoDigits(log.time.minute)}:${twoDigits(log.time.second)}] ${log.data}');
-                            }
-                            newFile.writeAsString(sb.toString());
-                          },
-                          child: SizedBox(
-                            height: 48.w,
-                            child: Align(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.download,
-                                      color: Theme.of(context).colorScheme.onBackground,
-                                      size: 24.w,
+                          StringBuffer sb = StringBuffer();
+                          for (var log in Log.buffer) {
+                            sb.writeln('[${twoDigits(log.time.hour)}:${twoDigits(log.time.minute)}:${twoDigits(log.time.second)}] ${log.data}');
+                          }
+                          newFile.writeAsString(sb.toString());
+                          showToast('日志输出到 ${dir}_$fileName');
+                        },
+                        child: SizedBox(
+                          height: 48.w,
+                          child: Align(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.download,
+                                    color: Theme.of(context).colorScheme.onBackground,
+                                    size: 24.w,
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    '输出 ${S.of(context).log}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    SizedBox(width: 12.w),
-                                    Text(
-                                      '输出 ${S.of(context).log}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

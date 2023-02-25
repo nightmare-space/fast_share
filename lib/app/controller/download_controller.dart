@@ -38,7 +38,7 @@ class DownloadController extends GetxController {
   }
 
   // 计算网速
-  Future<void> computeNetSpeed(DownloadInfo info) async {
+  Future<Timer> computeNetSpeed(DownloadInfo info) async {
     int tmpCount = 0;
     // todo 没释放
     Timer timer;
@@ -50,6 +50,7 @@ class DownloadController extends GetxController {
       info.speed = FileSizeUtils.getFileSize(diff * 2);
       Log.e('网速 -> ${info.speed}');
     });
+    return timer;
   }
 
   @override
@@ -66,7 +67,7 @@ class DownloadController extends GetxController {
     DownloadInfo info = DownloadInfo();
     progress[url] = info;
     String savePath = getSavePath(url, dir);
-    computeNetSpeed(info);
+    Timer timer=await computeNetSpeed(info);
     // Response res = await RangeDownload.downloadWithChunks(
     //   '$urlPath?download=true', savePath,
     //   // isRangeDownload: false, //Support normal download
@@ -92,6 +93,7 @@ class DownloadController extends GetxController {
         update();
       },
     );
+    timer.cancel();
     update();
   }
 
