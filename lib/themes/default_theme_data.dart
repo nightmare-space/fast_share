@@ -21,7 +21,6 @@ class DefaultThemeData {
     );
     // ThemeData
     return darkThemeData.copyWith(
-      colorScheme: darkColorScheme,
       primaryColor: darkColorScheme.primary,
       scaffoldBackgroundColor: darkColorScheme.background,
       cupertinoOverrideTheme: const CupertinoThemeData(
@@ -111,7 +110,6 @@ class DefaultThemeData {
     ColorScheme colorScheme = lightColorScheme.copyWith();
     return lightThemeData.copyWith(
       primaryColor: colorScheme.primary,
-      colorScheme: colorScheme,
       // Desktop有高斯模糊背景
       scaffoldBackgroundColor: colorScheme.background,
       cupertinoOverrideTheme: const CupertinoThemeData(
@@ -191,6 +189,49 @@ class DefaultThemeData {
       textTheme: lightThemeData.textTheme.copyWith(
         bodyMedium: lightThemeData.textTheme.bodyMedium!.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
       ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return colorScheme.primary;
+          }
+          return null;
+        }),
+        trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return colorScheme.primary;
+          }
+          return null;
+        }),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return colorScheme.primary;
+          }
+          return null;
+        }),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return colorScheme.primary;
+          }
+          return null;
+        }),
+      ),
+      colorScheme: colorScheme,
     );
   }
 }

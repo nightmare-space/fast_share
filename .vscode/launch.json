@@ -30,12 +30,6 @@
             "deviceId": "linux"
         },
         {
-            "name": "小米10s",
-            "request": "launch",
-            "type": "dart",
-            "deviceId": "M2102J2SC"
-        },
-        {
             "name": "小米12s",
             "request": "launch",
             "type": "dart",

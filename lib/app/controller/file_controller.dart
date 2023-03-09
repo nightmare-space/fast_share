@@ -164,10 +164,6 @@ class FileController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

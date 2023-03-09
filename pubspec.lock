@@ -223,9 +223,11 @@ packages:
   file_manager_view:
     dependency: "direct main"
     description:
-      path: "../file_manager_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "7a839122dc8a429ad94ec2821b2ac6ca1534b085"
+      url: "https://github.com/nightmare-space/file_manager_view.git"
+    source: git
     version: "1.0.0+1"
   file_picker:
     dependency: "direct main"
@@ -1121,5 +1123,5 @@ packages:
     source: git
     version: "3.4.1"
 sdks:
-  dart: ">=2.18.0 <3.0.0"
+  dart: ">=2.19.0 <3.0.0"
   flutter: ">=3.3.0"

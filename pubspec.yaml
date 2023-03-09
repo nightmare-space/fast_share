@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # 下面这个库是未开源的，所有大家编译不过请手动移除这个仓库，然后移除相关代码
+  # 这是一个非开源库，需要编译该项目请移除改依赖和相关的代码
   speed_share_extension:
     path: ../speed_share_extension
   android_window: ^0.2.0
