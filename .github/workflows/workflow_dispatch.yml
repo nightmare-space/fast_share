@@ -80,7 +80,7 @@ jobs:
           curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfer.sh/${{ env.APP_NAME }}.deb
 
   build-linux-arm64:
-    runs-on: ubuntu-linux-22-04-desktop
+    runs-on: self-hosted
     steps:
       # - run: |
       #     echo "Log level: $LEVEL"
