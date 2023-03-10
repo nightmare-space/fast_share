@@ -118,6 +118,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          architecture: arm64
 
       - name: Setup other environment
         run: |
