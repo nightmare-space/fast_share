@@ -7,9 +7,19 @@ Language: 中文简体 | [English](README-EN.md)
 [![Code size](https://img.shields.io/github/languages/code-size/nightmare-space/speed_share?logo=github&logoColor=white)](https://github.com/nightmare-space/speed_share)
 [![License](https://img.shields.io/github/license/nightmare-space/speed_share?logo=open-source-initiative&logoColor=green)](https://github.com/nightmare-space/speed_share/blob/master/LICENSE)
  ![Platform](https://img.shields.io/badge/support%20platform-android%20%7C%20web%20%7C%20windows%20%7C%20macos%20%7C%20linux-orange) ![download time](https://img.shields.io/github/downloads/nightmare-space/speed_share/total) ![open issues](https://img.shields.io/github/issues/nightmare-space/speed_share) ![fork](https://img.shields.io/github/forks/nightmare-space/speed_share?style=social) ![code line](https://img.shields.io/tokei/lines/github/nightmare-space/speed_share) ![build](https://img.shields.io/github/workflow/status/nightmare-space/speed_share/SpeedShare%20Publish%20Actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f969750dc4aa424ead664219ddcf321d)](https://app.codacy.com/gh/nightmare-space/speed_share?utm_source=github.com&utm_medium=referral&utm_content=nightmare-space/speed_share&utm_campaign=Badge_Grade)
- [![SpeedShare Publish Actions](https://github.com/nightmare-space/speed_share/actions/workflows/publish.yml/badge.svg)](https://github.com/nightmare-space/speed_share/actions/workflows/publish.yml)
 
-<img src="header.png" width="100%" /> 
+
+- [速享](#速享)
+  - [关于开发者](#关于开发者)
+  - [截图](#截图)
+  - [功能特性](#功能特性)
+  - [浏览器加入](#浏览器加入)
+  - [文件共享](#文件共享)
+    - [在房间中](#在房间中)
+    - [在主页](#在主页)
+  - [设置](#设置)
+  - [本地文件管理](#本地文件管理)
+  - [开发者文档](#开发者文档)
 
 这是一款完全基于局域网的文件互传终端，速享不使用任何服务器，不使用您的移动流量，不收集任何用户数据，完全的点对点传输。
 
@@ -23,19 +33,10 @@ Language: 中文简体 | [English](README-EN.md)
 
 这个仓库仍在开发维护中，但是由于平时工作缘故，所以不会有太多空闲的时间，相关的截图等都没来得及更新，见谅！！！
 编译不过联系邮箱 mengyanshou@gmail.com
-## 目录
 
-- [速享](#速享)
-  - [目录](#目录)
-  - [截图](#截图)
-  - [功能特性](#功能特性)
-  - [浏览器加入](#浏览器加入)
-  - [文件共享](#文件共享)
-    - [在房间中](#在房间中)
-    - [在主页](#在主页)
-  - [设置](#设置)
-  - [本地文件管理](#本地文件管理)
-  - [开发者文档](#开发者文档)
+## 关于开发者
+自从正式入职后，我便不再有大量的精力能够投入到开源项目中，
+
 
 ## 截图
 
