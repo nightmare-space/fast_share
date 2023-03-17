@@ -3,14 +3,14 @@
     // 悬停以查看现有属性的描述。
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [{
+    "configurations": [
+        {
             "name": "Web",
             "type": "dart",
             "request": "launch",
             "program": "lib/main.dart",
             "deviceId": "chrome"
         },
-
         {
             "name": "Mac Desktop",
             "request": "launch",
@@ -33,7 +33,8 @@
             "name": "小米12s",
             "request": "launch",
             "type": "dart",
-            "deviceId": "2206123SC"
+            "deviceId": "2206123SC",
+            "toolArgs": [],
         },
         {
             "name": "小米12s-个人",
@@ -58,7 +59,8 @@
             "name": "小米13",
             "request": "launch",
             "type": "dart",
-            "deviceId": "2211133C"
+            "deviceId": "2211133C",
+            "toolArgs": [],
         },
     ]
 }

@@ -62,7 +62,7 @@ class _FilePageState extends State<FilePage> {
                   showAddress: false,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 96.w),
+                  padding: EdgeInsets.only(right: 140.w),
                   child: NiIconButton(
                     onTap: () {
                       pageIndex == 0 ? pageIndex = 1 : pageIndex = 0;

@@ -56,7 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "scan": MessageLookupByLibrary.simpleMessage("扫描二维码"),
         "setting": MessageLookupByLibrary.simpleMessage("设置"),
         "theTermsOfService": MessageLookupByLibrary.simpleMessage("服务条款"),
-        "ui": MessageLookupByLibrary.simpleMessage("Ui设计师"),
+        "ui": MessageLookupByLibrary.simpleMessage("UI设计师"),
         "unknownFile": MessageLookupByLibrary.simpleMessage("未知文件"),
         "video": MessageLookupByLibrary.simpleMessage("视频"),
         "zip": MessageLookupByLibrary.simpleMessage("压缩包")

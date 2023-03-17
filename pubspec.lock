@@ -398,7 +398,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4776d3d216f057bc2f8ba76deb910b8c6a6321f4"
+      resolved-ref: ab80e5f28c639de63f8aad6b21191ef23bc1ff51
       url: "https://github.com/nightmare-space/global_repository"
     source: git
     version: "0.0.1"
@@ -530,15 +530,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  logger_view:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: bd4a2adf012dc7b7e012b430e06118b2d5ba4e1a
-      url: "https://github.com/nightmare-space/logger_view"
-    source: git
-    version: "0.0.1"
   markdown:
     dependency: transitive
     description:

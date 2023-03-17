@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:clipboard_watcher/clipboard_watcher.dart';
+import 'package:dio/adapter.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -8,10 +12,10 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/tray_handler.dart';
 import 'package:speed_share/model/model.dart';
-import 'package:speed_share/utils/unique_util.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 import 'assets_util.dart';
+import 'behavior.dart';
 import 'udp_message_handler.dart';
 export 'constant.dart';
 
@@ -86,8 +90,22 @@ class Global with ClipboardListener, WindowListener {
   // 初始化全局单例
   Future<void> initGlobal() async {
     Log.v('initGlobal', tag: 'GlobalInstance');
-    deviceName = await UniqueUtil.getDevicesId();
+    DateTime time = DateTime.now();
     uniqueKey = await UniqueUtil.getUniqueKey();
+    appInit({
+      'model': await UniqueUtil.getDevicesId(),
+      'app': 'Speed Share',
+      'time': '${time.year}-${twoDigits(time.month)}-${twoDigits(time.day)}',
+      'platform': GetPlatform.isAndroid
+          ? 'Android'
+          : GetPlatform.isMacOS
+              ? 'macOS'
+              : GetPlatform.isWindows
+                  ? 'Windows'
+                  : 'Linux',
+      'unique_key': uniqueKey,
+    });
+    deviceName = await UniqueUtil.getDevicesId();
     Log.v('deviceId -> $deviceName', tag: 'GlobalInstance');
     Log.v('uniqueKey -> $uniqueKey', tag: 'GlobalInstance');
     if (GetPlatform.isWeb || GetPlatform.isIOS) {
@@ -122,5 +140,10 @@ class Global with ClipboardListener, WindowListener {
     windowManager.hide();
     windowManager.setSkipTaskbar(true);
     // windowManager.setProgressBar(0.5);
+  }
+
+  String twoDigits(int n) {
+    if (n >= 10) return "$n";
+    return "0$n";
   }
 }

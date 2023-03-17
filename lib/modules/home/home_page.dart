@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:global_repository/global_repository.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' hide context;
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/app/controller/history.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/modules/file/file_page.dart';
-import 'package:speed_share/modules/personal/privacy_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/modules/preview/image_preview.dart';
@@ -46,7 +44,12 @@ class _HomePageState extends State<HomePage> {
     handleSendFile();
     Future.delayed(Duration.zero, () async {
       if ('privacy'.get == null) {
-        await Get.to(const PrivacyAgreePage());
+        await Get.to(PrivacyAgreePage(
+          onAgreeTap: () {
+            'privacy'.set = true;
+            Navigator.of(context).pop();
+          },
+        ));
         request();
       }
     });

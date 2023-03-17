@@ -21,7 +21,7 @@ env:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       # - run: |
       #     echo "Log level: $LEVEL"
@@ -54,6 +54,8 @@ jobs:
         run: |
           mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
           mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+          echo ${{ secrets.BE }} >./lib/global/behavior.dart
+          echo ${{ secrets.BEG }} >./lib/global/behavior.g.dart
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -179,6 +181,8 @@ jobs:
         run: |
           mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
           mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+          echo ${{ secrets.BE }} >./lib/global/behavior.dart
+          echo ${{ secrets.BEG }} >./lib/global/behavior.g.dart
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}/..
@@ -238,6 +242,8 @@ jobs:
         run: |
           move "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
           move "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+          echo ${{ secrets.BE }} >./lib/global/behavior.dart
+          echo ${{ secrets.BEG }} >./lib/global/behavior.g.dart
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
