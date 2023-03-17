@@ -183,8 +183,8 @@ jobs:
         run: |
           mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
           mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
-          echo ${{ secrets.BE }} >./lib/global/behavior.dart
-          echo ${{ secrets.BEG }} >./lib/global/behavior.g.dart
+          echo "${{ secrets.BE }}" >./lib/global/behavior.dart
+          echo "${{ secrets.BEG }}" >./lib/global/behavior.g.dart
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}/..
