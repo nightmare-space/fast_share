@@ -22,6 +22,7 @@ env:
 jobs:
   build-linux:
     runs-on: ubuntu-20.04
+    environment: default
     steps:
       # - run: |
       #     echo "Log level: $LEVEL"
@@ -144,6 +145,7 @@ jobs:
   build-mac:
     # The type of runner that the job will run on
     runs-on: macos-latest
+    environment: default
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -213,7 +215,7 @@ jobs:
   build-windows:
     # The type of runner that the job will run on
     runs-on: windows-latest
-
+    environment: default
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     
