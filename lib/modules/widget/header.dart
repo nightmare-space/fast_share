@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/modules/dialog/show_qr_page.dart';
+import 'package:speed_share/utils/utils.dart';
 
 import 'menu.dart';
 
@@ -52,6 +54,16 @@ class Header extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              NiIconButton(
+                onTap: () {
+                  ScanUtil.parseScan();
+                },
+                child: SvgPicture.asset(
+                  GlobalAssets.qrCode,
+                  color: Theme.of(context).colorScheme.onBackground,
+                  width: 24.w,
+                ),
+              ),
               NiIconButton(
                 onTap: () {
                   Get.dialog(ShowQRPage(

@@ -12,7 +12,6 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/tray_handler.dart';
 import 'package:speed_share/model/model.dart';
-import 'package:speed_share/utils/unique_util.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 import 'assets_util.dart';
@@ -92,26 +91,18 @@ class Global with ClipboardListener, WindowListener {
   Future<void> initGlobal() async {
     Log.v('initGlobal', tag: 'GlobalInstance');
     DateTime time = DateTime.now();
-    Dio dio = Dio();
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
-      SecurityContext clientContext = SecurityContext()..setTrustedCertificatesBytes(utf8.encode(cert));
-      HttpClient client = HttpClient(context: clientContext);
-      client.keyLog = (line) {
-        Log.w(line);
-      };
-      client.badCertificateCallback = (cert, host, port) {
-        print(cert.pem);
-        return false;
-      };
-      return client;
-    };
-    behaviorAPI = BehaviorAPI(dio);
     uniqueKey = await UniqueUtil.getUniqueKey();
-    behaviorAPI.appInit(params: {
+    appInit({
       'model': await UniqueUtil.getDevicesId(),
       'app': 'Speed Share',
-      'time': '${time.year}-${twoDigits(time.month)}:${twoDigits(time.day)}',
-      'platform': GetPlatform.isAndroid ? 'Android' : 'ios',
+      'time': '${time.year}-${twoDigits(time.month)}-${twoDigits(time.day)}',
+      'platform': GetPlatform.isAndroid
+          ? 'Android'
+          : GetPlatform.isMacOS
+              ? 'macOS'
+              : GetPlatform.isWindows
+                  ? 'Windows'
+                  : 'Linux',
       'unique_key': uniqueKey,
     });
     deviceName = await UniqueUtil.getDevicesId();

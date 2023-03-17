@@ -1,16 +1,12 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:file_manager_view/core/io/interface/file_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:logger_view/logger_view.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/app_colors.dart';
-import 'package:speed_share/utils/scan_util.dart';
 
 import '../dialog/join_chat.dart';
 
@@ -91,37 +87,6 @@ class _HeaderMenuState extends State<HeaderMenu> {
                       ),
                       InkWell(
                         onTap: () async {
-                          ScanUtil.parseScan();
-                          Navigator.of(context).pop();
-                        },
-                        child: SizedBox(
-                          height: 48.w,
-                          child: Align(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                    GlobalAssets.qrCode,
-                                    color: Theme.of(context).colorScheme.onBackground,
-                                    width: 24.w,
-                                  ),
-                                  SizedBox(width: 12.w),
-                                  Text(
-                                    S.of(context).scan,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
                           Navigator.of(context).pop();
                           Get.to(
                             () => Responsive(
@@ -170,7 +135,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
 
                           StringBuffer sb = StringBuffer();
                           for (var log in Log.buffer) {
-                            sb.writeln('[${twoDigits(log.time.hour)}:${twoDigits(log.time.minute)}:${twoDigits(log.time.second)}] ${log.data}');
+                            sb.writeln('${log.time.to()} ${log.data.replaceAll(RegExp('\x1b\\[38;5;244m|\x1b\\[0m|\x1b\\[1;3[0-9]m|\x1b\\[1;0m'), '')}');
                           }
                           newFile.writeAsString(sb.toString());
                           showToast('日志输出到 ${dir}_$fileName');
@@ -210,5 +175,11 @@ class _HeaderMenuState extends State<HeaderMenu> {
         ),
       ],
     );
+  }
+}
+
+extension TimeExt on DateTime {
+  String to() {
+    return '[${twoDigits(hour)}:${twoDigits(minute)}:${twoDigits(second)}]';
   }
 }
