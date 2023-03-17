@@ -171,6 +171,13 @@ jobs:
           ref: 'main'
           path: "${{ github.workspace }}/speed_share_extension"
 
+      - name: Checkout behavior_api code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/behavior_api'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/behavior_api"
       
       - name: Checkout user_center_frontend code
         uses: actions/checkout@v3
@@ -179,12 +186,13 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           ref: 'main'
           path: "${{ github.workspace }}/user_center_frontend"
+
       - name: move file
         run: |
           mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
           mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
-          echo "${{ secrets.BE }}" >./lib/global/behavior.dart
-          echo "${{ secrets.BEG }}" >./lib/global/behavior.g.dart
+          mv "${{ github.workspace }}/behavior_api/behavior.dart" ./lib/global/behavior.dart
+          mv "${{ github.workspace }}/behavior_api/behavior.g.dart" ./lib/global/behavior.g.dart
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}/..
