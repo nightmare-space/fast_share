@@ -53,3 +53,5 @@ windows/flutter/generated_plugin_registrant.cc
 windows/flutter/generated_plugin_registrant.h
 windows/flutter/generated_plugins.cmake
 dist/
+lib/global/behavior.g.dart
+lib/global/behavior.dart

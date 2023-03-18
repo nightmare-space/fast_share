@@ -24,12 +24,6 @@ jobs:
     runs-on: ubuntu-20.04
     environment: default
     steps:
-      # - run: |
-      #     echo "Log level: $LEVEL"
-      #     echo "Tags: $TAGS"
-      #   env:
-      #     LEVEL: ${{ inputs.version }}
-      #     TAGS: ${{ inputs.version_code }}
       - name: Checkout the code
         uses: actions/checkout@v3
         with:
@@ -43,6 +37,13 @@ jobs:
           ref: 'main'
           path: "${{ github.workspace }}/speed_share_extension"
 
+      - name: Checkout behavior_api code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/behavior_api'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/behavior_api"
       
       - name: Checkout user_center_frontend code
         uses: actions/checkout@v3
@@ -51,12 +52,13 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           ref: 'main'
           path: "${{ github.workspace }}/user_center_frontend"
+
       - name: move file
         run: |
           mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
           mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
-          echo ${{ secrets.BE }} >./lib/global/behavior.dart
-          echo ${{ secrets.BEG }} >./lib/global/behavior.g.dart
+          mv "${{ github.workspace }}/behavior_api/behavior.dart" ./lib/global/behavior.dart
+          mv "${{ github.workspace }}/behavior_api/behavior.g.dart" ./lib/global/behavior.g.dart
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -143,11 +145,9 @@ jobs:
   #         curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfer.sh/${{ env.APP_NAME }}.deb
 
   build-mac:
-    # The type of runner that the job will run on
     runs-on: macos-latest
     environment: default
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -197,7 +197,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}/..
       - name: actions/setup-node@v2
-        uses: actions/setup-node@v2   
+        uses: actions/setup-node@v2
       
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -240,7 +240,14 @@ jobs:
           ref: 'main'
           path: "${{ github.workspace }}/speed_share_extension"
 
-      
+      - name: Checkout behavior_api code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/behavior_api'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/behavior_api"
+
       - name: Checkout user_center_frontend code
         uses: actions/checkout@v3
         with:
@@ -248,12 +255,13 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           ref: 'main'
           path: "${{ github.workspace }}/user_center_frontend"
+
       - name: move file
         run: |
           move "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
           move "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
-          echo ${{ secrets.BE }} >./lib/global/behavior.dart
-          echo ${{ secrets.BEG }} >./lib/global/behavior.g.dart
+          mv "${{ github.workspace }}/behavior_api/behavior.dart" ./lib/global/behavior.dart
+          mv "${{ github.workspace }}/behavior_api/behavior.g.dart" ./lib/global/behavior.g.dart
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
