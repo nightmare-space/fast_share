@@ -271,7 +271,7 @@ jobs:
       - name: Building...
         run: |
           flutter config --enable-windows-desktop
-          flutter build windows --dart-define=VERSION=${{ inputs.version }} --dart-define=VERSION_CODE=${{ inputs.version_code }} -t lib/main_personal.dart
+          flutter build windows --dart-define=VERSION=${{ github.event.client_payload.version }} --dart-define=VERSION_CODE=${{ github.event.client_payload.version_code }} -t lib/main_personal.dart
 
       - name: Packaging
         run: |
