@@ -75,6 +75,7 @@ dependencies:
   settings:
     git: https://github.com/nightmare-space/settings
   path_provider: ^2.0.10
+  device_info_plus: 8.1.0
 
 dev_dependencies:
   flutter_test:
@@ -105,6 +106,7 @@ dependency_overrides:
   xterm:
     git:
       url: https://github.com/TerminalStudio/xterm.dart
+  ffi: ^2.0.1
   # android_window:
   #   path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6

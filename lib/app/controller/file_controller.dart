@@ -52,7 +52,9 @@ class FileController extends GetxController with WidgetsBindingObserver {
     for (var key in keys) {
       Directory dir = Directory('$prefix/$key');
       if (!dir.existsSync()) {
-        dir.createSync(recursive: true);
+        try {
+          dir.createSync(recursive: true);
+        } catch (e) {}
       }
     }
   }
@@ -163,7 +165,6 @@ class FileController extends GetxController with WidgetsBindingObserver {
       }
     }
   }
-
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

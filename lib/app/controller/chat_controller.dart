@@ -456,16 +456,16 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             );
             Log.i('$urlPrefix/${joinMessage.messagePort}');
             // 同步之前发送过的消息
-            // for (Map<String, dynamic> data in messageCache) {
-            //   try {
-            //     Response res = await httpInstance!.post(
-            //       '$urlPrefix:${joinMessage.messagePort}',
-            //       data: data,
-            //     );
-            //   } catch (e) {
-            //     Log.e('cache send error : $e');
-            //   }
-            // }
+            for (Map<String, dynamic> data in messageCache) {
+              try {
+                Response res = await httpInstance!.post(
+                  '$urlPrefix:${joinMessage.messagePort}',
+                  data: data,
+                );
+              } catch (e) {
+                Log.e('cache send error : $e');
+              }
+            }
           }
           return;
         }

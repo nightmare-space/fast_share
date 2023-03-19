@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:clipboard_watcher/clipboard_watcher.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
@@ -92,19 +93,6 @@ class Global with ClipboardListener, WindowListener {
     Log.v('initGlobal', tag: 'GlobalInstance');
     DateTime time = DateTime.now();
     uniqueKey = await UniqueUtil.getUniqueKey();
-    appInit({
-      'model': await UniqueUtil.getDevicesId(),
-      'app': 'Speed Share',
-      'time': '${time.year}-${twoDigits(time.month)}-${twoDigits(time.day)}',
-      'platform': GetPlatform.isAndroid
-          ? 'Android'
-          : GetPlatform.isMacOS
-              ? 'macOS'
-              : GetPlatform.isWindows
-                  ? 'Windows'
-                  : 'Linux',
-      'unique_key': uniqueKey,
-    });
     deviceName = await UniqueUtil.getDevicesId();
     Log.v('deviceId -> $deviceName', tag: 'GlobalInstance');
     Log.v('uniqueKey -> $uniqueKey', tag: 'GlobalInstance');
@@ -133,6 +121,7 @@ class Global with ClipboardListener, WindowListener {
       windowManager.addListener(this);
     }
     unpackWebResource();
+    await initApi('Speed Share', Config.versionName);
   }
 
   @override
