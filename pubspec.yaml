@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.2.4+64
+version: 2.2.5+65
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -116,10 +116,10 @@ dependency_overrides:
   #   path: ../app_manager
   # app_channel:
   #   path: ../applib/applib_util
-  # global_repository:
-  #   path: ../global_repository
-  # file_manager_view:
-  #   path: ../file_manager_view
+  global_repository:
+    path: ../global_repository
+  file_manager_view:
+    path: ../file_manager_view
   # user_center_frontend:
   #   path: ../user_center_frontend
 flutter_intl:
