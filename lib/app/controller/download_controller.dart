@@ -22,7 +22,6 @@ class DownloadController extends GetxController {
 
   final Dio dio = Dio();
 
-
   double getProgress(String? url) {
     if (progress.containsKey(url)) {
       return progress[url]!.progress;
@@ -67,7 +66,7 @@ class DownloadController extends GetxController {
     DownloadInfo info = DownloadInfo();
     progress[url] = info;
     String savePath = getSavePath(url, dir);
-    Timer timer=await computeNetSpeed(info);
+    Timer timer = await computeNetSpeed(info);
     // Response res = await RangeDownload.downloadWithChunks(
     //   '$urlPath?download=true', savePath,
     //   // isRangeDownload: false, //Support normal download
@@ -84,15 +83,19 @@ class DownloadController extends GetxController {
     //     }
     //   },
     // );
-    await dio.download(
-      '$url?download=true',
-      savePath,
-      onReceiveProgress: (count, total) {
-        info.count = count;
-        info.progress = count / total;
-        update();
-      },
-    );
+    try {
+      await dio.download(
+        '$url?download=true',
+        savePath,
+        onReceiveProgress: (count, total) {
+          info.count = count;
+          info.progress = count / total;
+          update();
+        },
+      );
+    } catch (e) {
+      showToast(e.toString());
+    }
     timer.cancel();
     update();
   }

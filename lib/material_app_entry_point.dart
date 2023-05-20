@@ -20,70 +20,72 @@ class SpeedShare extends StatelessWidget {
     String initRoute = SpeedPages.initial;
     SettingController settingController = Get.find();
     return ToastApp(
-      child: GetBuilder<SettingController>(builder: (context) {
-        return GetMaterialApp(
-          locale: settingController.currentLocale,
-          title: '速享',
-          initialRoute: initRoute,
-          getPages: SpeedPages.routes,
-          defaultTransition: Transition.fadeIn,
-          debugShowCheckedModeBanner: false,
-          themeMode: ThemeMode.dark,
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          builder: (context, child) {
-            final bool isDark = window.platformBrightness == Brightness.dark;
-            final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
-            return ResponsiveWrapper.builder(
-              Builder(
-                builder: (context) {
-                  if (ResponsiveWrapper.of(context).isDesktop) {
-                    ScreenAdapter.init(896);
-                  } else {
-                    ScreenAdapter.init(414);
-                  }
-                  return GetBuilder<SettingController>(
-                    builder: (context) {
-                      return Localizations(
-                        locale: context.currentLocale!,
-                        delegates: const [
-                          S.delegate,
-                          GlobalMaterialLocalizations.delegate,
-                          GlobalWidgetsLocalizations.delegate,
-                          GlobalCupertinoLocalizations.delegate,
-                        ],
-                        child: Theme(
-                          data: theme,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              child!,
-                              if (settingController.enbaleConstIsland) const DynamicIsland(),
-                            ],
+      child: GetBuilder<SettingController>(
+        builder: (context) {
+          return GetMaterialApp(
+            locale: settingController.currentLocale,
+            title: '速享',
+            initialRoute: initRoute,
+            getPages: SpeedPages.routes,
+            defaultTransition: GetPlatform.isAndroid ? Transition.fadeIn : null,
+            debugShowCheckedModeBanner: false,
+            themeMode: ThemeMode.dark,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            builder: (context, child) {
+              final bool isDark = window.platformBrightness == Brightness.dark;
+              final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+              return ResponsiveWrapper.builder(
+                Builder(
+                  builder: (context) {
+                    if (ResponsiveWrapper.of(context).isDesktop) {
+                      ScreenAdapter.init(896);
+                    } else {
+                      ScreenAdapter.init(414);
+                    }
+                    return GetBuilder<SettingController>(
+                      builder: (context) {
+                        return Localizations(
+                          locale: context.currentLocale!,
+                          delegates: const [
+                            S.delegate,
+                            GlobalMaterialLocalizations.delegate,
+                            GlobalWidgetsLocalizations.delegate,
+                            GlobalCupertinoLocalizations.delegate,
+                          ],
+                          child: Theme(
+                            data: theme,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                child!,
+                                if (settingController.enbaleConstIsland) const DynamicIsland(),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              // maxWidth: 1200,
-              minWidth: 480,
-              defaultScale: false,
-              breakpoints: const [
-                ResponsiveBreakpoint.resize(300, name: MOBILE),
-                ResponsiveBreakpoint.autoScale(600, name: TABLET),
-                ResponsiveBreakpoint.resize(600, name: DESKTOP),
-              ],
-            );
-          },
-        );
-      }),
+                        );
+                      },
+                    );
+                  },
+                ),
+                // maxWidth: 1200,
+                minWidth: 480,
+                defaultScale: false,
+                breakpoints: const [
+                  ResponsiveBreakpoint.resize(300, name: MOBILE),
+                  ResponsiveBreakpoint.autoScale(600, name: TABLET),
+                  ResponsiveBreakpoint.resize(600, name: DESKTOP),
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

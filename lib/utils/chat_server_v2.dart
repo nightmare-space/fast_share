@@ -113,13 +113,13 @@ class Server {
     });
     // 返回速享网页的handler
     var webHandler = createStaticHandler(
-      RuntimeEnvir.filesPath!,
+      RuntimeEnvir.filesPath,
       listDirectories: true,
       defaultDocument: 'index.html',
     );
     app.mount('/', (r) {
       // `http://192.168.0.103:12000/sdcard/`的形式，说明是想要访问文件
-      if (r.requestedUri.path.startsWith('/sdcard')) {
+      if (r.requestedUri.path.startsWith('/sdcard')||f.Server.routes.contains(r.requestedUri.path)) {
         if (!settingController.enableWebServer) {
           return Response.ok(
             '请先去速享客户端中开启WebServer',

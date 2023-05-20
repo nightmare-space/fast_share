@@ -17,7 +17,7 @@ import 'dart:async';
 
 // 初始化hive的设置
 Future<void> initSetting() async {
-  await initSettingStore(RuntimeEnvir.configPath!);
+  await initSettingStore(RuntimeEnvir.configPath);
 }
 
 // class NoPrint

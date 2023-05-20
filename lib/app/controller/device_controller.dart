@@ -109,7 +109,7 @@ class DeviceController extends GetxController {
     });
   }
 
-  String historyPath = '${RuntimeEnvir.filesPath}/history';
+  String historyPath = GetPlatform.isWeb ? '' : '${RuntimeEnvir.filesPath}/history';
   Historys historys = Historys(datas: []);
   List<Device> connectDevice = [];
   int availableDevice() {

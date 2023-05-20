@@ -16,7 +16,13 @@ import 'dart:async';
 
 // 初始化hive的设置
 Future<void> initSetting() async {
-  await initSettingStore(RuntimeEnvir.configPath!);
+  String path;
+  if (GetPlatform.isIOS) {
+    path = (await getApplicationDocumentsDirectory()).path;
+  } else {
+    path = RuntimeEnvir.configPath;
+  }
+  await initSettingStore(path);
 }
 
 // class NoPrint
@@ -56,7 +62,7 @@ Future<void> androidWindow() async {
 bool pop = false;
 
 Future<void> main() async {
-  if (!GetPlatform.isWeb && !GetPlatform.isIOS) {
+  if (!GetPlatform.isWeb) {
     WidgetsFlutterBinding.ensureInitialized();
     // 拿到应用程序路径
     // get app directory
