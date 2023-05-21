@@ -120,7 +120,7 @@ class _FilePageState extends State<FilePage> {
   }
 
   Material fileList(BuildContext context) {
-    if (ResponsiveWrapper.of(context).isDesktop) {
+    if (ResponsiveBreakpoints.of(context).isDesktop) {
       return Material(
         color: Theme.of(context).colorScheme.background,
         child: Column(

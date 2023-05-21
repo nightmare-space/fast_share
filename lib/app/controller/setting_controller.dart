@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -25,26 +26,31 @@ class SettingController extends GetxController {
 
   /// 开启自动下载
   bool enableAutoDownload = false;
+  SettingNode enableAutoDownloadSetting = 'enableAutoDownload'.setting;
 
   /// 开启剪切板共享
   bool clipboardShare = true;
+  SettingNode clipboardShareSetting = 'clipboardShare'.setting;
 
   /// 开启常量岛 const island
   bool enbaleConstIsland = false;
+  SettingNode enbaleConstIslandSetting = 'enbaleConstIsland'.setting;
 
   /// 开启消息振动
   bool vibrate = true;
+  SettingNode vibrateSetting = 'vibrate'.setting;
 
   /// 开启文件分类
   bool enableFileClassify = false;
+  SettingNode enableFileClassifySetting = 'enableFileClassify'.setting;
+  bool enableWebServer = false;
+  SettingNode enableWebServerSetting = 'enableWebServer'.setting;
 
   void changeFileClassify(bool value) {
+    enableFileClassifySetting.set(value);
     enableFileClassify = value;
-    'enableFileClassify'.set = enableFileClassify;
     update();
   }
-
-  bool enableWebServer = false;
 
   void changeWebServer(bool value) {
     enableWebServer = value;
@@ -57,7 +63,7 @@ class SettingController extends GetxController {
           enableWebServer = !value;
           update();
         } else {
-          'enableWebServer'.set = enableWebServer;
+          enableWebServerSetting.set(value);
         }
       },
     );
@@ -65,51 +71,51 @@ class SettingController extends GetxController {
 
   /// 文件储存路径
   String? savePath;
+  SettingNode savePathSetting = 'savePath'.setting;
 
   Locale? currentLocale = const Locale('zh', 'CN');
   String? currentLocaleKey = '中文';
+  SettingNode currentLocaleSetting = 'lang'.setting;
 
   void switchLanguage(String? key) {
     currentLocaleKey = key;
-    'lang'.set = currentLocaleKey;
+    currentLocaleSetting.set(key);
     currentLocale = languageMap[key];
     update();
   }
 
   // 初始化配置
   void initConfig() {
-    clipboardShare = 'clipboardShare'.get ?? clipboardShare;
-    vibrate = 'vibrate'.get ?? vibrate;
-    enableAutoDownload = 'enableAutoDownload'.get ?? enableAutoDownload;
-    enbaleConstIsland = 'enbaleConstIsland'.get ?? enbaleConstIsland;
-    enableFileClassify = 'enableFileClassify'.get ?? enableFileClassify;
-    enableWebServer = 'enableWebServer'.get ?? enableWebServer;
-    currentLocaleKey = 'lang'.get ?? currentLocaleKey;
+    clipboardShare = clipboardShareSetting.get() ?? true;
+    vibrate = vibrateSetting.get() ?? true;
+    enableAutoDownload = enableAutoDownloadSetting.get() ?? false;
+    enbaleConstIsland = enbaleConstIslandSetting.get() ?? false;
+    enableFileClassify = enableFileClassifySetting.get() ?? false;
+    enableWebServer = enableWebServerSetting.get() ?? false;
+    currentLocaleKey = currentLocaleSetting.get() ?? '中文';
     currentLocale = languageMap[currentLocaleKey];
     String defaultPath = '/sdcard/SpeedShare';
     if (GetPlatform.isWindows || GetPlatform.isWeb) {
       defaultPath = '${dirname(Platform.resolvedExecutable)}/SpeedShare';
     }
-    savePath = 'savePath'.get ?? defaultPath;
+    savePath = savePathSetting.get() ?? defaultPath;
   }
-
-
 
   void constIslandChange(bool value) {
     enbaleConstIsland = value;
-    'enbaleConstIsland'.set = enbaleConstIsland;
+    enbaleConstIslandSetting.set(value);
     update();
   }
 
   void clipChange(bool value) {
     clipboardShare = value;
-    'clipboardShare'.set = clipboardShare;
+    clipboardShareSetting.set(value);
     update();
   }
 
   void vibrateChange(bool value) {
     vibrate = value;
-    'vibrate'.set = vibrate;
+    vibrateSetting.set(value);
     update();
   }
 
@@ -124,7 +130,7 @@ class SettingController extends GetxController {
           enableAutoDownload = !value;
           update();
         } else {
-          'enableAutoDownload'.set = enableAutoDownload;
+          enableAutoDownloadSetting.set(value);
         }
       },
     );
@@ -132,7 +138,7 @@ class SettingController extends GetxController {
 
   void switchDownLoadPath(String path) {
     savePath = path;
-    'savePath'.set = path;
+    savePathSetting.set(path);
     update();
   }
 }

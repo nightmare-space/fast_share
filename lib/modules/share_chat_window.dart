@@ -77,11 +77,11 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
           children: [
             Column(
               children: [
-                if (ResponsiveWrapper.of(context).isMobile) appbar(context) else SizedBox(height: 10.w),
+                if (ResponsiveBreakpoints.of(context).isMobile) appbar(context) else SizedBox(height: 10.w),
                 Expanded(
                   child: Row(
                     children: [
-                      if (ResponsiveWrapper.of(context).isMobile) leftNav(),
+                      if (ResponsiveBreakpoints.of(context).isMobile) leftNav(),
                       chatBody(context),
                     ],
                   ),
@@ -181,7 +181,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (ResponsiveWrapper.of(context).isMobile) const PopButton(),
+            if (ResponsiveBreakpoints.of(context).isMobile) const PopButton(),
             SizedBox(width: 12.w),
             Text(
               '全部设备',

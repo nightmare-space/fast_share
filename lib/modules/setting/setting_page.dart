@@ -33,7 +33,7 @@ class _SettingPageState extends State<SettingPage> {
     );
     final S s = S.of(context);
     AppBar? appBar;
-    if (ResponsiveWrapper.of(context).isMobile) {
+    if (ResponsiveBreakpoints.of(context).isMobile) {
       appBar = AppBar(
         systemOverlayStyle: OverlayStyle.dark,
         title: const Text('设置'),

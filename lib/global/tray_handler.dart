@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:get/utils.dart';
+import 'package:signale/signale.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
 class TrayHandler with TrayListener {
+  bool isForegroung = true;
   TrayHandler() {
     if (!GetPlatform.isMobile && !GetPlatform.isWeb) {
       initTray();
@@ -11,18 +15,18 @@ class TrayHandler with TrayListener {
 
   Future<void> initTray() async {
     await trayManager.setIcon(
-      'assets/icon/ic_launcher.png',
+      'assets/icon/app_icon.png',
     );
     Menu menu = Menu(
       items: [
         MenuItem(
           key: 'show_window',
-          label: 'Show Window',
+          label: '打开',
         ),
         MenuItem.separator(),
         MenuItem(
           key: 'exit_app',
-          label: 'Exit App',
+          label: '退出',
         ),
       ],
     );
@@ -30,10 +34,19 @@ class TrayHandler with TrayListener {
   }
 
   @override
-  void onTrayIconMouseDown() {
+  Future<void> onTrayIconMouseDown() async {
     // do something, for example pop up the menu
-    windowManager.show();
-    windowManager.setSkipTaskbar(false);
+    if (isForegroung) {
+      windowManager.hide();
+    } else {
+      windowManager.show();
+      Log.i(await trayManager.getBounds());
+      // windowManager.setBounds(await trayManager.getBounds());
+      Rect? rect = await trayManager.getBounds();
+      Offset offset = Offset(rect!.left - 760, rect.top);
+      windowManager.setPosition(offset);
+    }
+    isForegroung = !isForegroung;
   }
 
   @override

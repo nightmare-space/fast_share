@@ -1,0 +1,14 @@
+sips -z 20 20 ic_launcher.png --out Icon-App-20x20@1x.png
+sips -z 40 40 ic_launcher.png --out Icon-App-20x20@2x.png
+sips -z 60 60 ic_launcher.png --out Icon-App-20x20@3x.png
+sips -z 29 29 ic_launcher.png --out Icon-App-29x29@1x.png
+sips -z 58 58 ic_launcher.png --out Icon-App-29x29@2x.png
+sips -z 87 87 ic_launcher.png --out Icon-App-29x29@3x.png
+sips -z 40 40 ic_launcher.png --out Icon-App-40x40@1x.png
+sips -z 80 80 ic_launcher.png --out Icon-App-40x40@2x.png
+sips -z 120 120 ic_launcher.png --out Icon-App-40x40@3x.png
+sips -z 120 120 ic_launcher.png --out Icon-App-60x60@2x.png
+sips -z 180 180 ic_launcher.png --out Icon-App-60x60@3x.png
+sips -z 76 76 ic_launcher.png --out Icon-App-76x76@1x.png
+sips -z 152 152 ic_launcher.png --out Icon-App-76x76@2x.png
+sips -z 167 167 ic_launcher.png --out Icon-App-83.5x83.5@2x.png

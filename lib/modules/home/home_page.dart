@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   ChatController chatController = Get.put(ChatController());
   FileController fileController = Get.find();
   bool serverOpend = true;
+  SettingNode privacySetting = 'privacy'.setting;
 
   // ChatController controller = Get.find();
   bool dropping = false;
@@ -43,10 +44,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     handleSendFile();
     Future.delayed(Duration.zero, () async {
-      if ('privacy'.get == null) {
+      if (privacySetting.get() == null) {
         await Get.to(PrivacyAgreePage(
           onAgreeTap: () {
-            'privacy'.set = true;
+            privacySetting.set(true);
             Navigator.of(context).pop();
           },
         ));
@@ -291,7 +292,7 @@ class _HomePageState extends State<HomePage> {
   Widget chatRoom(BuildContext context) {
     return GestureWithScale(
       onTap: () {
-        if (ResponsiveWrapper.of(context).isDesktop) {
+        if (ResponsiveBreakpoints.of(context).isDesktop) {
           widget.onMessageWindowTap?.call();
           return;
         }
