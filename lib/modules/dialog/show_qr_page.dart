@@ -52,7 +52,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
                           children: [
                             Container(
                               padding: EdgeInsets.all(10.w),
-                              child: QrImage(
+                              child: QrImageView(
                                 data: 'http://${address[i]}:${widget.port}',
                                 version: QrVersions.auto,
                                 size: 280.w,
