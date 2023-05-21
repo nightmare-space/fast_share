@@ -65,7 +65,8 @@ dependencies:
   mime_type: ^1.0.0
   # 网络请求
   dio: ^4.0.0
-  responsive_framework: ^0.2.0
+  # 响应式布局
+  responsive_framework: ^1.0.0
   # 局域网设备发现
   multicast:
     git: https://github.com/nightmare-space/multicast
@@ -99,13 +100,11 @@ flutter:
 dependency_overrides:
   flutter_svg: ^1.1.0
   fwfh_text_style: 2.22.8+1
+  # file_manager_view 依赖的是pub的shelf_static，速享需要使用自定义的
   shelf_static:
     git:
       url: https://github.com/nightmare-space/shelf
       path: pkgs/shelf_static
-  xterm:
-    git:
-      url: https://github.com/TerminalStudio/xterm.dart
   ffi: ^2.0.1
   # android_window:
   #   path: /Users/didi/Documents/GitHub/flutter-android-window
@@ -116,10 +115,10 @@ dependency_overrides:
   #   path: ../app_manager
   # app_channel:
   #   path: ../applib/applib_util
-  global_repository:
-    path: ../global_repository
-  file_manager_view:
-    path: ../file_manager_view
+  # global_repository:
+  #   path: ../global_repository
+  # file_manager_view:
+  #   path: ../file_manager_view
   # user_center_frontend:
   #   path: ../user_center_frontend
 flutter_intl:

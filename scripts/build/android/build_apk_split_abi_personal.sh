@@ -9,7 +9,7 @@ PROJECT_DIR=$LOCAL_DIR/../../..
 source $PROJECT_DIR/scripts/properties.sh
 rm -rf $PROJECT_DIR/dist/*.apk
 # flutter run --release --dart-define=VERSION=$VERSION -t lib/main_personal.dart --dart-define=VERSION_CODE=$VERSION_CODE
-flutter build apk --dart-define=VERSION=$VERSION --dart-define=VERSION_CODE=$VERSION_CODE --tree-shake-icons --obfuscate --split-debug-info debug-info -t lib/main_personal.dart --split-per-abi
+flutter build apk --dart-define=VERSION=$VERSION --dart-define=VERSION_CODE=$VERSION_CODE --tree-shake-icons -t lib/main_personal.dart --split-per-abi
 mkdir $PROJECT_DIR/dist/ 2>/dev/null
 cp -f $PROJECT_DIR/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk $PROJECT_DIR/dist/
 cp -f $PROJECT_DIR/build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk $PROJECT_DIR/dist/

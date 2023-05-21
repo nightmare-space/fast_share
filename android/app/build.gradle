@@ -30,7 +30,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 // end
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     sourceSets {
     }

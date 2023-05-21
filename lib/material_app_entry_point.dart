@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'app/controller/controller.dart';
 import 'app/routes/app_pages.dart';
@@ -40,10 +40,10 @@ class SpeedShare extends StatelessWidget {
             builder: (context, child) {
               final bool isDark = window.platformBrightness == Brightness.dark;
               final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
-              return ResponsiveWrapper.builder(
-                Builder(
+              return ResponsiveBreakpoints.builder(
+                child: Builder(
                   builder: (context) {
-                    if (ResponsiveWrapper.of(context).isDesktop) {
+                    if (ResponsiveBreakpoints.of(context).isDesktop) {
                       ScreenAdapter.init(896);
                     } else {
                       ScreenAdapter.init(414);
@@ -73,13 +73,10 @@ class SpeedShare extends StatelessWidget {
                     );
                   },
                 ),
-                // maxWidth: 1200,
-                minWidth: 480,
-                defaultScale: false,
                 breakpoints: const [
-                  ResponsiveBreakpoint.resize(300, name: MOBILE),
-                  ResponsiveBreakpoint.autoScale(600, name: TABLET),
-                  ResponsiveBreakpoint.resize(600, name: DESKTOP),
+                  Breakpoint(start: 0, end: 300, name: MOBILE),
+                  Breakpoint(start: 300, end: 600, name: TABLET),
+                  Breakpoint(start: 600, end: 2000, name: DESKTOP),
                 ],
               );
             },
