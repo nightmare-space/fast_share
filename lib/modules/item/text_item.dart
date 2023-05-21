@@ -61,7 +61,7 @@ class TextMessageItem extends StatelessWidget {
               onTap: () async {
                 showToast('内容已复制');
                 await Clipboard.setData(ClipboardData(
-                  text: info!.content,
+                  text: info!.content ?? '',
                 ));
               },
               borderRadius: BorderRadius.circular(12),

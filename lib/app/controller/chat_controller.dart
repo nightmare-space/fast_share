@@ -411,7 +411,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           return;
         }
         ClipboardMessage clipboardMessage = info as ClipboardMessage;
-        Clipboard.setData(ClipboardData(text: clipboardMessage.content));
+        Clipboard.setData(ClipboardData(text: clipboardMessage.content ?? ''));
         // 置为false是为了不让此次复制行为再同步出去
         Global().canShareClip = false;
         Future.delayed(const Duration(milliseconds: 300), () {

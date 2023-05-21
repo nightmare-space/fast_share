@@ -17,7 +17,7 @@ dependencies:
   tray_manager: ^0.2.0
   flutter_localizations:
     sdk: flutter
-  intl: ^0.17.0
+  intl: ^0.18.0
   window_manager: ^0.3.0
   animations: ^2.0.2
   desktop_drop: ^0.3.3

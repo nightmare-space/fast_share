@@ -14,7 +14,7 @@ class QrMessageItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.w),
         color: Colors.white,
       ),
-      child: QrImage(
+      child: QrImageView(
         data: data!,
         version: QrVersions.auto,
         size: 240.w,
