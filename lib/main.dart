@@ -62,35 +62,34 @@ Future<void> androidWindow() async {
 bool pop = false;
 
 Future<void> main() async {
-  if (!GetPlatform.isWeb) {
-    WidgetsFlutterBinding.ensureInitialized();
-    // 拿到应用程序路径
-    // get app directory
-    final dir = (await getApplicationSupportDirectory()).path;
-    RuntimeEnvir.initEnvirWithPackageName(
-      Config.packageName,
-      appSupportDirectory: dir,
-    );
-    // 启动文件服务器
-    // start file manager server
-    // todo 肯呢个需要更改成127.0.0.1
-    fm.Server.start();
-  }
-  Get.config(
-    enableLog: false,
-    logWriterCallback: (text, {isError = false}) {
-      // Log.d(text, tag: 'GetX');
-    },
-  );
-  if (!GetPlatform.isWeb) {
-    await initSetting();
-  }
-  Get.put(SettingController());
-  Get.put(DeviceController());
-  Get.put(ChatController());
-
   runZonedGuarded<void>(
     () async {
+      if (!GetPlatform.isWeb) {
+        WidgetsFlutterBinding.ensureInitialized();
+        // 拿到应用程序路径
+        // get app directory
+        final dir = (await getApplicationSupportDirectory()).path;
+        RuntimeEnvir.initEnvirWithPackageName(
+          Config.packageName,
+          appSupportDirectory: dir,
+        );
+        // 启动文件服务器
+        // start file manager server
+        // todo 肯呢个需要更改成127.0.0.1
+        fm.Server.start();
+      }
+      Get.config(
+        enableLog: false,
+        logWriterCallback: (text, {isError = false}) {
+          // Log.d(text, tag: 'GetX');
+        },
+      );
+      if (!GetPlatform.isWeb) {
+        await initSetting();
+      }
+      Get.put(SettingController());
+      Get.put(DeviceController());
+      Get.put(ChatController());
       WidgetsFlutterBinding.ensureInitialized();
       if (!GetPlatform.isIOS) {
         String dir;
@@ -103,23 +102,24 @@ Future<void> main() async {
         }
       }
       runApp(const SpeedShare());
+      // 透明状态栏
+      // transparent the appbar
+      StatusBarUtil.transparent();
+      Future.delayed(Duration(milliseconds: 5000), () {
+        Global().initGlobal();
+      });
+      FlutterError.onError = (FlutterErrorDetails details) {
+        FlutterError.presentError(details);
+        Log.e('页面构建异常 : ${details.exception}');
+      };
+      if (GetPlatform.isDesktop) {
+        if (!GetPlatform.isWeb) {
+          await windowManager.ensureInitialized();
+        }
+      }
     },
     (error, stackTrace) {
       Log.e('未捕捉到的异常 : $error \n$stackTrace');
     },
   );
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.presentError(details);
-    Log.e('页面构建异常 : ${details.exception}');
-  };
-  if (GetPlatform.isDesktop) {
-    if (!GetPlatform.isWeb) {
-      await windowManager.ensureInitialized();
-    }
-  }
-  // Image.network(src)
-  // 透明状态栏
-  // transparent the appbar
-  StatusBarUtil.transparent();
-  Global().initGlobal();
 }

@@ -396,7 +396,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 SettingItem(
                   onTap: () async {
-                    String url = 'http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A';
+                    String url = 'http://nightmare.press/YanTool/resources/SpeedShare/?C=N;O=A';
                     await canLaunchUrlString(url)
                         ? await launchUrlString(
                             url,

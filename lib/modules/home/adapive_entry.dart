@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:signale/signale.dart';
 import 'package:speed_share/app/controller/controller.dart';
 
 import 'desktop_home.dart';
@@ -35,8 +36,10 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   Widget build(BuildContext context) {
     // return SizedBox();
     if (ResponsiveBreakpoints.of(context).isDesktop) {
+      Log.i('$this is desktop');
       return const DesktopHome();
     }
+    Log.i('$this is mobile');
     return const MobileHome();
   }
 }

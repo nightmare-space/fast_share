@@ -266,7 +266,7 @@ public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity 
 
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine);
+        super.configureFlutterEngine(flutterEngine);
 //        flutterEngine.en
         channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "send_channel");
         channel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {

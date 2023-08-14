@@ -91,7 +91,6 @@ class Global with ClipboardListener, WindowListener {
   // 初始化全局单例
   Future<void> initGlobal() async {
     Log.v('initGlobal', tag: 'GlobalInstance');
-    DateTime time = DateTime.now();
     uniqueKey = await UniqueUtil.getUniqueKey();
     deviceName = await UniqueUtil.getDevicesId();
     Log.v('deviceId -> $deviceName', tag: 'GlobalInstance');

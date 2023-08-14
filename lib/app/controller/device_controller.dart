@@ -57,6 +57,7 @@ class Device {
 // 用于管理设备连接的类
 class DeviceController extends GetxController {
   DeviceController() {
+    return;
     if (GetPlatform.isWeb) {
       return;
     }
@@ -77,7 +78,7 @@ class DeviceController extends GetxController {
       //   History exist=newHistorys.firstWhere((element) => element.url=)
       // }
       // 向历史连接的设备发送连接消息
-      Future.delayed(const Duration(milliseconds: 200), () {
+      Future.delayed(const Duration(milliseconds: 2000), () {
         historys.datas!.forEach(
           ((element) {
             // TODO

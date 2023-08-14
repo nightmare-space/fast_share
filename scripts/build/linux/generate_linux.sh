@@ -14,7 +14,7 @@ Package: speed-share
 Architecture: amd64
 Maintainer: @Nightmare
 Version: 1.3.1-1
-Homepage: https://nightmare.fun/speedshare/
+Homepage: https://nightmare.press/speedshare/
 Description: screen your phone on computer
 ">$PACKAGE_DIR/DEBIAN/control
 dpkg-deb -b $PACKAGE_DIR "Speed Share.deb"

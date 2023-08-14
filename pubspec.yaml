@@ -2,7 +2,7 @@ name: speed_share
 description: 局域网共享文件客户终端.
 publish_to: "none"
 
-version: 2.2.5+65
+version: 2.2.6+66
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -20,7 +20,7 @@ dependencies:
   intl: ^0.18.0
   window_manager: ^0.3.0
   animations: ^2.0.2
-  desktop_drop: ^0.3.3
+  desktop_drop: ^0.4.1
   # 分段下载，后面可能还需要弄一下
   # dio_range_download: ^1.0.1
   flutter_markdown: ^0.6.10+2

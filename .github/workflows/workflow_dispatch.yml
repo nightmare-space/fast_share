@@ -82,7 +82,7 @@ jobs:
       
       - name: Upload..
         run: |
-          curl -i -X POST -F "${{ env.ZIP_NAME }}.deb" http://nightmare.fun:444/api/v1/file/uploadfile/
+          curl -X POST -F "file=@${{ env.ZIP_NAME }}.deb" http://nightmare.press:444/api/v1/file/uploadfile/
           # curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfersh.com/${{ env.APP_NAME }}.deb
 
   # build-linux-arm64:
@@ -219,7 +219,7 @@ jobs:
 
       - name: Upload
         run: |
-          curl -i -X POST -F "${{ env.ZIP_NAME }}.dmg" http://nightmare.fun:444/api/v1/file/uploadfile/
+          curl -X POST -F "file=@${{ env.ZIP_NAME }}.dmg" http://nightmare.press:444/api/v1/file/uploadfile/
           # curl --upload-file "${{ env.ZIP_NAME }}.dmg" https://transfersh.com/${{ env.APP_NAME }}_macOS.dmg
             
   build-windows:
@@ -282,5 +282,5 @@ jobs:
 
       - name: Upload
         run: |
-          curl -i -X POST -F "${{ env.ZIP_NAME }}_Windows.zip" http://nightmare.fun:444/api/v1/file/uploadfile/
+          curl -X POST -F "file=@${{ env.ZIP_NAME }}_Windows.zip" http://nightmare.press:444/api/v1/file/uploadfile/
           # curl --upload-file "${{ env.ZIP_NAME }}_Windows.zip" "https://transfersh.com/${{ env.APP_NAME }}_Windows.zip"

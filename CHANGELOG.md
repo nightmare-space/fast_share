@@ -1,3 +1,6 @@
+## 2.2.6
+- 修复域名过期，无法登录和资源无法加载的问题
+
 ## 2.2.5
 - 速享上架iOS啦，https://apps.apple.com/us/app/%E9%80%9F%E4%BA%AB/id6447294725?platform=iphone，复制浏览器打开，由于下载量还比较少，搜索搜不到
 - 其他优化
@@ -172,7 +175,7 @@ web上传文件暂不支持
 
 能简单说清楚就直接描述，不能请按照反馈模板进行反馈。
 
-旧机型、TV，去官网下arm_v7a版本的 http://nightmare.fun/YanTool/resources/SpeedShare/?C=N;O=A
+旧机型、TV，去官网下arm_v7a版本的 http://nightmare.press/YanTool/resources/SpeedShare/?C=N;O=A
 
 ## 1.3.2
 * [新增]剪切板共享功能(测试中)
