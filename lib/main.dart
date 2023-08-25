@@ -105,9 +105,6 @@ Future<void> main() async {
       // 透明状态栏
       // transparent the appbar
       StatusBarUtil.transparent();
-      Future.delayed(Duration(milliseconds: 5000), () {
-        Global().initGlobal();
-      });
       FlutterError.onError = (FlutterErrorDetails details) {
         FlutterError.presentError(details);
         Log.e('页面构建异常 : ${details.exception}');
@@ -117,6 +114,7 @@ Future<void> main() async {
           await windowManager.ensureInitialized();
         }
       }
+      Global().initGlobal();
     },
     (error, stackTrace) {
       Log.e('未捕捉到的异常 : $error \n$stackTrace');

@@ -75,8 +75,8 @@ class SpeedShare extends StatelessWidget {
                 ),
                 breakpoints: const [
                   Breakpoint(start: 0, end: 500, name: MOBILE),
-                  Breakpoint(start: 500, end: 800, name: TABLET),
-                  Breakpoint(start: 800, end: 2000, name: DESKTOP),
+                  Breakpoint(start: 500, end: 500, name: TABLET),
+                  Breakpoint(start: 500, end: double.infinity, name: DESKTOP),
                 ],
               );
             },
