@@ -17,4 +17,5 @@ Version: 1.3.1-1
 Homepage: https://nightmare.press/speedshare/
 Description: screen your phone on computer
 ">$PACKAGE_DIR/DEBIAN/control
+chmod 755 $PACKAGE_DIR/DEBIAN
 dpkg-deb -b $PACKAGE_DIR "Speed Share.deb"

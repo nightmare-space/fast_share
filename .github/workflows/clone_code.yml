@@ -1,0 +1,58 @@
+name: Clone Code
+on:
+  workflow_dispatch:
+
+      
+  repository_dispatch:
+    types:
+      - clone-code
+
+jobs:
+  clone-code:
+    strategy:
+      matrix:
+        os: [self-hosted-mac, self-hosted-windows, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout current code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+
+      - name: Checkout speed_share_extension code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/speed_share_extension'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/speed_share_extension"
+
+      - name: Checkout behavior_api code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/behavior_api'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/behavior_api"
+      
+      - name: Checkout user_center_frontend code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/user_center_frontend'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/user_center_frontend"
+
+      - name: Checkout ni CLI code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/ni'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/ni"
+      - name: Cache Primes
+        id: cache-primes
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}
+          key: ${{ runner.os }}-primes
