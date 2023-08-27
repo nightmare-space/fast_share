@@ -1,8 +1,7 @@
-VERSION='2.2.6'
+VERSION='2.2.6-test'
 VERSION_CODE='66'
-TARGET_PATH=root@$server:/home/nightmare/YanTool/resources/SpeedShare
+TARGET_PATH=SpeedShare
 APP_NAME='SpeedShare'
 APP_NAME_CN='速享'
-function process_echo() {
-    echo -e -n "\\033[38;5;42m·\\033[0m \\033[38;5;38m\$1\\033[0m"
-}
+MAC_APP_NAME='Speed Share'
+BUILD_ARG='-t lib/main_personal.dart'

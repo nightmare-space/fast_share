@@ -82,7 +82,8 @@ jobs:
       
       - name: Upload..
         run: |
-          curl -X POST -F "file=@${{ env.ZIP_NAME }}.deb" http://nightmare.press:444/api/v1/file/uploadfile/
+          ni default -u
+          # curl -X POST -F "file=@${{ env.ZIP_NAME }}.deb" http://nightmare.press:444/api/v1/file/uploadfile/
           # curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfersh.com/${{ env.APP_NAME }}.deb
 
   # build-linux-arm64:
@@ -159,6 +160,7 @@ jobs:
       # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
 
+      # 
       - name: Checkout the code
         uses: actions/checkout@v3
         with:
@@ -188,6 +190,14 @@ jobs:
           ref: 'main'
           path: "${{ github.workspace }}/user_center_frontend"
 
+      - name: Checkout ni CLI code
+        uses: actions/checkout@v3
+        with:
+          repository: 'mengyanshou/ni'
+          token: ${{ secrets.GH_PAT }}
+          ref: 'main'
+          path: "${{ github.workspace }}/ni"
+
       - name: move file
         run: |
           mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
@@ -208,18 +218,17 @@ jobs:
       - name: Setup other environment
         run: npm install -g appdmg
         
-      - name: Building
+      - name: Building&&Packaging
         run: |
           flutter config --enable-macos-desktop
-          ./scripts/build/mac/build_mac.sh
-
-      - name: Packaging
-        run: |
-          ./scripts/build/mac/generate_mac_app.sh
+          export PATH=$PATH:${{ github.workspace }}/ni
+          ni release --build-mac-dmg
 
       - name: Upload
         run: |
-          curl -X POST -F "file=@${{ env.ZIP_NAME }}.dmg" http://nightmare.press:444/api/v1/file/uploadfile/
+          export PATH=$PATH:${{ github.workspace }}/ni
+          ni default -u
+          # curl -X POST -F "file=@${{ env.ZIP_NAME }}.dmg" http://nightmare.press:444/api/v1/file/uploadfile/
           # curl --upload-file "${{ env.ZIP_NAME }}.dmg" https://transfersh.com/${{ env.APP_NAME }}_macOS.dmg
             
   build-windows:
