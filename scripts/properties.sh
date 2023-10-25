@@ -1,4 +1,4 @@
-VERSION='2.2.6-test'
+VERSION='2.2.7-beta'
 VERSION_CODE='66'
 TARGET_PATH=SpeedShare
 APP_NAME='SpeedShare'

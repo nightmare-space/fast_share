@@ -106,6 +106,8 @@ dependency_overrides:
       url: https://github.com/nightmare-space/shelf
       path: pkgs/shelf_static
   ffi: ^2.0.1
+  android_intent_plus: ^4.0.3
+  image_picker: ^1.0.4
   # android_window:
   #   path: /Users/didi/Documents/GitHub/flutter-android-window
   # # xterm: ^3.2.6
