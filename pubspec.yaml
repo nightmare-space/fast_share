@@ -99,7 +99,6 @@ flutter:
 
 dependency_overrides:
   flutter_svg: ^1.1.0
-  fwfh_text_style: 2.22.8+1
   # file_manager_view 依赖的是pub的shelf_static，速享需要使用自定义的
   shelf_static:
     git:
@@ -108,20 +107,6 @@ dependency_overrides:
   ffi: ^2.0.1
   android_intent_plus: ^4.0.3
   image_picker: ^1.0.4
-  # android_window:
-  #   path: /Users/didi/Documents/GitHub/flutter-android-window
-  # # xterm: ^3.2.6
-  # logger_view:
-  #   path: ../logger_view
-  # app_manager:
-  #   path: ../app_manager
-  # app_channel:
-  #   path: ../applib/applib_util
-  # global_repository:
-  #   path: ../global_repository
-  # file_manager_view:
-  #   path: ../file_manager_view
-  # user_center_frontend:
-  #   path: ../user_center_frontend
+  flutter_widget_from_html_core: ^0.14.6
 flutter_intl:
   enabled: true
