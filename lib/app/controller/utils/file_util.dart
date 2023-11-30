@@ -22,7 +22,7 @@ Future<List<String?>> getFilesPathsForAndroid(bool useSystemPicker) async {
   if (!useSystemPicker) {
     filePaths = (await file_manager.FileSelector.pick(
       Get.context!,
-    ))!;
+    ));
   } else {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowCompression: false,

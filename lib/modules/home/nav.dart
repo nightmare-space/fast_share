@@ -20,7 +20,6 @@ class Nav extends StatefulWidget {
 class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
-    print('$this build');
     Widget center = Stack(
       alignment: Alignment.center,
       children: [

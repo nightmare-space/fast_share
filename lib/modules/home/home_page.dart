@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: OverlayStyle.dark,
+      value: OverlayStyle.light,
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),

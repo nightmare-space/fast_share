@@ -106,7 +106,7 @@ class DefaultThemeData {
   static ThemeData light({
     Color? primary,
   }) {
-    final lightThemeData = ThemeData.light().copyWith();
+    final lightThemeData = ThemeData.light(useMaterial3: false).copyWith();
     ColorScheme colorScheme = lightColorScheme.copyWith();
     return lightThemeData.copyWith(
       primaryColor: colorScheme.primary,

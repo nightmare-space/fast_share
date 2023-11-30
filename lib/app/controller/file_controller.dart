@@ -54,6 +54,7 @@ class FileController extends GetxController with WidgetsBindingObserver {
       if (!dir.existsSync()) {
         try {
           dir.createSync(recursive: true);
+        // ignore: empty_catches
         } catch (e) {}
       }
     }
