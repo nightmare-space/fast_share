@@ -1,5 +1,5 @@
 VERSION='2.2.7-beta'
-VERSION_CODE='66'
+VERSION_CODE='67'
 TARGET_PATH=SpeedShare
 APP_NAME='SpeedShare'
 APP_NAME_CN='速享'

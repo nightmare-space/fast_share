@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,18 +19,17 @@ class _QRScanPageState extends State<QRScanPage> {
         alignment: Alignment.center,
         children: [
           MobileScanner(
-            allowDuplicates: false,
             // controller: MobileScannerController(
             //   facing: CameraFacing.back,
             //   torchEnabled: true,
             // ),
-            onDetect: (barcode, args) {
-              if (barcode.rawValue == null) {
-                debugPrint('Failed to scan Barcode');
-              } else {
+            onDetect: (capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              final Uint8List? image = capture.image;
+              for (final barcode in barcodes) {
                 final String? code = barcode.rawValue;
                 Get.back(result: code);
-                debugPrint('Barcode found! $code');
+                debugPrint('Barcode found! ${barcode.rawValue}');
               }
             },
           ),
