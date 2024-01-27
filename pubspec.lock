@@ -224,10 +224,10 @@ packages:
     dependency: "direct overridden"
     description:
       name: ffi
-      sha256: a38574032c5f1dd06c4aee541789906c12ccaab8ba01446e800d9c5b79c4a978
+      sha256: d97fffd9d86f3dccc7a9059128b468a99320c69007cc9d41a3a1bda07d4e86dc
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "1.0.0"
   file:
     dependency: transitive
     description:
