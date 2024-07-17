@@ -48,13 +48,5 @@
             "type": "dart",
             "deviceId": "MEIZU 21",
         },
-        {
-            "name": "小米13-带登录",
-            "request": "launch",
-            "type": "dart",
-            "deviceId": "2211133C",
-            "toolArgs": [],
-            "program": "lib/main_personal.dart",
-        },
     ]
 }
