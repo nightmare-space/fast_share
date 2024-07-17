@@ -196,6 +196,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     ));
     scrollController.scrollToEnd();
     update();
+    // TODO 这个功能难用
+    // 传相同的文件，得到的文件大小是不一样的
     dir.list(recursive: true).listen((event) async {
       FileSystemEntity entity = event;
       String suffix = '';
@@ -276,7 +278,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         scrollController.scrollToEnd();
         update();
       }
-    } else if (GetPlatform.isDesktop) {
+    } else {
       for (XFile xFile in files) {
         Log.d('-' * 10);
         Log.d('xFile.path -> ${xFile.path}');
@@ -330,6 +332,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }) async {
     // 选择文件路径
     List<String?> filePaths = await getFilesPathsForAndroid(useSystemPicker);
+    Log.i('filePaths -> $filePaths');
     if (filePaths.isEmpty) {
       return;
     }

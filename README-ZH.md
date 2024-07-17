@@ -1,6 +1,6 @@
 # 速享
 
-Language: 中文简体 | [English](README-EN.md)
+Language: 中文简体 | [English](README.md)
 
 ![release](https://img.shields.io/github/v/release/nightmare-space/speed_share) 
 [![Last Commits](https://img.shields.io/github/last-commit/nightmare-space/speed_share?logo=git&logoColor=white)](https://github.com/nightmare-space/speed_share/commits/master)<!-- [![Pull Requests](https://img.shields.io/github/issues-pr/nightmare-space/speed_share?logo=github&logoColor=white)](https://github.com/nightmare-space/speed_share/pulls) -->

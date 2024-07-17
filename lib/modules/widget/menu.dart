@@ -91,7 +91,9 @@ class _HeaderMenuState extends State<HeaderMenu> {
                           Get.to(
                             () => Responsive(
                               builder: (context, screenType) {
-                                return const LoggerView();
+                                return  LoggerView(
+                                  background: Theme.of(context).scaffoldBackgroundColor,
+                                );
                               },
                             ),
                           );

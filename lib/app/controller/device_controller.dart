@@ -8,7 +8,6 @@ import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/history.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
-import 'package:speed_share/utils/http/http.dart';
 
 class Device {
   Device(this.id);
@@ -58,6 +57,7 @@ class Device {
 class DeviceController extends GetxController {
   DeviceController() {
     return;
+    // TODO
     if (GetPlatform.isWeb) {
       return;
     }
@@ -99,7 +99,7 @@ class DeviceController extends GetxController {
       for (Device device in connectDevice) {
         try {
           Response response = await Dio().get('${device.url}:${device.messagePort}/check_token');
-          // Log.d(response.data);
+          Log.d('checkConnectStat response.data : ${response.data}');
           device.isConnect = true;
           update();
         } catch (e) {

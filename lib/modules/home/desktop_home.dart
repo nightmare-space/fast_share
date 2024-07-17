@@ -11,7 +11,7 @@ import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/modules/desktop_drawer.dart';
 import 'package:speed_share/modules/file/file_page.dart';
 import 'package:speed_share/modules/home/home_page.dart';
-import 'package:speed_share/modules/setting/setting_page.dart';
+import 'package:speed_share/modules/personal/setting/setting_page.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
 import 'package:path/path.dart' as path;
 import 'package:speed_share/themes/app_colors.dart';

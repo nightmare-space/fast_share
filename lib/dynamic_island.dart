@@ -6,9 +6,10 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 
 import 'generated/l10n.dart';
-import 'modules/setting/setting_page.dart';
+import 'modules/personal/setting/setting_page.dart';
 import 'speed_share.dart';
 
+// Deprecated
 class DynamicIsland extends StatefulWidget {
   const DynamicIsland({Key? key}) : super(key: key);
 
@@ -16,8 +17,7 @@ class DynamicIsland extends StatefulWidget {
   State<DynamicIsland> createState() => _DynamicIslandState();
 }
 
-class _DynamicIslandState extends State<DynamicIsland>
-    with SingleTickerProviderStateMixin {
+class _DynamicIslandState extends State<DynamicIsland> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
   late Animation<double> radius;
@@ -120,10 +120,10 @@ class _DynamicIslandState extends State<DynamicIsland>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (value) async {
         anim();
-        return false;
       },
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -177,8 +177,7 @@ class _DynamicIslandState extends State<DynamicIsland>
                       ),
                       padding: EdgeInsets.all(12.w),
                       child: Transform(
-                        transform: Matrix4.identity()
-                          ..scale(0.4 + 0.6 * animation.value),
+                        transform: Matrix4.identity()..scale(0.4 + 0.6 * animation.value),
                         alignment: Alignment.topCenter,
                         child: content,
                       ),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:clipboard_watcher/clipboard_watcher.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,10 +9,10 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/tray_handler.dart';
 import 'package:speed_share/model/model.dart';
+import 'package:speed_share_extension/speed_share_extension.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 import 'assets_util.dart';
-import 'behavior.dart';
 import 'udp_message_handler.dart';
 export 'constant.dart';
 
@@ -42,7 +43,6 @@ class Global with ClipboardListener, WindowListener {
 
   @override
   void onClipboardChanged() async {
-    // TODO，应该先读设置开关
     SettingController settingController = Get.find();
     if (!settingController.clipboardShare) {
       return;
@@ -83,6 +83,8 @@ class Global with ClipboardListener, WindowListener {
     multicast.stopSendBoardcast();
   }
 
+  String tag = 'GlobalInstance';
+
   // 初始化全局单例
   Future<void> initGlobal() async {
     Log.v('initGlobal', tag: 'GlobalInstance');
@@ -103,6 +105,14 @@ class Global with ClipboardListener, WindowListener {
       Config.flutterPackage = 'packages/speed_share/';
       Config.package = 'speed_share';
     }
+    // ignore: deprecated_member_use
+    FlutterView flutterView = window;
+    PlatformDispatcher platformDispatcher = flutterView.platformDispatcher;
+    Log.i('当前系统语言 ${platformDispatcher.locales}');
+    Log.i('当前系统主题 ${platformDispatcher.platformBrightness}');
+    Log.i('physicalSize:${flutterView.physicalSize}');
+    Log.i('devicePixelRatio:${flutterView.devicePixelRatio}');
+    Log.i('Android DPI:${flutterView.devicePixelRatio * 160}');
     isInit = true;
     multicast.addListener(receiveUdpMessage);
     if (!GetPlatform.isMobile && !GetPlatform.isWeb) {

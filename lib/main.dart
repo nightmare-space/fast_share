@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:settings/settings.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
+import 'package:speed_share_extension/speed_share_extension.dart';
 import 'package:window_manager/window_manager.dart';
 import 'android_window.dart';
 import 'app/controller/device_controller.dart';
@@ -25,7 +26,6 @@ Future<void> initSetting() async {
   await initSettingStore(path);
 }
 
-// class NoPrint
 @pragma('vm:entry-point')
 Future<void> androidWindow() async {
   Log.defaultLogger.level = LogLevel.error;
@@ -101,10 +101,12 @@ Future<void> main() async {
           );
         }
       }
+      initPersonal();
       runApp(const SpeedShare());
       // 透明状态栏
       // transparent the appbar
       StatusBarUtil.transparent();
+
       FlutterError.onError = (FlutterErrorDetails details) {
         FlutterError.presentError(details);
         Log.e('页面构建异常 : ${details.exception}');

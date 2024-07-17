@@ -1,5 +1,5 @@
 // import 'package:better_player/better_player.dart';
-import 'package:better_player/better_player.dart';
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
 // 预览视频的组件
 class VideoPreview extends StatefulWidget {

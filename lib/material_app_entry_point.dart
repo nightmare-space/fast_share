@@ -38,6 +38,7 @@ class SpeedShare extends StatelessWidget {
             ],
             supportedLocales: S.delegate.supportedLocales,
             builder: (context, child) {
+              // ignore: deprecated_member_use
               final bool isDark = window.platformBrightness == Brightness.dark;
               final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
               return ResponsiveBreakpoints.builder(

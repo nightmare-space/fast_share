@@ -98,7 +98,6 @@ class _FilePageState extends State<FilePage> {
                   );
                 },
                 child: [
-                  fileList(context),
                   fm.FileManager(
                     drawer: false,
                     path: '/sdcard/SpeedShare',
@@ -106,6 +105,7 @@ class _FilePageState extends State<FilePage> {
                     padding: EdgeInsets.only(bottom: 8.w),
                     usePackage: true,
                   ),
+                  fileList(context),
                 ][pageIndex],
               ),
             ),
@@ -122,7 +122,7 @@ class _FilePageState extends State<FilePage> {
   Material fileList(BuildContext context) {
     if (ResponsiveBreakpoints.of(context).isDesktop) {
       return Material(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         child: Column(
           children: [
             LayoutBuilder(builder: (context, con) {

@@ -135,12 +135,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
           }
           return ListView.builder(
             physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.fromLTRB(
-              0.w,
-              0.w,
-              0.w,
-              80.w,
-            ),
+            padding: EdgeInsets.fromLTRB(0.w, 0.w, 0.w, 80.w),
             controller: controller.scrollController,
             itemCount: children.length,
             cacheExtent: 99999,

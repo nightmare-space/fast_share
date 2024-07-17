@@ -26,23 +26,25 @@ class SpeedPages {
     ),
     GetPage(
       name: Routes.home,
-      page: () => WillPopScope(
-        onWillPop: () async {
-          if (time == 0) {
-            time++;
-            showToast('再次返回退出APP~');
-          } else {
-            return true;
-          }
-          debouncer.call(() {
-            time = 0;
-          });
-          return false;
-        },
-        child: const ThemeWrapper(
-          child: AdaptiveEntryPoint(),
-        ),
-      ),
+      page: () => Builder(builder: (context) {
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (value) async {
+            if (time == 0) {
+              time++;
+              showToast('再次返回退出APP~');
+            } else {
+              Navigator.of(context).pop();
+            }
+            debouncer.call(() {
+              time = 0;
+            });
+          },
+          child: const ThemeWrapper(
+            child: AdaptiveEntryPoint(),
+          ),
+        );
+      }),
       binding: HomeBinding(),
     ),
   ];

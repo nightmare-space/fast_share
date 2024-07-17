@@ -2,10 +2,12 @@
 
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/themes/color_extension.dart';
 
 import 'lib_color_schemes.g.dart';
+import 'theme_import.dart';
 
 // 默认的light和dark的主题
 class DefaultThemeData {
@@ -15,10 +17,7 @@ class DefaultThemeData {
     final darkThemeData = ThemeData.dark(
       useMaterial3: true,
     );
-    final darkColorScheme = ColorScheme.fromSeed(
-      seedColor: const Color(0xff6A6DED),
-      brightness: Brightness.dark,
-    );
+    final darkColorScheme = MaterialTheme.darkScheme();
     // ThemeData
     return darkThemeData.copyWith(
       primaryColor: darkColorScheme.primary,
@@ -107,11 +106,10 @@ class DefaultThemeData {
     Color? primary,
   }) {
     final lightThemeData = ThemeData.light(useMaterial3: false).copyWith();
-    ColorScheme colorScheme = lightColorScheme.copyWith();
+    ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: seed);
     return lightThemeData.copyWith(
       primaryColor: colorScheme.primary,
-      // Desktop有高斯模糊背景
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.surface,
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.light,
       ),
@@ -147,7 +145,13 @@ class DefaultThemeData {
         filled: true,
       ),
       appBarTheme: lightThemeData.appBarTheme.copyWith(
-        systemOverlayStyle: OverlayStyle.light,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarDividerColor: Colors.transparent,
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -190,42 +194,42 @@ class DefaultThemeData {
         bodyMedium: lightThemeData.textTheme.bodyMedium!.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        thumbColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return colorScheme.primary;
           }
           return null;
         }),
-        trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        trackColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return colorScheme.primary;
           }
           return null;
         }),
       ),
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        fillColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return colorScheme.primary;
           }
           return null;
         }),
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        fillColor: WidgetStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return colorScheme.primary;
           }
           return null;

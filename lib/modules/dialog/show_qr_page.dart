@@ -30,7 +30,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
       padding: EdgeInsets.all(40.w),
       child: Center(
         child: Material(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10.w),
           child: Material(
             color: Colors.transparent,
@@ -56,7 +56,15 @@ class _ShowQRPageState extends State<ShowQRPage> {
                                 data: 'http://${address[i]}:${widget.port}',
                                 version: QrVersions.auto,
                                 size: 280.w,
-                                foregroundColor: Theme.of(context).colorScheme.onSurface,
+                                eyeStyle: const QrEyeStyle(
+                                  eyeShape: QrEyeShape.square,
+                                  color: Colors.black,
+                                  // borderRadius: 10,
+                                ),
+                                dataModuleStyle: const QrDataModuleStyle(
+                                  dataModuleShape: QrDataModuleShape.square,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                             SelectableText(
