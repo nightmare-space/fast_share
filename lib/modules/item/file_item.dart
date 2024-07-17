@@ -309,7 +309,7 @@ class _FileItemState extends State<FileItem> {
             child: Text(
               widget.info!.fileName!,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 12.w,
               ),
             ),
@@ -381,7 +381,7 @@ class _MenuState extends State<Menu> {
           child: Align(
             alignment: Alignment.topCenter,
             child: Material(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               clipBehavior: Clip.antiAlias,
               borderRadius: BorderRadius.circular(10.w),
               child: SizedBox(

@@ -124,7 +124,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
       },
       child: Material(
         borderRadius: BorderRadius.circular(10.w),
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         clipBehavior: Clip.antiAlias,
         child: GetBuilder<ChatController>(builder: (context) {
           List<Widget?> children = [];
@@ -445,7 +445,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                     child: Material(
                       borderRadius: BorderRadius.circular(24.w),
                       // borderOnForeground: true,
-                      color: Theme.of(context).colorScheme.background,
+                      color: Theme.of(context).colorScheme.surface,
                       child: SizedBox(
                         width: 46.w,
                         height: 46.w,
@@ -548,7 +548,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Stack(
                 children: [
                   Material(
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.surface,
                     child: SizedBox(
                       height: 10.w,
                       width: 64.w,
@@ -569,7 +569,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Container(
                 height: 48.w,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12.w),
                     bottomLeft: Radius.circular(12.w),
@@ -579,7 +579,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Stack(
                 children: [
                   Material(
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.surface,
                     child: SizedBox(
                       height: 10.w,
                       width: 60.w,

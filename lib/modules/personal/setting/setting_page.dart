@@ -60,8 +60,7 @@ class _SettingPageState extends State<SettingPage> {
     cache = await getApplicationCacheDirectory();
     Log.i('cache:${cache!.path}');
     getCacheSize(cache!).then((value) {
-      Log.w('value:$value');
-      print('Cache size: ${value / (1024 * 1024)} MB');
+      Log.d('Cache size: ${value / (1024 * 1024)} MB');
       cacheSize = '${(value / (1024 * 1024)).toStringAsFixed(2)} MB';
       setState(() {});
     });

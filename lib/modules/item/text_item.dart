@@ -40,7 +40,7 @@ class TextMessageItem extends StatelessWidget {
                           child: SelectableText(
                             info!.content!,
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontSize: 14.w,
                               letterSpacing: 1,
                             ),

@@ -21,7 +21,7 @@ class DefaultThemeData {
     // ThemeData
     return darkThemeData.copyWith(
       primaryColor: darkColorScheme.primary,
-      scaffoldBackgroundColor: darkColorScheme.background,
+      scaffoldBackgroundColor: darkColorScheme.surface,
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.dark,
       ),
@@ -191,7 +191,12 @@ class DefaultThemeData {
         color: colorScheme.surface,
       ),
       textTheme: lightThemeData.textTheme.copyWith(
-        bodyMedium: lightThemeData.textTheme.bodyMedium!.copyWith(fontSize: 14.w, fontWeight: FontWeight.w500, color: colorScheme.onBackground, fontFamily: 'MiSans'),
+        bodyMedium: lightThemeData.textTheme.bodyMedium!.copyWith(
+          fontSize: 14.w,
+          fontWeight: FontWeight.w500,
+          color: colorScheme.onSurface,
+          fontFamily: 'MiSans',
+        ),
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
@@ -225,7 +230,7 @@ class DefaultThemeData {
         }),
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: WidgetStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        fillColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
             return null;
           }

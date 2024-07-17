@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                         S.of(context).recentImg,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onBackground,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       SizedBox(height: 4.w),
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                               '空',
                               style: TextStyle(
                                 fontSize: 16.w,
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                           );
@@ -226,7 +226,7 @@ class _HomePageState extends State<HomePage> {
             S.of(context).recentFile,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           SizedBox(height: 4.w),
@@ -275,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -332,7 +332,7 @@ class _HomePageState extends State<HomePage> {
                 // Log.i(chatController.children..last);
                 return Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.onSurface,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   height: 240.w,
@@ -343,7 +343,7 @@ class _HomePageState extends State<HomePage> {
                         child: Text(
                           '当前没有任何消息，点击进入到消息列表',
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       );

@@ -174,7 +174,7 @@ class _FilePageState extends State<FilePage> {
       );
     }
     return Material(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: SingleChildScrollView(
         padding: EdgeInsets.zero,
         child: Column(
@@ -270,7 +270,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -334,7 +334,7 @@ class _FilePageState extends State<FilePage> {
                     '空',
                     style: TextStyle(
                       fontSize: 16.w,
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 );
@@ -413,7 +413,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -486,7 +486,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -580,7 +580,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -654,7 +654,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -728,7 +728,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -754,7 +754,7 @@ class _FilePageState extends State<FilePage> {
         data,
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           fontSize: 16.w,
         ),
       ),
@@ -813,7 +813,7 @@ class _FilePageState extends State<FilePage> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );

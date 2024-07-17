@@ -29,7 +29,7 @@ class _RecentConnectContainerState extends State<RecentConnectContainer> {
                 '最近连接',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               InkWell(
@@ -162,7 +162,7 @@ class _RecentConnectContainerState extends State<RecentConnectContainer> {
                       '空',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );

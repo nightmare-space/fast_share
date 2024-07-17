@@ -60,7 +60,7 @@ class Header extends StatelessWidget {
                 },
                 child: SvgPicture.asset(
                   GlobalAssets.qrCode,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                   width: 24.w,
                 ),
               ),
@@ -74,7 +74,7 @@ class Header extends StatelessWidget {
                   'assets/icon/qr.png',
                   width: 20.w,
                   package: Config.package,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               NiIconButton(
@@ -156,7 +156,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
                       text: '当前有',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -172,7 +172,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
                       text: '个设备会收到消息',
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

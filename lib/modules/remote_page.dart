@@ -93,7 +93,7 @@ class _RemotePageState extends State<RemotePage> {
                         return SelectableText(
                           'http://${chatController.addrs[index]}:12000/',
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         );
                       },
