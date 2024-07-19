@@ -59,7 +59,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                         Column(
                           children: [
                             SizedBox(
-                              width: 240.w,
+                              width: 200.w,
                               child: personHeader,
                             ),
                             SizedBox(height: 8.w),

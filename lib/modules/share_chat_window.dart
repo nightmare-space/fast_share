@@ -37,53 +37,30 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 100),
     );
-    // if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
-    //   windowManager.setSize(SizeConfig.chatSize);
-    // }
   }
 
   @override
   void dispose() {
     menuAnim.dispose();
-    // if (GetPlatform.isDesktop && !GetPlatform.isWeb) {
-    //   windowManager.setSize(SizeConfig.defaultSize);
-    // }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: OverlayStyle.dark,
-      child: Stack(
-        children: [
-          body(context),
-        ],
-      ),
-    );
-  }
-
-  Scaffold body(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).surface1,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         left: false,
-        child: Stack(
-          alignment: Alignment.center,
-          // fit: StackFit.passthrough,
+        child: Column(
           children: [
-            Column(
-              children: [
-                if (ResponsiveBreakpoints.of(context).isMobile) appbar(context) else SizedBox(height: 10.w),
-                Expanded(
-                  child: Row(
-                    children: [
-                      if (ResponsiveBreakpoints.of(context).isMobile) leftNav(),
-                      chatBody(context),
-                    ],
-                  ),
-                ),
-              ],
+            if (ResponsiveBreakpoints.of(context).isMobile) appbar(context) else SizedBox(height: 10.w),
+            Expanded(
+              child: Row(
+                children: [
+                  if (ResponsiveBreakpoints.of(context).isMobile) leftNav(),
+                  chatBody(context),
+                ],
+              ),
             ),
           ],
         ),
@@ -101,12 +78,8 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
             Align(
               alignment: Alignment.bottomCenter,
               child: Material(
-                color: Theme.of(context).surface1,
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: 64.w,
-                    maxHeight: 240.w,
-                  ),
+                  constraints: BoxConstraints(minHeight: 64.w, maxHeight: 240.w),
                   child: sendMsgContainer(context),
                 ),
               ),
@@ -124,7 +97,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
       },
       child: Material(
         borderRadius: BorderRadius.circular(10.w),
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         clipBehavior: Clip.antiAlias,
         child: GetBuilder<ChatController>(builder: (context) {
           List<Widget?> children = [];
@@ -152,13 +125,10 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
     return SizedBox(
       width: 64.w,
       child: Material(
-        color: Theme.of(context).surface1,
         child: Column(
           children: [
             SizedBox(height: 4.w),
-            LeftNav(
-              value: index,
-            ),
+            LeftNav(value: index),
           ],
         ),
       ),
@@ -167,7 +137,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
 
   Material appbar(BuildContext context) {
     return Material(
-      color: Theme.of(context).surface1,
+      color: colorScheme.surface,
       child: SizedBox(
         height: 48.w,
         child: Row(
@@ -370,7 +340,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
           topLeft: Radius.circular(12.w),
           topRight: Radius.circular(12.w),
         ),
-        color: Theme.of(context).surface1,
+        color: colorScheme.surface,
         child: Padding(
           padding: EdgeInsets.fromLTRB(0.w, 8.w, 8.w, 0),
           child: Column(
@@ -383,11 +353,9 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        // color: Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.circular(12.w),
                       ),
                       width: double.infinity,
-                      // height: 40.w,
                       child: Center(
                         child: GetBuilder<ChatController>(builder: (_) {
                           return TextField(
@@ -445,7 +413,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                     child: Material(
                       borderRadius: BorderRadius.circular(24.w),
                       // borderOnForeground: true,
-                      color: Theme.of(context).colorScheme.surface,
+                      color: Theme.of(context).colorScheme.surfaceContainer,
                       child: SizedBox(
                         width: 46.w,
                         height: 46.w,
@@ -548,14 +516,14 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Stack(
                 children: [
                   Material(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                     child: SizedBox(
                       height: 10.w,
                       width: 64.w,
                     ),
                   ),
                   Material(
-                    color: Theme.of(context).surface1,
+                    color: colorScheme.surface,
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(12.w),
                     ),
@@ -569,7 +537,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Container(
                 height: 48.w,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12.w),
                     bottomLeft: Radius.circular(12.w),
@@ -579,14 +547,14 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
               Stack(
                 children: [
                   Material(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                     child: SizedBox(
                       height: 10.w,
                       width: 60.w,
                     ),
                   ),
                   Material(
-                    color: Theme.of(context).surface1,
+                    color: colorScheme.surface,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(12.w),
                     ),
@@ -613,6 +581,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                 width: 24.w,
                 height: 24.w,
                 package: Config.package,
+                color: colorScheme.onSurface,
               ),
               onChange: (value) {
                 index = value;

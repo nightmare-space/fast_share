@@ -1,4 +1,5 @@
 {
+    "@@locale": "en",
     "common": "Common",
     "setting": "Settings",
     "downlaodPath": "Download Path",
@@ -13,7 +14,6 @@
     "chatWindow": "Chat Window",
     "developer": "Developer",
     "openSource": "Open Source",
-    "noMessageTip": "Currently there are no messages, click to enter the message list",
     "inputConnect": "Input Connect",
     "scan": "Scan QR Code",
     "log": "Log",
@@ -33,5 +33,20 @@
     "music": "Music",
     "video": "Video",
     "image": "Image",
-    "apk": "Apk"
+    "apk": "Apk",
+    "appName": "Speed Share",
+    "headerNotice": "{number,plural, =0{No devices connect}other{have {number} connected}}",
+    "recentConnect": "Recent Connect",
+    "empty": "Empty",
+    "projectBoard": "Nightmare Series Project Board",
+    "joinQQGroup": "Join Feedback Communication Group",
+    "changeLog": "Change Log",
+    "about": "About Speed Share",
+    "chatWindowNotice": "Currently no messages, click to view the message list",
+    "enableFileClassification": "Enable file classification",
+    "clearCache": "Clear Cache",
+    "clearSuccess": "Clear Success",
+    "cacheSize": "{number,plural, other{Current cache size {number}MB}}",
+    "nightmare": "Nightmare",
+    "enbaleWebServer": "Enable Web Server"
 }

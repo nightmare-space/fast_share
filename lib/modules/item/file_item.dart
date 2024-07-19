@@ -97,7 +97,7 @@ class _FileItemState extends State<FileItem> {
       mainAxisAlignment: widget.sendByUser! ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Material(
-          color: Theme.of(context).surface1,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(10.w),
           clipBehavior: Clip.antiAlias,
           child: InkWell(

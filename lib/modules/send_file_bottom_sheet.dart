@@ -17,21 +17,19 @@ class SendFilePage extends StatefulWidget {
 }
 
 class _SendFilePageState extends State<SendFilePage> with SingleTickerProviderStateMixin {
-  late AnimationController controller;
+  late AnimationController controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  );
   ChatController chatController = Get.find();
-  late Animation color;
+  late Animation color = ColorTween(
+    begin: const Color(0xff6A6DED),
+    end: const Color(0xff424242),
+  ).animate(controller);
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    color = ColorTween(
-      begin: const Color(0xff6A6DED),
-      end: const Color(0xff424242),
-    ).animate(controller);
     controller.forward();
     controller.addListener(() {
       setState(() {});

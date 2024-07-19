@@ -141,6 +141,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     int port = uri.port;
     deviceController.onDeviceConnect(
       shortHash(''),
+      // TODO intl
       '设备',
       phone,
       'http://${uri.host}',

@@ -82,10 +82,7 @@ class _DesktopHomeState extends State<DesktopHome> {
               left: false,
               child: Column(
                 children: [
-                  Container(
-                    height: 1.w,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                  Container(height: 1.w, color: Theme.of(context).primaryColor),
                   Expanded(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +100,7 @@ class _DesktopHomeState extends State<DesktopHome> {
                               child: [
                                 const SizedBox(),
                                 Container(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color: Theme.of(context).colorScheme.surface,
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 8.w),
                                     child: const ShareChatV2(),
@@ -136,12 +133,9 @@ class _DesktopHomeState extends State<DesktopHome> {
                                   setState(() {});
                                 },
                               ),
-                              Container(
-                                color: Theme.of(context).brightness == Brightness.light ? Colors.white : const Color.fromRGBO(19, 19, 25, 1),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.w),
-                                  child: const ShareChatV2(),
-                                ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                child: const ShareChatV2(),
                               ),
                               for (int i = 0; i < controller.connectDevice.length; i++)
                                 Builder(

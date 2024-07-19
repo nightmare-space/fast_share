@@ -31,12 +31,6 @@
             "deviceId": "linux"
         },
         {
-            "name": "OPPO WATCH",
-            "request": "launch",
-            "type": "dart",
-            "deviceId": "cc004251"
-        },
-        {
             "name": "小米14",
             "request": "launch",
             "type": "dart",

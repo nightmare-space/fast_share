@@ -198,7 +198,7 @@ class _BottomTabState extends State<BottomTab> {
   Widget build(BuildContext context) {
     return Material(
       elevation: 0,
-      color: Theme.of(context).surface1,
+      color: Theme.of(context).colorScheme.surfaceContainer,
       child: SizedBox(
         height: 66.w,
         width: MediaQuery.of(context).size.width,

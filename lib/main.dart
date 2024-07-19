@@ -14,6 +14,8 @@ import 'global/global.dart';
 import 'material_app_entry_point.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'dart:async';
+import 'generated/intl/messages_en.dart' as en;
+import 'generated/intl/messages_zh_CN.dart' as zh;
 
 // 初始化hive的设置
 Future<void> initSetting() async {
@@ -103,6 +105,7 @@ Future<void> main() async {
       }
       initPersonal();
       runApp(const SpeedShare());
+      mergeI18n();
       // 透明状态栏
       // transparent the appbar
       StatusBarUtil.transparent();
@@ -122,4 +125,9 @@ Future<void> main() async {
       Log.e('未捕捉到的异常 : $error \n$stackTrace');
     },
   );
+}
+
+void mergeI18n() {
+  en.messages.messages.addAll(enMessage);
+  zh.messages.messages.addAll(zhCNMessage);
 }

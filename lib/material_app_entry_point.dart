@@ -24,7 +24,7 @@ class SpeedShare extends StatelessWidget {
         builder: (context) {
           return GetMaterialApp(
             locale: settingController.currentLocale,
-            title: '速享',
+            title: '',
             initialRoute: initRoute,
             getPages: SpeedPages.routes,
             defaultTransition: GetPlatform.isAndroid ? Transition.fadeIn : null,
@@ -40,7 +40,7 @@ class SpeedShare extends StatelessWidget {
             builder: (context, child) {
               // ignore: deprecated_member_use
               final bool isDark = window.platformBrightness == Brightness.dark;
-              final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+              final ThemeData theme = isDark ? dark() : light();
               return ResponsiveBreakpoints.builder(
                 child: Builder(
                   builder: (context) {

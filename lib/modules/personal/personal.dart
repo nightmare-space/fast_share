@@ -46,7 +46,7 @@ class _PersonalPageState extends State<PersonalPage> {
           //   },
           // ),
           personalItem(
-            title: '魇系列项目面板',
+            title: S.current.projectBoard,
             onTap: () {
               Get.to(ScreenQuery(
                 uiWidth: 600,
@@ -68,7 +68,7 @@ class _PersonalPageState extends State<PersonalPage> {
             },
           ),
           personalItem(
-            title: '加入交流反馈群',
+            title: S.current.joinQQGroup,
             onTap: () async {
               const String url = 'mqqapi://card/show_pslcard?src_type=internal&version=1&uin=673706601&card_type=group&source=qrcode';
               if (await canLaunchUrlString(url)) {
@@ -80,17 +80,17 @@ class _PersonalPageState extends State<PersonalPage> {
             },
           ),
           personalItem(
-            title: '更新日志',
+            title: S.current.changeLog,
             onTap: () async {
               Get.to(const ChangeLogPage());
             },
           ),
           personalItem(
-            title: '关于速享',
+            title: S.current.aboutSpeedShare,
             onTap: () async {
               String license = await rootBundle.loadString('LICENSE');
               Get.to(AboutPage(
-                applicationName: '速享',
+                applicationName: S.current.appName,
                 appVersion: Config.versionName,
                 versionCode: Config.versionCode,
                 logo: Padding(
@@ -104,6 +104,7 @@ class _PersonalPageState extends State<PersonalPage> {
                 otherVersionLink: 'http://nightmare.press/YanTool/resources/SpeedShare/?C=N;O=A',
                 openSourceLink: 'https://github.com/nightmare-space/speed_share',
                 license: license,
+                canOpenDrawer: false,
               ));
             },
           ),
@@ -120,7 +121,7 @@ class _PersonalPageState extends State<PersonalPage> {
       padding: EdgeInsets.only(bottom: 8.w),
       child: Material(
         borderRadius: BorderRadius.circular(12.w),
-        color: Theme.of(context).surface2,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         child: InkWell(
           borderRadius: BorderRadius.circular(10.w),
           onTap: () {

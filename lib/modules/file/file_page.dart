@@ -14,6 +14,7 @@ import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/app_colors.dart';
+import 'package:speed_share/themes/theme.dart';
 
 import '../widget/header.dart';
 import '../widget/icon.dart';
@@ -267,7 +268,7 @@ class _FilePageState extends State<FilePage> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -331,7 +332,7 @@ class _FilePageState extends State<FilePage> {
               if (children.isEmpty) {
                 return Center(
                   child: Text(
-                    '空',
+                    S.current.empty,
                     style: TextStyle(
                       fontSize: 16.w,
                       color: Theme.of(context).colorScheme.onSurface,
@@ -410,7 +411,7 @@ class _FilePageState extends State<FilePage> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -483,7 +484,7 @@ class _FilePageState extends State<FilePage> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -577,7 +578,7 @@ class _FilePageState extends State<FilePage> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -651,7 +652,7 @@ class _FilePageState extends State<FilePage> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -725,7 +726,7 @@ class _FilePageState extends State<FilePage> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -810,7 +811,7 @@ class _FilePageState extends State<FilePage> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -849,7 +850,7 @@ class CardWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).surface1,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       height: height ?? 120.w,

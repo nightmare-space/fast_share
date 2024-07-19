@@ -279,7 +279,7 @@ class _SettingPageState extends State<SettingPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '开启文件分类',
+                              S.current.enableFileClassification,
                               style: TextStyle(
                                 fontSize: 18.w,
                               ),
@@ -315,7 +315,7 @@ class _SettingPageState extends State<SettingPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '开启WebServer',
+                              S.current.enbaleWebServer,
                               style: TextStyle(
                                 fontSize: 18.w,
                               ),

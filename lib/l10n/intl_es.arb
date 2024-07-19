@@ -1,4 +1,5 @@
 {
+    "@@locale": "es",
     "common": "Común",
     "setting": "Ajustes",
     "downlaodPath": "Ruta de descarga",
@@ -13,7 +14,6 @@
     "chatWindow": "Ventana de chat",
     "developer": "Desarrollador",
     "openSource": "Código abierto",
-    "noMessageTip": "Actualmente no hay mensajes, haga clic para entrar en la lista de mensajes",
     "inputConnect": "Ingresar conexión",
     "scan": "Escanear código QR",
     "log": "Registro",
@@ -33,5 +33,20 @@
     "music": "Música",
     "video": "Vídeo",
     "image": "Imagen",
-    "apk": "Apk"
+    "apk": "Apk",
+    "appName": "Speed Share",
+    "headerNotice": "{number,plural, =0{No devices connect}other{have {number} connected}}",
+    "recentConnect": "Conexión reciente",
+    "empty": "Vacío",
+    "projectBoard": "Panel de proyecto de la serie Nightmare",
+    "joinQQGroup": "Unirse al grupo de retroalimentación de comunicación",
+    "changeLog": "Registro de cambios",
+    "about": "Acerca de Speed Share",
+    "chatWindowNotice": "Actualmente no hay mensajes, haga clic para ver la lista de mensajes",
+    "enableFileClassification": "Habilitar clasificación de archivos",
+    "clearCache": "Limpiar caché",
+    "clearSuccess": "Éxito al limpiar",
+    "cacheSize": "{number,plural, other{Tamaño de caché actual {number}MB}}",
+    "nightmare": "Pesadilla",
+    "enbaleWebServer": "Habilitar servidor web"
 }

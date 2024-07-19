@@ -16,6 +16,7 @@ import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/modules/preview/image_preview.dart';
 import 'package:speed_share/modules/share_chat_window.dart';
 import 'package:speed_share/themes/app_colors.dart';
+import 'package:speed_share/themes/theme.dart';
 
 import 'recent_connect_container.dart';
 
@@ -129,85 +130,12 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               const Header(),
-              SizedBox(height: 12.w),
-              SizedBox(height: 4.w),
+              SizedBox(height: 16.w),
               chatRoom(context),
               SizedBox(height: 10.w),
               recentFile(context),
               SizedBox(height: 10.w),
               const RecentConnectContainer(),
-              SizedBox(height: 10.w),
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).surface1,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: 12.w,
-                  horizontal: 12.w,
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        S.of(context).recentImg,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                      SizedBox(height: 4.w),
-                      Container(
-                        color: const Color(0xffE0C4C4).withOpacity(0.2),
-                        height: 1,
-                      ),
-                      SizedBox(height: 4.w),
-                      GetBuilder<FileController>(builder: (ctl) {
-                        File? file = fileController.getRecentImage() as File?;
-                        if (file == null) {
-                          return Center(
-                            child: Text(
-                              '空',
-                              style: TextStyle(
-                                fontSize: 16.w,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                            ),
-                          );
-                        }
-                        String unique = shortHash(() {});
-                        return GestureWithScale(
-                          onTap: () {
-                            Get.to(
-                              () => PreviewImage(
-                                path: file.path,
-                                tag: unique,
-                              ),
-                            );
-                          },
-                          child: Center(
-                            child: Hero(
-                              tag: unique,
-                              child: Material(
-                                clipBehavior: Clip.antiAlias,
-                                borderRadius: BorderRadius.circular(12.w),
-                                child: Image.file(
-                                  file,
-                                  width: double.infinity,
-                                  height: 160.w,
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
-                ),
-              ),
               SizedBox(height: 10.w),
             ],
           ),
@@ -228,11 +156,6 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onSurface,
             ),
-          ),
-          SizedBox(height: 4.w),
-          Container(
-            color: const Color(0xffE0C4C4).withOpacity(0.2),
-            height: 1,
           ),
           SizedBox(height: 4.w),
           Expanded(
@@ -264,15 +187,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                   children.add(
-                    SizedBox(
-                      width: 4.w,
-                    ),
+                    SizedBox(width: 4.w),
                   );
                 }
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -307,60 +228,55 @@ class _HomePageState extends State<HomePage> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).surface1,
+          color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: EdgeInsets.all(12.w),
-        child: GetBuilder<ChatController>(builder: (_) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                S.of(context).chatWindow,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-              SizedBox(height: 4.w),
-              Container(
-                color: const Color(0xffE0C4C4).withOpacity(0.2),
-                height: 1,
-              ),
-              SizedBox(height: 4.w),
-              Builder(builder: (context) {
-                // Log.i(chatController.children..last);
-                return Container(
-                  decoration: BoxDecoration(
+        child: GetBuilder<ChatController>(
+          builder: (_) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  S.of(context).chatWindow,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onSurface,
-                    borderRadius: BorderRadius.circular(12),
                   ),
-                  height: 240.w,
-                  width: double.infinity,
-                  child: Builder(builder: (context) {
-                    if (chatController.children.isEmpty) {
-                      return Center(
-                        child: Text(
-                          '当前没有任何消息，点击进入到消息列表',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
+                ),
+                SizedBox(height: 4.w),
+                Builder(builder: (context) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    height: 240.w,
+                    width: double.infinity,
+                    child: Builder(builder: (context) {
+                      if (chatController.children.isEmpty) {
+                        return Center(
+                          child: Text(
+                            S.current.chatWindow,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                           ),
-                        ),
+                        );
+                      }
+                      return ListView.builder(
+                        itemCount: chatController.children.length,
+                        itemBuilder: (c, i) {
+                          return chatController.children[i];
+                        },
                       );
-                    }
-                    return ListView.builder(
-                      // controller: chatController.scrollController,
-                      itemCount: chatController.children.length,
-                      itemBuilder: (c, i) {
-                        return chatController.children[i];
-                      },
-                    );
-                  }),
-                );
-              }),
-            ],
-          );
-        }),
+                    }),
+                  );
+                }),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

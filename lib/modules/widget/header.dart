@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/modules/dialog/show_qr_page.dart';
 import 'package:speed_share/utils/utils.dart';
 
@@ -153,23 +154,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: '当前有',
-                      style: TextStyle(
-                        fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    TextSpan(
-                      text: '${deviceController.availableDevice()}',
-                      style: TextStyle(
-                        fontSize: 16.w,
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    TextSpan(
-                      text: '个设备会收到消息',
+                      text: S.current.headerNotice(deviceController.availableDevice()),
                       style: TextStyle(
                         fontSize: 16.w,
                         color: Theme.of(context).colorScheme.onSurface,

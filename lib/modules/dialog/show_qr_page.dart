@@ -39,7 +39,7 @@ class _ShowQRPageState extends State<ShowQRPage> {
               width: 300.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.w),
-                color: Theme.of(context).surface1,
+                color: Theme.of(context).colorScheme.surface,
               ),
               child: Column(
                 children: [
