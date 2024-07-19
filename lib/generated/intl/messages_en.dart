@@ -20,13 +20,27 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(number) =>
+      "${Intl.plural(number, other: 'Current cache size ${number}MB')}";
+
+  static String m1(number) =>
+      "${Intl.plural(number, zero: 'No devices connect', other: 'have ${number} connected')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("About Speed Share"),
         "aboutSpeedShare":
             MessageLookupByLibrary.simpleMessage("About Speed Share"),
         "apk": MessageLookupByLibrary.simpleMessage("Apk"),
+        "appName": MessageLookupByLibrary.simpleMessage("Speed Share"),
         "autoDownload": MessageLookupByLibrary.simpleMessage("Auto Download"),
+        "cacheSize": m0,
+        "changeLog": MessageLookupByLibrary.simpleMessage("Change Log"),
         "chatWindow": MessageLookupByLibrary.simpleMessage("Chat Window"),
+        "chatWindowNotice": MessageLookupByLibrary.simpleMessage(
+            "Currently no messages, click to view the message list"),
+        "clearCache": MessageLookupByLibrary.simpleMessage("Clear Cache"),
+        "clearSuccess": MessageLookupByLibrary.simpleMessage("Clear Success"),
         "clipboardshare":
             MessageLookupByLibrary.simpleMessage("Clipboard Share"),
         "common": MessageLookupByLibrary.simpleMessage("Common"),
@@ -39,22 +53,32 @@ class MessageLookup extends MessageLookupByLibrary {
         "downlaodPath": MessageLookupByLibrary.simpleMessage("Download Path"),
         "downloadTip": MessageLookupByLibrary.simpleMessage(
             "SpeedShare also support Windows、macOS、Linux"),
+        "empty": MessageLookupByLibrary.simpleMessage("Empty"),
+        "enableFileClassification":
+            MessageLookupByLibrary.simpleMessage("Enable file classification"),
+        "enbaleWebServer":
+            MessageLookupByLibrary.simpleMessage("Enable Web Server"),
+        "headerNotice": m1,
         "image": MessageLookupByLibrary.simpleMessage("Image"),
         "inputConnect": MessageLookupByLibrary.simpleMessage("Input Connect"),
+        "joinQQGroup": MessageLookupByLibrary.simpleMessage(
+            "Join Feedback Communication Group"),
         "lang": MessageLookupByLibrary.simpleMessage("Language"),
         "log": MessageLookupByLibrary.simpleMessage("Log"),
         "messageNote": MessageLookupByLibrary.simpleMessage(
             "Vibrate When Receive Message"),
         "music": MessageLookupByLibrary.simpleMessage("Music"),
-        "noMessageTip": MessageLookupByLibrary.simpleMessage(
-            "Currently there are no messages, click to enter the message list"),
+        "nightmare": MessageLookupByLibrary.simpleMessage("Nightmare"),
         "openSource": MessageLookupByLibrary.simpleMessage("Open Source"),
         "otherVersion":
             MessageLookupByLibrary.simpleMessage("Download The Other Version"),
         "privacyAgreement":
             MessageLookupByLibrary.simpleMessage("Privacy Agreement"),
+        "projectBoard": MessageLookupByLibrary.simpleMessage(
+            "Nightmare Series Project Board"),
         "qrTips": MessageLookupByLibrary.simpleMessage(
             "Slide left or right to switch IP addresses"),
+        "recentConnect": MessageLookupByLibrary.simpleMessage("Recent Connect"),
         "recentFile": MessageLookupByLibrary.simpleMessage("Recent File"),
         "recentImg": MessageLookupByLibrary.simpleMessage("Recent Image"),
         "remoteAccessDes": MessageLookupByLibrary.simpleMessage(

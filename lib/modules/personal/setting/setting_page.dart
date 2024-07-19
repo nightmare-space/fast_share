@@ -1,17 +1,36 @@
+import 'dart:io';
+
 import 'package:file_selector/file_selector.dart';
 import 'package:file_manager_view/file_manager_view.dart' as file_manager;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/controller.dart';
-import 'package:speed_share/config/config.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
-import '../widget/switch/xliv_switch.dart';
+import '../../widget/switch/xliv_switch.dart';
 import 'dialog/select_language.dart';
+
+Future<int> getCacheSize(Directory cacheDir) async {
+  int totalSize = 0;
+
+  if (await cacheDir.exists()) {
+    try {
+      await for (FileSystemEntity entity in cacheDir.list(recursive: true, followLinks: false)) {
+        if (entity is File) {
+          totalSize += await entity.length();
+        }
+      }
+    } catch (e) {
+      Log.e('Error calculating cache size: $e');
+    }
+  }
+
+  return totalSize;
+}
 
 // 设置页面
 class SettingPage extends StatefulWidget {
@@ -24,6 +43,28 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   SettingController controller = Get.find();
   ChatController chatController = Get.find();
+  String cacheSize = '';
+  Directory? cache;
+
+  @override
+  void initState() {
+    super.initState();
+    getp();
+  }
+
+  Future<void> getp() async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    Log.i('directory:${directory.path}');
+    Directory doc = await getApplicationDocumentsDirectory();
+    Log.i('doc:${doc.path}');
+    cache = await getApplicationCacheDirectory();
+    Log.i('cache:${cache!.path}');
+    getCacheSize(cache!).then((value) {
+      Log.d('Cache size: ${value / (1024 * 1024)} MB');
+      cacheSize = '${(value / (1024 * 1024)).toStringAsFixed(2)} MB';
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +279,7 @@ class _SettingPageState extends State<SettingPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '开启文件分类',
+                              S.current.enableFileClassification,
                               style: TextStyle(
                                 fontSize: 18.w,
                               ),
@@ -274,7 +315,7 @@ class _SettingPageState extends State<SettingPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '开启WebServer',
+                              S.current.enbaleWebServer,
                               style: TextStyle(
                                 fontSize: 18.w,
                               ),
@@ -316,122 +357,49 @@ class _SettingPageState extends State<SettingPage> {
                       return const SizedBox();
                     },
                   ),
-                // Text('隐私和安全'),
-                // Text('消息和通知'),
-                // Text('快捷键'),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
+                  child: Text(
+                    '缓存清理',
+                    style: title,
+                  ),
+                ),
+                SettingItem(
+                  onTap: () async {
+                    await cache!.delete(recursive: true);
+                    getp();
+                    showToast('缓存清理完成');
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '当前缓存大小:$cacheSize',
+                              style: TextStyle(
+                                fontSize: 18.w,
+                              ),
+                            ),
+                            Text(
+                              '安卓SAF架构会导致从系统文件夹选择文件总是会拷贝一份，如果使用速享自带文件管理器选择，则不会增加缓存大小',
+                              style: TextStyle(
+                                fontSize: 14.w,
+                                color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
                     s.aboutSpeedShare,
                     style: title,
-                  ),
-                ),
-                SettingItem(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        s.currenVersion,
-                        style: TextStyle(
-                          fontSize: 18.w,
-                        ),
-                      ),
-                      Text(
-                        Config.versionName,
-                        style: TextStyle(
-                          fontSize: 18.w,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SettingItem(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '版本号',
-                        style: TextStyle(
-                          fontSize: 18.w,
-                        ),
-                      ),
-                      Text(
-                        Config.versionCode,
-                        style: TextStyle(
-                          fontSize: 18.w,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SettingItem(
-                  onTap: () async {
-                    String url = 'https://github.com/nightmare-space/speed_share';
-                    await canLaunchUrlString(url)
-                        ? await launchUrlString(
-                            url,
-                            mode: LaunchMode.externalNonBrowserApplication,
-                          )
-                        : throw 'Could not launch $url';
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        s.openSource,
-                        style: TextStyle(
-                          fontSize: 18.w,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16.w,
-                      ),
-                    ],
-                  ),
-                ),
-                SettingItem(
-                  onTap: () async {
-                    String url = 'http://nightmare.press/YanTool/resources/SpeedShare/?C=N;O=A';
-                    await canLaunchUrlString(url)
-                        ? await launchUrlString(
-                            url,
-                            mode: LaunchMode.externalNonBrowserApplication,
-                          )
-                        : throw 'Could not launch $url';
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            s.otherVersion,
-                            style: TextStyle(
-                              fontSize: 18.w,
-                            ),
-                          ),
-                          Text(
-                            S.of(context).downloadTip,
-                            style: TextStyle(
-                              fontSize: 14.w,
-                              fontWeight: FontWeight.normal,
-                              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16.w,
-                      ),
-                    ],
                   ),
                 ),
                 SettingItem(
@@ -466,7 +434,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                       Text(
-                        '柚凛',
+                        '柚凛/梦魇兽',
                         style: TextStyle(
                           fontSize: 18.w,
                           fontWeight: FontWeight.normal,

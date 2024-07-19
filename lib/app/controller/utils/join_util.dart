@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:signale/signale.dart';
+import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
-import 'package:speed_share/utils/http/http.dart';
 
 class JoinUtil {
   static Future<bool> sendJoinEvent(
@@ -29,7 +28,7 @@ class JoinUtil {
       Log.i('sendJoinEvent result : ${res.data}');
       return true;
       // deviceController.onDeviceConnect(res.data, name, type, urlPrefix, port)
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Log.e('$url 发送加入消息异常，但不一定会影响使用\n详情：${e.message} ${e.response}');
       return false;
     }

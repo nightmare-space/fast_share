@@ -8,7 +8,9 @@ PODS:
   - file_selector_macos (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - mobile_scanner (0.0.1):
+  - mobile_scanner (3.5.6):
+    - FlutterMacOS
+  - package_info_plus (0.0.1):
     - FlutterMacOS
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -19,7 +21,7 @@ PODS:
     - FlutterMacOS
   - url_launcher_macos (0.0.1):
     - FlutterMacOS
-  - wakelock_macos (0.0.1):
+  - wakelock_plus (0.0.1):
     - FlutterMacOS
   - window_manager (0.2.0):
     - FlutterMacOS
@@ -31,11 +33,12 @@ DEPENDENCIES:
   - file_selector_macos (from `Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - mobile_scanner (from `Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos`)
-  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
+  - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
+  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - screen_retriever (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos`)
   - tray_manager (from `Flutter/ephemeral/.symlinks/plugins/tray_manager/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
-  - wakelock_macos (from `Flutter/ephemeral/.symlinks/plugins/wakelock_macos/macos`)
+  - wakelock_plus (from `Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos`)
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
 EXTERNAL SOURCES:
@@ -51,33 +54,36 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
   mobile_scanner:
     :path: Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos
+  package_info_plus:
+    :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
-    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos
+    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
   screen_retriever:
     :path: Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos
   tray_manager:
     :path: Flutter/ephemeral/.symlinks/plugins/tray_manager/macos
   url_launcher_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
-  wakelock_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/wakelock_macos/macos
+  wakelock_plus:
+    :path: Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos
   window_manager:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
 SPEC CHECKSUMS:
   clipboard_watcher: a71da520051c24c1b969a411b3e152d4dcc93ca5
   desktop_drop: 69eeff437544aa619c8db7f4481b3a65f7696898
-  device_info_plus: 5401765fde0b8d062a2f8eb65510fb17e77cf07f
-  file_selector_macos: 0f85c1108e2fd597b58246bc0b0c1cb483d7593b
+  device_info_plus: ce1b7762849d3ec103d0e0517299f2db7ad60720
+  file_selector_macos: 54fdab7caa3ac3fc43c9fac4d7d8d231277f8cf2
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  mobile_scanner: 35dc92ffdbd7934b0dbc411b1c731bc2ef23c2dc
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
+  mobile_scanner: 54ceceae0c8da2457e26a362a6be5c61154b1829
+  package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
   tray_manager: 9064e219c56d75c476e46b9a21182087930baf90
-  url_launcher_macos: 5335912b679c073563f29d89d33d10d459f95451
-  wakelock_macos: bc3f2a9bd8d2e6c89fee1e1822e7ddac3bd004a9
+  url_launcher_macos: 5f437abeda8c85500ceb03f5c1938a8c5a705399
+  wakelock_plus: 4783562c9a43d209c458cb9b30692134af456269
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 
 PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.15.0

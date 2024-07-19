@@ -9,6 +9,7 @@ class ConstIsland {
   static void onClipboardReceive(String? deviceName) {
     Size size = Get.size;
     open(
+      // ignore: deprecated_member_use
       size: Size(size.width * window.devicePixelRatio, 800),
       position: const Offset(0, 0),
       focusable: true,
@@ -24,6 +25,7 @@ class ConstIsland {
   static void onFileReceive(Map<String, dynamic> data) {
     Size size = Get.size;
     open(
+      // ignore: deprecated_member_use
       size: Size(size.width * window.devicePixelRatio, 800),
       position: const Offset(0, 0),
       focusable: true,

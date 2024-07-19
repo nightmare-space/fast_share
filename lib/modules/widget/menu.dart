@@ -7,6 +7,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/app_colors.dart';
+import 'package:speed_share/themes/theme.dart';
 
 import '../dialog/join_chat.dart';
 
@@ -44,12 +45,12 @@ class _HeaderMenuState extends State<HeaderMenu> {
             child: SizedBox(
               width: 180.w,
               child: Material(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12.w),
                 child: Material(
                   borderRadius: BorderRadius.circular(12.w),
                   clipBehavior: Clip.antiAlias,
-                  color: Theme.of(context).surface1,
+                  color: colorScheme.surface,
                   elevation: 2,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -69,7 +70,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                 children: [
                                   Icon(
                                     Icons.add,
-                                    color: Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                     size: 24.w,
                                   ),
                                   SizedBox(width: 12.w),
@@ -91,7 +92,9 @@ class _HeaderMenuState extends State<HeaderMenu> {
                           Get.to(
                             () => Responsive(
                               builder: (context, screenType) {
-                                return const LoggerView();
+                                return LoggerView(
+                                  background: Theme.of(context).scaffoldBackgroundColor,
+                                );
                               },
                             ),
                           );
@@ -106,7 +109,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                 children: [
                                   Icon(
                                     Icons.info,
-                                    color: Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                     size: 24.w,
                                   ),
                                   SizedBox(width: 12.w),
@@ -150,7 +153,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                 children: [
                                   Icon(
                                     Icons.download,
-                                    color: Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                     size: 24.w,
                                   ),
                                   SizedBox(width: 12.w),

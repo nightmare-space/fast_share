@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:get/get.dart';
 import 'package:file_manager_view/file_manager_view.dart' as file_manager;
@@ -22,19 +21,18 @@ Future<List<String?>> getFilesPathsForAndroid(bool useSystemPicker) async {
   if (!useSystemPicker) {
     filePaths = (await file_manager.FileSelector.pick(
       Get.context!,
-    ))!;
+    ));
   } else {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowCompression: false,
-      allowMultiple: true,
-    );
-    if (result != null) {
-      for (PlatformFile file in result.files) {
-        filePaths.add(file.path!);
-      }
-    } else {
-      // User canceled the picker
-    }
+    // const XTypeGroup jpgsTypeGroup = XTypeGroup(
+    //   label: 'JPEGs',
+    //   extensions: <String>['jpg', 'jpeg'],
+    // );
+    // const XTypeGroup pngTypeGroup = XTypeGroup(
+    //   label: 'PNGs',
+    //   extensions: <String>['png'],
+    // );
+    final List<XFile> files = await openFiles();
+    return files.map((e) => e.path).toList();
   }
   return filePaths;
 }

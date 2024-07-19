@@ -1,4 +1,4 @@
-
+import 'package:app_manager/page/app_setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -60,7 +60,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
       mainAxisAlignment: widget.sendByUser! ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Material(
-          color: Theme.of(context).surface1,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(10.w),
           clipBehavior: Clip.antiAlias,
           child: InkWell(

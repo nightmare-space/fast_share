@@ -141,6 +141,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     int port = uri.port;
     deviceController.onDeviceConnect(
       shortHash(''),
+      // TODO intl
       '设备',
       phone,
       'http://${uri.host}',
@@ -196,6 +197,8 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     ));
     scrollController.scrollToEnd();
     update();
+    // TODO 这个功能难用
+    // 传相同的文件，得到的文件大小是不一样的
     dir.list(recursive: true).listen((event) async {
       FileSystemEntity entity = event;
       String suffix = '';
@@ -214,22 +217,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       sendMessage(dirPartMessage);
       // Log.i(dirPartMessage);
     });
-    // await for(FileSystemEntity element in  dir.list(recursive: true)){
-
-    // }
-    // List<FileSystemEntity> list = await dir.list(recursive: true).toList();
-    // // TODO
-    // // 这儿还不敢随便改，等后面分配时间优化
-    // // 不await list，不然在文件特别多的时候，会等待很久
-
-    // // TODO 改Model
-    // info = MessageInfoFactory.fromJson({
-    //   'stat': 'complete',
-    //   // 'size':element.s
-    //   'msgType': 'dirPart',
-    //   'partOf': dirName,
-    // });
-    // socket.send(info.toString());
   }
 
   /// 发送文件夹
@@ -292,7 +279,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         scrollController.scrollToEnd();
         update();
       }
-    } else if (GetPlatform.isDesktop) {
+    } else {
       for (XFile xFile in files) {
         Log.d('-' * 10);
         Log.d('xFile.path -> ${xFile.path}');
@@ -346,6 +333,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   }) async {
     // 选择文件路径
     List<String?> filePaths = await getFilesPathsForAndroid(useSystemPicker);
+    Log.i('filePaths -> $filePaths');
     if (filePaths.isEmpty) {
       return;
     }
@@ -458,6 +446,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             // 同步之前发送过的消息
             for (Map<String, dynamic> data in messageCache) {
               try {
+                // ignore: unused_local_variable
                 Response res = await httpInstance!.post(
                   '$urlPrefix:${joinMessage.messagePort}',
                   data: data,
@@ -620,8 +609,6 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       case AppLifecycleState.resumed:
         // 刷新本地ip列表
         refreshLocalAddress();
-        // TODO
-        // initChat();
         break;
       default:
     }

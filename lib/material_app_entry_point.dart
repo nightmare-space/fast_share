@@ -24,7 +24,7 @@ class SpeedShare extends StatelessWidget {
         builder: (context) {
           return GetMaterialApp(
             locale: settingController.currentLocale,
-            title: '速享',
+            title: '',
             initialRoute: initRoute,
             getPages: SpeedPages.routes,
             defaultTransition: GetPlatform.isAndroid ? Transition.fadeIn : null,
@@ -38,8 +38,9 @@ class SpeedShare extends StatelessWidget {
             ],
             supportedLocales: S.delegate.supportedLocales,
             builder: (context, child) {
+              // ignore: deprecated_member_use
               final bool isDark = window.platformBrightness == Brightness.dark;
-              final ThemeData theme = isDark ? DefaultThemeData.dark() : DefaultThemeData.light();
+              final ThemeData theme = isDark ? dark() : light();
               return ResponsiveBreakpoints.builder(
                 child: Builder(
                   builder: (context) {
@@ -77,6 +78,11 @@ class SpeedShare extends StatelessWidget {
                   Breakpoint(start: 0, end: 500, name: MOBILE),
                   Breakpoint(start: 500, end: 500, name: TABLET),
                   Breakpoint(start: 500, end: double.infinity, name: DESKTOP),
+                ],
+                breakpointsLandscape: [
+                  const Breakpoint(start: 0, end: 450, name: MOBILE),
+                  const Breakpoint(start: 451, end: 800, name: TABLET),
+                  const Breakpoint(start: 801, end: double.infinity, name: DESKTOP),
                 ],
               );
             },

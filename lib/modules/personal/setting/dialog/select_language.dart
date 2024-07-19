@@ -24,7 +24,7 @@ class _SelectLangState extends State<SelectLang> {
   Widget build(BuildContext context) {
     return Center(
       child: Material(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12.w),
         child: SizedBox(
           width: 300.w,
@@ -33,8 +33,7 @@ class _SelectLangState extends State<SelectLang> {
             children: [
               for (String lang in languageMap.keys.toList())
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.w),
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.w),
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

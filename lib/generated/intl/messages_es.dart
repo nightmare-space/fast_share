@@ -20,14 +20,30 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'es';
 
+  static String m0(number) =>
+      "${Intl.plural(number, other: 'Tamaño de caché actual ${number}MB')}";
+
+  static String m1(number) =>
+      "${Intl.plural(number, zero: 'No devices connect', other: 'have ${number} connected')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("Acerca de Speed Share"),
         "aboutSpeedShare":
             MessageLookupByLibrary.simpleMessage("Acerca de Speed Share"),
         "apk": MessageLookupByLibrary.simpleMessage("Apk"),
+        "appName": MessageLookupByLibrary.simpleMessage("Speed Share"),
         "autoDownload":
             MessageLookupByLibrary.simpleMessage("Descarga automática"),
+        "cacheSize": m0,
+        "changeLog":
+            MessageLookupByLibrary.simpleMessage("Registro de cambios"),
         "chatWindow": MessageLookupByLibrary.simpleMessage("Ventana de chat"),
+        "chatWindowNotice": MessageLookupByLibrary.simpleMessage(
+            "Actualmente no hay mensajes, haga clic para ver la lista de mensajes"),
+        "clearCache": MessageLookupByLibrary.simpleMessage("Limpiar caché"),
+        "clearSuccess":
+            MessageLookupByLibrary.simpleMessage("Éxito al limpiar"),
         "clipboardshare":
             MessageLookupByLibrary.simpleMessage("Compartir portapapeles"),
         "common": MessageLookupByLibrary.simpleMessage("Común"),
@@ -40,23 +56,34 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ruta de descarga"),
         "downloadTip": MessageLookupByLibrary.simpleMessage(
             "SpeedShare también es compatible con Windows, macOS y Linux"),
+        "empty": MessageLookupByLibrary.simpleMessage("Vacío"),
+        "enableFileClassification": MessageLookupByLibrary.simpleMessage(
+            "Habilitar clasificación de archivos"),
+        "enbaleWebServer":
+            MessageLookupByLibrary.simpleMessage("Habilitar servidor web"),
+        "headerNotice": m1,
         "image": MessageLookupByLibrary.simpleMessage("Imagen"),
         "inputConnect":
             MessageLookupByLibrary.simpleMessage("Ingresar conexión"),
+        "joinQQGroup": MessageLookupByLibrary.simpleMessage(
+            "Unirse al grupo de retroalimentación de comunicación"),
         "lang": MessageLookupByLibrary.simpleMessage("Idioma"),
         "log": MessageLookupByLibrary.simpleMessage("Registro"),
         "messageNote": MessageLookupByLibrary.simpleMessage(
             "Vibrar al recibir un mensaje"),
         "music": MessageLookupByLibrary.simpleMessage("Música"),
-        "noMessageTip": MessageLookupByLibrary.simpleMessage(
-            "Actualmente no hay mensajes, haga clic para entrar en la lista de mensajes"),
+        "nightmare": MessageLookupByLibrary.simpleMessage("Pesadilla"),
         "openSource": MessageLookupByLibrary.simpleMessage("Código abierto"),
         "otherVersion":
             MessageLookupByLibrary.simpleMessage("Descargar otra versión"),
         "privacyAgreement":
             MessageLookupByLibrary.simpleMessage("Acuerdo de privacidad"),
+        "projectBoard": MessageLookupByLibrary.simpleMessage(
+            "Panel de proyecto de la serie Nightmare"),
         "qrTips": MessageLookupByLibrary.simpleMessage(
             "Deslice hacia un lado para cambiar de IP"),
+        "recentConnect":
+            MessageLookupByLibrary.simpleMessage("Conexión reciente"),
         "recentFile":
             MessageLookupByLibrary.simpleMessage("Archivos recientes"),
         "recentImg": MessageLookupByLibrary.simpleMessage("Imágenes recientes"),

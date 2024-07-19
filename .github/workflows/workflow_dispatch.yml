@@ -5,89 +5,70 @@ on:
       custom_runner:
         description: '是否使用自定义Runner'
         required: true
-      ref:
-        description: '分支'
-        default: 'main'
   repository_dispatch:
     types:
       - api
 
 jobs:
-  # build-linux:
-  #   runs-on: ubuntu-20.04
-  #   environment: default
-  #   steps:
-  #     - name: Checkout the code
-  #       uses: actions/checkout@v3
-  #       with:
-  #         ref: ${{ github.event.client_payload.ref }}
+  build-linux:
+    runs-on: ${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-linux' || 'ubuntu-latest' }}
+    environment: default
+    needs: clone-code
+    steps:
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ${{ github.workspace }}
+          key: ${{ runner.os }}-primes
+      - name: move file
+        run: |
+          mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
+          mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
+          mv "${{ github.workspace }}/behavior_api/behavior.dart" ./lib/global/behavior.dart
+          mv "${{ github.workspace }}/behavior_api/behavior.g.dart" ./lib/global/behavior.g.dart
 
-  #     - name: Checkout speed_share_extension code
-  #       uses: actions/checkout@v3
-  #       with:
-  #         repository: 'mengyanshou/speed_share_extension'
-  #         token: ${{ secrets.GH_PAT }}
-  #         ref: 'main'
-  #         path: "${{ github.workspace }}/speed_share_extension"
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
 
-  #     - name: Checkout behavior_api code
-  #       uses: actions/checkout@v3
-  #       with:
-  #         repository: 'mengyanshou/behavior_api'
-  #         token: ${{ secrets.GH_PAT }}
-  #         ref: 'main'
-  #         path: "${{ github.workspace }}/behavior_api"
-      
-  #     - name: Checkout user_center_frontend code
-  #       uses: actions/checkout@v3
-  #       with:
-  #         repository: 'mengyanshou/user_center_frontend'
-  #         token: ${{ secrets.GH_PAT }}
-  #         ref: 'main'
-  #         path: "${{ github.workspace }}/user_center_frontend"
+      - name: Setup other environment
+        if: github.event.inputs.custom_runner == 'false'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+          # tray manager need
+          sudo apt-get install libayatana-appindicator3-dev
 
-  #     - name: move file
-  #       run: |
-  #         mv "${{ github.workspace }}/user_center_frontend" "${{ github.workspace }}/../user_center_frontend"
-  #         mv "${{ github.workspace }}/speed_share_extension" "${{ github.workspace }}/../speed_share_extension"
-  #         mv "${{ github.workspace }}/behavior_api/behavior.dart" ./lib/global/behavior.dart
-  #         mv "${{ github.workspace }}/behavior_api/behavior.g.dart" ./lib/global/behavior.g.dart
+      - name: Setup CLI environment
+        run: |
+          cd ${{ github.workspace }}/ni
+          dart pub get
 
-  #     - name: Install and set Flutter version
-  #       uses: subosito/flutter-action@v2
-  #       with:
-  #         channel: 'stable'
-
-  #     - name: Setup other environment
-  #       run: |
-  #         sudo apt-get update -y
-  #         sudo apt-get install -y ninja-build libgtk-3-dev
-  #         # tray manager need
-  #         sudo apt-get install libayatana-appindicator3-dev
-
-  #     - name: Building...
-  #       run: |
-  #         flutter config --enable-linux-desktop
-  #         ./scripts/build/linux/build_linux.sh
+      - name: Building...
+        run: |
+          export PATH=$PATH:${{ github.workspace }}/ni
+          ni release --build-linux-deb
           
-  #     - name: Packaging...
-  #       run: ./scripts/build/linux/generate_linux.sh
-      
-  #     - name: Upload..
-  #       run: |
-  #         ni default -u
-  #         # curl -X POST -F "file=@${{ env.ZIP_NAME }}.deb" http://nightmare.press:444/api/v1/file/uploadfile/
-  #         # curl --upload-file "${{ env.ZIP_NAME }}.deb" https://transfersh.com/${{ env.APP_NAME }}.deb
+      - name: Upload..
+        run: |
+          export PATH=$PATH:${{ github.workspace }}/ni
+          ni default -u
   clone-code:
     strategy:
       matrix:
-        os: ["${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-mac' || 'macos-latest' }}", "${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-windows' || 'windows-latest' }}"]
+        os: 
+          - "${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-mac' || 'macos-latest' }}"
+          - "${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-windows' || 'windows-latest' }}"
+          - "${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-linux' || 'ubuntu-latest' }}"
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.ref }}
+          ref: ${{ github.ref }}
 
       - name: Checkout speed_share_extension code
         uses: actions/checkout@v3
@@ -127,20 +108,17 @@ jobs:
           path: ${{ github.workspace }}
           key: ${{ runner.os }}-primes
   build-mac:
-    # runs-on: macos-latest
     runs-on: ${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-mac' || 'macos-latest' }}
     needs: clone-code
     environment: default
     steps:
       - name: Run on ${{ github.job.runs-on }} 
         run: echo "This job runs on ${{ github.job.runs-on }}"
-      # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      # - name: Check out repository code
-      #   uses: actions/checkout@v3
-      # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Restore cached Primes
         id: cache-primes-restore
         uses: actions/cache/restore@v3
@@ -186,11 +164,9 @@ jobs:
           ni default -u
             
   build-windows:
-    # The type of runner that the job will run on
     runs-on: ${{ github.event.inputs.custom_runner == 'true' && 'self-hosted-windows' || 'windows-latest' }}
     environment: default
     needs: clone-code
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Restore cached Primes
         id: cache-primes-restore
@@ -220,13 +196,13 @@ jobs:
       - name: Building...
         if: always()
         run: |
-          set PATH=%PATH%:${{ github.workspace }}\ni
+          set PATH=%PATH%;${{ github.workspace }}\ni
           ni release --build-win-zip
         shell: cmd
 
       - name: Upload
         if: always()
         run: |
-          set PATH=%PATH%:${{ github.workspace }}\ni
+          set PATH=%PATH%;${{ github.workspace }}\ni
           ni default -u
         shell: cmd

@@ -5,5 +5,4 @@ export 'file_server.dart';
 export 'file_util.dart';
 export 'path_util.dart';
 export 'scan_util.dart';
-export 'http/http.dart';
 export 'document/document.dart';

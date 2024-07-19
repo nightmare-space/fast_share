@@ -4,6 +4,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/history.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/modules/file/file_page.dart';
 
 /// 主页中，最近连接的卡片
@@ -26,28 +27,24 @@ class _RecentConnectContainerState extends State<RecentConnectContainer> {
           Row(
             children: [
               Text(
-                '最近连接',
+                S.current.recentConnect,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               InkWell(
                 onTap: () {
                   DeviceController deviceController = Get.find();
                   deviceController.clearHistory();
-                  showToast('清除成功');
+                  showToast(S.current.clearSuccess);
                 },
-                child: const Icon(
+                child: Icon(
                   Icons.delete,
+                  size: 20.w,
                 ),
               ),
             ],
-          ),
-          SizedBox(height: 4.w),
-          Container(
-            color: const Color(0xffE0C4C4).withOpacity(0.2),
-            height: 1,
           ),
           SizedBox(height: 4.w),
           Expanded(
@@ -159,10 +156,10 @@ class _RecentConnectContainerState extends State<RecentConnectContainer> {
                 if (children.isEmpty) {
                   return Center(
                     child: Text(
-                      '空',
+                      S.current.empty,
                       style: TextStyle(
                         fontSize: 16.w,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   );

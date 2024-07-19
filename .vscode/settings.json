@@ -1,4 +1,4 @@
 {
-    "cmake.configureOnOpen": false,
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "editor.formatOnSave": true,
+    "dart.lineLength": 200,
 }

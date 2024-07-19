@@ -55,3 +55,4 @@ windows/flutter/generated_plugins.cmake
 dist/
 lib/global/behavior.g.dart
 lib/global/behavior.dart
+pubspec_overrides.yaml

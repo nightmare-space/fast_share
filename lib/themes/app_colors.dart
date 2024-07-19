@@ -8,35 +8,7 @@ class AppColors {
   static Color grey2 = grey.shade200;
 }
 
-extension ThemeDataExt on ThemeData {
-  Color get surface1 {
-    if (useMaterial3) {
-      return const Color.fromARGB(255, 19, 19, 25);
-    }
-    return Colors.white;
-  }
-
-  Color get surface2 {
-    if (useMaterial3) {
-      return primaryColor.withOpacity(0.08);
-    }
-    return grey2;
-  }
-
-  Color get surface3 {
-    if (useMaterial3) {
-      return primaryColor.withOpacity(0.11);
-    }
-    return grey3;
-  }
-
-  Color get surface4 {
-    if (useMaterial3) {
-      return primaryColor.withOpacity(0.12);
-    }
-    return grey4;
-  }
-}
+extension ThemeDataExt on ThemeData {}
 
 Color grey1 = grey.shade100;
 Color grey2 = grey.shade200;

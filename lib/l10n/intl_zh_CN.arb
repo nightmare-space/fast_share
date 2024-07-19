@@ -1,4 +1,5 @@
 {
+  "@@locale": "zh_CN",
   "common": "常规",
   "setting": "设置",
   "downlaodPath": "下载路径",
@@ -11,7 +12,6 @@
   "downloadTip": "速享还支持Windows、macOS、Linux",
   "lang": "语言",
   "chatWindow": "消息窗口（以前点+号打开的页面）",
-  "noMessageTip": "当前没有任何消息，点击进入消息列表",
   "inputConnect": "输入连接",
   "scan": "扫描二维码",
   "log": "日志",
@@ -33,5 +33,19 @@
   "music": "音乐",
   "video": "视频",
   "image": "图片",
-  "apk": "安装包"
+  "apk": "安装包",
+  "appName": "速享",
+  "headerNotice": "{number,plural, =0{当前未连接任何设备}other{有{number}封未读邮件}}",
+  "recentConnect": "最近连接",
+  "empty": "空",
+  "projectBoard": "魇系列项目面板",
+  "joinQQGroup": "加入交流反馈群",
+  "changeLog": "更新日志",
+  "chatWindowNotice": "当前没有任何消息，点击进入到消息列表",
+  "enableFileClassification": "开启文件分类",
+  "clearCache": "缓存清理",
+  "clearSuccess": "清理成功",
+  "cacheSize": "{number,plural, other{当前缓存大小{number}MB}}",
+  "nightmare": "梦魇兽",
+  "enbaleWebServer": "开启Web服务器"
 }

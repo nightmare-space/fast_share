@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/generated/l10n.dart';
-import 'package:speed_share/modules/setting/setting_page.dart';
+import 'package:speed_share/modules/personal/setting/setting_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/speed_share.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import 'change_log.dart';
 
 class PersonalPage extends StatefulWidget {
   const PersonalPage({Key? key}) : super(key: key);
@@ -47,6 +46,16 @@ class _PersonalPageState extends State<PersonalPage> {
           //   },
           // ),
           personalItem(
+            title: S.current.projectBoard,
+            onTap: () {
+              Get.to(ScreenQuery(
+                uiWidth: 600,
+                screenWidth: Get.size.width,
+                child: const ProjBoard(),
+              ));
+            },
+          ),
+          personalItem(
             title: S.of(context).privacyAgreement,
             onTap: () {
               Get.to(const PrivacyPage());
@@ -59,7 +68,7 @@ class _PersonalPageState extends State<PersonalPage> {
             },
           ),
           personalItem(
-            title: '加入交流反馈群',
+            title: S.current.joinQQGroup,
             onTap: () async {
               const String url = 'mqqapi://card/show_pslcard?src_type=internal&version=1&uin=673706601&card_type=group&source=qrcode';
               if (await canLaunchUrlString(url)) {
@@ -71,17 +80,32 @@ class _PersonalPageState extends State<PersonalPage> {
             },
           ),
           personalItem(
-            title: '开源协议',
+            title: S.current.changeLog,
             onTap: () async {
-              Get.to(const LicensePage(
-                applicationName: '速享',
-              ));
+              Get.to(const ChangeLogPage());
             },
           ),
           personalItem(
-            title: '更新日志',
+            title: S.current.aboutSpeedShare,
             onTap: () async {
-              Get.to(const ChangeLog());
+              String license = await rootBundle.loadString('LICENSE');
+              Get.to(AboutPage(
+                applicationName: S.current.appName,
+                appVersion: Config.versionName,
+                versionCode: Config.versionCode,
+                logo: Padding(
+                  padding: EdgeInsets.only(top: 32.w),
+                  child: SizedBox(
+                    width: 100.w,
+                    height: 100.w,
+                    child: Image.asset('assets/icon/app_icon_1024.png'),
+                  ),
+                ),
+                otherVersionLink: 'http://nightmare.press/YanTool/resources/SpeedShare/?C=N;O=A',
+                openSourceLink: 'https://github.com/nightmare-space/speed_share',
+                license: license,
+                canOpenDrawer: false,
+              ));
             },
           ),
         ],
@@ -97,7 +121,7 @@ class _PersonalPageState extends State<PersonalPage> {
       padding: EdgeInsets.only(bottom: 8.w),
       child: Material(
         borderRadius: BorderRadius.circular(12.w),
-        color: Theme.of(context).surface2,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         child: InkWell(
           borderRadius: BorderRadius.circular(10.w),
           onTap: () {

@@ -190,16 +190,6 @@ class S {
     );
   }
 
-  /// `Currently there are no messages, click to enter the message list`
-  String get noMessageTip {
-    return Intl.message(
-      'Currently there are no messages, click to enter the message list',
-      name: 'noMessageTip',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Input Connect`
   String get inputConnect {
     return Intl.message(
@@ -395,6 +385,159 @@ class S {
     return Intl.message(
       'Apk',
       name: 'apk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed Share`
+  String get appName {
+    return Intl.message(
+      'Speed Share',
+      name: 'appName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{number,plural, =0{No devices connect}other{have {number} connected}}`
+  String headerNotice(num number) {
+    return Intl.plural(
+      number,
+      zero: 'No devices connect',
+      other: 'have $number connected',
+      name: 'headerNotice',
+      desc: '',
+      args: [number],
+    );
+  }
+
+  /// `Recent Connect`
+  String get recentConnect {
+    return Intl.message(
+      'Recent Connect',
+      name: 'recentConnect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty`
+  String get empty {
+    return Intl.message(
+      'Empty',
+      name: 'empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nightmare Series Project Board`
+  String get projectBoard {
+    return Intl.message(
+      'Nightmare Series Project Board',
+      name: 'projectBoard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join Feedback Communication Group`
+  String get joinQQGroup {
+    return Intl.message(
+      'Join Feedback Communication Group',
+      name: 'joinQQGroup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Log`
+  String get changeLog {
+    return Intl.message(
+      'Change Log',
+      name: 'changeLog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Speed Share`
+  String get about {
+    return Intl.message(
+      'About Speed Share',
+      name: 'about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currently no messages, click to view the message list`
+  String get chatWindowNotice {
+    return Intl.message(
+      'Currently no messages, click to view the message list',
+      name: 'chatWindowNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable file classification`
+  String get enableFileClassification {
+    return Intl.message(
+      'Enable file classification',
+      name: 'enableFileClassification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear Cache`
+  String get clearCache {
+    return Intl.message(
+      'Clear Cache',
+      name: 'clearCache',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear Success`
+  String get clearSuccess {
+    return Intl.message(
+      'Clear Success',
+      name: 'clearSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{number,plural, other{Current cache size {number}MB}}`
+  String cacheSize(num number) {
+    return Intl.plural(
+      number,
+      other: 'Current cache size ${number}MB',
+      name: 'cacheSize',
+      desc: '',
+      args: [number],
+    );
+  }
+
+  /// `Nightmare`
+  String get nightmare {
+    return Intl.message(
+      'Nightmare',
+      name: 'nightmare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable Web Server`
+  String get enbaleWebServer {
+    return Intl.message(
+      'Enable Web Server',
+      name: 'enbaleWebServer',
       desc: '',
       args: [],
     );

@@ -5,8 +5,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:signale/signale.dart';
 import 'package:speed_share/app/controller/controller.dart';
 
-import 'desktop_home.dart';
-import 'mobile_home.dart';
+import '../home/desktop_home.dart';
+import '../home/mobile_home.dart';
 
 // 自动响应布局
 class AdaptiveEntryPoint extends StatefulWidget {

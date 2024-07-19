@@ -36,7 +36,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: Row(
         children: [
           Padding(
@@ -59,7 +59,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                         Column(
                           children: [
                             SizedBox(
-                              width: 240.w,
+                              width: 200.w,
                               child: personHeader,
                             ),
                             SizedBox(height: 8.w),

@@ -1,7 +1,4 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -34,31 +31,16 @@
             "deviceId": "linux"
         },
         {
-            "name": "小米平板5 12.4",
+            "name": "小米14",
             "request": "launch",
             "type": "dart",
-            "deviceId": "22081281AC"
+            "deviceId": "23127PN0CC",
         },
         {
-            "name": "OPPO WATCH",
+            "name": "魅族21",
             "request": "launch",
             "type": "dart",
-            "deviceId": "cc004251"
-        },
-        {
-            "name": "小米13",
-            "request": "launch",
-            "type": "dart",
-            "deviceId": "2211133C",
-            "toolArgs": [],
-        },
-        {
-            "name": "小米13-带登录",
-            "request": "launch",
-            "type": "dart",
-            "deviceId": "2211133C",
-            "toolArgs": [],
-            "program": "lib/main_personal.dart",
+            "deviceId": "MEIZU 21",
         },
     ]
 }
