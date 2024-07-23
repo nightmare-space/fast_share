@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:speed_share/modules/desktop_drawer.dart';
 import 'package:speed_share/modules/file/file_page.dart';
@@ -172,7 +173,7 @@ class _DesktopHomeState extends State<DesktopHome> {
                 color: Colors.transparent,
                 child: Center(
                   child: Text(
-                    '释放以分享文件到共享窗口~',
+                    S.current.dropFileTip,
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontWeight: FontWeight.bold,

@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:file_selector/file_selector.dart';
 
@@ -35,7 +36,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
   Timer? timer;
   Future<void> downloadFile(String? urlPath, String savePath) async {
     if (fileDownratio != 0.0) {
-      showToast('已经在下载中了哦');
+      showToast(S.current.fileIsDownloading);
       return;
     }
     String baseDirPath = '$savePath/${widget.info!.dirName}';

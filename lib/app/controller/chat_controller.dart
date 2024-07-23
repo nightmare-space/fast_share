@@ -12,6 +12,7 @@ import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/modules/item/item.dart';
@@ -141,8 +142,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     int port = uri.port;
     deviceController.onDeviceConnect(
       shortHash(''),
-      // TODO intl
-      '设备',
+      S.current.device,
       phone,
       'http://${uri.host}',
       port,
@@ -225,7 +225,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     String? dirPath;
     if (GetPlatform.isDesktop) {
       dirPath = await getDirectoryPath(
-        confirmButtonText: '选择',
+        confirmButtonText: S.current.select,
       );
     } else {
       dirPath = await file_manager.FileSelector.pickDirectory(Get.context!);

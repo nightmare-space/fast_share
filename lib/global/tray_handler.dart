@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:get/utils.dart';
 import 'package:signale/signale.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -21,12 +22,12 @@ class TrayHandler with TrayListener {
       items: [
         MenuItem(
           key: 'show_window',
-          label: '打开',
+          label: S.current.open,
         ),
         MenuItem.separator(),
         MenuItem(
           key: 'exit_app',
-          label: '退出',
+          label: S.current.close,
         ),
       ],
     );

@@ -77,7 +77,7 @@ class _SettingPageState extends State<SettingPage> {
     if (ResponsiveBreakpoints.of(context).isMobile) {
       appBar = AppBar(
         systemOverlayStyle: OverlayStyle.dark,
-        title: const Text('设置'),
+        title: Text(S.current.setting),
       );
     }
     return Scaffold(
@@ -261,7 +261,7 @@ class _SettingPageState extends State<SettingPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
-                    '文件相关',
+                    S.current.fileType,
                     style: title,
                   ),
                 ),
@@ -280,13 +280,10 @@ class _SettingPageState extends State<SettingPage> {
                           children: [
                             Text(
                               S.current.enableFileClassification,
-                              style: TextStyle(
-                                fontSize: 18.w,
-                              ),
+                              style: TextStyle(fontSize: 18.w),
                             ),
-                            // SizedBox(height: 2.w),
                             Text(
-                              '注意，文件分类开启后会自动整理下载路径的所有文件',
+                              S.current.classifyTips,
                               style: TextStyle(
                                 fontSize: 14.w,
                                 color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6),
@@ -315,14 +312,14 @@ class _SettingPageState extends State<SettingPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              S.current.enbaleWebServer,
+                              S.current.enableWebServer,
                               style: TextStyle(
                                 fontSize: 18.w,
                               ),
                             ),
                             // SizedBox(height: 2.w),
                             Text(
-                              '开启后，局域网设备可通过以下地址访问到本机设备的所有文件',
+                              S.current.enableWebServerTips,
                               style: TextStyle(
                                 fontSize: 14.w,
                                 color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6),
@@ -360,7 +357,7 @@ class _SettingPageState extends State<SettingPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.w),
                   child: Text(
-                    '缓存清理',
+                    S.current.clearCache,
                     style: title,
                   ),
                 ),
@@ -368,7 +365,7 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () async {
                     await cache!.delete(recursive: true);
                     getp();
-                    showToast('缓存清理完成');
+                    showToast(S.current.cacheCleaned);
                   },
                   child: Row(
                     children: [
@@ -377,13 +374,13 @@ class _SettingPageState extends State<SettingPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '当前缓存大小:$cacheSize',
+                              '${S.current.curCacheSize}:$cacheSize',
                               style: TextStyle(
                                 fontSize: 18.w,
                               ),
                             ),
                             Text(
-                              '安卓SAF架构会导致从系统文件夹选择文件总是会拷贝一份，如果使用速享自带文件管理器选择，则不会增加缓存大小',
+                              S.current.androidSAFTips,
                               style: TextStyle(
                                 fontSize: 14.w,
                                 color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6),

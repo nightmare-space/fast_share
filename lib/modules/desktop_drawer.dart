@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/speed_share.dart';
 
 class DesktopDrawer extends StatefulWidget {
@@ -104,7 +105,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             ),
             SizedBox(width: 4.w),
             Text(
-              '设置',
+              S.current.setting,
               style: TextStyle(
                 color: Theme.of(_).textTheme.bodyMedium!.color,
               ),
@@ -133,7 +134,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             ),
             SizedBox(width: 4.w),
             Text(
-              '文件管理(本地)',
+              S.current.fileManagerLocal,
               style: TextStyle(
                 color: Theme.of(_).textTheme.bodyMedium!.color,
               ),
@@ -167,7 +168,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
                     ),
                     SizedBox(width: 4.w),
                     Text(
-                      '文件管理(${_.connectDevice[i].deviceName})',
+                      '${S.current.fileManager}(${_.connectDevice[i].deviceName})',
                       style: TextStyle(
                         color: Theme.of(context).textTheme.bodyMedium!.color,
                       ),
@@ -200,7 +201,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             ),
             SizedBox(width: 4.w),
             Text(
-              '消息窗口',
+              S.current.chatWindow,
               style: TextStyle(
                 color: Theme.of(_).textTheme.bodyMedium!.color,
               ),
@@ -229,7 +230,7 @@ class _DesktopDrawerState extends State<DesktopDrawer> {
             ),
             SizedBox(width: 4.w),
             Text(
-              '首页',
+              S.current.home,
               style: TextStyle(
                 color: Theme.of(_).textTheme.bodyMedium!.color,
               ),

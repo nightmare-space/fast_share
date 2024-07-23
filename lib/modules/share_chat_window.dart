@@ -8,6 +8,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/device_controller.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/widgets/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
@@ -146,7 +147,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
             if (ResponsiveBreakpoints.of(context).isMobile) const PopButton(),
             SizedBox(width: 12.w),
             Text(
-              '全部设备',
+              S.current.allDevices,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: bold,
                     fontSize: 16.w,
@@ -165,29 +166,6 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
             ),
           ],
         ),
-        // child: AppBar(
-        //   systemOverlayStyle: OverlayStyle.dark,
-        //   centerTitle: false,
-        //   title: Text(
-        //     '全部设备',
-        //     style: Theme.of(context).textTheme.bodyText2.copyWith(
-        //           color: AppColors.fontColor,
-        //           fontWeight: bold,
-        //           fontSize: 16.w,
-        //         ),
-        //   ),
-        //   leading: const PopButton(),
-        //   actions: [
-        //     NiIconButton(
-        //       onTap: () {
-        //         Get.dialog(ShowQRPage(
-        //           port: controller.chatBindPort,
-        //         ));
-        //       },
-        //       child: Image.asset('assets/icon/qr.png'),
-        //     ),
-        //   ],
-        // ),
       ),
     );
   }
@@ -224,7 +202,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                   });
                 },
                 child: Tooltip(
-                  message: '点击将会调用系统的文件选择器',
+                  message: S.current.systemManagerTips,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -235,7 +213,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                       ),
                       SizedBox(height: 4.w),
                       Text(
-                        '系统管理器',
+                        S.current.systemManager,
                         style: TextStyle(
                           color: AppColors.fontColor,
                           fontWeight: bold,
@@ -265,7 +243,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                         });
                       },
                       child: Tooltip(
-                        message: '点击将调用自实现的文件选择器',
+                        message: S.current.inlineManagerTips,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -276,7 +254,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                             ),
                             SizedBox(height: 4.w),
                             Text(
-                              '内部管理器',
+                              S.current.inlineManager,
                               style: TextStyle(
                                 color: AppColors.fontColor,
                                 fontWeight: bold,
@@ -303,7 +281,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                     });
                   },
                   child: Tooltip(
-                    message: '点击将调用自实现的文件夹选择器',
+                    message: S.current.inlineManagerTips,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -315,7 +293,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                         ),
                         SizedBox(height: 4.w),
                         Text(
-                          '文件夹',
+                          S.current.directory,
                           style: TextStyle(
                             color: AppColors.fontColor,
                             fontWeight: bold,

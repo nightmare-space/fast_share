@@ -133,7 +133,7 @@ class _RecentConnectContainerState extends State<RecentConnectContainer> {
                                     vertical: 2.w,
                                   ),
                                   child: Text(
-                                    device.isConnect! ? '已连接' : '未连接',
+                                    device.isConnect! ? S.current.connected : S.current.disconnected,
                                     style: TextStyle(
                                       color: device.isConnect! ? Theme.of(context).primaryColor : Colors.red,
                                       fontSize: 12.w,
