@@ -6,7 +6,6 @@ import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/modules/personal/setting/setting_page.dart';
 import 'package:speed_share/modules/widget/header.dart';
 import 'package:speed_share/speed_share.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class PersonalPage extends StatefulWidget {
@@ -74,7 +73,7 @@ class _PersonalPageState extends State<PersonalPage> {
               if (await canLaunchUrlString(url)) {
                 await launchUrlString(url);
               } else {
-                showToast('唤起QQ失败，请检查是否安装。');
+                showToast(S.current.openQQFail);
                 // throw 'Could not launch $url';
               }
             },

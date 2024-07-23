@@ -122,7 +122,7 @@ class Server {
       if (r.requestedUri.path.startsWith('/sdcard') || file_manager.Server.routes.contains(r.requestedUri.path)) {
         if (!settingController.enableWebServer) {
           return Response.ok(
-            '请先去速享客户端中开启WebServer',
+            S.current.needWSTip,
             headers: {
               ...corsHeader,
               HttpHeaders.contentTypeHeader: 'text/plain',

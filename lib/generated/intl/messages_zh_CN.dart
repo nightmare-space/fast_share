@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(number) =>
       "${Intl.plural(number, zero: '当前未连接任何设备', other: '有${number}封未读邮件')}";
 
+  static String m2(deviceName) => "点击即可访问${deviceName}的所有文件";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutSpeedShare": MessageLookupByLibrary.simpleMessage("关于速享"),
@@ -35,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "apk": MessageLookupByLibrary.simpleMessage("安装包"),
         "appName": MessageLookupByLibrary.simpleMessage("速享"),
         "autoDownload": MessageLookupByLibrary.simpleMessage("自动下载"),
+        "backAgainTip": MessageLookupByLibrary.simpleMessage("再次返回退出APP~"),
         "cacheCleaned": MessageLookupByLibrary.simpleMessage("缓存已清理"),
         "cacheSize": m0,
         "camera": MessageLookupByLibrary.simpleMessage("拍照"),
@@ -46,10 +49,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("注意，文件分类开启后会自动整理下载路径的所有文件"),
         "clearCache": MessageLookupByLibrary.simpleMessage("缓存清理"),
         "clearSuccess": MessageLookupByLibrary.simpleMessage("清理成功"),
+        "clipboard": MessageLookupByLibrary.simpleMessage("剪切板"),
+        "clipboardCopy": MessageLookupByLibrary.simpleMessage("的剪切板已复制"),
         "clipboardshare": MessageLookupByLibrary.simpleMessage("剪切板共享"),
         "close": MessageLookupByLibrary.simpleMessage("关闭"),
         "common": MessageLookupByLibrary.simpleMessage("常规"),
         "connected": MessageLookupByLibrary.simpleMessage("已连接"),
+        "copyed": MessageLookupByLibrary.simpleMessage("链接已复制"),
         "curCacheSize": MessageLookupByLibrary.simpleMessage("当前缓存大小"),
         "currenVersion": MessageLookupByLibrary.simpleMessage("当前版本"),
         "currentRoom": MessageLookupByLibrary.simpleMessage("聊天房间"),
@@ -68,10 +74,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "enableWebServer": MessageLookupByLibrary.simpleMessage("开启Web服务器"),
         "enableWebServerTips": MessageLookupByLibrary.simpleMessage(
             "开启后，局域网设备可通过以下地址访问到本机设备的所有文件"),
+        "exceptionOrcur": MessageLookupByLibrary.simpleMessage("发生异常"),
+        "export": MessageLookupByLibrary.simpleMessage("导出"),
         "fileDownloadSuccess": MessageLookupByLibrary.simpleMessage("下载完成了哦"),
         "fileIsDownloading": MessageLookupByLibrary.simpleMessage("文件正在下载"),
         "fileManager": MessageLookupByLibrary.simpleMessage("文件管理"),
         "fileManagerLocal": MessageLookupByLibrary.simpleMessage("文件管理(本地)"),
+        "fileQRCode": MessageLookupByLibrary.simpleMessage("文件二维码"),
         "fileType": MessageLookupByLibrary.simpleMessage("文件相关"),
         "headerNotice": m1,
         "home": MessageLookupByLibrary.simpleMessage("首页"),
@@ -84,13 +93,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("加入"),
         "joinQQGroup": MessageLookupByLibrary.simpleMessage("加入交流反馈群"),
         "lang": MessageLookupByLibrary.simpleMessage("语言"),
-        "linkCopyed": MessageLookupByLibrary.simpleMessage("链接已复制"),
         "log": MessageLookupByLibrary.simpleMessage("日志"),
         "messageNote": MessageLookupByLibrary.simpleMessage("收到消息振动提醒"),
         "music": MessageLookupByLibrary.simpleMessage("音乐"),
+        "needWSTip":
+            MessageLookupByLibrary.simpleMessage("请先去速享客户端中开启WebServer"),
         "new_line": MessageLookupByLibrary.simpleMessage("换行"),
         "nightmare": MessageLookupByLibrary.simpleMessage("梦魇兽"),
+        "noIPFound": MessageLookupByLibrary.simpleMessage("未检测到可上传IP"),
+        "notifyBroswerTip": MessageLookupByLibrary.simpleMessage("已通知浏览器上传文件"),
         "open": MessageLookupByLibrary.simpleMessage("打开"),
+        "openQQFail": MessageLookupByLibrary.simpleMessage("唤起QQ失败，请检查是否安装"),
         "openSource": MessageLookupByLibrary.simpleMessage("开源地址"),
         "otherVersion": MessageLookupByLibrary.simpleMessage("其他版本下载"),
         "privacyAgreement": MessageLookupByLibrary.simpleMessage("隐私政策"),
@@ -110,6 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemManager": MessageLookupByLibrary.simpleMessage("系统管理器"),
         "systemManagerTips":
             MessageLookupByLibrary.simpleMessage("点击将会调用系统的文件选择器"),
+        "tapToViewFile": m2,
         "theTermsOfService": MessageLookupByLibrary.simpleMessage("服务条款"),
         "ui": MessageLookupByLibrary.simpleMessage("UI设计师"),
         "unknownFile": MessageLookupByLibrary.simpleMessage("未知文件"),

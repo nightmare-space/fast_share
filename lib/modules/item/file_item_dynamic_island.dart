@@ -146,16 +146,6 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
                       children: [
                         Builder(builder: (_) {
                           double pro = downloadController.getProgress(url);
-                          // timer.isActive说明正在下载，说明文件完整下载了，但是还没有合并
-                          // if (pro == 1.0 && timer.isActive) {
-                          //   return Text(
-                          //     '合并文件中',
-                          //     style: TextStyle(
-                          //       color: Colors.black54,
-                          //       fontSize: 12.w,
-                          //     ),
-                          //   );
-                          // }
                           if (pro == 1.0) {
                             return Icon(
                               Icons.check,

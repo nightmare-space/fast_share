@@ -9,13 +9,13 @@ import 'package:speed_share/app/controller/chat_controller.dart';
 import 'package:speed_share/app/controller/download_controller.dart';
 import 'package:speed_share/app/controller/setting_controller.dart';
 import 'package:speed_share/app/controller/utils/server_util.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:path/path.dart' as p;
 import 'package:get/get.dart' hide Response;
 import 'package:speed_share/modules/dialog/show_qr_page.dart';
 import 'package:speed_share/modules/widget/icon.dart';
 import 'package:speed_share/speed_share.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -162,7 +162,7 @@ class _FileItemState extends State<FileItem> {
                 ),
                 InkWell(
                   onTap: () async {
-                    showToast('链接已复制');
+                    showToast(S.current.copyed);
                     await Clipboard.setData(ClipboardData(text: url));
                   },
                   borderRadius: BorderRadius.circular(12),
@@ -233,16 +233,6 @@ class _FileItemState extends State<FileItem> {
                       children: [
                         Builder(builder: (_) {
                           double pro = downloadController.getProgress(url);
-                          // timer.isActive说明正在下载，说明文件完整下载了，但是还没有合并
-                          // if (pro == 1.0 && timer.isActive) {
-                          //   return Text(
-                          //     '合并文件中',
-                          //     style: TextStyle(
-                          //       color: Colors.black54,
-                          //       fontSize: 12.w,
-                          //     ),
-                          //   );
-                          // }
                           if (pro == 1.0) {
                             return Icon(
                               Icons.check,
@@ -370,7 +360,6 @@ class _MenuState extends State<Menu> {
     return singlePort;
   }
 
-  // TODO 这个页面没有适配暗色主题
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -390,13 +379,6 @@ class _MenuState extends State<Menu> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     InkWell(
-                      onTap: () {},
-                      child: SizedBox(
-                        height: 40.w,
-                        child: const Center(child: Text('分享')),
-                      ),
-                    ),
-                    InkWell(
                       onTap: () async {
                         int port = await server(widget.info!.filePath);
                         Get.back();
@@ -406,8 +388,8 @@ class _MenuState extends State<Menu> {
                       },
                       child: SizedBox(
                         height: 40.w,
-                        child: const Center(
-                          child: Text('下载二维码'),
+                        child: Center(
+                          child: Text(S.current.fileQRCode),
                         ),
                       ),
                     ),

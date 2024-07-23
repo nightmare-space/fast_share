@@ -78,6 +78,17 @@
   "shareFileFailed": "文件分享失败",
   "dropFileTip": "释放以分享文件到共享窗口~",
   "inputAddressTip": "请输入文件共享窗口地址",
-  "linkCopyed": "链接已复制",
-  "cacheCleaned": "缓存已清理"
+  "copyed": "链接已复制",
+  "cacheCleaned": "缓存已清理",
+  "exceptionOrcur": "发生异常",
+  "clipboardCopy": "的剪切板已复制",
+  "noIPFound": "未检测到可上传IP",
+  "backAgainTip": "再次返回退出APP~",
+  "tapToViewFile": "点击即可访问{deviceName}的所有文件",
+  "notifyBroswerTip": "已通知浏览器上传文件",
+  "clipboard": "剪切板",
+  "fileQRCode": "文件二维码",
+  "export": "导出",
+  "openQQFail": "唤起QQ失败，请检查是否安装",
+  "needWSTip": "请先去速享客户端中开启WebServer"
 }

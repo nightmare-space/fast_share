@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +10,6 @@ import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:file_manager/file_manager.dart' as file_manager;
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/theme.dart';
-
 import '../widget/header.dart';
 import '../widget/icon.dart';
 

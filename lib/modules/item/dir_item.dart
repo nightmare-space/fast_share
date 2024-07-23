@@ -44,7 +44,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
     try {
       await Directory(baseDirPath).create();
     } catch (e) {
-      showToast('发生异常：$e');
+      showToast('${S.current.exceptionOrcur}：$e');
       return;
     }
     computeNetSpeed();

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/modules/adaptive/adapive_entry.dart';
 import 'package:speed_share/themes/theme.dart';
 
@@ -32,7 +33,7 @@ class SpeedPages {
           onPopInvoked: (value) async {
             if (time == 0) {
               time++;
-              showToast('再次返回退出APP~');
+              showToast(S.current.backAgainTip);
             } else {
               Navigator.of(context).pop();
             }
