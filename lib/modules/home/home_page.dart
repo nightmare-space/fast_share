@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         }
         if (call.method == 'send_file') {
           if (call.arguments == null) {
-            showToast('分享文件失败');
+            showToast(S.current.shareFileFailed);
             return;
           }
           // File file = File.fromUri(Uri.parse(call.arguments));

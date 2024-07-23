@@ -6,6 +6,7 @@ import 'package:get/utils.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
 import 'package:settings/settings.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/speed_share.dart';
 
 /// 支持切换的语言列表
@@ -58,7 +59,7 @@ class SettingController extends GetxController {
       const Duration(milliseconds: 100),
       () {
         if (!isVIP) {
-          showToast('这个功能需要会员才能使用哦');
+          showToast(S.current.vipTips);
           enableWebServer = !value;
           update();
         } else {
@@ -125,7 +126,7 @@ class SettingController extends GetxController {
       const Duration(milliseconds: 100),
       () {
         if (!isVIP) {
-          showToast('这个功能需要会员才能使用哦');
+          showToast(S.current.vipTips);
           enableAutoDownload = !value;
           update();
         } else {

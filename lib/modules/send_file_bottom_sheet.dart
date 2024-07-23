@@ -6,6 +6,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/generated/l10n.dart';
 
 // 主页点击中间的按钮，打开的页面
 class SendFilePage extends StatefulWidget {
@@ -110,7 +111,7 @@ class _SendFilePageState extends State<SendFilePage> with SingleTickerProviderSt
                                 color: Theme.of(context).primaryColor,
                               ),
                               Text(
-                                '发送文件',
+                                S.current.sendFile,
                                 style: TextStyle(fontSize: 14.w, color: Colors.black),
                               ),
                             ],
@@ -140,7 +141,7 @@ class _SendFilePageState extends State<SendFilePage> with SingleTickerProviderSt
                                 color: Theme.of(context).primaryColor,
                               ),
                               Text(
-                                '拍照',
+                                S.current.camera,
                                 style: TextStyle(fontSize: 14.w, color: Colors.black),
                               ),
                             ],
@@ -166,7 +167,7 @@ class _SendFilePageState extends State<SendFilePage> with SingleTickerProviderSt
                                 color: Theme.of(context).primaryColor,
                               ),
                               Text(
-                                '上传文件',
+                                S.current.uploadFile,
                                 style: TextStyle(fontSize: 14.w, color: Colors.black),
                               ),
                             ],

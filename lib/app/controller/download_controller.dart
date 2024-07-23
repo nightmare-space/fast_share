@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:path/path.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:speed_share/utils/path_util.dart';
 
@@ -56,11 +57,11 @@ class DownloadController extends GetxController {
   void onClose() {}
   Future<void> downloadFile(String url, String? dir) async {
     if (progress.containsKey(url) && progress[url]!.progress != 0.0) {
-      showToast('已经在下载中了哦');
+      showToast(S.current.fileIsDownloading);
       return;
     }
     if (progress.containsKey(url) && progress[url]!.progress == 1.0) {
-      showToast('下载完成了哦');
+      showToast(S.current.fileDownloadSuccess);
       return;
     }
     DownloadInfo info = DownloadInfo();

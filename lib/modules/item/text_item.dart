@@ -22,7 +22,7 @@ class TextMessageItem extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: context.colorScheme.primaryContainer,
+                color: context.colorScheme.surface,
                 borderRadius: BorderRadius.circular(10.w),
               ),
               child: Stack(

@@ -4,6 +4,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/app/controller/utils/join_util.dart';
 import 'package:speed_share/config/config.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/themes/app_colors.dart';
 
 class JoinChat extends StatefulWidget {
@@ -42,7 +43,7 @@ class _JoinChatState extends State<JoinChat> {
                   height: 4.w,
                 ),
                 Text(
-                  '请输入文件共享窗口地址',
+                  S.current.inputAddressTip,
                   style: TextStyle(
                     color: AppColors.fontColor,
                     fontWeight: FontWeight.bold,
@@ -59,27 +60,22 @@ class _JoinChatState extends State<JoinChat> {
                   },
                   decoration: InputDecoration(
                     fillColor: const Color(0xfff0f0f0),
-                    helperText: '这个地址在创建窗口的时候会提示',
-                    hintText: '请输入共享窗口的URL',
+                    hintText: 'HTTP://xxx:xxx',
                     hintStyle: TextStyle(
                       fontSize: 12.w,
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 8.w,
-                ),
+                SizedBox(height: 8.w),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
                       joinChat();
                     },
-                    child: const Text(
-                      '加入',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Text(
+                      S.current.join,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

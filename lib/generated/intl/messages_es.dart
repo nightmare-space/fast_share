@@ -31,26 +31,37 @@ class MessageLookup extends MessageLookupByLibrary {
         "about": MessageLookupByLibrary.simpleMessage("Acerca de Speed Share"),
         "aboutSpeedShare":
             MessageLookupByLibrary.simpleMessage("Acerca de Speed Share"),
+        "allDevices":
+            MessageLookupByLibrary.simpleMessage("Todos los dispositivos"),
+        "androidSAFTips": MessageLookupByLibrary.simpleMessage(
+            "La arquitectura SAF de Android hará que seleccionar archivos desde la carpeta del sistema siempre copie uno, si usa el administrador de archivos incorporado de Speed Share, no aumentará el tamaño de la caché"),
         "apk": MessageLookupByLibrary.simpleMessage("Apk"),
         "appName": MessageLookupByLibrary.simpleMessage("Speed Share"),
         "autoDownload":
             MessageLookupByLibrary.simpleMessage("Descarga automática"),
         "cacheSize": m0,
+        "camera": MessageLookupByLibrary.simpleMessage("Cámara"),
         "changeLog":
             MessageLookupByLibrary.simpleMessage("Registro de cambios"),
         "chatWindow": MessageLookupByLibrary.simpleMessage("Ventana de chat"),
         "chatWindowNotice": MessageLookupByLibrary.simpleMessage(
             "Actualmente no hay mensajes, haga clic para ver la lista de mensajes"),
+        "classifyTips": MessageLookupByLibrary.simpleMessage(
+            "Nota, después de que se active la clasificación de archivos, todos los archivos en la ruta de descarga se organizarán automáticamente"),
         "clearCache": MessageLookupByLibrary.simpleMessage("Limpiar caché"),
         "clearSuccess":
             MessageLookupByLibrary.simpleMessage("Éxito al limpiar"),
         "clipboardshare":
             MessageLookupByLibrary.simpleMessage("Compartir portapapeles"),
+        "close": MessageLookupByLibrary.simpleMessage("Cerrar"),
         "common": MessageLookupByLibrary.simpleMessage("Común"),
+        "connected": MessageLookupByLibrary.simpleMessage("Conectado"),
         "currenVersion": MessageLookupByLibrary.simpleMessage("Versión actual"),
         "currentRoom": MessageLookupByLibrary.simpleMessage("Sala de chat"),
         "developer": MessageLookupByLibrary.simpleMessage("Desarrollador"),
+        "device": MessageLookupByLibrary.simpleMessage("Dispositivos"),
         "directory": MessageLookupByLibrary.simpleMessage("Directorio"),
+        "disconnected": MessageLookupByLibrary.simpleMessage("Desconectado"),
         "doc": MessageLookupByLibrary.simpleMessage("Documento"),
         "downlaodPath":
             MessageLookupByLibrary.simpleMessage("Ruta de descarga"),
@@ -59,12 +70,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty": MessageLookupByLibrary.simpleMessage("Vacío"),
         "enableFileClassification": MessageLookupByLibrary.simpleMessage(
             "Habilitar clasificación de archivos"),
-        "enbaleWebServer":
+        "enableWebServer":
             MessageLookupByLibrary.simpleMessage("Habilitar servidor web"),
+        "enableWebServerTips": MessageLookupByLibrary.simpleMessage(
+            "Después de habilitar, puede acceder al archivo en la ruta de descarga a través del navegador"),
+        "fileDownloadSuccess": MessageLookupByLibrary.simpleMessage(
+            "La descarga del archivo se ha completado"),
+        "fileIsDownloading": MessageLookupByLibrary.simpleMessage(
+            "El archivo se está descargando"),
+        "fileType":
+            MessageLookupByLibrary.simpleMessage("Correlación de archivos"),
         "headerNotice": m1,
+        "home": MessageLookupByLibrary.simpleMessage("Inicio"),
         "image": MessageLookupByLibrary.simpleMessage("Imagen"),
+        "inlineManager": MessageLookupByLibrary.simpleMessage(
+            "Desde el administrador de archivos de la aplicación"),
+        "inlineManagerTips": MessageLookupByLibrary.simpleMessage(
+            "Utiliza el administrador de archivos de la aplicación"),
+        "inputAddressTip": MessageLookupByLibrary.simpleMessage(
+            "Ingrese la dirección IP del dispositivo"),
         "inputConnect":
             MessageLookupByLibrary.simpleMessage("Ingresar conexión"),
+        "join": MessageLookupByLibrary.simpleMessage("Unirse"),
         "joinQQGroup": MessageLookupByLibrary.simpleMessage(
             "Unirse al grupo de retroalimentación de comunicación"),
         "lang": MessageLookupByLibrary.simpleMessage("Idioma"),
@@ -72,7 +99,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "messageNote": MessageLookupByLibrary.simpleMessage(
             "Vibrar al recibir un mensaje"),
         "music": MessageLookupByLibrary.simpleMessage("Música"),
+        "new_line": MessageLookupByLibrary.simpleMessage("Nueva línea"),
         "nightmare": MessageLookupByLibrary.simpleMessage("Pesadilla"),
+        "open": MessageLookupByLibrary.simpleMessage("Abrir"),
         "openSource": MessageLookupByLibrary.simpleMessage("Código abierto"),
         "otherVersion":
             MessageLookupByLibrary.simpleMessage("Descargar otra versión"),
@@ -92,13 +121,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "remoteAccessFile": MessageLookupByLibrary.simpleMessage(
             "Archivo local de acceso remoto"),
         "scan": MessageLookupByLibrary.simpleMessage("Escanear código QR"),
+        "select": MessageLookupByLibrary.simpleMessage("Seleccionar"),
+        "sendFile": MessageLookupByLibrary.simpleMessage("Enviar archivo"),
         "setting": MessageLookupByLibrary.simpleMessage("Ajustes"),
+        "systemManager":
+            MessageLookupByLibrary.simpleMessage("Desde el sistema"),
+        "systemManagerTips": MessageLookupByLibrary.simpleMessage(
+            "Utiliza el administrador de archivos del sistema"),
         "theTermsOfService":
             MessageLookupByLibrary.simpleMessage("Términos de servicio"),
         "ui": MessageLookupByLibrary.simpleMessage("Diseñador de interfaz"),
         "unknownFile":
             MessageLookupByLibrary.simpleMessage("Archivo desconocido"),
+        "uploadFile": MessageLookupByLibrary.simpleMessage("Subir archivo"),
         "video": MessageLookupByLibrary.simpleMessage("Vídeo"),
+        "vipTips": MessageLookupByLibrary.simpleMessage(
+            "Esta función requiere una membresía para usar"),
         "zip": MessageLookupByLibrary.simpleMessage("Zip")
       };
 }
