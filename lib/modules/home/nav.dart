@@ -67,16 +67,6 @@ class _NavState extends State<Nav> {
                       package: Config.package,
                       gaplessPlayback: false,
                     ),
-                    // SizedBox(height: 2.w),
-                    // Text(
-                    //   '首页',
-                    //   style: TextStyle(
-                    //     fontSize: 12.w,
-                    //     color: enable
-                    //         ? Theme.of(context).primaryColor
-                    //         : Theme.of(context).colorScheme.onBackground,
-                    //   ),
-                    // ),
                   ],
                 );
               }),
@@ -94,16 +84,6 @@ class _NavState extends State<Nav> {
                       gaplessPlayback: false,
                       package: Config.package,
                     ),
-                    // SizedBox(height: 2.w),
-                    // Text(
-                    //   '远程',
-                    //   style: TextStyle(
-                    //     fontSize: 12.w,
-                    //     color: enable
-                    //         ? Theme.of(context).primaryColor
-                    //         : Theme.of(context).colorScheme.onBackground,
-                    //   ),
-                    // ),
                   ],
                 );
               }),
@@ -122,16 +102,6 @@ class _NavState extends State<Nav> {
                         color: enable ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onSurface,
                         package: Config.package,
                       ),
-                      // SizedBox(height: 2.w),
-                      // Text(
-                      //   '文件',
-                      //   style: TextStyle(
-                      //     fontSize: 12.w,
-                      //     color: enable
-                      //         ? Theme.of(context).primaryColor
-                      //         : Theme.of(context).colorScheme.onBackground,
-                      //   ),
-                      // ),
                     ],
                   );
                 }),
@@ -149,16 +119,6 @@ class _NavState extends State<Nav> {
                         color: enable ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.onSurface,
                         package: Config.package,
                       ),
-                      // SizedBox(height: 2.w),
-                      // Text(
-                      //   '我的',
-                      //   style: TextStyle(
-                      //     fontSize: 12.w,
-                      //     color: enable
-                      //         ? Theme.of(context).primaryColor
-                      //         : Theme.of(context).colorScheme.onBackground,
-                      //   ),
-                      // ),
                     ],
                   );
                 }),

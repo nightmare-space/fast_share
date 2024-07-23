@@ -6,7 +6,6 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'widget/header.dart';
 
@@ -147,10 +146,8 @@ class _RemotePageState extends State<RemotePage> {
                               ),
                               SizedBox(height: 10.w),
                               Text(
-                                '点击即可访问${device.deviceName}的所有文件',
-                                style: TextStyle(
-                                  color: device.deviceColor,
-                                ),
+                                S.of(context).tapToViewFile(device.deviceName!),
+                                style: TextStyle(color: device.deviceColor),
                               ),
                             ],
                           ),

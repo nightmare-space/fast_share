@@ -50,8 +50,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
     if (widget.sendByUser!) {
       return false;
     }
-    if (downloadController.progress.containsKey(url) &&
-        downloadController.progress[url]!.progress != 0.0) {
+    if (downloadController.progress.containsKey(url) && downloadController.progress[url]!.progress != 0.0) {
       return false;
     }
     if (!settingController.enableAutoDownload) return false;
@@ -72,8 +71,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
   String get url {
     String url;
     if (widget.sendByUser!) {
-      url =
-          'http://127.0.0.1:${chatController.shelfBindPort}${widget.info!.filePath}';
+      url = 'http://127.0.0.1:${chatController.shelfBindPort}${widget.info!.filePath}';
     } else {
       url = widget.info!.url! + widget.info!.filePath!;
     }
@@ -134,11 +132,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
                         return LinearProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor: AlwaysStoppedAnimation(
-                            pro == 1.0
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.4),
+                            pro == 1.0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(0.4),
                           ),
                           value: pro,
                         );
@@ -152,16 +146,6 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
                       children: [
                         Builder(builder: (_) {
                           double pro = downloadController.getProgress(url);
-                          // timer.isActive说明正在下载，说明文件完整下载了，但是还没有合并
-                          // if (pro == 1.0 && timer.isActive) {
-                          //   return Text(
-                          //     '合并文件中',
-                          //     style: TextStyle(
-                          //       color: Colors.black54,
-                          //       fontSize: 12.w,
-                          //     ),
-                          //   );
-                          // }
                           if (pro == 1.0) {
                             return Icon(
                               Icons.check,

@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(number) =>
       "${Intl.plural(number, zero: 'No devices connect', other: 'have ${number} connected')}";
 
+  static String m2(deviceName) => "Tap to view all files of ${deviceName}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About Speed Share"),
@@ -37,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "apk": MessageLookupByLibrary.simpleMessage("Apk"),
         "appName": MessageLookupByLibrary.simpleMessage("Speed Share"),
         "autoDownload": MessageLookupByLibrary.simpleMessage("Auto Download"),
+        "backAgainTip":
+            MessageLookupByLibrary.simpleMessage("Back again to exit the app"),
         "cacheCleaned": MessageLookupByLibrary.simpleMessage("Cache Cleaned"),
         "cacheSize": m0,
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
@@ -48,11 +52,15 @@ class MessageLookup extends MessageLookupByLibrary {
             "Note, after the file classification is turned on, all files in the download path will be automatically organized"),
         "clearCache": MessageLookupByLibrary.simpleMessage("Clear Cache"),
         "clearSuccess": MessageLookupByLibrary.simpleMessage("Clear Success"),
+        "clipboard": MessageLookupByLibrary.simpleMessage("Clipboard"),
+        "clipboardCopy":
+            MessageLookupByLibrary.simpleMessage("Clipboard Copied"),
         "clipboardshare":
             MessageLookupByLibrary.simpleMessage("Clipboard Share"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "common": MessageLookupByLibrary.simpleMessage("Common"),
         "connected": MessageLookupByLibrary.simpleMessage("Connected"),
+        "copyed": MessageLookupByLibrary.simpleMessage("Link Copied"),
         "curCacheSize":
             MessageLookupByLibrary.simpleMessage("Current Cache Size"),
         "currenVersion":
@@ -75,6 +83,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enable Web Server"),
         "enableWebServerTips": MessageLookupByLibrary.simpleMessage(
             "After enabling, you can access the file in the download path through the browser"),
+        "exceptionOrcur":
+            MessageLookupByLibrary.simpleMessage("Exception Occur"),
+        "export": MessageLookupByLibrary.simpleMessage("Export"),
         "fileDownloadSuccess":
             MessageLookupByLibrary.simpleMessage("File download success"),
         "fileIsDownloading":
@@ -82,6 +93,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fileManager": MessageLookupByLibrary.simpleMessage("File Manager"),
         "fileManagerLocal":
             MessageLookupByLibrary.simpleMessage("Local File Manager"),
+        "fileQRCode": MessageLookupByLibrary.simpleMessage("File QR Code"),
         "fileType": MessageLookupByLibrary.simpleMessage("File Correlation"),
         "headerNotice": m1,
         "home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -97,14 +109,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "joinQQGroup": MessageLookupByLibrary.simpleMessage(
             "Join Feedback Communication Group"),
         "lang": MessageLookupByLibrary.simpleMessage("Language"),
-        "linkCopyed": MessageLookupByLibrary.simpleMessage("Link Copied"),
         "log": MessageLookupByLibrary.simpleMessage("Log"),
         "messageNote": MessageLookupByLibrary.simpleMessage(
             "Vibrate When Receive Message"),
         "music": MessageLookupByLibrary.simpleMessage("Music"),
+        "needWSTip": MessageLookupByLibrary.simpleMessage(
+            "Please enable WebServer in SpeedShare first"),
         "new_line": MessageLookupByLibrary.simpleMessage("New Line"),
         "nightmare": MessageLookupByLibrary.simpleMessage("Nightmare"),
+        "noIPFound": MessageLookupByLibrary.simpleMessage("No IP Found"),
+        "notifyBroswerTip": MessageLookupByLibrary.simpleMessage(
+            "The browser has been notified to upload the file"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
+        "openQQFail": MessageLookupByLibrary.simpleMessage(
+            "Open QQ Fail, Please check if it is installed"),
         "openSource": MessageLookupByLibrary.simpleMessage("Open Source"),
         "otherVersion":
             MessageLookupByLibrary.simpleMessage("Download The Other Version"),
@@ -130,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemManager": MessageLookupByLibrary.simpleMessage("From System"),
         "systemManagerTips":
             MessageLookupByLibrary.simpleMessage("It use system file manager"),
+        "tapToViewFile": m2,
         "theTermsOfService":
             MessageLookupByLibrary.simpleMessage("The Terms Of Service"),
         "ui": MessageLookupByLibrary.simpleMessage("UI Designer"),

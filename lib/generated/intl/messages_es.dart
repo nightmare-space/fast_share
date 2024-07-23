@@ -26,9 +26,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(number) =>
       "${Intl.plural(number, zero: 'No devices connect', other: 'have ${number} connected')}";
 
+  static String m2(deviceName) =>
+      "Toca para ver todos los archivos de ${deviceName}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "about": MessageLookupByLibrary.simpleMessage("Acerca de Speed Share"),
         "aboutSpeedShare":
             MessageLookupByLibrary.simpleMessage("Acerca de Speed Share"),
         "allDevices":
@@ -39,6 +41,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("Speed Share"),
         "autoDownload":
             MessageLookupByLibrary.simpleMessage("Descarga automática"),
+        "backAgainTip": MessageLookupByLibrary.simpleMessage(
+            "Vuelve a salir de la aplicación"),
+        "cacheCleaned": MessageLookupByLibrary.simpleMessage("Caché limpiada"),
         "cacheSize": m0,
         "camera": MessageLookupByLibrary.simpleMessage("Cámara"),
         "changeLog":
@@ -51,11 +56,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "clearCache": MessageLookupByLibrary.simpleMessage("Limpiar caché"),
         "clearSuccess":
             MessageLookupByLibrary.simpleMessage("Éxito al limpiar"),
+        "clipboard": MessageLookupByLibrary.simpleMessage("Portapapeles"),
+        "clipboardCopy":
+            MessageLookupByLibrary.simpleMessage("Copiar al portapapeles"),
         "clipboardshare":
             MessageLookupByLibrary.simpleMessage("Compartir portapapeles"),
         "close": MessageLookupByLibrary.simpleMessage("Cerrar"),
         "common": MessageLookupByLibrary.simpleMessage("Común"),
         "connected": MessageLookupByLibrary.simpleMessage("Conectado"),
+        "copyed": MessageLookupByLibrary.simpleMessage("Enlace copiado"),
+        "curCacheSize":
+            MessageLookupByLibrary.simpleMessage("Tamaño de caché actual"),
         "currenVersion": MessageLookupByLibrary.simpleMessage("Versión actual"),
         "currentRoom": MessageLookupByLibrary.simpleMessage("Sala de chat"),
         "developer": MessageLookupByLibrary.simpleMessage("Desarrollador"),
@@ -67,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ruta de descarga"),
         "downloadTip": MessageLookupByLibrary.simpleMessage(
             "SpeedShare también es compatible con Windows, macOS y Linux"),
+        "dropFileTip": MessageLookupByLibrary.simpleMessage(
+            "Suelta para compartir el archivo en la ventana compartida"),
         "empty": MessageLookupByLibrary.simpleMessage("Vacío"),
         "enableFileClassification": MessageLookupByLibrary.simpleMessage(
             "Habilitar clasificación de archivos"),
@@ -74,10 +87,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Habilitar servidor web"),
         "enableWebServerTips": MessageLookupByLibrary.simpleMessage(
             "Después de habilitar, puede acceder al archivo en la ruta de descarga a través del navegador"),
+        "exceptionOrcur":
+            MessageLookupByLibrary.simpleMessage("Ocurrió una excepción"),
+        "export": MessageLookupByLibrary.simpleMessage("Exportar"),
         "fileDownloadSuccess": MessageLookupByLibrary.simpleMessage(
             "La descarga del archivo se ha completado"),
         "fileIsDownloading": MessageLookupByLibrary.simpleMessage(
             "El archivo se está descargando"),
+        "fileManager":
+            MessageLookupByLibrary.simpleMessage("Administrador de archivos"),
+        "fileManagerLocal": MessageLookupByLibrary.simpleMessage(
+            "Administrador de archivos (local)"),
+        "fileQRCode":
+            MessageLookupByLibrary.simpleMessage("Código QR del archivo"),
         "fileType":
             MessageLookupByLibrary.simpleMessage("Correlación de archivos"),
         "headerNotice": m1,
@@ -99,9 +121,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "messageNote": MessageLookupByLibrary.simpleMessage(
             "Vibrar al recibir un mensaje"),
         "music": MessageLookupByLibrary.simpleMessage("Música"),
+        "needWSTip": MessageLookupByLibrary.simpleMessage(
+            "Por favor, primero active el servidor web en la aplicación Speed Share"),
         "new_line": MessageLookupByLibrary.simpleMessage("Nueva línea"),
-        "nightmare": MessageLookupByLibrary.simpleMessage("Pesadilla"),
+        "nightmare": MessageLookupByLibrary.simpleMessage("Nightmare"),
+        "noIPFound":
+            MessageLookupByLibrary.simpleMessage("No se encontró ninguna IP"),
+        "notifyBroswerTip": MessageLookupByLibrary.simpleMessage(
+            "Se ha notificado al navegador que cargue el archivo"),
         "open": MessageLookupByLibrary.simpleMessage("Abrir"),
+        "openQQFail": MessageLookupByLibrary.simpleMessage(
+            "Error al abrir QQ, compruebe si está instalado"),
         "openSource": MessageLookupByLibrary.simpleMessage("Código abierto"),
         "otherVersion":
             MessageLookupByLibrary.simpleMessage("Descargar otra versión"),
@@ -124,10 +154,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "select": MessageLookupByLibrary.simpleMessage("Seleccionar"),
         "sendFile": MessageLookupByLibrary.simpleMessage("Enviar archivo"),
         "setting": MessageLookupByLibrary.simpleMessage("Ajustes"),
+        "shareFileFailed": MessageLookupByLibrary.simpleMessage(
+            "Error al compartir el archivo"),
         "systemManager":
             MessageLookupByLibrary.simpleMessage("Desde el sistema"),
         "systemManagerTips": MessageLookupByLibrary.simpleMessage(
             "Utiliza el administrador de archivos del sistema"),
+        "tapToViewFile": m2,
         "theTermsOfService":
             MessageLookupByLibrary.simpleMessage("Términos de servicio"),
         "ui": MessageLookupByLibrary.simpleMessage("Diseñador de interfaz"),

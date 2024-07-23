@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/modules/item/text_item.dart';
 import 'broswer_file_item.dart';
@@ -82,11 +83,8 @@ class MessageItemFactory {
                       ),
                       child: Center(
                         child: Text(
-                          '剪切板',
-                          style: TextStyle(
-                            fontSize: 12.w,
-                            color: Device.getColor(info.deviceType),
-                          ),
+                          S.current.clipboard,
+                          style: TextStyle(fontSize: 12.w, color: Device.getColor(info.deviceType)),
                         ),
                       ),
                     ),

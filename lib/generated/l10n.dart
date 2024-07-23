@@ -844,10 +844,10 @@ class S {
   }
 
   /// `Link Copied`
-  String get linkCopyed {
+  String get copyed {
     return Intl.message(
       'Link Copied',
-      name: 'linkCopyed',
+      name: 'copyed',
       desc: '',
       args: [],
     );
@@ -858,6 +858,116 @@ class S {
     return Intl.message(
       'Cache Cleaned',
       name: 'cacheCleaned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exception Occur`
+  String get exceptionOrcur {
+    return Intl.message(
+      'Exception Occur',
+      name: 'exceptionOrcur',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clipboard Copied`
+  String get clipboardCopy {
+    return Intl.message(
+      'Clipboard Copied',
+      name: 'clipboardCopy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No IP Found`
+  String get noIPFound {
+    return Intl.message(
+      'No IP Found',
+      name: 'noIPFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back again to exit the app`
+  String get backAgainTip {
+    return Intl.message(
+      'Back again to exit the app',
+      name: 'backAgainTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to view all files of {deviceName}`
+  String tapToViewFile(Object deviceName) {
+    return Intl.message(
+      'Tap to view all files of $deviceName',
+      name: 'tapToViewFile',
+      desc: '',
+      args: [deviceName],
+    );
+  }
+
+  /// `The browser has been notified to upload the file`
+  String get notifyBroswerTip {
+    return Intl.message(
+      'The browser has been notified to upload the file',
+      name: 'notifyBroswerTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clipboard`
+  String get clipboard {
+    return Intl.message(
+      'Clipboard',
+      name: 'clipboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File QR Code`
+  String get fileQRCode {
+    return Intl.message(
+      'File QR Code',
+      name: 'fileQRCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export`
+  String get export {
+    return Intl.message(
+      'Export',
+      name: 'export',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open QQ Fail, Please check if it is installed`
+  String get openQQFail {
+    return Intl.message(
+      'Open QQ Fail, Please check if it is installed',
+      name: 'openQQFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enable WebServer in SpeedShare first`
+  String get needWSTip {
+    return Intl.message(
+      'Please enable WebServer in SpeedShare first',
+      name: 'needWSTip',
       desc: '',
       args: [],
     );

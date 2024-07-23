@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:speed_share/generated/l10n.dart';
-import 'package:speed_share/themes/app_colors.dart';
 
 // 展示二维码的弹窗
 class ShowQRPage extends StatefulWidget {

@@ -501,7 +501,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   Material(
-                    color: colorScheme.surface,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(12.w),
                     ),
@@ -582,6 +582,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                         width: 32.w,
                         height: 32.w,
                         package: Config.package,
+                        color: colorScheme.onSurface,
                       ),
                       onChange: (value) {
                         index = value;
@@ -591,9 +592,7 @@ class _LeftNavState extends State<LeftNav> with SingleTickerProviderStateMixin {
                         ).animate(controller);
                         controller.reset();
                         controller.forward();
-                        chatController.changeListToDevice(
-                          deviceController.connectDevice[i],
-                        );
+                        chatController.changeListToDevice(deviceController.connectDevice[i]);
                         setState(() {});
                       },
                     ),

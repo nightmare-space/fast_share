@@ -79,6 +79,17 @@
     "shareFileFailed": "Share File Failed",
     "dropFileTip": "Release to share files into the share window",
     "inputAddressTip": "Please input the file share window address",
-    "linkCopyed": "Link Copied",
-    "cacheCleaned": "Cache Cleaned"
+    "copyed": "Link Copied",
+    "cacheCleaned": "Cache Cleaned",
+    "exceptionOrcur": "Exception Occur",
+    "clipboardCopy": "Clipboard Copied",
+    "noIPFound": "No IP Found",
+    "backAgainTip": "Back again to exit the app",
+    "tapToViewFile": "Tap to view all files of {deviceName}",
+    "notifyBroswerTip": "The browser has been notified to upload the file",
+    "clipboard": "Clipboard",
+    "fileQRCode": "File QR Code",
+    "export": "Export",
+    "openQQFail": "Open QQ Fail, Please check if it is installed",
+    "needWSTip": "Please enable WebServer in SpeedShare first"
 }

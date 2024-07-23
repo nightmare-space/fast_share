@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 
 import '../dialog/join_chat.dart';
@@ -141,7 +140,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                             sb.writeln('${log.time.to()} ${log.data.replaceAll(RegExp('\x1b\\[38;5;244m|\x1b\\[0m|\x1b\\[1;3[0-9]m|\x1b\\[1;0m'), '')}');
                           }
                           newFile.writeAsString(sb.toString());
-                          showToast('日志输出到 ${dir}_$fileName');
+                          showToast('${S.current.export} ->  ${dir}_$fileName');
                         },
                         child: SizedBox(
                           height: 48.w,
@@ -158,7 +157,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                                   ),
                                   SizedBox(width: 12.w),
                                   Text(
-                                    '输出 ${S.of(context).log}',
+                                    '${S.current.export}${S.of(context).log}',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),

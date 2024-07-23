@@ -408,7 +408,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         if (settingController.enbaleConstIsland) {
           ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
         } else {
-          showToast('已复制${clipboardMessage.deviceName}的剪切板');
+          showToast('${clipboardMessage.deviceName}的剪切板已复制');
         }
         break;
       // 设备加入消息
@@ -490,7 +490,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
       case DirPartMessage:
         DirPartMessage dirPartMessage = info as DirPartMessage;
         if (dirPartMessage.stat == 'complete') {
-          Log.e('完成发送');
+          Log.i('完成发送');
           dirMsgMap[dirPartMessage.partOf]!.canDownload = true;
           children[dirItemMap[dirPartMessage.partOf]!] = MessageItemFactory.getMessageItem(
             dirMsgMap[dirPartMessage.partOf],
@@ -521,7 +521,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             if (url != null) {
               uploadFileForWeb(webFileSendCache[notifyMessage.hash]!, '$url:${notifyMessage.port}');
             } else {
-              showToast('未检测到可上传IP');
+              showToast(S.current.noIPFound);
             }
           }
         }

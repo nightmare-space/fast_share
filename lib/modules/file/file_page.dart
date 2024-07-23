@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:animations/animations.dart';
 import 'package:app_manager/app_manager.dart';
 import 'package:app_manager/global/global.dart';
@@ -13,9 +12,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
 import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:speed_share/generated/l10n.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
-
 import '../widget/header.dart';
 import '../widget/icon.dart';
 

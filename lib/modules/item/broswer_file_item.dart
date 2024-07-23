@@ -1,11 +1,10 @@
-import 'package:app_manager/page/app_setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
+import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/modules/widget/icon.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/utils.dart';
 
@@ -84,7 +83,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                     if (GetPlatform.isWeb) {
                       return;
                     }
-                    showToast('通知浏览器上传文件，这会比客户端慢一点');
+                    showToast(S.current.notifyBroswerTip);
                     chatController.notifyBroswerUploadFile(widget.info!.hash);
                   },
                   borderRadius: BorderRadius.circular(12),
@@ -166,16 +165,6 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                       children: [
                         Builder(builder: (_) {
                           double pro = downloadController.getProgress(url);
-                          // timer.isActive说明正在下载，说明文件完整下载了，但是还没有合并
-                          // if (pro == 1.0 && timer.isActive) {
-                          //   return Text(
-                          //     '合并文件中',
-                          //     style: TextStyle(
-                          //       color: Colors.black54,
-                          //       fontSize: 12.w,
-                          //     ),
-                          //   );
-                          // }
                           if (pro == 1.0) {
                             return Icon(
                               Icons.check,
