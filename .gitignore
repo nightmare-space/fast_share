@@ -56,3 +56,4 @@ dist/
 lib/global/behavior.g.dart
 lib/global/behavior.dart
 pubspec_overrides.yaml
+packages
