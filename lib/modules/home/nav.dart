@@ -36,7 +36,7 @@ class _NavState extends State<Nav> {
         Center(
           child: Icon(
             Icons.add,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             size: 28.w,
           ),
         ),
@@ -127,9 +127,7 @@ class _NavState extends State<Nav> {
           GestureWithScale(
             onTap: () {
               Navigator.of(context).push(CustomRoute(
-                SendFilePage(
-                  child: center,
-                ),
+                SendFilePage(child: center),
               ));
               // todo 上线前别把这行代码放出来了
               // ConstIsland.onClipboardReceive('deviceName');

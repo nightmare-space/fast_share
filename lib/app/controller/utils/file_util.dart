@@ -21,14 +21,6 @@ Future<List<String?>> getFilesPathsForAndroid(bool useSystemPicker) async {
   if (!useSystemPicker) {
     filePaths = await FileManager.selectFile();
   } else {
-    // const XTypeGroup jpgsTypeGroup = XTypeGroup(
-    //   label: 'JPEGs',
-    //   extensions: <String>['jpg', 'jpeg'],
-    // );
-    // const XTypeGroup pngTypeGroup = XTypeGroup(
-    //   label: 'PNGs',
-    //   extensions: <String>['png'],
-    // );
     final List<XFile> files = await openFiles();
     return files.map((e) => e.path).toList();
   }

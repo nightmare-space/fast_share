@@ -35,7 +35,7 @@
   "image": "图片",
   "apk": "安装包",
   "appName": "速享",
-  "headerNotice": "{number,plural, =0{当前未连接任何设备}other{有{number}封未读邮件}}",
+  "headerNotice": "{number,plural, =0{当前未连接任何设备}other{有{number}个设备连接}}",
   "recentConnect": "最近连接",
   "empty": "空",
   "projectBoard": "魇系列项目面板",

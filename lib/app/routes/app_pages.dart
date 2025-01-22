@@ -29,7 +29,7 @@ class SpeedPages {
       name: Routes.home,
       page: () => Builder(builder: (context) {
         return PopScope(
-          canPop: false,
+          canPop: true,
           onPopInvoked: (value) async {
             if (time == 0) {
               time++;

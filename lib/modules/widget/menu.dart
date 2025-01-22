@@ -13,10 +13,8 @@ import '../dialog/join_chat.dart';
 class HeaderMenu extends StatefulWidget {
   const HeaderMenu({
     Key? key,
-    this.entity,
     this.offset = const Offset(0, 0),
   }) : super(key: key);
-  final FileEntity? entity;
   final Offset offset;
 
   @override

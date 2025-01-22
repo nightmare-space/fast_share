@@ -36,10 +36,10 @@ class _AdaptiveEntryPointState extends State<AdaptiveEntryPoint> {
   Widget build(BuildContext context) {
     // return SizedBox();
     if (ResponsiveBreakpoints.of(context).isDesktop) {
-      Log.i('$this is desktop');
+      Log.i('AdaptiveEntryPoint is desktop');
       return const DesktopHome();
     }
-    Log.i('$this is mobile');
+    Log.i('AdaptiveEntryPoint is mobile');
     return const MobileHome();
   }
 }
