@@ -1,4 +1,5 @@
 {
     "editor.formatOnSave": true,
     "dart.lineLength": 200,
+    "cmake.ignoreCMakeListsMissing": true,
 }

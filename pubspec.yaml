@@ -5,15 +5,11 @@ publish_to: "none"
 version: 2.2.8+68
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  speed_share_extension:
-    git:
-      url: https://github.com/nightmare-space/empty_package
-      path: speed_share_extension
   android_window: ^0.2.0
   tray_manager: ^0.2.0
   flutter_localizations:
@@ -26,15 +22,10 @@ dependencies:
   flutter_markdown: ^0.6.10+2
   clipboard_watcher: ^0.1.2
   signale: ^0.0.7
-  file_manager_view:
-    git: https://github.com/nightmare-space/file_manager_view.git
   file_selector: ^1.0.3
   # video preview
   better_player_plus: ^1.0.7
   get: ^4.1.3
-  # global repository
-  global_repository:
-    git: https://github.com/nightmare-space/global_repository
   # animation
   simple_animations: ^5.0.0+3
   # qr code display
@@ -46,10 +37,6 @@ dependencies:
   shelf: ^1.3.0
   shelf_router: ^1.0.0
   shelf_proxy: ^1.0.0
-  shelf_static:
-    git:
-      url: https://github.com/nightmare-space/shelf
-      path: pkgs/shelf_static
   # svg display
   flutter_svg: ^1.1.0
   # open url
@@ -63,7 +50,9 @@ dependencies:
   dio: ^5.4.3+1
   # responsive view
   responsive_framework: ^1.0.0
-  # 局域网设备发现
+  path_provider: ^2.0.10
+  device_info_plus: ^10.1.0
+  # lan multicast
   multicast:
     git: https://github.com/nightmare-space/multicast
   app_manager:
@@ -71,8 +60,23 @@ dependencies:
   image_picker: ^1.1.2
   settings:
     git: https://github.com/nightmare-space/settings
-  path_provider: ^2.0.10
-  device_info_plus: ^10.1.0
+  file_manager:
+    git: https://github.com/nightmare-space/file_manager.git
+  # global repository
+  global_repository:
+    git: https://github.com/nightmare-space/global_repository
+  shelf_static:
+    git:
+      url: https://github.com/nightmare-space/shelf
+      path: pkgs/shelf_static
+  speed_share_extension:
+    git:
+      url: https://github.com/nightmare-space/empty_package
+      path: speed_share_extension
+  behavior_api:
+    git:
+      url: https://github.com/nightmare-space/empty_package
+      path: behavior_api
 
 dev_dependencies:
   flutter_test:
@@ -88,16 +92,6 @@ flutter:
     - assets/icon/
     - CHANGELOG.md
     - LICENSE
-
-dependency_overrides:
-  app_channel:
-    git: https://github.com/nightmare-space/app_channel
-  # file_manager_view 依赖的是 pub 的 shelf_static，速享需要使用自定义的
-  # 以实现 header 的判断
-  shelf_static:
-    git:
-      url: https://github.com/nightmare-space/shelf
-      path: pkgs/shelf_static
 
 flutter_intl:
   enabled: true

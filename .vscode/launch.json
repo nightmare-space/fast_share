@@ -2,45 +2,72 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Web",
+            "name": "Flutter",
             "type": "dart",
             "request": "launch",
-            "program": "lib/main.dart",
-            "deviceId": "chrome",
-            "toolArgs": [
-                "--web-renderer",
-                "html",
-            ],
+            "program": "lib/main.dart"
         },
         {
-            "name": "Mac Desktop",
+            "name": "Mac(Desktop)",
             "request": "launch",
             "type": "dart",
             "deviceId": "macos"
         },
         {
-            "name": "Windows Desktop",
+            "name": "Windows(Desktop)",
             "request": "launch",
             "type": "dart",
             "deviceId": "windows"
         },
         {
-            "name": "Linux",
+            "name": "Linux(Desktop)",
             "request": "launch",
             "type": "dart",
             "deviceId": "linux"
         },
         {
-            "name": "小米14",
+            "name": "Android(小米14)",
             "request": "launch",
             "type": "dart",
             "deviceId": "23127PN0CC",
+            "program": "lib/main.dart"
         },
         {
-            "name": "魅族21",
+            "name": "Android(小米15)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "24129PN74C",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Android(小米平板6S)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "24018RPACC"
+        },
+        {
+            "name": "Android(小米平板7Pro)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "24091RPADC"
+        },
+        {
+            "name": "Android(魅族21)",
             "request": "launch",
             "type": "dart",
             "deviceId": "MEIZU 21",
+        },
+        {
+            "name": "Android(Rokid)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "RG station2",
+        },
+        {
+            "name": "Android(Beam Pro)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "x4000",
         },
     ]
 }
