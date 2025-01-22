@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:file_manager_view/file_manager_view.dart' as fm;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -107,20 +106,21 @@ class _DesktopHomeState extends State<DesktopHome> {
                                     child: const ShareChatV2(),
                                   ),
                                 ),
-                                for (int i = 0; i < controller.connectDevice.length; i++)
-                                  Builder(
-                                    builder: (context) {
-                                      Uri uri = Uri.tryParse(
-                                        controller.connectDevice[i].url!,
-                                      )!;
-                                      String addr = 'http://${uri.host}:${fm.Config.port}';
-                                      return fm.FileManager(
-                                        address: addr,
-                                        usePackage: true,
-                                        path: controller.connectDevice[i].deviceType == desktop ? '/User' : '/sdcard',
-                                      );
-                                    },
-                                  ),
+                                // TODO(lin):
+                                // for (int i = 0; i < controller.connectDevice.length; i++)
+                                //   Builder(
+                                //     builder: (context) {
+                                //       Uri uri = Uri.tryParse(
+                                //         controller.connectDevice[i].url!,
+                                //       )!;
+                                //       String addr = 'http://${uri.host}:${fm.Config.port}';
+                                //       return fm.FileManager(
+                                //         address: addr,
+                                //         usePackage: true,
+                                //         path: controller.connectDevice[i].deviceType == desktop ? '/User' : '/sdcard',
+                                //       );
+                                //     },
+                                //   ),
                                 const SizedBox(),
                                 const SizedBox(),
                               ][page],
@@ -138,19 +138,20 @@ class _DesktopHomeState extends State<DesktopHome> {
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                                 child: const ShareChatV2(),
                               ),
-                              for (int i = 0; i < controller.connectDevice.length; i++)
-                                Builder(
-                                  builder: (context) {
-                                    Uri uri = Uri.tryParse(
-                                      controller.connectDevice[i].url!,
-                                    )!;
-                                    String addr = 'http://${uri.host}:${fm.Config.port}';
-                                    return fm.FileManager(
-                                      address: addr,
-                                      usePackage: true,
-                                    );
-                                  },
-                                ),
+                              // TODO(lin):
+                              // for (int i = 0; i < controller.connectDevice.length; i++)
+                              //   Builder(
+                              //     builder: (context) {
+                              //       Uri uri = Uri.tryParse(
+                              //         controller.connectDevice[i].url!,
+                              //       )!;
+                              //       String addr = 'http://${uri.host}:${fm.Config.port}';
+                              //       return fm.FileManager(
+                              //         address: addr,
+                              //         usePackage: true,
+                              //       );
+                              //     },
+                              //   ),
                               const FilePage(),
                               const SettingPage(),
                             ][page],

@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:file_manager/file_manager.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:file_manager_view/file_manager_view.dart' as file_manager;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
@@ -109,7 +109,7 @@ class _SettingPageState extends State<SettingPage> {
                           controller.switchDownLoadPath(path);
                         }
                       } else {
-                        String? path = await file_manager.FileSelector.pickDirectory(context);
+                        String? path = await FileManager.selectDirectory();
                         if (path != null) {
                           controller.switchDownLoadPath(path);
                         }

@@ -6,7 +6,6 @@ import 'package:speed_share/app/bindings/home_binding.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/modules/adaptive/adapive_entry.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:file_manager_view/file_manager_view.dart';
 
 part 'app_routes.dart';
 
@@ -18,18 +17,19 @@ class SpeedPages {
   static const initial = Routes.home;
 
   static final routes = [
-    GetPage(
-      name: '/file',
-      page: () => const ThemeWrapper(
-        child: FileManager(),
-      ),
-      binding: HomeBinding(),
-    ),
+    // TODO(lin)
+    // GetPage(
+    //   name: '/file',
+    //   page: () => const ThemeWrapper(
+    //     child: FileManager(),
+    //   ),
+    //   binding: HomeBinding(),
+    // ),
     GetPage(
       name: Routes.home,
       page: () => Builder(builder: (context) {
         return PopScope(
-          canPop: false,
+          canPop: true,
           onPopInvoked: (value) async {
             if (time == 0) {
               time++;

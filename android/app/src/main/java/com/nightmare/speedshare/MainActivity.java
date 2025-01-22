@@ -5,19 +5,19 @@ import android.content.ClipboardManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.os.PowerManager;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.window.SplashScreenView;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.WindowCompat;
-
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -26,22 +26,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Objects;
-
-import io.flutter.FlutterInjector;
-import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.embedding.android.FlutterSurfaceView;
 import io.flutter.embedding.engine.FlutterEngine;
-import io.flutter.embedding.engine.FlutterEngineCache;
-import io.flutter.embedding.engine.dart.DartExecutor;
-import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformPlugin;
-import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity {
     MethodChannel channel;
@@ -111,6 +103,63 @@ public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity 
             }
         });
 
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                PixelFormat.TRANSLUCENT);
+        params.width=200;
+        params.height=200;
+        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+//        View floatingView = new LinearLayout(this);
+//        floatingView.setOnDragListener(new View.OnDragListener() {
+//            @Override
+//            public boolean onDrag(View v, DragEvent event) {
+//                switch (event.getAction()) {
+//                    case DragEvent.ACTION_DROP:
+//                        Log.d(TAG, "onDrag: " + event.getClipData().getItemCount());
+//                        // 处理拖拽事件
+//                        ClipData clipData = event.getClipData();
+//                        if (clipData != null && clipData.getItemCount() > 0) {
+//                            Uri uri = clipData.getItemAt(0).getUri();
+//                            // 处理文件
+//                        }
+//                        return true;
+//                    default:
+//                        return false;
+//                }
+//            }
+//        });
+//        floatingView.setBackgroundColor(0x55ff0000);
+//        // 添加悬浮窗
+//        windowManager.addView(floatingView, params);
+
+    }
+
+
+    @Override
+    public void onFlutterSurfaceViewCreated(@NonNull FlutterSurfaceView flutterSurfaceView) {
+        super.onFlutterSurfaceViewCreated(flutterSurfaceView);
+        flutterSurfaceView.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                switch (event.getAction()) {
+                    case DragEvent.ACTION_DROP:
+                        Log.d(TAG, "onDrag: " + event.getClipData().getItemCount());
+                        // 处理拖拽事件
+                        ClipData clipData = event.getClipData();
+                        if (clipData != null && clipData.getItemCount() > 0) {
+                            Uri uri = clipData.getItemAt(0).getUri();
+                            // 处理文件
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
     @Override

@@ -52,7 +52,7 @@ Widget getIconByExt(String path) {
     }
     String filePath = Uri.parse(path).path;
     child = Image.network(
-      'http://127.0.0.1:${(Global().appChannel as RemoteAppChannel).getPort()}/icon?path=$filePath',
+      'http://127.0.0.1:${(AppChannel()).getPort()}/icon?path=$filePath',
       gaplessPlayback: true,
       width: 36.w,
       height: 36.w,

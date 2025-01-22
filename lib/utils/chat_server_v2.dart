@@ -9,7 +9,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:file_manager_view/file_manager_view.dart' as f;
+import 'package:file_manager/file_manager.dart' as fm;
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/utils/utils.dart';
 
@@ -118,9 +118,9 @@ class Server {
       listDirectories: true,
       defaultDocument: 'index.html',
     );
-    app.mount('/', (r) {
+    app.mount('/', (r) async {
       // `http://192.168.0.103:12000/sdcard/`的形式，说明是想要访问文件
-      if (r.requestedUri.path.startsWith('/sdcard') || f.Server.routes.contains(r.requestedUri.path)) {
+      if (r.requestedUri.path.startsWith('/sdcard') || fm.Server.routes.contains(r.requestedUri.path)) {
         if (!settingController.enableWebServer) {
           return Response.ok(
             S.current.needWSTip,
@@ -131,7 +131,7 @@ class Server {
           );
         }
         try {
-          return f.Server.getFileServerHandler().call(r);
+          return (await fm.Server.getFileServerHandler()).call(r);
         } catch (e) {
           return Response.notFound(
             e.toString(),
@@ -163,6 +163,7 @@ class Server {
       };
     }).addHandler(app);
     // ignore: unused_local_variable
+    // TODO 在isolate中开
     HttpServer server = await io.serve(
       handler,
       InternetAddress.anyIPv4,

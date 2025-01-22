@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_manager_view/file_manager_view.dart' as file_manager;
+import 'package:file_manager/file_manager.dart' as file_manager;
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -228,7 +228,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
         confirmButtonText: S.current.select,
       );
     } else {
-      dirPath = await file_manager.FileSelector.pickDirectory(Get.context!);
+      dirPath = await file_manager.FileManager.selectDirectory();
     }
     Log.d('dirPath -> $dirPath');
     if (dirPath == null) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:behavior_api/behavior_api.dart';
 import 'package:clipboard_watcher/clipboard_watcher.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,6 @@ import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/tray_handler.dart';
 import 'package:speed_share/model/model.dart';
-import 'package:speed_share_extension/speed_share_extension.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 import 'assets_util.dart';
@@ -110,7 +110,8 @@ class Global with ClipboardListener, WindowListener {
     PlatformDispatcher platformDispatcher = flutterView.platformDispatcher;
     Log.i('当前系统语言 ${platformDispatcher.locales}');
     Log.i('当前系统主题 ${platformDispatcher.platformBrightness}');
-    Log.i('physicalSize:${flutterView.physicalSize}');
+    Log.i('physicalSize:${flutterView.physicalSize.str()}');
+    Log.i('DP Size:${Get.size.str()}');
     Log.i('devicePixelRatio:${flutterView.devicePixelRatio}');
     Log.i('Android DPI:${flutterView.devicePixelRatio * 160}');
     isInit = true;
@@ -139,4 +140,9 @@ class Global with ClipboardListener, WindowListener {
     if (n >= 10) return "$n";
     return "0$n";
   }
+}
+
+// 很离谱，编译到 release 下，size.toString 打印的是 Instance of Size
+extension SizeExt on Size {
+  String str() => 'Size(${width.toStringAsFixed(1)}, ${height.toStringAsFixed(1)})';
 }
