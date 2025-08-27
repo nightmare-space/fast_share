@@ -1,4 +1,4 @@
-package com.nightmare.speedshare;
+package com.nightmare.fastshare;
 
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
@@ -43,7 +43,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformPlugin;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
-public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity {
+public class MainActivity extends FlutterActivity {
     MethodChannel channel;
     PowerManager.WakeLock wakeLock = null;
     static String TAG = "Nightmare";
@@ -269,14 +269,14 @@ public class MainActivity extends qiuxiang.android_window.AndroidWindowActivity 
         super.configureFlutterEngine(flutterEngine);
 //        flutterEngine.en
         channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "send_channel");
-        channel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {
-            @Override
-            public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-                if (Objects.equals(call.method, "island")) {
-                    Intent intent = new Intent(MainActivity.this, ConstIsland.class);
-                    startActivity(intent);
-                }
-            }
-        });
+        // channel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {
+        //     @Override
+        //     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+        //         if (Objects.equals(call.method, "island")) {
+        //             Intent intent = new Intent(MainActivity.this, ConstIsland.class);
+        //             startActivity(intent);
+        //         }
+        //     }
+        // });
     }
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:file_manager_view/core/io/interface/file_entity.dart';
+import 'package:file_manager/controller/file_manager_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';

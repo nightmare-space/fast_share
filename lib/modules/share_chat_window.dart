@@ -11,7 +11,7 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/widgets/pop_button.dart';
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:file_manager/file_manager.dart' as file_manager;
 
 // 聊天窗口
 class ShareChatV2 extends StatefulWidget {
@@ -308,7 +308,7 @@ class _ShareChatV2State extends State<ShareChatV2> with SingleTickerProviderStat
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          '${fm.Config.packagePrefix}assets/icon/dir.svg',
+                          '${file_manager.Config.packagePrefix}assets/icon/dir.svg',
                           width: 36.w,
                           height: 36.w,
                           color: Theme.of(context).primaryColor,

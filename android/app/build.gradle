@@ -1,48 +1,34 @@
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'dev.flutter.flutter-gradle-plugin'
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
-
-apply plugin: 'com.android.application'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 // 本地编译注释以下代码
 // start
-def keystorePropertiesFile = rootProject.file("key.properties")
+def keystorePropertiesFile = rootProject.file('key.properties')
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 // end
 android {
-    compileSdkVersion 34
+    def appId = 'com.nightmare.fastshare'
+    namespace = appId
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
     sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        main {
+            aidl.srcDirs = ['src/main/aidl']
+        }
     }
-    lintOptions {
-        disable 'InvalidPackage'
-    }
+
     defaultConfig {
-        applicationId "com.nightmare.speedshare"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        applicationId 'com.nightmare.fastshare'
+        minSdk = flutter.minSdkVersion
+        targetSdk = 35
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
         multiDexEnabled true
     }
     signingConfigs {
@@ -54,10 +40,10 @@ android {
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
-        // end
+    // end
     }
     // 本地编译放开下面代码
-    // buildTypes {    
+    // buildTypes {
     //     release {
     //         signingConfig signingConfigs.debug
     //     }
@@ -76,9 +62,19 @@ android {
         }
     }
     // end
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
     project.android.applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            output.versionCodeOverride = flutterVersionCode.toInteger()
+            output.versionCodeOverride = flutter.versionCode
         }
     }
 }

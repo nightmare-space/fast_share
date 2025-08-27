@@ -1,4 +1,4 @@
-package com.nightmare.speedshare;
+package com.nightmare.fastshare;
 
 
 import android.content.Context;

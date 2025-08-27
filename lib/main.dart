@@ -12,7 +12,7 @@ import 'app/controller/device_controller.dart';
 import 'config/config.dart';
 import 'global/global.dart';
 import 'material_app_entry_point.dart';
-import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:file_manager/file_manager.dart' as file_manager;
 import 'dart:async';
 import 'generated/intl/messages_en.dart' as en;
 import 'generated/intl/messages_zh_CN.dart' as zh;
@@ -47,7 +47,7 @@ Future<void> androidWindow() async {
     );
     // 启动文件服务器
     // start file manager server
-    fm.Server.start();
+    file_manager.Server.start();
   }
   if (!GetPlatform.isWeb) {
     await initSetting();
@@ -78,7 +78,7 @@ Future<void> main() async {
         // 启动文件服务器
         // start file manager server
         // todo 肯呢个需要更改成127.0.0.1
-        fm.Server.start();
+        file_manager.Server.start();
       }
       Get.config(
         enableLog: false,

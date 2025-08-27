@@ -9,7 +9,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_static/shelf_static.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/config/config.dart';
-import 'package:file_manager_view/file_manager_view.dart' as f;
+import 'package:file_manager/file_manager.dart' as file_manager;
 import 'package:speed_share/utils/utils.dart';
 
 var app = Router();
@@ -117,9 +117,9 @@ class Server {
       listDirectories: true,
       defaultDocument: 'index.html',
     );
-    app.mount('/', (r) {
+    app.mount('/', (r) async {
       // `http://192.168.0.103:12000/sdcard/`的形式，说明是想要访问文件
-      if (r.requestedUri.path.startsWith('/sdcard')||f.Server.routes.contains(r.requestedUri.path)) {
+      if (r.requestedUri.path.startsWith('/sdcard') || file_manager.Server.routes.contains(r.requestedUri.path)) {
         if (!settingController.enableWebServer) {
           return Response.ok(
             '请先去速享客户端中开启WebServer',
@@ -130,7 +130,8 @@ class Server {
           );
         }
         try {
-          return f.Server.getFileServerHandler().call(r);
+          Router fileRouter = await file_manager.Server.getFileServerHandler();
+          return fileRouter.call(r);
         } catch (e) {
           return Response.notFound(
             e.toString(),

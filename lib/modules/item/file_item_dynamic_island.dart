@@ -50,8 +50,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
     if (widget.sendByUser!) {
       return false;
     }
-    if (downloadController.progress.containsKey(url) &&
-        downloadController.progress[url]!.progress != 0.0) {
+    if (downloadController.progress.containsKey(url) && downloadController.progress[url]!.progress != 0.0) {
       return false;
     }
     if (!settingController.enableAutoDownload) return false;
@@ -63,8 +62,8 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
     }
     int len = file.lengthSync();
     if (file.existsSync()) {
-      if (widget.info!.fileSize != FileSizeUtils.getFileSize(len)) return true;
-      if (widget.info!.fileSize == FileSizeUtils.getFileSize(len)) return false;
+      if (widget.info!.fileSize != FileUtil.formatBytes(len)) return true;
+      if (widget.info!.fileSize == FileUtil.formatBytes(len)) return false;
     }
     return true;
   }
@@ -72,8 +71,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
   String get url {
     String url;
     if (widget.sendByUser!) {
-      url =
-          'http://127.0.0.1:${chatController.shelfBindPort}${widget.info!.filePath}';
+      url = 'http://127.0.0.1:${chatController.shelfBindPort}${widget.info!.filePath}';
     } else {
       url = widget.info!.url! + widget.info!.filePath!;
     }
@@ -134,11 +132,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
                         return LinearProgressIndicator(
                           backgroundColor: Colors.white,
                           valueColor: AlwaysStoppedAnimation(
-                            pro == 1.0
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.4),
+                            pro == 1.0 ? Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(0.4),
                           ),
                           value: pro,
                         );
@@ -181,7 +175,7 @@ class _FileDynamicIslandState extends State<FileDynamicIsland> {
                           children: [
                             SizedBox(
                               child: Text(
-                                FileSizeUtils.getFileSize(info.count)!,
+                                FileUtil.formatBytes(info.count)!,
                                 style: TextStyle(
                                   color: Colors.white54,
                                   fontSize: 12.w,

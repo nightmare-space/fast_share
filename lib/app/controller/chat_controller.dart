@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_manager_view/file_manager_view.dart' as file_manager;
+import 'package:file_manager/file_manager.dart' as file_manager;
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +15,7 @@ import 'package:speed_share/config/config.dart';
 import 'package:speed_share/global/global.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/modules/item/item.dart';
-import 'package:speed_share/utils/utils.dart';
+import 'package:speed_share/utils/utils.dart' hide FileUtil;
 import 'utils/utils.dart';
 
 int get type {
@@ -224,11 +224,9 @@ class ChatController extends GetxController with WidgetsBindingObserver {
   Future<void> sendDir() async {
     String? dirPath;
     if (GetPlatform.isDesktop) {
-      dirPath = await getDirectoryPath(
-        confirmButtonText: '选择',
-      );
+      dirPath = await getDirectoryPath(confirmButtonText: '选择');
     } else {
-      dirPath = await file_manager.FileSelector.pickDirectory(Get.context!);
+      dirPath = await file_manager.FileManager.selectDirectory();
     }
     Log.d('dirPath -> $dirPath');
     if (dirPath == null) {
@@ -264,7 +262,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           // 用来客户端显示
           fileName: xFile.name,
           hash: hash,
-          fileSize: FileSizeUtils.getFileSize(await xFile.length()),
+          fileSize: FileUtil.formatBytes(await xFile.length()),
           deviceName: Global().deviceName,
           blob: xFile.path,
         );
@@ -366,7 +364,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
     final FileMessage sendFileInfo = FileMessage(
       filePath: filePath,
       fileName: context.basename(filePath),
-      fileSize: FileSizeUtils.getFileSize(size),
+      fileSize: FileUtil.formatBytes(size),
       addrs: addrs,
       port: shelfBindPort,
       sendFrom: Global().deviceName,
@@ -406,7 +404,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           Global().canShareClip = true;
         });
         if (settingController.enbaleConstIsland) {
-          ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
+          // ConstIsland.onClipboardReceive(clipboardMessage.deviceName);
         } else {
           showToast('已复制${clipboardMessage.deviceName}的剪切板');
         }
@@ -447,7 +445,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
             for (Map<String, dynamic> data in messageCache) {
               try {
                 // ignore: unused_local_variable
-                Response res = await httpInstance!.post(
+                Response res = await httpInstance.post(
                   '$urlPrefix:${joinMessage.messagePort}',
                   data: data,
                 );
@@ -475,7 +473,7 @@ class ChatController extends GetxController with WidgetsBindingObserver {
           sendByUser: false,
         ));
         if (settingController.enbaleConstIsland) {
-          ConstIsland.onFileReceive(fileMessage.toJson());
+          // ConstIsland.onFileReceive(fileMessage.toJson());
         }
         break;
       case DirMessage:

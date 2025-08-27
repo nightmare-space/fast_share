@@ -332,3 +332,17 @@ web 不支持部署某个文件，所以只支持上传一个 blob 代表的文�
 }
 ```
 
+
+
+## pubspec_overrides.yaml
+```yaml
+dependency_overrides:
+  file_manager:
+    git: https://github.com/nightmare-space/file_manager_private.git
+  # file_manager_view 依赖的是 pub 的 shelf_static，速享需要使用自定义的
+  # 以实现 header 的判断
+  shelf_static:
+    git:
+      url: https://github.com/nightmare-space/shelf
+      path: pkgs/shelf_static
+```

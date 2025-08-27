@@ -49,28 +49,32 @@ class SpeedShare extends StatelessWidget {
                     } else {
                       ScreenAdapter.init(414);
                     }
-                    return GetBuilder<SettingController>(
-                      builder: (context) {
-                        return Localizations(
-                          locale: context.currentLocale!,
-                          delegates: const [
-                            S.delegate,
-                            GlobalMaterialLocalizations.delegate,
-                            GlobalWidgetsLocalizations.delegate,
-                            GlobalCupertinoLocalizations.delegate,
-                          ],
-                          child: Theme(
-                            data: theme,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                child!,
-                                if (settingController.enbaleConstIsland) const DynamicIsland(),
-                              ],
+                    return ScreenQuery(
+                      uiWidth: 414,
+                      screenWidth: MediaQuery.of(context).size.width,
+                      child: GetBuilder<SettingController>(
+                        builder: (context) {
+                          return Localizations(
+                            locale: context.currentLocale!,
+                            delegates: const [
+                              S.delegate,
+                              GlobalMaterialLocalizations.delegate,
+                              GlobalWidgetsLocalizations.delegate,
+                              GlobalCupertinoLocalizations.delegate,
+                            ],
+                            child: Theme(
+                              data: theme,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  child!,
+                                  if (settingController.enbaleConstIsland) const DynamicIsland(),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

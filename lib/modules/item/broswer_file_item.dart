@@ -1,11 +1,9 @@
-import 'package:app_manager/page/app_setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:global_repository/global_repository.dart';
+import 'package:global_repository/global_repository.dart' as gr;
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/model/model.dart';
 import 'package:speed_share/modules/widget/icon.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'package:speed_share/utils/utils.dart';
 
@@ -84,7 +82,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                     if (GetPlatform.isWeb) {
                       return;
                     }
-                    showToast('通知浏览器上传文件，这会比客户端慢一点');
+                    gr.showToast('通知浏览器上传文件，这会比客户端慢一点');
                     chatController.notifyBroswerUploadFile(widget.info!.hash);
                   },
                   borderRadius: BorderRadius.circular(12),
@@ -195,7 +193,7 @@ class _BroswerFileItemState extends State<BroswerFileItem> {
                           children: [
                             SizedBox(
                               child: Text(
-                                FileSizeUtils.getFileSize(info.count)!,
+                                gr.FileUtil.formatBytes(info.count),
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12.w,

@@ -73,8 +73,8 @@ class _FileItemState extends State<FileItem> {
     }
     int len = file.lengthSync();
     if (file.existsSync()) {
-      if (widget.info!.fileSize != FileSizeUtils.getFileSize(len)) return true;
-      if (widget.info!.fileSize == FileSizeUtils.getFileSize(len)) return false;
+      if (widget.info!.fileSize != FileUtil.formatBytes(len)) return true;
+      if (widget.info!.fileSize == FileUtil.formatBytes(len)) return false;
     }
     return true;
   }
@@ -262,7 +262,7 @@ class _FileItemState extends State<FileItem> {
                           children: [
                             SizedBox(
                               child: Text(
-                                FileSizeUtils.getFileSize(info.count)!,
+                                FileUtil.formatBytes(info.count),
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12.w,
@@ -344,7 +344,7 @@ class _MenuState extends State<Menu> {
             .replaceAll('placeholder3', ":$port$path")
             .replaceAll(
               'placeholder2',
-              FileSizeUtils.getFileSize(File(path!).lengthSync())!,
+              FileUtil.formatBytes(File(path!).lengthSync()),
             )
             .replaceAll('placeholder1', p.basename(path)),
         headers: corsHeader,

@@ -1,3 +1,4 @@
+import 'package:file_manager/view/file_manager_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
@@ -5,7 +6,6 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/bindings/home_binding.dart';
 import 'package:speed_share/modules/adaptive/adapive_entry.dart';
 import 'package:speed_share/themes/theme.dart';
-import 'package:file_manager_view/file_manager_view.dart';
 
 part 'app_routes.dart';
 
@@ -20,7 +20,7 @@ class SpeedPages {
     GetPage(
       name: '/file',
       page: () => const ThemeWrapper(
-        child: FileManager(),
+        child: FileManagerPage(),
       ),
       binding: HomeBinding(),
     ),

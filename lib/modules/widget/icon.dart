@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:app_manager/app_manager.dart';
-import 'package:app_manager/global/global.dart';
 import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
-import 'package:global_repository/global_repository.dart';
+import 'package:global_repository/global_repository.dart' hide FileUtil;
 import 'package:speed_share/config/config.dart';
 import 'package:speed_share/utils/ext_util.dart';
 import 'package:speed_share/utils/file_util.dart';
@@ -51,16 +49,17 @@ Widget getIconByExt(String path) {
       return const Icon(Icons.adb);
     }
     String filePath = Uri.parse(path).path;
-    child = Image.network(
-      'http://127.0.0.1:${(Global().appChannel as RemoteAppChannel).getPort()}/icon?path=$filePath',
-      gaplessPlayback: true,
-      width: 36.w,
-      height: 36.w,
-      fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) {
-        return const SizedBox();
-      },
-    );
+    // TODO
+    // child = Image.network(
+    //   'http://127.0.0.1:${(Global().appChannel as RemoteAppChannel).getPort()}/icon?path=$filePath',
+    //   gaplessPlayback: true,
+    //   width: 36.w,
+    //   height: 36.w,
+    //   fit: BoxFit.cover,
+    //   errorBuilder: (_, __, ___) {
+    //     return const SizedBox();
+    //   },
+    // );
   } else if (path.isImg) {
     return Hero(
       tag: path,

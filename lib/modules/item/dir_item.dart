@@ -82,7 +82,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
       tmpCount = count;
       // Log.e('diff -> $diff');
       // 乘以2是因为半秒测的一次
-      speed = FileSizeUtils.getFileSize(diff * 2);
+      speed = FileUtil.formatBytes(diff * 2);
       // *2 的原因是半秒测的一次
       // Log.e('网速 -> $speed');
     });
@@ -191,7 +191,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                             children: [
                               SizedBox(
                                 child: Text(
-                                  FileSizeUtils.getFileSize(count)!,
+                                  FileUtil.formatBytes(count),
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12.w,
@@ -207,7 +207,7 @@ class _DirMessageItemState extends State<DirMessageItem> {
                               ),
                               Builder(builder: (context) {
                                 return Text(
-                                  FileSizeUtils.getFileSize(widget.info!.fullSize!)!,
+                                  FileUtil.formatBytes(widget.info!.fullSize!),
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 12.w,

@@ -10,7 +10,7 @@ class Config {
   static int chatPortRangeStart = 12000;
   static int chatPortRangeEnd = 12010;
   // 包名
-  static String packageName = 'com.nightmare.speedshare';
+  static String packageName = 'com.nightmare.fastshare';
   // flutter package名，因为这个会影响assets的路径
   static String flutterPackage = '';
 

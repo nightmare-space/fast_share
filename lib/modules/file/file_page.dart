@@ -1,19 +1,15 @@
 import 'dart:io';
 
 import 'package:animations/animations.dart';
-import 'package:app_manager/app_manager.dart';
-import 'package:app_manager/global/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:global_repository/global_repository.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:speed_share/app/controller/file_controller.dart';
-import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:file_manager/file_manager.dart' as file_manager;
 import 'package:speed_share/generated/l10n.dart';
-import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 
 import '../widget/header.dart';
@@ -99,13 +95,14 @@ class _FilePageState extends State<FilePage> {
                   );
                 },
                 child: [
-                  fm.FileManager(
-                    drawer: false,
-                    path: '/sdcard/SpeedShare',
-                    address: 'http://127.0.0.1:${fm.Config.port}',
-                    padding: EdgeInsets.only(bottom: 8.w),
-                    usePackage: true,
-                  ),
+                  // TODO
+                  // file_manager.FileManagFileer(
+                  //   drawer: false,
+                  //   path: '/sdcard/SpeedShare',
+                  //   address: 'http://127.0.0.1:${fm.Config.port}',
+                  //   padding: EdgeInsets.only(bottom: 8.w),
+                  //   usePackage: true,
+                  // ),
                   fileList(context),
                 ][pageIndex],
               ),
@@ -381,7 +378,7 @@ class _FilePageState extends State<FilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            '${fm.Config.packagePrefix}assets/icon/dir.svg',
+                            '${file_manager.Config.packagePrefix}assets/icon/dir.svg',
                             width: 32.w,
                             height: 32.w,
                             color: Theme.of(context).primaryColor,
@@ -536,24 +533,23 @@ class _FilePageState extends State<FilePage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              OpenFile.open(name.path);
-                            },
-                            child: Image.network(
-                              'http://127.0.0.1:${(Global().appChannel as RemoteAppChannel).getPort()}/icon?path=${name.path}',
-                              gaplessPlayback: true,
-                              width: 40.w,
-                              height: 40.w,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) {
-                                return const SizedBox();
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8.w,
-                          ),
+                          // TODO
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     OpenFile.open(name.path);
+                          //   },
+                          //   child: Image.network(
+                          //     'http://127.0.0.1:${(Global().appChannel as RemoteAppChannel).getPort()}/icon?path=${name.path}',
+                          //     gaplessPlayback: true,
+                          //     width: 40.w,
+                          //     height: 40.w,
+                          //     fit: BoxFit.cover,
+                          //     errorBuilder: (_, __, ___) {
+                          //       return const SizedBox();
+                          //     },
+                          //   ),
+                          // ),
+                          SizedBox(height: 8.w),
                           SizedBox(
                             height: 20.w,
                             child: Text(

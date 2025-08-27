@@ -1,4 +1,4 @@
-import 'package:android_window/android_window.dart';
+// import 'package:android_window/android_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -54,37 +54,37 @@ class _DynamicIslandState extends State<DynamicIsland> with SingleTickerProvider
     });
     if (!pop) {
     } else {
-      AndroidWindow.setHandler((name, data) async {
-        switch (name) {
-          case 'clipboard':
-            content = Center(
-              child: Text(
-                data as String,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            );
-            maxHeight = 40;
-            anim();
-            Future.delayed(const Duration(milliseconds: 1200), () {
-              anim();
-            });
-            break;
-          case 'file_receive':
-            ChatController chatController = Get.put(ChatController());
-            Get.put(DownloadController());
-            chatController.onNewFileReceive = (file) {
-              content = file;
-              maxHeight = 90;
-              anim();
-            };
-            Log.e('>>>>:$data');
-            chatController.handleMessage(Map<String, dynamic>.from(data as Map<dynamic, dynamic>));
-        }
-        return null;
-      });
+      // AndroidWindow.setHandler((name, data) async {
+      //   switch (name) {
+      //     case 'clipboard':
+      //       content = Center(
+      //         child: Text(
+      //           data as String,
+      //           style: const TextStyle(
+      //             color: Colors.white,
+      //             fontWeight: FontWeight.bold,
+      //           ),
+      //         ),
+      //       );
+      //       maxHeight = 40;
+      //       anim();
+      //       Future.delayed(const Duration(milliseconds: 1200), () {
+      //         anim();
+      //       });
+      //       break;
+      //     case 'file_receive':
+      //       ChatController chatController = Get.put(ChatController());
+      //       Get.put(DownloadController());
+      //       chatController.onNewFileReceive = (file) {
+      //         content = file;
+      //         maxHeight = 90;
+      //         anim();
+      //       };
+      //       Log.e('>>>>:$data');
+      //       chatController.handleMessage(Map<String, dynamic>.from(data as Map<dynamic, dynamic>));
+      //   }
+      //   return null;
+      // });
       // anim();
     }
 
@@ -108,7 +108,7 @@ class _DynamicIslandState extends State<DynamicIsland> with SingleTickerProvider
       );
       if (pop) {
         // Navigator.pop(context);
-        AndroidWindow.close();
+        // AndroidWindow.close();
       }
       if (pre != null) {
         content = pre;
@@ -143,7 +143,7 @@ class _DynamicIslandState extends State<DynamicIsland> with SingleTickerProvider
             );
             if (pop) {
               // Navigator.pop(context);
-              AndroidWindow.close();
+              // AndroidWindow.close();
             }
             if (pre != null) {
               content = pre;

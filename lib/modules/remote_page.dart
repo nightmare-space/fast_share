@@ -5,7 +5,7 @@ import 'package:global_repository/global_repository.dart';
 import 'package:speed_share/app/controller/controller.dart';
 import 'package:speed_share/generated/l10n.dart';
 import 'package:speed_share/global/constant.dart';
-import 'package:file_manager_view/file_manager_view.dart' as fm;
+import 'package:file_manager/file_manager.dart' as file_manager;
 import 'package:speed_share/themes/app_colors.dart';
 import 'package:speed_share/themes/theme.dart';
 import 'widget/header.dart';
@@ -115,14 +115,15 @@ class _RemotePageState extends State<RemotePage> {
                   ),
                   child: GestureWithScale(
                     onTap: () {
-                      Log.i(device);
-                      Uri uri = Uri.tryParse(device.url!)!;
-                      page = fm.FileManager(
-                        address: 'http://${uri.host}:${fm.Config.port}',
-                        usePackage: true,
-                        path: device.deviceType == desktop ? '/Users' : '/sdcard',
-                      );
-                      setState(() {});
+                      // TODO
+                      // Log.i(device);
+                      // Uri uri = Uri.tryParse(device.url!)!;
+                      // page = fm.FileManager(
+                      //   address: 'http://${uri.host}:${fm.Config.port}',
+                      //   usePackage: true,
+                      //   path: device.deviceType == desktop ? '/Users' : '/sdcard',
+                      // );
+                      // setState(() {});
                     },
                     child: Container(
                       decoration: BoxDecoration(

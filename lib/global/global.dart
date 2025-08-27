@@ -69,6 +69,8 @@ class Global with ClipboardListener, WindowListener {
     chatController.sendMessage(info);
   }
 
+  // udp广播消息列表export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
+
   // udp广播消息列表
   List<String> boardcasdMessage = [];
 

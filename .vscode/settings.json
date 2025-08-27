@@ -1,4 +1,7 @@
 {
     "editor.formatOnSave": true,
     "dart.lineLength": 200,
+    "cmake.ignoreCMakeListsMissing": true,
+    "dart.runPubGetOnPubspecChanges": "never",
+    "dart.runPubGetOnNestedProjects": "none",
 }
